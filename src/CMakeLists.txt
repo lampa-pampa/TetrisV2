@@ -3,6 +3,7 @@ add_executable(tetris_v2
     timer_mock.cpp
     input_receiver_mock.cpp
     vector_2.cpp
+    pixel.cpp
 )
 
 include_directories("../includes/")
