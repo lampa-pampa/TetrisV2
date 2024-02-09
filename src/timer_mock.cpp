@@ -8,7 +8,7 @@ TimerMock::TimerMock(int delay_in_ms, int step_in_ms)
     delay_in_ms(delay_in_ms),
     step_in_ms(step_in_ms),
     active(false)
-{};
+{}
 
 void TimerMock::start()
 {

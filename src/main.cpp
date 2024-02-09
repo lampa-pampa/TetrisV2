@@ -1,10 +1,9 @@
-#include "timer.h"
 #include <iostream>
 
 using std::cout; 
 
 int main()
 {
-    cout << "Hello world!\n";
+    cout << "Hello Tetris!\n";
     return 0;
 }
