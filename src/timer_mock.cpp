@@ -20,7 +20,7 @@ void TimerMock::stop()
     this->active = false;
 }
 
-void TimerMock::tick(int times)
+void TimerMock::simulate_timeout(int times)
 {
     for(int i{0}; i < times; ++i)
         this->timeout();

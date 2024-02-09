@@ -16,8 +16,8 @@ class TimerMock: public Timer
         TimerMock(int delay_in_ms, int step_in_ms);
         void start() override;
         void stop() override;
-        void tick(int times);
         void connect_timeout(const std::function<void()> handler) override;
+        void simulate_timeout(int times);
 };
 
 #endif
