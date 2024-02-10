@@ -9,6 +9,8 @@ struct Brick
 {
     std::vector<Pixel> pixels;
     Vector2 coords;
+    bool is_center_moved;
+    int get_min_x();
 };
 
 #endif

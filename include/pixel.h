@@ -9,7 +9,7 @@ struct Pixel
     Color color;
     Vector2 coords;
     bool is_ghost;
-    Pixel(Color color, Vector2 coords, bool is_ghost = false);
+    Pixel(Vector2 coords, Color color, bool is_ghost = false);
 };
 
 #endif
