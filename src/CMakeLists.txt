@@ -1,10 +1,22 @@
+add_library(TETRIS_V2)
+target_include_directories(TETRIS_V2
+    PUBLIC
+        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
+        $<INSTALL_INTERFACE:include>
+    PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}
+)
+target_sources(TETRIS_V2
+    PRIVATE
+        timer_mock.cpp
+        input_receiver_mock.cpp
+        vector_2.cpp
+        pixel.cpp
+        brick.cpp
+)
 add_executable(tetris_v2
     main.cpp
-    timer_mock.cpp
-    input_receiver_mock.cpp
-    vector_2.cpp
-    pixel.cpp
 )
-
-include_directories("../includes/")
-
+target_link_libraries(tetris_v2
+    TETRIS_V2
+)

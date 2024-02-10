@@ -1,8 +1,8 @@
 #include "pixel.h"
 
-Pixel::Pixel(Color color, Vector2 coords, bool is_ghost)
+Pixel::Pixel(Vector2 coords, Color color, bool is_ghost)
 :
-    color(color),
     coords(coords),
+    color(color),
     is_ghost(is_ghost)
 {}
