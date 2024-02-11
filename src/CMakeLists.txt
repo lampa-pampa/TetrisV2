@@ -13,6 +13,8 @@ target_sources(TETRIS_V2
         vector_2.cpp
         pixel.cpp
         brick.cpp
+        rng_impl.cpp
+        rng_mock.cpp
 )
 add_executable(tetris_v2
     main.cpp
