@@ -17,7 +17,7 @@ class TimerMock: public Timer
         void start() override;
         void stop() override;
         void connect_timeout(const std::function<void()> handler) override;
-        void simulate_timeout(int times);
+        void simulate_timeout(int times = 1) const;
 };
 
 #endif

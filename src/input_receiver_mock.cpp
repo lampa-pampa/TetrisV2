@@ -38,37 +38,44 @@ void InputReceiverMock::connect_pause_pressed(const function<void()> handler)
     this->pause_pressed.connect(handler);
 }
 
-void InputReceiverMock::simulate_move_left_pressed()
+void InputReceiverMock::simulate_move_left_pressed(int times) const
 {
-    this->move_left_pressed();
+    for(int i{0}; i < times; ++i)
+        this->move_left_pressed();
 }
 
-void InputReceiverMock::simulate_move_right_pressed()
+void InputReceiverMock::simulate_move_right_pressed(int times) const
 {
-    this->move_right_pressed();
+    for(int i{0}; i < times; ++i)
+        this->move_right_pressed();
 }
 
-void InputReceiverMock::simulate_rotate_pressed()
+void InputReceiverMock::simulate_rotate_pressed(int times) const
 {
-    this->rotate_pressed();
+    for(int i{0}; i < times; ++i)
+        this->rotate_pressed();
 }
 
-void InputReceiverMock::simulate_soft_drop_pressed()
+void InputReceiverMock::simulate_soft_drop_pressed(int times) const
 {
-    this->soft_drop_pressed();
+    for(int i{0}; i < times; ++i)
+        this->soft_drop_pressed();
 }
 
-void InputReceiverMock::simulate_hard_drop_pressed()
+void InputReceiverMock::simulate_hard_drop_pressed(int times) const
 {
-    this->hard_drop_pressed();
+    for(int i{0}; i < times; ++i)
+        this->hard_drop_pressed();
 }
 
-void InputReceiverMock::simulate_hold_pressed()
+void InputReceiverMock::simulate_hold_pressed(int times) const
 {
-    this->hold_pressed();
+    for(int i{0}; i < times; ++i)
+        this->hold_pressed();
 }
 
-void InputReceiverMock::simulate_pause_pressed()
+void InputReceiverMock::simulate_pause_pressed(int times) const
 {
-    this->pause_pressed();
+    for(int i{0}; i < times; ++i)
+        this->pause_pressed();
 }

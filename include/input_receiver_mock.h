@@ -23,13 +23,13 @@ class InputReceiverMock : public InputReceiver
         void connect_hard_drop_pressed(const std::function<void()> handler) override;
         void connect_hold_pressed(const std::function<void()> handler) override;
         void connect_pause_pressed(const std::function<void()> handler) override;
-        void simulate_move_left_pressed();
-        void simulate_move_right_pressed();
-        void simulate_rotate_pressed();
-        void simulate_soft_drop_pressed();
-        void simulate_hard_drop_pressed();
-        void simulate_hold_pressed();
-        void simulate_pause_pressed();
+        void simulate_move_left_pressed(int times = 1) const;
+        void simulate_move_right_pressed(int times = 1) const;
+        void simulate_rotate_pressed(int times = 1) const;
+        void simulate_soft_drop_pressed(int times = 1) const;
+        void simulate_hard_drop_pressed(int times = 1) const;
+        void simulate_hold_pressed(int times = 1) const;
+        void simulate_pause_pressed(int times = 1) const;
 
 };
 
