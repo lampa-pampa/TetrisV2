@@ -6,10 +6,10 @@
 
 struct Pixel
 {
-    Color color;
     Vector2 coords;
+    Color color;
     bool is_ghost;
-    Pixel(Vector2 coords, Color color, bool is_ghost = false);
+    Pixel(Vector2 coords, Color color = Color::black, bool is_ghost = false);
 };
 
 #endif

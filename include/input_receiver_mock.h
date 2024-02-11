@@ -5,7 +5,7 @@
 #include <boost/signals2.hpp>
 #include <functional>
 
-class InputReceiverMock : public InputReceiver
+class InputReceiverMock: public InputReceiver
 {
     boost::signals2::signal<void()> move_left_pressed;
     boost::signals2::signal<void()> move_right_pressed;

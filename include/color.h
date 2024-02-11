@@ -3,6 +3,7 @@
 
 enum class Color
 {
+    black,
     red,
     green,
     blue,
