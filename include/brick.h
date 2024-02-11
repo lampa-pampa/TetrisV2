@@ -11,8 +11,8 @@ struct Brick
     Vector2 coords;
     bool is_center_moved;
     int get_min_x() const;
-    int get_min_y() const;
     int get_max_x() const;
+    int get_min_y() const;
     int get_max_y() const;
 };
 
