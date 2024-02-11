@@ -1,12 +1,34 @@
 #include "brick.h"
+#include "pixel.h"
+#include <algorithm>
 
-int Brick::get_min_x()
+using std::max_element;
+using std::min_element;
+
+int Brick::get_min_x() const
 {
-    int min_x = this->pixels[0].coords.x;
-    for(auto it = this->pixels.begin() + 1; it != this->pixels.end(); ++it)
-    {
-        if(it->coords.x < min_x)
-            min_x = it->coords.x;
-    }
-    return min_x;
+    return min_element(this->pixels.begin(), this->pixels.end(), [](const Pixel &a, const Pixel &b)-> bool{
+        return a.coords.x < b.coords.x;
+    })->coords.x;
+}
+
+int Brick::get_min_y() const
+{
+    return min_element(this->pixels.begin(), this->pixels.end(), [](const Pixel &a, const Pixel &b)-> bool{
+        return a.coords.y < b.coords.y;
+    })->coords.y;
+}
+
+int Brick::get_max_x() const
+{
+    return max_element(this->pixels.begin(), this->pixels.end(), [](const Pixel &a, const Pixel &b)-> bool{
+        return a.coords.x < b.coords.x;
+    })->coords.x;
+}
+
+int Brick::get_max_y() const
+{
+    return max_element(this->pixels.begin(), this->pixels.end(), [](const Pixel &a, const Pixel &b)-> bool{
+        return a.coords.y < b.coords.y;
+    })->coords.y;
 }
