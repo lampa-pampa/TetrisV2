@@ -15,13 +15,13 @@ class Bag
     void shuffle_items(std::vector<T> &items, std::unique_ptr<RNG> &rng);
 
     public:
-        Bag(std::vector<T> &items, std::unique_ptr<RNG> &&rng);
+        Bag(const std::vector<T> &items, std::unique_ptr<RNG> &&rng);
         Bag(Bag<T> &&other);
         T get_next();
 };
 
 template<typename T>
-Bag<T>::Bag(std::vector<T> &items, std::unique_ptr<RNG> &&rng)
+Bag<T>::Bag(const std::vector<T> &items, std::unique_ptr<RNG> &&rng)
 :
     items(items),
     current_index(0),
