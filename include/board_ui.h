@@ -7,7 +7,7 @@
 class BoardUI
 {
     public:
-        virtual void refresh_board(std::vector<std::vector<Pixel>> pixels);
+        virtual void refresh_board(std::vector<std::vector<Pixel>> &pixels);
         virtual ~BoardUI() = default;
 };
 

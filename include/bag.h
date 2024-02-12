@@ -52,7 +52,7 @@ T Bag<T>::get_next()
 {
     if(this->current_index == 0)
         this->shuffle_items(this->items, this->rng);
-    T item = this->items[this->current_index];
+    T item{this->items[this->current_index]};
     this->current_index = (this->current_index + 1) % this->items.size();
     return item; 
 }
