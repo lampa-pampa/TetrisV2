@@ -1,5 +1,7 @@
 add_executable(all_tests
     test_brick.cpp
+    test_bag.cpp
+    test_score_counter_impl.cpp
 )
 
 target_link_libraries(all_tests
