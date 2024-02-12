@@ -9,7 +9,7 @@ class Timer
         virtual void start() = 0;
         virtual void stop() = 0;
         virtual void connect_timeout(std::function<void()> handler) = 0;
-        inline virtual ~Timer() = default;
+        virtual ~Timer() = default;
 };
 
 #endif
