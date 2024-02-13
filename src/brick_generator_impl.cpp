@@ -1,5 +1,7 @@
 #include "brick_generator_impl.h"
 #include "pixel.h"
+#include "color.h"
+#include "brick.h"
 #include "bag.h"
 
 BrickGeneratorImpl::BrickGeneratorImpl(Bag<Brick> &&bricks, Bag<Color> &&colors)

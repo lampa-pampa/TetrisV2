@@ -1,5 +1,5 @@
-#ifndef BOARD_UI
-#define BOARD_UI
+#ifndef BOARD_UI_H
+#define BOARD_UI_H
 
 #include "pixel.h"
 #include <vector>

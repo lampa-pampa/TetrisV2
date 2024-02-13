@@ -2,6 +2,7 @@
 #define BRICK_GENERATOR_H
 
 #include "brick.h"
+#include "color.h"
 
 class BrickGenerator
 {

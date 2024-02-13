@@ -10,7 +10,7 @@ using std::unique_ptr;
 TEST(Bag, test_get_next)
 {
     vector<int> items{0, 1, 2, 3, 4};
-    Bag<int> bag{items, unique_ptr<RNG>{new RNGMock()}};
+    Bag<int> bag{items, unique_ptr<RNG>{new RNGMock{}}};
     for(int i{0}; i < 2; ++i)
     {
         auto it{items.begin()};

@@ -22,8 +22,8 @@ namespace {
         Color::blue,
     };
     unique_ptr<BrickGenerator> brick_generator{new BrickGeneratorImpl{
-        Bag<Brick>{bricks, unique_ptr<RNG>{new RNGMock()}},
-        Bag<Color>{colors, unique_ptr<RNG>{new RNGMock()}},
+        Bag<Brick>{bricks, unique_ptr<RNG>{new RNGMock{}}},
+        Bag<Color>{colors, unique_ptr<RNG>{new RNGMock{}}},
     }};
 }
 
