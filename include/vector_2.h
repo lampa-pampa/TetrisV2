@@ -7,6 +7,7 @@ struct Vector2
     int y;
     Vector2 operator+(Vector2 other) const;
     Vector2 operator-(Vector2 other) const;
+    bool operator==(const Vector2 &other) const;
 };
 
 #endif

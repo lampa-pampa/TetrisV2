@@ -32,3 +32,9 @@ int Brick::get_max_y() const
         return a.coords.y < b.coords.y;
     })->coords.y;
 }
+
+bool Brick::operator==(const Brick &other) const
+{
+    return this->pixels == other.pixels
+        and this->is_center_moved == other.is_center_moved;
+}
