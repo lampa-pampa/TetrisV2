@@ -6,6 +6,8 @@
 
 struct Brick
 {
+    static Brick get_colored(const Brick &brick, Color color);
+    
     std::vector<Pixel> pixels;
     bool is_center_moved;
     int get_min_x() const;

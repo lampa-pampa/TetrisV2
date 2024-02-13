@@ -5,6 +5,14 @@
 using std::max_element;
 using std::min_element;
 
+Brick Brick::get_colored(const Brick &brick, Color color)
+{
+    Brick colored_brick{brick};
+    for(Pixel &pixel : colored_brick.pixels)
+        pixel.color = color;
+    return colored_brick;
+}
+
 int Brick::get_min_x() const
 {
     return min_element(this->pixels.begin(), this->pixels.end(), [](const Pixel &a, const Pixel &b)-> bool{

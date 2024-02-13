@@ -13,7 +13,6 @@ class BrickGeneratorImpl: public BrickGenerator
 
     public:
         BrickGeneratorImpl(Bag<Brick> &&bricks, Bag<Color> &&colors);
-        Brick get_colored_brick(const Brick &brick, Color color) override;
         Brick generate() override;
 };
 
