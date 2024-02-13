@@ -3,6 +3,7 @@ add_executable(all_tests
     test_bag.cpp
     test_score_counter_impl.cpp
     test_brick_generator_impl.cpp
+    test_board_impl.cpp
 )
 
 target_link_libraries(all_tests
