@@ -1,14 +1,11 @@
 #include "board_impl.h"
 #include "pixel.h"
 #include <vector>
-#include <memory>
 
 using std::vector;
-using std::unique_ptr;
 
-BoardImpl::BoardImpl(unique_ptr<BoardUI> &&ui, int width, int height)
+BoardImpl::BoardImpl(int width, int height)
 :
-    ui(std::move(ui)),
     width(width),
     height(height)
 {
