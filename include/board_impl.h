@@ -15,7 +15,8 @@ class BoardImpl: public Board
     std::vector<std::vector<Pixel>> pixels;
 
     public:
-        BoardImpl(std::shared_ptr<BoardUI> &&ui, int width, int height);
+        BoardImpl(std::unique_ptr<BoardUI> &&ui, int width, int height);
+        std::vector<std::vector<Pixel>> get_pixels() const;
         int get_width() const override;
 };
 
