@@ -16,6 +16,7 @@ target_sources(TETRIS_V2
         rng_impl.cpp
         rng_mock.cpp
         score_counter_impl.cpp
+        brick_generator_impl.cpp
 )
 add_executable(tetris_v2
     main.cpp
