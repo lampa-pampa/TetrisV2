@@ -5,8 +5,8 @@ struct Vector2
 {
     int x;
     int y;
-    Vector2 operator+(Vector2 other) const;
-    Vector2 operator-(Vector2 other) const;
+    
+    Vector2& operator+=(Vector2 other);
     bool operator==(const Vector2 &other) const;
 };
 
