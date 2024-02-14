@@ -3,9 +3,9 @@
 #include "game_state.h"
 
 GameController::GameController(
-    std::unique_ptr<InputReceiver> &&input_receiver,
-    std::unique_ptr<Timer> &&timer,
-    std::unique_ptr<Game> &&game)
+        std::unique_ptr<InputReceiver> &&input_receiver,
+        std::unique_ptr<Timer> &&timer,
+        std::unique_ptr<Game> &&game)
 :
     input_receiver(std::move(input_receiver)),
     timer(std::move(timer)),

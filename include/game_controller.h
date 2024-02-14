@@ -14,9 +14,9 @@ class GameController
 
     public:
         GameController(
-            std::unique_ptr<InputReceiver> &&input_receiver,
-            std::unique_ptr<Timer> &&timer,
-            std::unique_ptr<Game> &&game);
+                std::unique_ptr<InputReceiver> &&input_receiver,
+                std::unique_ptr<Timer> &&timer,
+                std::unique_ptr<Game> &&game);
         void on_pause_pressed();
 };
 
