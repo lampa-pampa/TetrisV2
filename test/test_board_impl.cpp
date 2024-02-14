@@ -15,7 +15,7 @@ using std::function;
 namespace {
     Brick create_rectangle_brick(int width, int height, Color color)
     {
-        Brick full_brick{{}};
+        Brick full_brick{};
         for(int y{0}; y < height; ++y)
         {
             for(int x{0}; x < width; ++x)
