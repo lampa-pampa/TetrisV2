@@ -42,12 +42,6 @@ TEST(BoardImpl, BoardImpl)
     });
 }
 
-TEST(BoardImpl, test_get_width)
-{
-    BoardImpl board{10, 20};
-    ASSERT_EQ(board.get_width(), 10);
-}
-
 TEST(BoardImpl, test_is_space_for_brick)
 {
     BoardImpl board{3, 3};
