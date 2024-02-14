@@ -57,3 +57,48 @@ void BoardImpl::remove_brick(const Brick &brick)
     for(const Pixel &pixel : brick.pixels)
         this->pixels[pixel.coords.y][pixel.coords.x].clear();
 }
+
+std::vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
+{
+    std::vector<Brick> lines;
+    for(int y{from_y}; y <= to_y; ++y)
+    {
+        Brick line{{}};
+        bool is_full_line{true};
+        for(int x{0}; x < this->width; ++x)
+        {
+            const Pixel &pixel = this->pixels[y][x];
+            if(pixel.empty())
+            {
+                is_full_line = false;
+                break;
+            }
+            line.pixels.push_back(pixel);
+        }
+        if(is_full_line)
+            lines.emplace_back(std::move(line));
+    }
+    return lines;
+}
+
+void BoardImpl::compress(int y)
+{
+    for(int y{y}; y > 0; --y)
+    {
+        for(int x{0}; x < this->width; ++x)
+            this->pixels[y][x] = this->pixels[y - 1][x];
+    }
+    for(int x{0}; x < this->width; ++x)
+        this->pixels[0][x].clear();
+}
+
+int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)
+{
+    vector<Brick> lines{this->find_lines_in_range(from_y, to_y)};
+    for(Brick &line : lines)
+    {
+        this->remove_brick(line);
+        this->compress(line.pixels[0].coords.y);
+    }
+    return lines.size();
+}
