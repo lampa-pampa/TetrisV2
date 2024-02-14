@@ -68,6 +68,11 @@ Brick::Brick(std::vector<Pixel> pixels)
     Brick(pixels, false)
 {}
 
+Brick::Brick()
+:
+    Brick({}, false)
+{}
+
 int Brick::get_min_x() const
 {
     return min_element(this->pixels.begin(), this->pixels.end(), [](const Pixel &a, const Pixel &b)-> bool{

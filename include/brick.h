@@ -18,6 +18,7 @@ struct Brick
     
     Brick(std::vector<Pixel> pixels, bool is_center_moved);
     Brick(std::vector<Pixel> pixels);
+    Brick();
     int get_min_x() const;
     int get_max_x() const;
     int get_min_y() const;
