@@ -5,13 +5,13 @@
 TEST(Pixel, test_empty)
 {
     Pixel pixel1{{0, 0}, Color::black};
-    ASSERT_EQ(pixel1.empty(), true);
+    ASSERT_TRUE(pixel1.empty());
 
     Pixel pixel2{{0, 0}, Color::red};
-    ASSERT_EQ(pixel2.empty(), false);
+    ASSERT_FALSE(pixel2.empty());
         
     Pixel pixel3{{0, 0}, Color::yellow, true};
-    ASSERT_EQ(pixel3.empty(), true);
+    ASSERT_TRUE(pixel3.empty());
 }
 
 TEST(Pixel, test_clear)
