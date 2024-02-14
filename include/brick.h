@@ -11,6 +11,7 @@ struct Brick
     static Brick get_translated(const Brick &brick, Vector2 position);
     static Brick get_rotated(const Brick &brick, int quarters_rotation);
     static Brick get_transformed(const Brick &brick, int quarters_rotation, Vector2 position);
+    static Brick get_ghostified(const Brick &brick);
 
     std::vector<Pixel> pixels;
     bool is_center_moved;

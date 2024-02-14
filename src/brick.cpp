@@ -48,6 +48,14 @@ Brick Brick::get_transformed(const Brick &brick, int quarters_rotation, Vector2 
     return get_translated(rotated_brick, position);
 }
 
+Brick Brick::get_ghostified(const Brick &brick)
+{
+    Brick ghostified_brick{brick};
+    for(Pixel &pixel : ghostified_brick.pixels)
+        pixel.is_ghost = true;
+    return ghostified_brick;
+}
+
 Brick::Brick(vector<Pixel> pixels, bool is_center_moved)
 :
     pixels(pixels),
