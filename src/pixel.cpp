@@ -9,6 +9,16 @@ Pixel::Pixel(Vector2 coords, Color color, bool is_ghost)
     is_ghost(is_ghost)
 {}
 
+Pixel::Pixel(Vector2 coords, Color color)
+:
+    Pixel(coords, color, false)
+{}
+
+Pixel::Pixel(Vector2 coords)
+:
+    Pixel(coords, Color::black, false)
+{}
+
 bool Pixel::operator==(const Pixel &other) const
 {
     return this->coords == other.coords

@@ -10,7 +10,9 @@ struct Pixel
     Color color;
     bool is_ghost;
     
-    Pixel(Vector2 coords, Color color = Color::black, bool is_ghost = false);
+    Pixel(Vector2 coords, Color color, bool is_ghost);
+    Pixel(Vector2 coords, Color color);
+    Pixel(Vector2 coords);
     bool operator==(const Pixel &other) const;
     bool empty() const;
     void clear();
