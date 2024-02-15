@@ -21,6 +21,7 @@ target_sources(TETRIS_V2
         game_controller.cpp
         game_impl.cpp
         game_ui_mock.cpp
+        game_ui_console_impl.cpp
 )
 add_executable(tetris_v2
     main.cpp
