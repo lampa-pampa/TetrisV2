@@ -11,13 +11,13 @@ GameController::GameController(
     timer(std::move(timer)),
     game(std::move(game))
 {
-    input_receiver->connect_move_left_pressed([&game]()->void{game->move_left();});
-    input_receiver->connect_move_right_pressed([&game]()->void{game->move_right();});
-    input_receiver->connect_rotate_pressed([&game]()->void{game->rotate();});
-    input_receiver->connect_soft_drop_pressed([&game]()->void{game->soft_drop();});
-    input_receiver->connect_hard_drop_pressed([&game]()->void{game->hard_drop();});
-    input_receiver->connect_hold_pressed([&game]()->void{game->hold_pressed();});
-    input_receiver->connect_pause_pressed([this]()->void{this->on_pause_pressed();});
+    // input_receiver->connect_move_left_pressed([&game]()->void{game->move_left();});
+    // input_receiver->connect_move_right_pressed([&game]()->void{game->move_right();});
+    // input_receiver->connect_rotate_pressed([&game]()->void{game->rotate();});
+    // input_receiver->connect_soft_drop_pressed([&game]()->void{game->soft_drop();});
+    // input_receiver->connect_hard_drop_pressed([&game]()->void{game->hard_drop();});
+    // input_receiver->connect_hold_pressed([&game]()->void{game->hold_pressed();});
+    // input_receiver->connect_pause_pressed([this]()->void{this->on_pause_pressed();});
 }
 
 void GameController::on_pause_pressed()
