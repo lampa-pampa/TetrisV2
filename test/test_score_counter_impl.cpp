@@ -1,21 +1,23 @@
 #include "score_counter_impl.h"
 #include <gtest/gtest.h>
 
-namespace {
-    ScoreCounterImpl score_counter{1, 1, 1};
-}
-
 TEST(ScoreCounterImpl, test_count_score_for_lines)
 {
-    ASSERT_EQ(score_counter.count_score_for_lines(10), 10);
+    ScoreCounterImpl score_counter{2, 1, 1};
+    
+    ASSERT_EQ(score_counter.count_score_for_lines(10), 20);
 }
 
 TEST(ScoreCounterImpl, test_count_score_for_soft_drop)
 {
-    ASSERT_EQ(score_counter.count_score_for_soft_drop(), 1);
+    ScoreCounterImpl score_counter{1, 3, 1};
+    
+    ASSERT_EQ(score_counter.count_score_for_soft_drop(), 3);
 }
 
 TEST(ScoreCounterImpl, test_count_score_for_hard_drop)
 {
-    ASSERT_EQ(score_counter.count_score_for_hard_drop(), 1);
+    ScoreCounterImpl score_counter{1, 1, 5};
+    
+    ASSERT_EQ(score_counter.count_score_for_hard_drop(), 5);
 }
