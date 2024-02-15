@@ -3,10 +3,8 @@
 
 using std::function;
 
-TimerMock::TimerMock(int delay_in_ms, int step_in_ms)
+TimerMock::TimerMock()
 :
-    delay_in_ms(delay_in_ms),
-    step_in_ms(step_in_ms),
     active(false)
 {}
 
