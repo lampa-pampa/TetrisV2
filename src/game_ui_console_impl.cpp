@@ -1,5 +1,6 @@
 #include "game_ui_console_impl.h"
 #include "pixel.h"
+#include <ostream>
 #include <vector>
 #include <iostream>
 #include <string>
@@ -7,6 +8,7 @@
 using std::vector;
 using std::cout;
 using std::string;
+using std::flush;
 
 void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>> &pixels){
     cout << "\e[1;1H\e[2J";
@@ -26,6 +28,7 @@ void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>> &pixels){
         }
         cout << '\n';
     }
+    cout << flush;
 }
 
 void GameUIConsoleImpl::refresh_score(int score){}
