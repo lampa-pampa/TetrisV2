@@ -81,12 +81,15 @@ std::vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
     return lines;
 }
 
-void BoardImpl::compress(int y)
+void BoardImpl::compress(int start_y)
 {
-    for(int y{y}; y > 0; --y)
+    for(int y{start_y}; y > 0; --y)
     {
         for(int x{0}; x < this->width; ++x)
+        {
             this->pixels[y][x] = this->pixels[y - 1][x];
+            this->pixels[y][x].coords = {x, y};
+        }
     }
     for(int x{0}; x < this->width; ++x)
         this->pixels[0][x].clear();

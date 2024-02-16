@@ -14,7 +14,7 @@ class BoardImpl: public Board
     std::vector<std::vector<Pixel>> pixels;
     bool position_is_in_range(Vector2 position) const;
     std::vector<Brick> find_lines_in_range(int from_y, int to_y) const;
-    void compress(int y);
+    void compress(int start_y);
 
     public:
         BoardImpl(int width, int height);
