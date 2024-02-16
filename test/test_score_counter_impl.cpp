@@ -19,5 +19,5 @@ TEST(ScoreCounterImpl, test_count_score_for_hard_drop)
 {
     ScoreCounterImpl score_counter{1, 1, 5};
     
-    ASSERT_EQ(score_counter.count_score_for_hard_drop(), 5);
+    ASSERT_EQ(score_counter.count_score_for_hard_drop(10), 50);
 }

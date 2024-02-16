@@ -17,7 +17,7 @@ int ScoreCounterImpl::count_score_for_soft_drop() const
     return this->score_for_soft_drop;
 }
 
-int ScoreCounterImpl::count_score_for_hard_drop() const
+int ScoreCounterImpl::count_score_for_hard_drop(int distance) const
 {
-    return this->score_for_hard_drop;
+    return this->score_for_hard_drop * distance;
 }
