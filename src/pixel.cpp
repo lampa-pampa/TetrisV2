@@ -28,7 +28,7 @@ bool Pixel::operator==(const Pixel &other) const
 
 bool Pixel::empty() const
 {
-    return (this->is_ghost || this->color == Color::black);
+    return this->color == Color::black;
 }
 
 void Pixel::clear()

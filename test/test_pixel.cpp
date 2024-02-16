@@ -20,7 +20,7 @@ TEST(Pixel, empty_color_yellow_ghost_true)
 {
     Pixel pixel{{0, 0}, Color::yellow, true};
     
-    ASSERT_TRUE(pixel.empty());
+    ASSERT_FALSE(pixel.empty());
 }
 
 TEST(Pixel, clear)
