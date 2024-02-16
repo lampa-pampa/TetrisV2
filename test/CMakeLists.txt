@@ -5,6 +5,7 @@ add_executable(all_tests
     test_brick_generator_impl.cpp
     test_board_impl.cpp
     test_pixel.cpp
+    test_game_impl.cpp
 )
 
 target_link_libraries(all_tests
