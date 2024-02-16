@@ -11,6 +11,7 @@
 #include "rng_mock.h"
 #include "score_counter.h"
 #include "score_counter_impl.h"
+#include "score_counter_mock.h"
 #include "vector_2.h"
 #include <algorithm>
 #include <gtest/gtest.h>
@@ -247,11 +248,7 @@ TEST(GameImpl, move_down_end_game)
             Bag<Brick>{{brick}, std::unique_ptr<RNG>{new RNGMock{}}},
             Bag<Color>{{Color::red}, std::unique_ptr<RNG>{new RNGMock{}}},
         }},
-        std::unique_ptr<ScoreCounter>{new ScoreCounterImpl{
-            0,
-            0,
-            0
-        }},
+        std::unique_ptr<ScoreCounter>{new ScoreCounterMock{}},
     };
     for(int i{0}; i < 15; ++i)
         game.tick();

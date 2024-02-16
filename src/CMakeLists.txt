@@ -22,6 +22,7 @@ target_sources(TETRIS_V2
         game_impl.cpp
         game_ui_mock.cpp
         game_ui_console_impl.cpp
+        score_counter_mock.cpp
 )
 add_executable(tetris_v2
     main.cpp
