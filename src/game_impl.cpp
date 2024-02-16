@@ -186,5 +186,30 @@ void GameImpl::generate_new_brick()
 
 void GameImpl::move_down()
 {
-    
+    this->init_move();
+    ++this->cur_brick_position.y;
+    if(not this->board->is_space_for_brick(this->get_transformed_cur_brick()))
+    {
+        --this->cur_brick_position.y;
+        Brick placed_brick{this->get_transformed_cur_brick()};
+        this->board->add_brick(placed_brick);
+        this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
+        this->generate_new_brick();
+    }
+    this->commit_move();
+}
+
+void GameImpl::remove_lines(int from_y, int to_y)
+{
+    const int lines = this->board->remove_lines_in_range_and_compress(from_y, to_y);
+    if(lines > 0)
+    {
+        this->score += this->score_counter->count_score_for_lines(lines);
+        this->ui->refresh_score(this->score);
+        if(lines == 4)
+        {
+            this->tetrises += 1;
+            this->ui->refresh_tetrises(this->tetrises);
+        }
+    }
 }

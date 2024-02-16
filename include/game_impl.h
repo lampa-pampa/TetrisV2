@@ -33,6 +33,7 @@ class GameImpl: public Game
     void init_move();
     void commit_move();
     void move_down();
+    void remove_lines(int from_y, int to_y);
 
     public:
         GameImpl(
