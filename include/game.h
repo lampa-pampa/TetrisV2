@@ -14,7 +14,7 @@ class Game
         virtual void rotate() = 0;
         virtual void soft_drop() = 0;
         virtual void hard_drop() = 0;
-        virtual void hold_pressed() = 0;
+        virtual void hold() = 0;
         virtual ~Game() = default;
 };
 
