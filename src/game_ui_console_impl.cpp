@@ -2,16 +2,28 @@
 #include "pixel.h"
 #include <vector>
 #include <iostream>
+#include <string>
 
 using std::vector;
 using std::cout;
+using std::string;
 
 void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>> &pixels){
     cout << "\e[1;1H\e[2J";
     for(const vector<Pixel> &row : pixels)
     {
         for(const Pixel &pixel: row)
-            cout << (pixel.empty() ? "--" : "[]");
+        {
+            string pixel_text{"--"};
+            if(!pixel.empty())
+            {
+                if(pixel.is_ghost)
+                    pixel_text = "::";
+                else
+                    pixel_text = "[]";
+            }
+            cout << pixel_text;
+        }
         cout << '\n';
     }
 }
