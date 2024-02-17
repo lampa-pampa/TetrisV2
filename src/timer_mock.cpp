@@ -11,6 +11,7 @@ TimerMock::TimerMock()
 void TimerMock::start()
 {
     this->active = true;
+    this->timeout();
 }
 
 void TimerMock::stop()
@@ -24,7 +25,7 @@ void TimerMock::simulate_timeout(int times) const
         this->timeout();
 }
 
-void TimerMock::connect_timeout(function<void()> handler)
+void TimerMock::connect_timeout(const function<void()> handler)
 {
     this->timeout.connect(handler);
 }

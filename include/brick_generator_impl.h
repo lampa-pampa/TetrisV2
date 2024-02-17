@@ -12,7 +12,7 @@ class BrickGeneratorImpl: public BrickGenerator
     Bag<Color> colors_bag;
 
     public:
-        BrickGeneratorImpl(Bag<Brick> &&bricks, Bag<Color> &&colors);
+        BrickGeneratorImpl(const Bag<Brick> &bricks, const Bag<Color> &colors);
         Brick generate() override;
 };
 

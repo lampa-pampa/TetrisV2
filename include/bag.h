@@ -3,48 +3,34 @@
 
 #include "rng.h"
 #include <vector>
-#include <memory>
 
 template<typename T>
 class Bag
 {
     std::vector<T> items;
     int current_index;
-    std::unique_ptr<RNG> rng;
+    RNG &rng;
 
-    void shuffle_items(std::vector<T> &items, std::unique_ptr<RNG> &rng);
+    void shuffle_items(std::vector<T> &items, RNG &rng);
 
     public:
-        Bag(const std::vector<T> &items, std::unique_ptr<RNG> &&rng);
-        Bag(Bag<T> &&other);
+        Bag(const std::vector<T> &items, RNG &rng);
         T get_next();
 };
 
 template<typename T>
-Bag<T>::Bag(const std::vector<T> &items, std::unique_ptr<RNG> &&rng)
+Bag<T>::Bag(const std::vector<T> &items, RNG &rng)
 :
     items(items),
     current_index(0),
-    rng(std::move(rng))
+    rng(rng)
 {}
 
 template<typename T>
-Bag<T>::Bag(Bag<T> &&other)
-:
-    items(other.items),
-    current_index(other.current_index),
-    rng(std::move(other.rng))
-{
-    other.items = std::vector<T>{};
-    other.current_index = 0;
-    other.rng = nullptr;
-}
-
-template<typename T>
-void Bag<T>::shuffle_items(std::vector<T> &items, std::unique_ptr<RNG> &rng)
+void Bag<T>::shuffle_items(std::vector<T> &items, RNG &rng)
 {
     for(int i = items.size() - 1; i >= 0; --i)
-        std::swap(items[i], items[rng->random(i + 1)]);
+        std::swap(items[i], items[rng.random(i + 1)]);
 }
 
 template<typename T>

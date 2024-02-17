@@ -9,7 +9,6 @@ target_include_directories(TETRIS_V2
 target_sources(TETRIS_V2
     PRIVATE
         timer_mock.cpp
-        input_receiver_mock.cpp
         vector_2.cpp
         pixel.cpp
         brick.cpp

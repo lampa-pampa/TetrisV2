@@ -1,7 +1,5 @@
 #include "bag.h"
-#include "board.h"
 #include "board_impl.h"
-#include "brick_generator.h"
 #include "brick_generator_impl.h"
 #include "color.h"
 #include "game_impl.h"
@@ -9,17 +7,14 @@
 #include "game_ui.h"
 #include "game_ui_mock.h"
 #include "rng_mock.h"
-#include "score_counter.h"
 #include "score_counter_impl.h"
 #include "score_counter_mock.h"
 #include "vector_2.h"
 #include <algorithm>
 #include <gtest/gtest.h>
-#include <memory>
-#include <functional>
 #include <vector>
+#include <functional>
 
-using std::unique_ptr;
 using std::function;
 using std::count;
 using std::vector;
@@ -41,16 +36,21 @@ namespace {
 
 TEST(GameImpl, GameImpl)
 {
-    const Brick brick{{ {{0, -1}}, {{0, 0}}, {{0, 1}}, {{1, 1}} }};
-    GameImpl game{
-        std::unique_ptr<GameUI>{new GameUIMock{}},
-        std::unique_ptr<Board>{new BoardImpl{10, 20}},
-        std::unique_ptr<BrickGenerator>{new BrickGeneratorImpl{
-            Bag<Brick>{{brick}, std::unique_ptr<RNG>{new RNGMock{}}},
-            Bag<Color>{{Color::blue, Color::red}, std::unique_ptr<RNG>{new RNGMock{}}},
-        }},
-        nullptr,
+    const Brick brick{{
+        {{0, -1}},
+        {{0, 0}},
+        {{0, 1}},
+        {{1, 1}}
+    }};
+    GameUIMock ui{};
+    BoardImpl board{10, 20};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{brick}, rng},
+        Bag<Color>{{Color::blue, Color::red}, rng}
     };
+    ScoreCounterMock score_counter{};
+    GameImpl game{ui, board, brick_generator, score_counter};
     const Brick expected_cur_brick{Brick::get_colored(brick, Color::blue)};
     const Brick expected_next_brick{Brick::get_colored(brick, Color::red)};
     const Brick expected_ghost_brick{Brick::get_ghostified(expected_cur_brick)};
@@ -80,24 +80,32 @@ TEST(GameImpl, GameImpl)
     ASSERT_TRUE(game.get_ghost_brick() == expected_ghost_brick);
     ASSERT_TRUE(game.get_ghost_brick_position() == expected_ghost_brick_position);
     ASSERT_TRUE(game.get_hold_brick() == expected_hold_brick);
-    for_each_pixel_assert_true(board_pixels, [transformed_expected_cur_brick, transformed_expected_ghost_brick](Pixel pixel)-> bool{
-        return pixel.empty() != is_in(pixel, transformed_expected_cur_brick.pixels)
-            or is_in(pixel, transformed_expected_ghost_brick.pixels);
+    for_each_pixel_assert_true(board_pixels, [
+            transformed_expected_cur_brick,
+            transformed_expected_ghost_brick
+        ](Pixel pixel)-> bool{
+            return pixel.empty() != is_in(pixel, transformed_expected_cur_brick.pixels)
+                or is_in(pixel, transformed_expected_ghost_brick.pixels);
     });
 }
 
 TEST(GameImpl, move_down_free_fall)
 {
-    const Brick brick{{ {{0, -1}}, {{0, 0}}, {{0, 1}}, {{1, 1}} }};
-    GameImpl game{
-        std::unique_ptr<GameUI>{new GameUIMock{}},
-        std::unique_ptr<Board>{new BoardImpl{10, 20}},
-        std::unique_ptr<BrickGenerator>{new BrickGeneratorImpl{
-            Bag<Brick>{{brick}, std::unique_ptr<RNG>{new RNGMock{}}},
-            Bag<Color>{{Color::blue}, std::unique_ptr<RNG>{new RNGMock{}}},
-        }},
-        nullptr,
+    const Brick brick{{
+        {{0, -1}},
+        {{0, 0}},
+        {{0, 1}},
+        {{1, 1}}
+    }};
+    GameUIMock ui{};
+    BoardImpl board{10, 20};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{brick}, rng},
+        Bag<Color>{{Color::blue}, rng}
     };
+    ScoreCounterMock score_counter{};
+    GameImpl game{ui, board, brick_generator, score_counter};
     const Vector2 expected_cur_brick_position{4, 2};
     const Vector2 expected_ghost_brick_position{4, 18};
     game.tick();
@@ -107,24 +115,32 @@ TEST(GameImpl, move_down_free_fall)
     
     ASSERT_TRUE(game.get_cur_brick_position() == expected_cur_brick_position);
     ASSERT_TRUE(game.get_ghost_brick_position() == expected_ghost_brick_position);
-    for_each_pixel_assert_true(board_pixels, [transformed_cur_brick, transformed_ghost_brick](Pixel pixel)-> bool{
-        return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
-            or is_in(pixel, transformed_ghost_brick.pixels);
+    for_each_pixel_assert_true(board_pixels, [
+            transformed_cur_brick,
+            transformed_ghost_brick
+        ](Pixel pixel)-> bool{
+            return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
+                or is_in(pixel, transformed_ghost_brick.pixels);
     });
 }
 
 TEST(GameImpl, move_down_place)
 {
-    const Brick brick{{ {{0, -1}}, {{0, 0}}, {{0, 1}}, {{1, 1}} }};
-    GameImpl game{
-        std::unique_ptr<GameUI>{new GameUIMock{}},
-        std::unique_ptr<Board>{new BoardImpl{10, 20}},
-        std::unique_ptr<BrickGenerator>{new BrickGeneratorImpl{
-            Bag<Brick>{{brick}, std::unique_ptr<RNG>{new RNGMock{}}},
-            Bag<Color>{{Color::blue, Color::red}, std::unique_ptr<RNG>{new RNGMock{}}},
-        }},
-        nullptr,
+    const Brick brick{{
+        {{0, -1}},
+        {{0, 0}},
+        {{0, 1}},
+        {{1, 1}}
+    }};
+    GameUIMock ui{};
+    BoardImpl board{10, 20};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{brick}, rng},
+        Bag<Color>{{Color::blue, Color::red}, rng}
     };
+    ScoreCounterMock score_counter{};
+    GameImpl game{ui, board, brick_generator, score_counter};
     const Vector2 expected_cur_brick_position{4, 1};
     const Vector2 expected_ghost_brick_position{4, 15};
     const Brick transformed_expected_placed_brick{Brick::get_translated(game.get_cur_brick(), {4, 18})};
@@ -155,19 +171,15 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
     const Brick falling_brick{{ {{0, 0}}, {{0, 1}} }};
     const Color bricks_color{Color::blue};
     const Brick expected_remaining_brick{{ {{1, 9}, bricks_color} }};
-    GameImpl game{
-        std::unique_ptr<GameUI>{new GameUIMock{}},
-        std::unique_ptr<Board>{new BoardImpl{3, 10}},
-        std::unique_ptr<BrickGenerator>{new BrickGeneratorImpl{
-            Bag<Brick>{{base_brick, falling_brick}, std::unique_ptr<RNG>{new RNGMock{}}},
-            Bag<Color>{{bricks_color}, std::unique_ptr<RNG>{new RNGMock{}}},
-        }},
-        std::unique_ptr<ScoreCounter>{new ScoreCounterImpl{
-            10,
-            5,
-            3
-        }},
+    GameUIMock ui{};
+    BoardImpl board{3, 10};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{base_brick, falling_brick}, rng},
+        Bag<Color>{{bricks_color}, rng}
     };
+    ScoreCounterImpl score_counter{10, 5, 3};
+    GameImpl game{ui, board, brick_generator, score_counter};
     for(int i{0}; i < 20; ++i)
         game.tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
@@ -177,9 +189,10 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
     ASSERT_EQ(game.get_score(), 10);
     ASSERT_EQ(game.get_tetrises(), 0);
     for_each_pixel_assert_true(board_pixels, [
-        transformed_cur_brick,
-        transformed_ghost_brick,
-        expected_remaining_brick] (Pixel pixel)-> bool{
+            transformed_cur_brick,
+            transformed_ghost_brick,
+            expected_remaining_brick
+        ] (Pixel pixel)-> bool{
             return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
                 or is_in(pixel, transformed_ghost_brick.pixels)
                 or is_in(pixel, expected_remaining_brick.pixels);
@@ -207,19 +220,15 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
     }};
     const Color bricks_color{Color::blue};
     const Brick expected_remaining_brick{{ {{1, 9}, bricks_color} }};
-    GameImpl game{
-        std::unique_ptr<GameUI>{new GameUIMock{}},
-        std::unique_ptr<Board>{new BoardImpl{3, 10}},
-        std::unique_ptr<BrickGenerator>{new BrickGeneratorImpl{
-            Bag<Brick>{{base_brick, falling_brick}, std::unique_ptr<RNG>{new RNGMock{}}},
-            Bag<Color>{{bricks_color}, std::unique_ptr<RNG>{new RNGMock{}}},
-        }},
-        std::unique_ptr<ScoreCounter>{new ScoreCounterImpl{
-            10,
-            0,
-            0
-        }},
+    GameUIMock ui{};
+    BoardImpl board{3, 10};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{base_brick, falling_brick}, rng},
+        Bag<Color>{{bricks_color}, rng}
     };
+    ScoreCounterImpl score_counter{10, 0, 0};
+    GameImpl game{ui, board, brick_generator, score_counter};
     for(int i{0}; i < 13; ++i)
         game.tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
@@ -229,9 +238,10 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
     ASSERT_EQ(game.get_score(), 40);
     ASSERT_EQ(game.get_tetrises(), 1);
     for_each_pixel_assert_true(board_pixels, [
-        transformed_cur_brick,
-        transformed_ghost_brick,
-        expected_remaining_brick] (Pixel pixel)-> bool{
+            transformed_cur_brick,
+            transformed_ghost_brick,
+            expected_remaining_brick
+        ] (Pixel pixel)-> bool{
             return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
                 or is_in(pixel, transformed_ghost_brick.pixels)
                 or is_in(pixel, expected_remaining_brick.pixels);
@@ -241,16 +251,17 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
 TEST(GameImpl, move_down_end_game)
 {
     const Brick brick{{ {{0, -1}}, {{0, 0}}, {{0, 1}} }};
-    GameImpl game{
-        std::unique_ptr<GameUI>{new GameUIMock{}},
-        std::unique_ptr<Board>{new BoardImpl{5, 10}},
-        std::unique_ptr<BrickGenerator>{new BrickGeneratorImpl{
-            Bag<Brick>{{brick}, std::unique_ptr<RNG>{new RNGMock{}}},
-            Bag<Color>{{Color::red}, std::unique_ptr<RNG>{new RNGMock{}}},
-        }},
-        std::unique_ptr<ScoreCounter>{new ScoreCounterMock{}},
+    GameUIMock ui{};
+    BoardImpl board{5, 10};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{brick}, rng},
+        Bag<Color>{{Color::red}, rng}
     };
+    ScoreCounterMock score_counter{};
+    GameImpl game{ui, board, brick_generator, score_counter};
     for(int i{0}; i < 15; ++i)
         game.tick();
+
     ASSERT_TRUE(game.get_state() == GameState::ended);
 }

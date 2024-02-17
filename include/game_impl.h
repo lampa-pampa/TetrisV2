@@ -8,14 +8,13 @@
 #include "game_ui.h"
 #include "score_counter.h"
 #include "vector_2.h"
-#include <memory>
 
 class GameImpl: public Game
 {
-    std::unique_ptr<GameUI> ui;
-    std::unique_ptr<Board> board;
-    std::unique_ptr<BrickGenerator> brick_generator;
-    std::unique_ptr<ScoreCounter> score_counter;
+    GameUI &ui;
+    Board &board;
+    BrickGenerator &brick_generator;
+    ScoreCounter &score_counter;
     GameState state;
     int score;
     int tetrises;
@@ -37,10 +36,10 @@ class GameImpl: public Game
 
     public:
         GameImpl(
-                std::unique_ptr<GameUI> &&ui,
-                std::unique_ptr<Board> &&board,
-                std::unique_ptr<BrickGenerator> &&brick_generator,
-                std::unique_ptr<ScoreCounter> &&score_counter);
+                GameUI &ui,
+                Board &board,
+                BrickGenerator &brick_generator,
+                ScoreCounter &score_counter);
         void set_state(GameState state) override;
         GameState get_state() const override;
         void tick() override;

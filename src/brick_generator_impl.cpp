@@ -3,10 +3,10 @@
 #include "brick.h"
 #include "bag.h"
 
-BrickGeneratorImpl::BrickGeneratorImpl(Bag<Brick> &&bricks, Bag<Color> &&colors)
+BrickGeneratorImpl::BrickGeneratorImpl(const Bag<Brick> &bricks, const Bag<Color> &colors)
 :
-    bricks_bag(std::move(bricks)),
-    colors_bag(std::move(colors))
+    bricks_bag(bricks),
+    colors_bag(colors)
 {}
 
 Brick BrickGeneratorImpl::generate()
