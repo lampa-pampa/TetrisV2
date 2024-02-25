@@ -9,7 +9,7 @@ GameController::GameController(Timer &timer, Game &game)
     game(game)
 {}
 
-void GameController::on_pause_pressed()
+void GameController::pause_pressed()
 {
     switch (this->game.get_state())
     {

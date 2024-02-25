@@ -11,7 +11,7 @@ class GameController
 
     public:
         GameController(Timer &timer, Game &game);
-        void on_pause_pressed();
+        void pause_pressed();
 };
 
 #endif
