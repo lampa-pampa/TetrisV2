@@ -5,21 +5,21 @@
 
 using std::ostream;
 
-Pixel::Pixel(Vector2 coords, Color color, bool is_ghost)
+Pixel::Pixel(int x, int y, Color color, bool is_ghost)
 :
-    coords(coords),
+    coords({x, y}),
     color(color),
     is_ghost(is_ghost)
 {}
 
-Pixel::Pixel(Vector2 coords, Color color)
+Pixel::Pixel(int x, int y, Color color)
 :
-    Pixel(coords, color, false)
+    Pixel(x, y, color, false)
 {}
 
-Pixel::Pixel(Vector2 coords)
+Pixel::Pixel(int x, int y)
 :
-    Pixel(coords, Color::black, false)
+    Pixel(x, y, Color::black, false)
 {}
 
 bool Pixel::operator==(const Pixel &other) const

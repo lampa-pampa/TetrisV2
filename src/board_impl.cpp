@@ -14,7 +14,7 @@ BoardImpl::BoardImpl(int width, int height)
     {
         vector<Pixel> row;
         for(int x{0}; x < width; ++x)
-            row.emplace_back(Pixel{{x, y}});
+            row.emplace_back(Pixel{x, y});
         this->pixels.emplace_back(std::move(row));
     }
 }

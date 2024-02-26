@@ -11,9 +11,9 @@ struct Pixel
     Color color;
     bool is_ghost;
     
-    Pixel(Vector2 coords, Color color, bool is_ghost);
-    Pixel(Vector2 coords, Color color);
-    Pixel(Vector2 coords);
+    Pixel(int x, int y, Color color, bool is_ghost);
+    Pixel(int x, int y, Color color);
+    Pixel(int x, int y);
     bool operator==(const Pixel &other) const;
     friend std::ostream& operator<<(std::ostream& os, const Pixel& pixel);
 

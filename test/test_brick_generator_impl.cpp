@@ -11,8 +11,8 @@ using std::vector;
 TEST(BrickGeneratorImpl, generate)
 {
     const vector<Brick> bricks{
-        { { {{1, 0}}, {{0, 1}} }},
-        { { {{2, 0}}, {{0, 2}} }},
+        {{ {1, 0}, {0, 1} }},
+        {{ {2, 0}, {0, 2} }},
     };
     const vector<Color> colors{
         Color::red,
@@ -24,8 +24,8 @@ TEST(BrickGeneratorImpl, generate)
         Bag<Color>{colors, rng},
     };
     const vector<Brick> expected_bricks{
-        {{ {{1, 0}, Color::red}, {{0, 1}, Color::red} }},
-        {{ {{2, 0}, Color::blue}, {{0, 2}, Color::blue} }},
+        {{ {1, 0, Color::red}, {0, 1, Color::red} }},
+        {{ {2, 0, Color::blue}, {0, 2, Color::blue} }},
     };
     for(int i{0}; i < 2; ++i)
     {
