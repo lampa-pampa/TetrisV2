@@ -64,7 +64,7 @@ void GameImpl::rotate()
 void GameImpl::soft_drop()
 {
     this->move_down();
-    this->score += this->score_counter.count_score_for_soft_drop();
+    this->add_score(this->score_counter.count_score_for_soft_drop());
 }
 
 void GameImpl::hard_drop()
@@ -78,7 +78,7 @@ void GameImpl::hard_drop()
     }
     --this->cur_brick_position.y;
     this->place_and_generate_cur_brick();
-    this->score += this->score_counter.count_score_for_hard_drop(distance);
+    this->add_score(this->score_counter.count_score_for_hard_drop(distance));
     this->commit_move();
 }
 
@@ -218,8 +218,7 @@ void GameImpl::remove_lines(int from_y, int to_y)
     const int lines = this->board.remove_lines_in_range_and_compress(from_y, to_y);
     if(lines > 0)
     {
-        this->score += this->score_counter.count_score_for_lines(lines);
-        this->ui.refresh_score(this->score);
+        this->add_score(this->score_counter.count_score_for_lines(lines));
         if(lines == 4)
         {
             this->tetrises += 1;
@@ -236,4 +235,10 @@ void GameImpl::move_cur_brick_horizontally(int by)
     if(not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
         this->cur_brick_position.x = old_position;
     this->commit_move();   
+}
+
+void GameImpl::add_score(int amount)
+{
+    this->score += amount;
+    this->ui.refresh_score(this->score);
 }

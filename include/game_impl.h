@@ -35,6 +35,7 @@ class GameImpl: public Game
     void place_and_generate_cur_brick();
     void remove_lines(int from_y, int to_y);
     void move_cur_brick_horizontally(int by);
+    void add_score(int amount);
 
     public:
         GameImpl(
