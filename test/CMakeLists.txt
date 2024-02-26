@@ -14,7 +14,7 @@ target_link_libraries(all_tests
         -lgtest
         -lgtest_main
         -lpthread
-) 
+)
 
 include(GoogleTest)
 gtest_discover_tests(all_tests)
