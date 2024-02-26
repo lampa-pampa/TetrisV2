@@ -9,7 +9,7 @@
 
 using std::vector;
 using std::function;
-using std::count;
+using std::find;
 
 namespace {
     Brick create_rectangle_brick(int width, int height, Color color)
@@ -32,7 +32,7 @@ namespace {
     }
     bool is_in(Pixel pixel, vector<Pixel> pixels)
     {
-        return count(pixels.begin(), pixels.end(), pixel) > 0;
+        return find(pixels.begin(), pixels.end(), pixel) != pixels.end();
     }
 }
 
