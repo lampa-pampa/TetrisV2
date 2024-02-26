@@ -2,13 +2,15 @@
 #include "pixel.h"
 #include "vector_2.h"
 #include <algorithm>
-#include <utility>
+#include <ostream>
 #include <vector>
 
 using std::swap;
 using std::max_element;
 using std::min_element;
 using std::vector;
+using std::ostream;
+using std::boolalpha;
 
 Brick Brick::get_colored(const Brick &brick, Color color)
 {
@@ -105,4 +107,16 @@ bool Brick::operator==(const Brick &other) const
 {
     return this->pixels == other.pixels
         and this->is_center_moved == other.is_center_moved;
+}
+
+std::ostream& operator<<(std::ostream& os, const Brick& brick)
+{
+    os << "{{ ";
+    for(auto it = brick.pixels.begin(); it != brick.pixels.end(); ++it)
+    {
+        os << *it;
+        if(it != brick.pixels.end() - 1)
+            os << ", ";
+    }
+    return os << " }, " << boolalpha << brick.is_center_moved << "}";
 }

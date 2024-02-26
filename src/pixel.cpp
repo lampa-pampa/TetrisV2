@@ -1,6 +1,9 @@
 #include "pixel.h"
 #include "color.h"
 #include "vector_2.h"
+#include <ostream>
+
+using std::ostream;
 
 Pixel::Pixel(Vector2 coords, Color color, bool is_ghost)
 :
@@ -25,6 +28,12 @@ bool Pixel::operator==(const Pixel &other) const
         and this->is_ghost == other.is_ghost
         and this->color == other.color;
 }
+
+std::ostream& operator<<(ostream& os, const Pixel& pixel)
+{
+    return os << "{" << pixel.coords.x << ", " << pixel.coords.y << ", Color::" << ColorToName.at(pixel.color) << "}";  
+}
+
 
 bool Pixel::empty() const
 {

@@ -24,6 +24,7 @@ struct Brick
     int get_min_y() const;
     int get_max_y() const;
     bool operator==(const Brick &other) const;
+    friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
 };
 
 #endif
