@@ -43,27 +43,43 @@ void GameImpl::tick()
 
 void GameImpl::move_left()
 {
-    
+    this->move_cur_brick_horizontally(-1);
 }
 
 void GameImpl::move_right()
 {
-    
+    this->move_cur_brick_horizontally(1);
 }
 
 void GameImpl::rotate()
 {
-    
+    this->init_move();
+    int old_rotation = this->cur_brick_rotation;
+    this->cur_brick_rotation = (this->cur_brick_rotation + 1) % 4;
+    if(not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
+        this->cur_brick_rotation = old_rotation;
+    this->commit_move();
 }
 
 void GameImpl::soft_drop()
 {
     this->move_down();
+    this->score += this->score_counter.count_score_for_soft_drop();
 }
 
 void GameImpl::hard_drop()
 {
-    
+    this->init_move();
+    int distance{};
+    while(this->board.is_space_for_brick(this->get_transformed_cur_brick()))
+    {
+        ++distance;
+        ++this->cur_brick_position.y;
+    }
+    --this->cur_brick_position.y;
+    this->place_and_generate_cur_brick();
+    this->score += this->score_counter.count_score_for_hard_drop(distance);
+    this->commit_move();
 }
 
 void GameImpl::hold()
@@ -184,12 +200,17 @@ void GameImpl::move_down()
     if(not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
     {
         --this->cur_brick_position.y;
-        Brick placed_brick{this->get_transformed_cur_brick()};
-        this->board.add_brick(placed_brick);
-        this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
-        this->generate_new_brick();
+        this->place_and_generate_cur_brick();
     }
     this->commit_move();
+}
+
+void GameImpl::place_and_generate_cur_brick()
+{
+    Brick placed_brick{this->get_transformed_cur_brick()};
+    this->board.add_brick(placed_brick);
+    this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
+    this->generate_new_brick();
 }
 
 void GameImpl::remove_lines(int from_y, int to_y)
@@ -205,4 +226,14 @@ void GameImpl::remove_lines(int from_y, int to_y)
             this->ui.refresh_tetrises(this->tetrises);
         }
     }
+}
+
+void GameImpl::move_cur_brick_horizontally(int by)
+{
+    this->init_move();
+    int old_position = this->cur_brick_position.x;
+    this->cur_brick_position.x += by;
+    if(not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
+        this->cur_brick_position.x = old_position;
+    this->commit_move();   
 }

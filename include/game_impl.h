@@ -32,7 +32,9 @@ class GameImpl: public Game
     void init_move();
     void commit_move();
     void move_down();
+    void place_and_generate_cur_brick();
     void remove_lines(int from_y, int to_y);
+    void move_cur_brick_horizontally(int by);
 
     public:
         GameImpl(
