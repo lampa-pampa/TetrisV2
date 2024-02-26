@@ -1,8 +1,10 @@
 #include "bag.h"
 #include "rng_mock.h"
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <vector>
 
+using testing::Eq;
 using std::vector;
 
 TEST(Bag, get_next)
@@ -14,6 +16,6 @@ TEST(Bag, get_next)
     {
         auto it{items.begin()};
         while(it != items.end())
-            ASSERT_EQ(bag.get_next(), *it++);
+            ASSERT_THAT(bag.get_next(), Eq(*it++));
     }
 }

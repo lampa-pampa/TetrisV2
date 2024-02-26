@@ -1,12 +1,15 @@
 #include "brick.h"
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
+using testing::Eq;
 
 TEST(Brick, get_colored)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
     const Brick expected_brick{{ {1, 2, Color::red}, {3, 4, Color::red} }};
     
-    ASSERT_TRUE(Brick::get_colored(brick, Color::red) == expected_brick);
+    ASSERT_THAT(Brick::get_colored(brick, Color::red), Eq(expected_brick));
 }
 
 TEST(Brick, get_translated)
@@ -14,7 +17,7 @@ TEST(Brick, get_translated)
     const Brick brick{{ {1, 2}, {3, 4} }};
     const Brick expected_brick{{ {2, 4}, {4, 6} }};
     
-    ASSERT_TRUE(Brick::get_translated(brick, {1, 2}) == expected_brick);
+    ASSERT_THAT(Brick::get_translated(brick, {1, 2}), Eq(expected_brick));
 }
 
 TEST(Brick, get_rotated_without_moved_center)
@@ -22,8 +25,8 @@ TEST(Brick, get_rotated_without_moved_center)
     const Brick brick{{ {1, 2}, {3, 4} }};
     const Brick expected_brick{{ {-1, -2}, {-3, -4} }};
     
-    ASSERT_TRUE(Brick::get_rotated(brick, 4) == brick);
-    ASSERT_TRUE(Brick::get_rotated(brick, 2) == expected_brick);
+    ASSERT_THAT(Brick::get_rotated(brick, 4), Eq(brick));
+    ASSERT_THAT(Brick::get_rotated(brick, 2), Eq(expected_brick));
 }
 
 TEST(Brick, get_rotated_with_moved_center)
@@ -31,8 +34,8 @@ TEST(Brick, get_rotated_with_moved_center)
     const Brick brick{{ {1, 2}, {3, 4} }, true};
     const Brick expected_brick{{ {0, -1}, {-2, -3} }, true};
     
-    ASSERT_TRUE(Brick::get_rotated(brick, 4) == brick);
-    ASSERT_TRUE(Brick::get_rotated(brick, 2) == expected_brick);
+    ASSERT_THAT(Brick::get_rotated(brick, 4), Eq(brick));
+    ASSERT_THAT(Brick::get_rotated(brick, 2), Eq(expected_brick));
 }
 
 TEST(Brick, get_ghostified)
@@ -40,7 +43,7 @@ TEST(Brick, get_ghostified)
     const Brick brick{{ {1, 2}, {3, 4} }};
     const Brick expected_brick{{ {1, 2, Color::black, true}, {3, 4, Color::black, true} }};
     
-    ASSERT_TRUE(Brick::get_ghostified(brick) == expected_brick);
+    ASSERT_THAT(Brick::get_ghostified(brick), Eq(expected_brick));
 }
 
 TEST(Brick, get_transformed)
@@ -48,33 +51,33 @@ TEST(Brick, get_transformed)
     const Brick brick{{ {1, 2}, {3, 4} }};
     const Brick expected_brick{{ {0, 0}, {-2, -2} }};
     
-    ASSERT_TRUE(Brick::get_transformed(brick, 2, {1, 2}) == expected_brick);
+    ASSERT_THAT(Brick::get_transformed(brick, 2, {1, 2}), Eq(expected_brick));
 }
 
 TEST(Brick, get_min_x)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
     
-    EXPECT_EQ(brick.get_min_x(), 1);
+    ASSERT_THAT(brick.get_min_x(), Eq(1));
 }
 
 TEST(Brick, get_max_x)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
     
-    EXPECT_EQ(brick.get_max_x(), 3);
+    ASSERT_THAT(brick.get_max_x(), Eq(3));
 }
 
 TEST(Brick, get_min_y)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
     
-    EXPECT_EQ(brick.get_min_y(), 2);
+    ASSERT_THAT(brick.get_min_y(), Eq(2));
 }
 
 TEST(Brick, get_max_y)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
     
-    EXPECT_EQ(brick.get_max_y(), 5);
+    ASSERT_THAT(brick.get_max_y(), Eq(4));
 }

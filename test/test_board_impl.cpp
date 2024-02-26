@@ -3,13 +3,16 @@
 #include "color.h"
 #include "pixel.h"
 #include <algorithm>
+#include <gmock/gmock-matchers.h>
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <vector>
 #include <functional>
 
 using std::vector;
 using std::function;
 using std::find;
+using testing::Eq;
 
 namespace {
     Brick create_rectangle_brick(int width, int height, Color color)
@@ -27,7 +30,7 @@ namespace {
         for(const vector<Pixel> &row : pixels)
         {
             for(const Pixel &pixel : row)
-                ASSERT_TRUE(compare(pixel));
+                ASSERT_THAT(compare(pixel), Eq(true));
         }
     }
     bool is_in(Pixel pixel, vector<Pixel> pixels)
@@ -39,12 +42,7 @@ namespace {
 TEST(BoardImpl, BoardImpl)
 {
     BoardImpl board{2, 2};
-    const vector<Pixel> expected_board_pixels{
-        {0, 0},
-        {1, 0},
-        {0, 1},
-        {1, 1},
-    };
+    const vector<Pixel> expected_board_pixels{ {0, 0}, {1, 0}, {0, 1}, {1, 1} };
     const vector<vector<Pixel>> board_pixels = board.get_pixels();
     
     for_each_pixel_assert_true(board_pixels, [expected_board_pixels](Pixel pixel)-> bool{
@@ -57,7 +55,7 @@ TEST(BoardImpl, is_space_for_brick_empty_board)
     BoardImpl board{3, 3};
     const Brick brick{{ {0, 0} }};
     
-    ASSERT_TRUE(board.is_space_for_brick(brick));
+    ASSERT_THAT(board.is_space_for_brick(brick), Eq(true));
 }
 
 TEST(BoardImpl, is_space_for_brick_off_range)
@@ -65,7 +63,7 @@ TEST(BoardImpl, is_space_for_brick_off_range)
     BoardImpl board{3, 3};
     const Brick brick{{ {1, 3} }};
     
-    ASSERT_FALSE(board.is_space_for_brick(brick));
+    ASSERT_THAT(board.is_space_for_brick(brick), Eq(false));
 }
 
 TEST(BoardImpl, is_space_for_brick_filled_board)
@@ -74,7 +72,7 @@ TEST(BoardImpl, is_space_for_brick_filled_board)
     const Brick brick{{ {0, 0} }};
     board.add_brick(create_rectangle_brick(3, 3, Color::red));
     
-    ASSERT_FALSE(board.is_space_for_brick(brick));    
+    ASSERT_THAT(board.is_space_for_brick(brick), Eq(false));    
 }
 
 TEST(BoardImpl, add_brick)
@@ -111,7 +109,7 @@ TEST(BoardImpl, remove_lines_in_range_and_compress_without_lines_in_range)
     const vector<vector<Pixel>> board_pixels = board.get_pixels();
 
     
-    ASSERT_EQ(lines, 0);
+    ASSERT_THAT(lines, Eq(0));
     for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel)-> bool{
         return pixel.empty() != is_in(pixel, brick.pixels);
     });
@@ -126,7 +124,7 @@ TEST(BoardImpl, remove_lines_in_range_and_compress_with_lines_in_range)
     const int lines = board.remove_lines_in_range_and_compress(0, 2);
     const vector<vector<Pixel>> board_pixels = board.get_pixels();
     
-    ASSERT_EQ(lines, 2);
+    ASSERT_THAT(lines, Eq(2));
     for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel)-> bool{
         return pixel.empty() != is_in(pixel, brick.pixels);
     });

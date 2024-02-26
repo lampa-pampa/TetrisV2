@@ -4,8 +4,10 @@
 #include "color.h"
 #include "rng_mock.h"
 #include <gtest/gtest.h>
+#include <gmock/gmock.h>
 #include <vector>
 
+using testing::Eq;
 using std::vector;
 
 TEST(BrickGeneratorImpl, generate)
@@ -30,6 +32,6 @@ TEST(BrickGeneratorImpl, generate)
     for(int i{0}; i < 2; ++i)
     {
         for(const Brick &expected_brick : expected_bricks)
-            ASSERT_TRUE(brick_generator.generate() == expected_brick);
+            ASSERT_THAT(brick_generator.generate(), Eq(expected_brick));
     }
 }
