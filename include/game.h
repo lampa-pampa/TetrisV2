@@ -6,7 +6,6 @@
 class Game
 {
     public:
-        virtual void set_state(GameState state) = 0;
         virtual GameState get_state() const = 0;
         virtual void tick() = 0;
         virtual void move_left() = 0;
