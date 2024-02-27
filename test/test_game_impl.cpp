@@ -412,3 +412,58 @@ TEST(GameImpl, soft_drop)
     ASSERT_THAT(game.get_cur_brick_position().y, Eq(1));
     ASSERT_THAT(game.get_score(), Eq(1));
 }
+
+TEST(GameImpl, hold_locking)
+{
+    const Color bricks_color{Color::red};
+    const Brick brick{{ {-1, 0, bricks_color}, {0, 0, bricks_color} }};
+    const Brick expected_remaining_brick{{ {0, 0, bricks_color}, {0, 1, bricks_color} }};
+    GameUIMock ui{};
+    BoardImpl board{3, 10};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{brick, expected_remaining_brick}, rng},
+        Bag<Color>{{bricks_color}, rng}
+    };
+    ScoreCounterMock score_counter{};
+    GameImpl game{ui, board, brick_generator, score_counter};
+
+    for(int i{0}; i < 5; ++i)
+        game.tick();
+
+    for(int i{0}; i < 2; ++i)
+    {
+        game.hold();
+        ASSERT_THAT(game.get_hold_brick(), Eq(brick));
+        ASSERT_THAT(game.get_cur_brick(), Eq(expected_remaining_brick));
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(Vector2{1, 0}));
+    }
+}
+
+TEST(GameImpl, hold_unlocked)
+{
+    const Color bricks_color{Color::red};
+    const Brick brick1{{ {-1, 0, bricks_color}, {0, 0, bricks_color} }};
+    const Brick brick2{{ {0, 0, bricks_color}, {1, 0, bricks_color} }};
+    const Brick brick3{{ {0, 0, bricks_color}, {0, 1, bricks_color} }};
+    GameUIMock ui{};
+    BoardImpl board{3, 10};
+    RNGMock rng{};
+    BrickGeneratorImpl brick_generator{
+        Bag<Brick>{{brick1, brick2, brick3}, rng},
+        Bag<Color>{{bricks_color}, rng}
+    };
+    ScoreCounterMock score_counter{};
+    GameImpl game{ui, board, brick_generator, score_counter};
+
+    
+    game.hold();
+    ASSERT_THAT(game.get_hold_brick(), Eq(brick1));
+    ASSERT_THAT(game.get_cur_brick(), Eq(brick2));
+
+    game.hard_drop();
+    game.hold();
+
+    ASSERT_THAT(game.get_hold_brick(), Eq(brick3));
+    ASSERT_THAT(game.get_cur_brick(), Eq(brick1));
+}

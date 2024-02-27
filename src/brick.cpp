@@ -75,6 +75,11 @@ Brick::Brick()
     Brick({}, false)
 {}
 
+bool Brick::empty() const
+{
+    return this->pixels.empty();
+}
+
 int Brick::get_min_x() const
 {
     return min_element(this->pixels.begin(), this->pixels.end(), [](const Pixel &a, const Pixel &b)-> bool{

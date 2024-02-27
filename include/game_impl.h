@@ -25,6 +25,7 @@ class GameImpl: public Game
     Vector2 ghost_brick_position;
     Brick next_brick;
     Brick hold_brick;
+    bool can_hold;
 
     Vector2 get_brick_spawn_position(int brick_min_y, int board_width) const;
     void generate_new_brick();

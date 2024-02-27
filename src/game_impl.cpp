@@ -2,6 +2,9 @@
 #include "brick.h"
 #include "game_state.h"
 #include "vector_2.h"
+#include <algorithm>
+
+using std::swap;
 
 GameImpl::GameImpl(GameUI &ui, Board &board, BrickGenerator &brick_generator, ScoreCounter &score_counter)
 :
@@ -18,10 +21,12 @@ GameImpl::GameImpl(GameUI &ui, Board &board, BrickGenerator &brick_generator, Sc
     cur_brick_position({0, 0}),
     ghost_brick(Brick{}),
     ghost_brick_position({0, 0}),
-    hold_brick(Brick{})
+    hold_brick(Brick{}),
+    can_hold(true)
 {
     this->generate_new_brick();
     this->commit_move();
+    this->ui.refresh_hold(this->hold_brick);
     this->ui.refresh_score(this->score);
     this->ui.refresh_tetrises(this->tetrises);
 }
@@ -84,7 +89,16 @@ void GameImpl::hard_drop()
 
 void GameImpl::hold()
 {
-    
+    if(this->can_hold)
+    {
+        this->init_move();
+        swap(this->hold_brick, this->cur_brick);
+        this->ui.refresh_hold(this->hold_brick);
+        if(this->cur_brick.empty())
+            this->generate_new_brick();
+        this->commit_move();
+        this->can_hold = false;
+    }
 }
 
 /**************************************************************************************************************************************/
@@ -211,6 +225,7 @@ void GameImpl::place_and_generate_cur_brick()
     this->board.add_brick(placed_brick);
     this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
     this->generate_new_brick();
+    this->can_hold = true;
 }
 
 void GameImpl::remove_lines(int from_y, int to_y)
