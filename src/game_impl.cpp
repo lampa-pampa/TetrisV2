@@ -15,7 +15,7 @@ GameImpl::GameImpl(GameUI& ui, Board& board, BrickGenerator& brick_generator, Sc
     board(board),
     brick_generator(brick_generator),
     score_counter(score_counter),
-    state(GameState::paused),
+    state(GameState::in_progress),
     score(0),
     tetrises(0),
     next_brick(this->brick_generator.generate()),

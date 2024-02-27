@@ -15,6 +15,9 @@ class Game
         virtual void soft_drop() = 0;
         virtual void hard_drop() = 0;
         virtual void hold() = 0;
+        virtual void game_over() = 0;
+        virtual void pause() = 0;
+        virtual void resume() = 0;
         virtual ~Game() = default;
 };
 

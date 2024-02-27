@@ -13,6 +13,9 @@ class GameUI
         virtual void refresh_tetrises(int tetrises) = 0;
         virtual void refresh_next(const Brick& brick) = 0;
         virtual void refresh_hold(const Brick& brick) = 0;
+        virtual void game_over() = 0;
+        virtual void pause() = 0;
+        virtual void resume() = 0;
         virtual ~GameUI() = default;
 };
 

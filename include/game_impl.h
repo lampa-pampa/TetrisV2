@@ -65,6 +65,21 @@ class GameImpl final: public Game
         void hard_drop() override;
         void hold() override;
 
+        void game_over() override
+        {
+            this->ui.game_over();
+        }
+
+        void pause() override
+        {
+            this->ui.pause();
+        }
+
+        void resume() override
+        {
+            this->ui.resume();
+        }
+
         void soft_drop() override
         {
             this->move_down();
