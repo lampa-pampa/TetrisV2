@@ -7,7 +7,7 @@ class Game
 {
     public:
         virtual GameState get_state() const = 0;
-        virtual void tick() = 0;
+        virtual void handle_tick() = 0;
         virtual void handle_move_left() = 0;
         virtual void handle_move_right() = 0;
         virtual void handle_rotate() = 0;

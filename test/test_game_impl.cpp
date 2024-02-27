@@ -107,7 +107,7 @@ TEST(GameImpl, move_down_free_fall)
     GameImpl game{ui, board, brick_generator, score_counter};
     const Vector2 expected_cur_brick_position{4, 2};
     const Vector2 expected_ghost_brick_position{4, 18};
-    game.tick();
+    game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     vector<vector<Pixel>> board_pixels{game.get_board_pixels()};
@@ -139,7 +139,7 @@ TEST(GameImpl, move_down_place)
     const Vector2 expected_ghost_brick_position{4, 15};
     const Brick transformed_expected_placed_brick{Brick::get_translated(game.get_cur_brick(), {4, 18})};
     for(int i{0}; i < 18; ++i)
-        game.tick();
+        game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     vector<vector<Pixel>> board_pixels{game.get_board_pixels()};
@@ -173,7 +173,7 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
     ScoreCounterImpl score_counter{10, 5, 3};
     GameImpl game{ui, board, brick_generator, score_counter};
     for(int i{0}; i < 20; ++i)
-        game.tick();
+        game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     vector<vector<Pixel>> board_pixels{game.get_board_pixels()};
@@ -212,7 +212,7 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
     ScoreCounterImpl score_counter{10, 0, 0};
     GameImpl game{ui, board, brick_generator, score_counter};
     for(int i{0}; i < 13; ++i)
-        game.tick();
+        game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     vector<vector<Pixel>> board_pixels{game.get_board_pixels()};
@@ -243,7 +243,7 @@ TEST(GameImpl, move_down_end_game)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
     for(int i{0}; i < 15; ++i)
-        game.tick();
+        game.handle_tick();
 
     ASSERT_THAT(game.get_state(), Eq(GameState::ended));
 }
@@ -333,7 +333,7 @@ TEST(GameImpl, handle_rotate)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
         
-    game.tick();
+    game.handle_tick();
     game.handle_rotate();
     
     ASSERT_THAT(game.get_cur_brick_rotation(), Eq(1));
@@ -426,7 +426,7 @@ TEST(GameImpl, hold_locking)
     GameImpl game{ui, board, brick_generator, score_counter};
 
     for(int i{0}; i < 5; ++i)
-        game.tick();
+        game.handle_tick();
 
     for(int i{0}; i < 2; ++i)
     {

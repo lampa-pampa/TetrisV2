@@ -93,7 +93,7 @@ class GameImpl final: public Game
             return this->state;
         }
 
-        void tick() override
+        void handle_tick() override
         {
             this->move_down();
         }
