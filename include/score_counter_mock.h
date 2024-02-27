@@ -3,7 +3,7 @@
 
 #include "score_counter.h"
 
-class ScoreCounterMock: public ScoreCounter
+class ScoreCounterMock final: public ScoreCounter
 {
     public:
         int count_score_for_lines(int lines) const override;

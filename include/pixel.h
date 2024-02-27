@@ -5,7 +5,7 @@
 #include "vector_2.h"
 #include <ostream>
 
-struct Pixel
+struct Pixel final
 {
     Vector2 coords;
     Color color;

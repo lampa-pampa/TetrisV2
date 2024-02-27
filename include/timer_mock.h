@@ -5,7 +5,7 @@
 #include <functional>
 #include <boost/signals2.hpp>
 
-class TimerMock: public Timer
+class TimerMock final: public Timer
 {
     boost::signals2::signal<void()> timeout;
 

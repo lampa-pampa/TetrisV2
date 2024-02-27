@@ -5,7 +5,7 @@
 #include "vector_2.h"
 #include <vector>
 
-struct Brick
+struct Brick final
 {
     static Brick get_colored(const Brick &brick, Color color);
     static Brick get_translated(const Brick &brick, Vector2 position);

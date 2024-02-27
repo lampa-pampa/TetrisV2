@@ -6,7 +6,7 @@
 #include "brick_generator.h"
 #include "color.h"
 
-class BrickGeneratorImpl: public BrickGenerator
+class BrickGeneratorImpl final: public BrickGenerator
 {
     Bag<Brick> bricks_bag;
     Bag<Color> colors_bag;

@@ -7,7 +7,7 @@
 #include <map>
 #include <ncurses.h>
 
-class GameUIConsoleImpl: public GameUI
+class GameUIConsoleImpl final: public GameUI
 {
     WINDOW *board;
     const std::map<int, boost::signals2::signal<void()> &> input_to_signal{

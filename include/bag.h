@@ -5,7 +5,7 @@
 #include <vector>
 
 template<typename T>
-class Bag
+class Bag final
 {
     std::vector<T> items;
     int current_index;

@@ -7,7 +7,7 @@
 #include "vector_2.h"
 #include <vector>
 
-class BoardImpl: public Board
+class BoardImpl final: public Board
 {
     int width;
     int height;

@@ -3,7 +3,7 @@
 
 #include "game_ui.h"
 
-class GameUIMock: public GameUI
+class GameUIMock final: public GameUI
 {
     public:
         void refresh_board(const vector<vector<Pixel>> &pixels) override;

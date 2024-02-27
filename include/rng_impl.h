@@ -3,7 +3,7 @@
 
 #include "rng.h"
 
-class RNGImpl: public RNG
+class RNGImpl final: public RNG
 {
     public:
         int random(int range) override;

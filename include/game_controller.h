@@ -4,7 +4,7 @@
 #include "game.h"
 #include "timer.h"
 
-class GameController
+class GameController final
 {
     Timer &timer;
     Game &game;

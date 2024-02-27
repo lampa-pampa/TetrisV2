@@ -3,7 +3,7 @@
 
 #include "score_counter.h"
 
-class ScoreCounterImpl: public ScoreCounter
+class ScoreCounterImpl final: public ScoreCounter
 {
     int score_for_line;
     int score_for_soft_drop;

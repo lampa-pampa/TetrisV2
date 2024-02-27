@@ -9,7 +9,7 @@
 #include "score_counter.h"
 #include "vector_2.h"
 
-class GameImpl: public Game
+class GameImpl final: public Game
 {
     GameUI &ui;
     Board &board;

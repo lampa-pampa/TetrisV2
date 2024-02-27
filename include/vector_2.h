@@ -3,7 +3,7 @@
 
 #include <ostream>
 
-struct Vector2
+struct Vector2 final
 {
     int x;
     int y;

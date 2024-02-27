@@ -3,7 +3,7 @@
 
 #include "rng.h"
 
-class RNGMock: public RNG
+class RNGMock final: public RNG
 {   
     public:
         int random(int range) override;
