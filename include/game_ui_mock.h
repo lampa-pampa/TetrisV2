@@ -14,6 +14,9 @@ class GameUIMock final: public GameUI
         void refresh_tetrises(int tetrises) override{}
         void refresh_next(const Brick& brick) override{}
         void refresh_hold(const Brick& brick) override{}
+        void game_over() override{}
+        void pause() override{}
+        void resume() override{}
 };
 
 #endif
