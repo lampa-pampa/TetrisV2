@@ -2,6 +2,7 @@
 #define COLOR_H
 
 #include <map>
+#include <ostream>
 #include <string>
 
 enum class Color
@@ -27,5 +28,10 @@ const std::map<Color, std::string> color_to_name
     {Color::orange, "orange"},
     {Color::pink, "pink"},
 };
+
+inline std::ostream& operator<<(std::ostream& os, Color color)
+{
+    return os << "Color::" << color_to_name.at(color);
+}
 
 #endif
