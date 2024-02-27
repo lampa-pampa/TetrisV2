@@ -10,8 +10,13 @@ class GameController final
     Game &game;
 
     public:
-        GameController(Timer &timer, Game &game);
         void pause_pressed();
+
+        GameController(Timer &timer, Game &game)
+        :
+            timer(timer),
+            game(game)
+        {}
 };
 
 #endif

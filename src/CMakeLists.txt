@@ -8,24 +8,16 @@ target_include_directories(TETRIS_V2
 )
 target_sources(TETRIS_V2
     PRIVATE
-        timer_mock.cpp
-        vector_2.cpp
-        pixel.cpp
         brick.cpp
-        rng_impl.cpp
-        rng_mock.cpp
-        score_counter_impl.cpp
-        brick_generator_impl.cpp
         board_impl.cpp
         game_controller.cpp
         game_impl.cpp
-        game_ui_mock.cpp
         game_ui_console_impl.cpp
-        score_counter_mock.cpp
 )
 add_executable(tetris_v2
     main.cpp
 )
 target_link_libraries(tetris_v2
     TETRIS_V2
+    -lncurses
 )

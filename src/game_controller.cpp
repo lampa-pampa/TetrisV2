@@ -1,13 +1,5 @@
 #include "game_controller.h"
-#include "timer.h"
-#include "game.h"
 #include "game_state.h"
-
-GameController::GameController(Timer &timer, Game &game)
-:
-    timer(timer),
-    game(game)
-{}
 
 void GameController::pause_pressed()
 {

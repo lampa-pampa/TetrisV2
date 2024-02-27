@@ -19,22 +19,6 @@ BoardImpl::BoardImpl(int width, int height)
     }
 }
 
-const vector<vector<Pixel>>& BoardImpl::get_pixels() const
-{
-    return this->pixels;
-}
-
-int BoardImpl::get_width() const
-{
-    return this->width;
-}
-
-bool BoardImpl::position_is_in_range(Vector2 position) const
-{
-    return position.x >= 0 and position.x < this->width
-        and position.y >= 0 and position.y < this->height;
-}
-
 bool BoardImpl::is_space_for_brick(const Brick &brick) const 
 {
     for(const Pixel &pixel : brick.pixels)

@@ -1,7 +1,6 @@
 #include "game_impl.h"
 #include "brick.h"
 #include "game_state.h"
-#include "vector_2.h"
 #include <algorithm>
 
 using std::swap;
@@ -15,13 +14,8 @@ GameImpl::GameImpl(GameUI &ui, Board &board, BrickGenerator &brick_generator, Sc
     state(GameState::paused),
     score(0),
     tetrises(0),
-    cur_brick(Brick{}),
     next_brick(this->brick_generator.generate()),
     cur_brick_rotation(0),
-    cur_brick_position({0, 0}),
-    ghost_brick(Brick{}),
-    ghost_brick_position({0, 0}),
-    hold_brick(Brick{}),
     can_hold(true)
 {
     this->generate_new_brick();
@@ -29,31 +23,6 @@ GameImpl::GameImpl(GameUI &ui, Board &board, BrickGenerator &brick_generator, Sc
     this->ui.refresh_hold(this->hold_brick);
     this->ui.refresh_score(this->score);
     this->ui.refresh_tetrises(this->tetrises);
-}
-
-void GameImpl::set_state(GameState state)
-{
-    this->state = state;
-}
-
-GameState GameImpl::get_state() const
-{
-    return this->state;
-}
-
-void GameImpl::tick()
-{
-    this->move_down();
-}
-
-void GameImpl::move_left()
-{
-    this->move_cur_brick_horizontally(-1);
-}
-
-void GameImpl::move_right()
-{
-    this->move_cur_brick_horizontally(1);
 }
 
 void GameImpl::rotate()
@@ -64,12 +33,6 @@ void GameImpl::rotate()
     if(not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
         this->cur_brick_rotation = old_rotation;
     this->commit_move();
-}
-
-void GameImpl::soft_drop()
-{
-    this->move_down();
-    this->add_score(this->score_counter.count_score_for_soft_drop());
 }
 
 void GameImpl::hard_drop()
@@ -101,75 +64,6 @@ void GameImpl::hold()
     }
 }
 
-/**************************************************************************************************************************************/
-
-vector<vector<Pixel>> GameImpl::get_board_pixels() const
-{
-    return this->board.get_pixels();
-}
-
-unsigned long long GameImpl::get_score() const
-{
-    return this->score;
-}
-
-unsigned long long GameImpl::get_tetrises() const
-{
-    return this->tetrises;
-}
-
-Brick GameImpl::get_cur_brick() const
-{
-    return this->cur_brick;
-}
-
-Vector2 GameImpl::get_cur_brick_position() const
-{
-    return this->cur_brick_position;
-}
-
-unsigned short GameImpl::get_cur_brick_rotation() const
-{
-    return this->cur_brick_rotation;
-}
-
-Brick GameImpl::get_ghost_brick() const
-{
-    return this->ghost_brick;
-}
-
-Vector2 GameImpl::get_ghost_brick_position() const
-{
-    return this->ghost_brick_position;
-}
-
-Brick GameImpl::get_next_brick() const
-{
-    return this->next_brick;
-}
-
-Brick GameImpl::get_hold_brick() const
-{
-    return this->hold_brick;
-}
-
-Brick GameImpl::get_transformed_cur_brick() const
-{
-    return Brick::get_transformed(this->cur_brick, this->cur_brick_rotation, this->cur_brick_position);
-}
-
-Brick GameImpl::get_transformed_ghost_brick() const
-{
-    return Brick::get_transformed(this->ghost_brick, this->cur_brick_rotation, this->ghost_brick_position);
-}
-
-/**************************************************************************************************************************************/
-
-Vector2 GameImpl::get_brick_spawn_position(int brick_min_y, int board_width) const
-{
-    return {(board_width - 1) / 2, -brick_min_y};
-}
-
 void GameImpl::refresh_ghost()
 {
     this->ghost_brick = Brick::get_ghostified(this->cur_brick);
@@ -180,12 +74,6 @@ void GameImpl::refresh_ghost()
             ++this->ghost_brick_position.y;
         --this->ghost_brick_position.y;
     }
-}
-
-void GameImpl::init_move()
-{
-    this->board.remove_brick(this->get_transformed_ghost_brick());
-    this->board.remove_brick(this->get_transformed_cur_brick());
 }
 
 void GameImpl::commit_move()
@@ -250,10 +138,4 @@ void GameImpl::move_cur_brick_horizontally(int by)
     if(not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
         this->cur_brick_position.x = old_position;
     this->commit_move();   
-}
-
-void GameImpl::add_score(unsigned long long amount)
-{
-    this->score += amount;
-    this->ui.refresh_score(this->score);
 }

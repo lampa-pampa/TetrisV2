@@ -34,15 +34,42 @@ class GameUIConsoleImpl final: public GameUI
         void refresh_tetrises(int tetrises) override;
         void refresh_next(const Brick &brick) override;
         void refresh_hold(const Brick &brick) override;
-
         void input_received(int input);
-        void connect_move_left_pressed(std::function<void()> handler);
-        void connect_move_right_pressed(std::function<void()> handler);
-        void connect_rotate_pressed(std::function<void()> handler);
-        void connect_soft_drop_pressed(std::function<void()> handler);
-        void connect_hard_drop_pressed(std::function<void()> handler);
-        void connect_hold_pressed(std::function<void()> handler);
-        void connect_pause_pressed(std::function<void()> handler);
+
+        void connect_move_left_pressed(std::function<void()> handler)
+        {
+            this->move_left_pressed.connect(handler);
+        }
+
+        void connect_move_right_pressed(std::function<void()> handler)
+        {
+            this->move_right_pressed.connect(handler);
+        }
+
+        void connect_rotate_pressed(std::function<void()> handler)
+        {
+            this->rotate_pressed.connect(handler);
+        }
+
+        void connect_soft_drop_pressed(std::function<void()> handler)
+        {
+            this->soft_drop_pressed.connect(handler);
+        }
+
+        void connect_hard_drop_pressed(std::function<void()> handler)
+        {
+            this->hard_drop_pressed.connect(handler);
+        }
+
+        void connect_hold_pressed(std::function<void()> handler)
+        {
+            this->hold_pressed.connect(handler);
+        }
+
+        void connect_pause_pressed(std::function<void()> handler)
+        {
+            this->pause_pressed.connect(handler);
+        }
 };
 
 #endif
