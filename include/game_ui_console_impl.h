@@ -1,11 +1,14 @@
 #ifndef GAME_UI_CONSOLE_IMPL_H
 #define GAME_UI_CONSOLE_IMPL_H
 
+#include "brick.h"
 #include "game_ui.h"
+#include "pixel.h"
 #include <boost/signals2.hpp>
 #include <functional>
 #include <map>
 #include <ncurses.h>
+#include <vector>
 
 class GameUIConsoleImpl final: public GameUI
 {
@@ -29,7 +32,7 @@ class GameUIConsoleImpl final: public GameUI
 
     public:
         GameUIConsoleImpl(int width, int height);
-        void refresh_board(const vector<vector<Pixel>> &pixels) override;
+        void refresh_board(const std::vector<std::vector<Pixel>> &pixels) override;
         void refresh_score(int score) override;
         void refresh_tetrises(int tetrises) override;
         void refresh_next(const Brick &brick) override;

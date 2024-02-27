@@ -8,12 +8,12 @@ void GameController::pause_pressed()
         case GameState::in_progress:
             this->timer.stop();
             this->game.set_state(GameState::paused);
-        break;
+            break;
         case GameState::paused:
             this->timer.start();
             this->game.set_state(GameState::in_progress);
-        break;
+            break;
         default:
-        break;
+            break;
     }
 }

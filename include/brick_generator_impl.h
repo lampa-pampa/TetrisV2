@@ -2,8 +2,8 @@
 #define BRICK_GENERATOR_IMPL_H
 
 #include "bag.h"
-#include "brick.h"
 #include "brick_generator.h"
+#include "brick.h"
 #include "color.h"
 
 class BrickGeneratorImpl final: public BrickGenerator

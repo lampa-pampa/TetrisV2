@@ -48,7 +48,7 @@ Brick Brick::get_ghostified(const Brick &brick)
     return ghostified_brick;
 }
 
-std::ostream& operator<<(std::ostream& os, const Brick& brick)
+ostream& operator<<(ostream& os, const Brick& brick)
 {
     os << "{{ ";
     for(auto it = brick.pixels.begin(); it != brick.pixels.end(); ++it)

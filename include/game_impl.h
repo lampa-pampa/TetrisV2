@@ -3,11 +3,13 @@
 
 #include "board.h"
 #include "brick_generator.h"
-#include "game.h"
+#include "brick.h"
 #include "game_state.h"
 #include "game_ui.h"
+#include "game.h"
 #include "score_counter.h"
 #include "vector_2.h"
+#include <vector>
 
 class GameImpl final: public Game
 {
@@ -94,7 +96,7 @@ class GameImpl final: public Game
             this->move_cur_brick_horizontally(1);
         }
         
-        vector<vector<Pixel>> get_board_pixels() const
+        std::vector<std::vector<Pixel>> get_board_pixels() const
         {
             return this->board.get_pixels();
         }

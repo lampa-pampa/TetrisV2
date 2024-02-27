@@ -2,8 +2,8 @@
 #define TIMER_MOCK_H
 
 #include "timer.h"
-#include <functional>
 #include <boost/signals2.hpp>
+#include <functional>
 
 class TimerMock final: public Timer
 {

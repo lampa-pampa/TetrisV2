@@ -16,7 +16,8 @@ enum class Color
     pink,
 };
 
-const std::map<Color, std::string> ColorToName{
+const std::map<Color, std::string> ColorToName
+{
     {Color::black, "black"},
     {Color::red, "red"},
     {Color::green, "green"},

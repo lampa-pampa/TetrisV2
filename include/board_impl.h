@@ -11,7 +11,6 @@ class BoardImpl final: public Board
 {
     int width;
     int height;
-
     std::vector<std::vector<Pixel>> pixels;
     
     std::vector<Brick> find_lines_in_range(int from_y, int to_y) const;

@@ -1,4 +1,5 @@
 #include "board_impl.h"
+#include "brick.h"
 #include "pixel.h"
 #include "vector_2.h"
 #include <vector>
@@ -42,9 +43,9 @@ void BoardImpl::remove_brick(const Brick &brick)
         this->pixels[pixel.coords.y][pixel.coords.x].clear();
 }
 
-std::vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
+vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
 {
-    std::vector<Brick> lines;
+    vector<Brick> lines;
     for(int y{from_y}; y <= to_y; ++y)
     {
         Brick line{{}};

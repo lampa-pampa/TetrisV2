@@ -1,10 +1,11 @@
 #ifndef BRICK_H
 #define BRICK_H
 
+#include "color.h"
 #include "pixel.h"
 #include "vector_2.h"
-#include <vector>
 #include <algorithm>
+#include <vector>
 
 struct Brick final
 {
