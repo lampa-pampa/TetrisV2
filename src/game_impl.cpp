@@ -60,7 +60,7 @@ void GameImpl::rotate()
 {
     this->init_move();
     int old_rotation = this->cur_brick_rotation;
-    this->cur_brick_rotation = (this->cur_brick_rotation + 1) % 4;
+    this->cur_brick_rotation = (this->cur_brick_rotation + 1) % (Brick::rotation_quantity);
     if(not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
         this->cur_brick_rotation = old_rotation;
     this->commit_move();
@@ -108,12 +108,12 @@ vector<vector<Pixel>> GameImpl::get_board_pixels() const
     return this->board.get_pixels();
 }
 
-int GameImpl::get_score() const
+unsigned long long GameImpl::get_score() const
 {
     return this->score;
 }
 
-int GameImpl::get_tetrises() const
+unsigned long long GameImpl::get_tetrises() const
 {
     return this->tetrises;
 }
@@ -128,7 +128,7 @@ Vector2 GameImpl::get_cur_brick_position() const
     return this->cur_brick_position;
 }
 
-int GameImpl::get_cur_brick_rotation() const
+unsigned short GameImpl::get_cur_brick_rotation() const
 {
     return this->cur_brick_rotation;
 }
@@ -252,7 +252,7 @@ void GameImpl::move_cur_brick_horizontally(int by)
     this->commit_move();   
 }
 
-void GameImpl::add_score(int amount)
+void GameImpl::add_score(unsigned long long amount)
 {
     this->score += amount;
     this->ui.refresh_score(this->score);

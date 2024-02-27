@@ -16,11 +16,11 @@ class GameImpl final: public Game
     BrickGenerator &brick_generator;
     ScoreCounter &score_counter;
     GameState state;
-    int score;
-    int tetrises;
+    unsigned long long score;
+    unsigned long long tetrises;
     Brick cur_brick;
     Vector2 cur_brick_position;
-    int cur_brick_rotation;
+    unsigned short cur_brick_rotation;
     Brick ghost_brick;
     Vector2 ghost_brick_position;
     Brick next_brick;
@@ -36,7 +36,7 @@ class GameImpl final: public Game
     void place_and_generate_cur_brick();
     void remove_lines(int from_y, int to_y);
     void move_cur_brick_horizontally(int by);
-    void add_score(int amount);
+    void add_score(unsigned long long amount);
 
     public:
         GameImpl(
@@ -55,11 +55,11 @@ class GameImpl final: public Game
         void hold() override;
         
         vector<vector<Pixel>> get_board_pixels() const;
-        int get_score() const;
-        int get_tetrises() const;
+        unsigned long long get_score() const;
+        unsigned long long get_tetrises() const;
         Brick get_cur_brick() const;
         Vector2 get_cur_brick_position() const;
-        int get_cur_brick_rotation() const;
+        unsigned short get_cur_brick_rotation() const;
         Brick get_ghost_brick() const;
         Vector2 get_ghost_brick_position() const;
         Brick get_next_brick() const;
