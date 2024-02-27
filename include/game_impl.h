@@ -73,22 +73,19 @@ class GameImpl final: public Game
         void pause() override
         {
             this->ui.pause();
+            this->state = GameState::paused;
         }
 
         void resume() override
         {
             this->ui.resume();
+            this->state = GameState::in_progress;
         }
 
         void soft_drop() override
         {
             this->move_down();
             this->add_score(this->score_counter.count_score_for_soft_drop());
-        }
-
-        void set_state(GameState state) override
-        {
-            this->state = state;
         }
 
         GameState get_state() const override
