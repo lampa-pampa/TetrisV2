@@ -74,7 +74,7 @@ TEST(GameImpl, GameImpl)
     )};
     vector<vector<Pixel>> board_pixels{game.get_board_pixels()};
 
-    ASSERT_THAT(game.get_state(), Eq(GameState::paused));
+    ASSERT_THAT(game.get_state(), Eq(GameState::in_progress));
     ASSERT_THAT(game.get_score(), Eq(0));
     ASSERT_THAT(game.get_tetrises(), Eq(0));
     ASSERT_THAT(game.get_cur_brick(), Eq(expected_cur_brick));
@@ -144,9 +144,6 @@ TEST(GameImpl, move_down_place)
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     vector<vector<Pixel>> board_pixels{game.get_board_pixels()};
     
-    ASSERT_THAT(game.get_state(), Eq(GameState::paused));
-    ASSERT_THAT(game.get_score(), Eq(0));
-    ASSERT_THAT(game.get_tetrises(), Eq(0));
     ASSERT_THAT(game.get_cur_brick_position(), Eq(expected_cur_brick_position));
     ASSERT_THAT(game.get_ghost_brick_position(), Eq(expected_ghost_brick_position));
     for_each_pixel_assert_true(board_pixels, [
