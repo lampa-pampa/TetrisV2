@@ -24,11 +24,11 @@ using std::find;
 using std::vector;
 
 namespace {
-    void for_each_pixel_assert_true(const vector<vector<Pixel>> &pixels, function<bool(Pixel pixel)> compare)
+    void for_each_pixel_assert_true(const vector<vector<Pixel>>& pixels, function<bool(Pixel pixel)> compare)
     {
-        for(const vector<Pixel> &row : pixels)
+        for(const vector<Pixel>& row : pixels)
         {
-            for(const Pixel &pixel : row)
+            for(const Pixel& pixel : row)
                 ASSERT_THAT(compare(pixel), Eq(true));
         }
     }

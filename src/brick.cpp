@@ -8,26 +8,26 @@ using std::swap;
 using std::ostream;
 using std::boolalpha;
 
-Brick Brick::get_colored(const Brick &brick, Color color)
+Brick Brick::get_colored(const Brick& brick, Color color)
 {
     Brick colored_brick{brick};
-    for(Pixel &pixel : colored_brick.pixels)
+    for(Pixel& pixel : colored_brick.pixels)
         pixel.color = color;
     return colored_brick;
 }
 
-Brick Brick::get_translated(const Brick &brick, Vector2 position)
+Brick Brick::get_translated(const Brick& brick, Vector2 position)
 {
     Brick translated_brick{brick};
-    for(Pixel &pixel : translated_brick.pixels)
+    for(Pixel& pixel : translated_brick.pixels)
         pixel.coords += position;
     return translated_brick;
 }
 
-Brick Brick::get_rotated(const Brick &brick, int quarters_rotation)
+Brick Brick::get_rotated(const Brick& brick, int quarters_rotation)
 {
     Brick rotated_brick{brick};
-    for(Pixel &pixel : rotated_brick.pixels)
+    for(Pixel& pixel : rotated_brick.pixels)
     {
         for(int i{0}; i < quarters_rotation % 4; ++i)
         {
@@ -40,10 +40,10 @@ Brick Brick::get_rotated(const Brick &brick, int quarters_rotation)
     return rotated_brick;
 }
 
-Brick Brick::get_ghostified(const Brick &brick)
+Brick Brick::get_ghostified(const Brick& brick)
 {
     Brick ghostified_brick{brick};
-    for(Pixel &pixel : ghostified_brick.pixels)
+    for(Pixel& pixel : ghostified_brick.pixels)
         pixel.is_ghost = true;
     return ghostified_brick;
 }

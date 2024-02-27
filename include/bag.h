@@ -9,17 +9,17 @@ class Bag final
 {
     std::vector<T> items;
     int current_index;
-    RNG &rng;
+    RNG& rng;
 
-    void shuffle_items(std::vector<T> &items, RNG &rng);
+    void shuffle_items(std::vector<T>& items, RNG& rng);
 
     public:
-        Bag(const std::vector<T> &items, RNG &rng);
+        Bag(const std::vector<T>& items, RNG& rng);
         T get_next();
 };
 
 template<typename T>
-Bag<T>::Bag(const std::vector<T> &items, RNG &rng)
+Bag<T>::Bag(const std::vector<T>& items, RNG& rng)
 :
     items(items),
     current_index(0),
@@ -27,7 +27,7 @@ Bag<T>::Bag(const std::vector<T> &items, RNG &rng)
 {}
 
 template<typename T>
-void Bag<T>::shuffle_items(std::vector<T> &items, RNG &rng)
+void Bag<T>::shuffle_items(std::vector<T>& items, RNG& rng)
 {
     for(int i = items.size() - 1; i >= 0; --i)
         std::swap(items[i], items[rng.random(i + 1)]);

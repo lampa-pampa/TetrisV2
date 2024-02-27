@@ -13,10 +13,10 @@
 
 class GameImpl final: public Game
 {
-    GameUI &ui;
-    Board &board;
-    BrickGenerator &brick_generator;
-    ScoreCounter &score_counter;
+    GameUI& ui;
+    Board& board;
+    BrickGenerator& brick_generator;
+    ScoreCounter& score_counter;
     GameState state;
     unsigned long long score;
     unsigned long long tetrises;
@@ -56,10 +56,10 @@ class GameImpl final: public Game
 
     public:
         GameImpl(
-            GameUI &ui,
-            Board &board,
-            BrickGenerator &brick_generator,
-            ScoreCounter &score_counter
+            GameUI& ui,
+            Board& board,
+            BrickGenerator& brick_generator,
+            ScoreCounter& score_counter
         );
         void rotate() override;
         void hard_drop() override;

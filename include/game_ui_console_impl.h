@@ -13,7 +13,7 @@
 class GameUIConsoleImpl final: public GameUI
 {
     WINDOW *board;
-    const std::map<int, boost::signals2::signal<void()> &> input_to_signal{
+    const std::map<int, boost::signals2::signal<void()>&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
         {KEY_UP, this->rotate_pressed},
@@ -32,11 +32,11 @@ class GameUIConsoleImpl final: public GameUI
 
     public:
         GameUIConsoleImpl(int width, int height);
-        void refresh_board(const std::vector<std::vector<Pixel>> &pixels) override;
+        void refresh_board(const std::vector<std::vector<Pixel>>& pixels) override;
         void refresh_score(int score) override;
         void refresh_tetrises(int tetrises) override;
-        void refresh_next(const Brick &brick) override;
-        void refresh_hold(const Brick &brick) override;
+        void refresh_next(const Brick& brick) override;
+        void refresh_hold(const Brick& brick) override;
         void input_received(int input);
 
         void connect_move_left_pressed(std::function<void()> handler)

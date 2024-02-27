@@ -15,7 +15,7 @@ struct Vector2 final
         return *this;
     }
 
-    bool operator==(const Vector2 &other) const
+    bool operator==(const Vector2& other) const
     {
         return this->x == other.x
             and this->y == other.y;

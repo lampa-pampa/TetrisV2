@@ -28,7 +28,7 @@ struct Pixel final
         Pixel(x, y, Color::black, false)
     {}
 
-    bool operator==(const Pixel &other) const
+    bool operator==(const Pixel& other) const
     {
         return this->coords == other.coords
             and this->is_ghost == other.is_ghost

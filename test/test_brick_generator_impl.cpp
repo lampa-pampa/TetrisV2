@@ -31,7 +31,7 @@ TEST(BrickGeneratorImpl, generate)
     };
     for(int i{0}; i < 2; ++i)
     {
-        for(const Brick &expected_brick : expected_bricks)
+        for(const Brick& expected_brick : expected_bricks)
             ASSERT_THAT(brick_generator.generate(), Eq(expected_brick));
     }
 }

@@ -20,9 +20,9 @@ BoardImpl::BoardImpl(int width, int height)
     }
 }
 
-bool BoardImpl::is_space_for_brick(const Brick &brick) const 
+bool BoardImpl::is_space_for_brick(const Brick& brick) const 
 {
-    for(const Pixel &pixel : brick.pixels)
+    for(const Pixel& pixel : brick.pixels)
     {
         if(not this->position_is_in_range(pixel.coords)
             or not this->pixels[pixel.coords.y][pixel.coords.x].empty())
@@ -31,15 +31,15 @@ bool BoardImpl::is_space_for_brick(const Brick &brick) const
     return true;
 }
 
-void BoardImpl::add_brick(const Brick &brick)
+void BoardImpl::add_brick(const Brick& brick)
 {
-    for(const Pixel &pixel : brick.pixels)
+    for(const Pixel& pixel : brick.pixels)
         this->pixels[pixel.coords.y][pixel.coords.x] = pixel;
 }
 
-void BoardImpl::remove_brick(const Brick &brick)
+void BoardImpl::remove_brick(const Brick& brick)
 {
-    for(const Pixel &pixel : brick.pixels)
+    for(const Pixel& pixel : brick.pixels)
         this->pixels[pixel.coords.y][pixel.coords.x].clear();
 }
 
@@ -52,7 +52,7 @@ vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
         bool is_full_line{true};
         for(int x{0}; x < this->width; ++x)
         {
-            const Pixel &pixel = this->pixels[y][x];
+            const Pixel& pixel = this->pixels[y][x];
             if(pixel.empty())
             {
                 is_full_line = false;
@@ -83,7 +83,7 @@ void BoardImpl::compress(int start_y)
 int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)
 {
     vector<Brick> lines{this->find_lines_in_range(from_y, to_y)};
-    for(Brick &line : lines)
+    for(Brick& line : lines)
     {
         this->remove_brick(line);
         this->compress(line.pixels[0].coords.y);
