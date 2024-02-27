@@ -29,7 +29,7 @@ GameImpl::GameImpl(GameUI& ui, Board& board, BrickGenerator& brick_generator, Sc
     this->ui.refresh_tetrises(this->tetrises);
 }
 
-void GameImpl::rotate()
+void GameImpl::handle_rotate()
 {
     this->init_move();
     int old_rotation = this->cur_brick_rotation;
@@ -39,7 +39,7 @@ void GameImpl::rotate()
     this->commit_move();
 }
 
-void GameImpl::hard_drop()
+void GameImpl::handle_hard_drop()
 {
     this->init_move();
     int distance{};
@@ -54,7 +54,7 @@ void GameImpl::hard_drop()
     this->commit_move();
 }
 
-void GameImpl::hold()
+void GameImpl::handle_hold()
 {
     if(this->can_hold)
     {

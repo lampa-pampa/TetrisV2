@@ -61,9 +61,9 @@ class GameImpl final: public Game
             BrickGenerator& brick_generator,
             ScoreCounter& score_counter
         );
-        void rotate() override;
-        void hard_drop() override;
-        void hold() override;
+        void handle_rotate() override;
+        void handle_hard_drop() override;
+        void handle_hold() override;
 
         void game_over() override
         {
@@ -82,7 +82,7 @@ class GameImpl final: public Game
             this->state = GameState::in_progress;
         }
 
-        void soft_drop() override
+        void handle_soft_drop() override
         {
             this->move_down();
             this->add_score(this->score_counter.count_score_for_soft_drop());
@@ -98,12 +98,12 @@ class GameImpl final: public Game
             this->move_down();
         }
 
-        void move_left() override
+        void handle_move_left() override
         {
             this->move_cur_brick_horizontally(-1);
         }
 
-        void move_right() override
+        void handle_move_right() override
         {
             this->move_cur_brick_horizontally(1);
         }

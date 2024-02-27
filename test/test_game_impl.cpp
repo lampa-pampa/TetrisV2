@@ -248,7 +248,7 @@ TEST(GameImpl, move_down_end_game)
     ASSERT_THAT(game.get_state(), Eq(GameState::ended));
 }
 
-TEST(GameImpl, move_left)
+TEST(GameImpl, handle_move_left)
 {
     const Brick brick{{ {-1, 0}, {0, 0}, {1, 0} }};
     GameUIMock ui{};
@@ -261,7 +261,7 @@ TEST(GameImpl, move_left)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
         
-    game.move_left();
+    game.handle_move_left();
    
     ASSERT_THAT(game.get_cur_brick_position(), Eq(Vector2{1, 0}));
 }
@@ -279,12 +279,12 @@ TEST(GameImpl, move_left_blocked)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
         
-    game.move_left();
+    game.handle_move_left();
     
     ASSERT_THAT(game.get_cur_brick_position(), Eq(Vector2{1, 0}));
 }
 
-TEST(GameImpl, move_right)
+TEST(GameImpl, handle_move_right)
 {
     const Brick brick{{ {-1, 0}, {0, 0}, {1, 0} }};
     GameUIMock ui{};
@@ -297,7 +297,7 @@ TEST(GameImpl, move_right)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
         
-    game.move_right();
+    game.handle_move_right();
     
     ASSERT_THAT(game.get_cur_brick_position(), Eq(Vector2{3, 0}));
 }
@@ -315,12 +315,12 @@ TEST(GameImpl, move_right_blocked)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
         
-    game.move_right();
+    game.handle_move_right();
     
     ASSERT_THAT(game.get_cur_brick_position(), Eq(Vector2{1, 0}));
 }
 
-TEST(GameImpl, rotate)
+TEST(GameImpl, handle_rotate)
 {
     const Brick brick{{ {-1, 0}, {0, 0}, {1, 0} }};
     GameUIMock ui{};
@@ -334,7 +334,7 @@ TEST(GameImpl, rotate)
     GameImpl game{ui, board, brick_generator, score_counter};
         
     game.tick();
-    game.rotate();
+    game.handle_rotate();
     
     ASSERT_THAT(game.get_cur_brick_rotation(), Eq(1));
 }
@@ -353,12 +353,12 @@ TEST(GameImpl, rotate_blocked)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
         
-    game.rotate();
+    game.handle_rotate();
     
     ASSERT_THAT(game.get_cur_brick_rotation(), Eq(0));
 }
 
-TEST(GameImpl, hard_drop)
+TEST(GameImpl, handle_hard_drop)
 {
     const Color bricks_color{Color::blue};
     const Brick brick{{ {-1, 0}, {0, 0} }};
@@ -373,7 +373,7 @@ TEST(GameImpl, hard_drop)
     ScoreCounterImpl score_counter{0, 0, 2};
     GameImpl game{ui, board, brick_generator, score_counter};
 
-    game.hard_drop();
+    game.handle_hard_drop();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     vector<vector<Pixel>> board_pixels{game.get_board_pixels()};
@@ -390,7 +390,7 @@ TEST(GameImpl, hard_drop)
     });
 }
 
-TEST(GameImpl, soft_drop)
+TEST(GameImpl, handle_soft_drop)
 {
     const Color bricks_color{Color::blue};
     const Brick brick{{ {-1, 0}, {0, 0} }};
@@ -405,7 +405,7 @@ TEST(GameImpl, soft_drop)
     ScoreCounterImpl score_counter{0, 1, 0};
     GameImpl game{ui, board, brick_generator, score_counter};
 
-    game.soft_drop();
+    game.handle_soft_drop();
     ASSERT_THAT(game.get_cur_brick_position().y, Eq(1));
     ASSERT_THAT(game.get_score(), Eq(1));
 }
@@ -430,7 +430,7 @@ TEST(GameImpl, hold_locking)
 
     for(int i{0}; i < 2; ++i)
     {
-        game.hold();
+        game.handle_hold();
         ASSERT_THAT(game.get_hold_brick(), Eq(brick));
         ASSERT_THAT(game.get_cur_brick(), Eq(expected_remaining_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(Vector2{1, 0}));
@@ -454,12 +454,12 @@ TEST(GameImpl, hold_unlocked)
     GameImpl game{ui, board, brick_generator, score_counter};
 
     
-    game.hold();
+    game.handle_hold();
     ASSERT_THAT(game.get_hold_brick(), Eq(brick1));
     ASSERT_THAT(game.get_cur_brick(), Eq(brick2));
 
-    game.hard_drop();
-    game.hold();
+    game.handle_hard_drop();
+    game.handle_hold();
 
     ASSERT_THAT(game.get_hold_brick(), Eq(brick3));
     ASSERT_THAT(game.get_cur_brick(), Eq(brick1));
