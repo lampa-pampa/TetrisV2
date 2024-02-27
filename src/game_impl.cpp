@@ -63,6 +63,8 @@ void GameImpl::hold()
         this->ui.refresh_hold(this->hold_brick);
         if(this->cur_brick.empty())
             this->generate_new_brick();
+        else
+            this->cur_brick_position = this->get_brick_spawn_position(this->cur_brick.get_min_y(), this->board.get_width());
         this->commit_move();
         this->can_hold = false;
     }
