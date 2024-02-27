@@ -8,6 +8,12 @@ add_executable(all_tests
     test_game_impl.cpp
 )
 
+include(FetchContent)
+FetchContent_Declare(
+    googletest
+    URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+)
+
 target_link_libraries(all_tests
     PRIVATE
         TETRIS_V2
