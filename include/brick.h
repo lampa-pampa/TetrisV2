@@ -9,7 +9,7 @@
 
 struct Brick final
 {
-    static constexpr unsigned short rotation_quantity = 4;
+    static constexpr unsigned short rotation_quantity{4};
     static Brick get_colored(const Brick& brick, Color color);
     static Brick get_translated(const Brick& brick, Vector2 position);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
