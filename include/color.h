@@ -9,14 +9,14 @@ enum class Color
     black,
     red,
     green,
-    blue,
     yellow,
+    blue,
     purple,
     orange,
     pink,
 };
 
-const std::map<Color, std::string> ColorToName
+const std::map<Color, std::string> color_to_name
 {
     {Color::black, "black"},
     {Color::red, "red"},

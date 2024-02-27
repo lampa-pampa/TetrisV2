@@ -38,7 +38,7 @@ struct Pixel final
     friend std::ostream& operator<<(std::ostream& os, const Pixel& pixel)
     {
         return os << "{" << pixel.coords.x << ", " << pixel.coords.y
-            << ", Color::" << ColorToName.at(pixel.color) << "}";  
+            << ", Color::" << color_to_name.at(pixel.color) << "}";  
     }
 
     bool empty() const
