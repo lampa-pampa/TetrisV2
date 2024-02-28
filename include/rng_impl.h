@@ -1,14 +1,14 @@
-#ifndef RNG_IMPL_H
-#define RNG_IMPL_H
+#ifndef Rng_IMPL_H
+#define Rng_IMPL_H
 
 #include "rng.h"
 #include <cstdlib>
 #include <ctime>
 
-class RNGImpl final: public RNG
+class RngImpl final: public Rng
 {
 public:
-    RNGImpl()
+    RngImpl()
     {
         std::srand(static_cast<unsigned>(std::time(NULL)));
     }

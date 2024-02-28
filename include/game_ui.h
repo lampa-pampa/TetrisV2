@@ -5,7 +5,7 @@
 #include "pixel.h"
 #include <vector>
 
-class GameUI
+class GameUi
 {
 public:
     virtual void refresh_board(const std::vector<std::vector<Pixel>>& pixels) = 0;
@@ -16,7 +16,7 @@ public:
     virtual void game_over() = 0;
     virtual void pause() = 0;
     virtual void resume() = 0;
-    virtual ~GameUI() = default;
+    virtual ~GameUi() = default;
 };
 
 #endif

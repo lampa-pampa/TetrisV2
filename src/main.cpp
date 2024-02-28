@@ -18,9 +18,9 @@ int main()
 {
     TimerMock timer{};
     NCursesColors colors;
-    GameUIConsoleImpl ui{10, 20, colors};
+    GameUiConsoleImpl ui{10, 20, colors};
     BoardImpl board{10, 20};
-    RNGImpl rng{};
+    RngImpl rng{};
     BrickGeneratorImpl brick_generator{Bag<Brick>{{brick_sources}, rng}, Bag<Color>{{color_sources}, rng}};
     ScoreCounterImpl score_counter{10, 1, 2};
     GameImpl game{ui, board, brick_generator, score_counter};

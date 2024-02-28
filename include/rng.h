@@ -1,11 +1,11 @@
-#ifndef RNG_H
-#define RNG_H
+#ifndef Rng_H
+#define Rng_H
 
-class RNG
+class Rng
 {
 public:
     virtual int random(int range) = 0;
-    virtual ~RNG() = default;
+    virtual ~Rng() = default;
 };
 
 #endif

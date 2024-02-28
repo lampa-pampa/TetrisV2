@@ -9,7 +9,7 @@
 
 using std::swap;
 
-GameImpl::GameImpl(GameUI& ui, Board& board, BrickGenerator& brick_generator, ScoreCounter& score_counter)
+GameImpl::GameImpl(GameUi& ui, Board& board, BrickGenerator& brick_generator, ScoreCounter& score_counter)
 :
     ui(ui),
     board(board),

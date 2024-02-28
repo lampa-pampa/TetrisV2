@@ -11,7 +11,7 @@ using boost::irange;
 
 TEST(Bag, get_next)
 {
-    RNGMock rng{};
+    RngMock rng{};
     vector<int> items{0, 1, 2, 3, 4};
     Bag<int> bag{items, rng};
     for (const auto& i : irange<int>(2))

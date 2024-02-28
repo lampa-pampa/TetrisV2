@@ -13,7 +13,7 @@
 
 class GameImpl final: public Game
 {
-    GameUI& ui;
+    GameUi& ui;
     Board& board;
     BrickGenerator& brick_generator;
     ScoreCounter& score_counter;
@@ -56,7 +56,7 @@ class GameImpl final: public Game
 
 public:
     GameImpl(
-        GameUI& ui,
+        GameUi& ui,
         Board& board,
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter

@@ -6,7 +6,7 @@
 #include "pixel.h"
 #include <vector>
 
-class GameUIMock final: public GameUI
+class GameUiMock final: public GameUi
 {
 public:
     void refresh_board(const std::vector<std::vector<Pixel>>& pixels) override{}

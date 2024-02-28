@@ -22,7 +22,7 @@ TEST(BrickGeneratorImpl, generate)
         Color::red,
         Color::blue,
     };
-    RNGMock rng{};
+    RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag<Brick>{bricks, rng},
         Bag<Color>{colors, rng},

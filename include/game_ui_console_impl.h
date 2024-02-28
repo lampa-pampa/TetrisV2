@@ -13,7 +13,7 @@
 #include <vector>
 #include "ncurses_colors.h"
 
-class GameUIConsoleImpl final: public GameUI
+class GameUiConsoleImpl final: public GameUi
 {
     using signal = boost::signals2::signal<void()>;
 
@@ -84,7 +84,7 @@ class GameUIConsoleImpl final: public GameUI
     }
 
 public:
-    GameUIConsoleImpl(int width, int height, NCursesColors& ncurses_colors);
+    GameUiConsoleImpl(int width, int height, NCursesColors& ncurses_colors);
 
     void refresh_board(const std::vector<std::vector<Pixel>>& pixels) override;
     void refresh_score(unsigned long long score) override;
@@ -93,7 +93,7 @@ public:
     void refresh_hold(const Brick& brick) override;
     void input_received(int input);
 
-    ~GameUIConsoleImpl()
+    ~GameUiConsoleImpl()
     {
         endwin();
     }

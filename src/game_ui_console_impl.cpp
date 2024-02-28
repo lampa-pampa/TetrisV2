@@ -12,7 +12,7 @@
 using std::vector;
 using std::string;
 
-GameUIConsoleImpl::GameUIConsoleImpl(
+GameUiConsoleImpl::GameUiConsoleImpl(
     int width, int height, NCursesColors& ncurses_colors)    
 :   
     ncurses_colors(ncurses_colors),
@@ -27,7 +27,7 @@ GameUIConsoleImpl::GameUIConsoleImpl(
     this->print_title();
 }
 
-void GameUIConsoleImpl::create_window()
+void GameUiConsoleImpl::create_window()
 {
     int screen_width;
     int screen_height;
@@ -45,7 +45,7 @@ void GameUIConsoleImpl::create_window()
     nodelay(this->window, true);
 }
 
-string GameUIConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
+string GameUiConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
 {
     if (not pixel.empty())
     {
@@ -60,7 +60,7 @@ string GameUIConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
     }
 }
 
-void GameUIConsoleImpl::print_colored_str(std::string str, int x, int y, Color color)
+void GameUiConsoleImpl::print_colored_str(std::string str, int x, int y, Color color)
 {
     const int pair_index{this->ncurses_colors.get_color_pair(color)};
     wattron(this->window, COLOR_PAIR(pair_index));
@@ -68,7 +68,7 @@ void GameUIConsoleImpl::print_colored_str(std::string str, int x, int y, Color c
     wattroff(this->window, COLOR_PAIR(pair_index));
 }
 
-void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
+void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
 {
     this->pixels = pixels;
     int y{border_width};
@@ -86,27 +86,27 @@ void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
     wrefresh(this->window);
 }
 
-void GameUIConsoleImpl::refresh_score(unsigned long long score)
+void GameUiConsoleImpl::refresh_score(unsigned long long score)
 {
 
 }
 
-void GameUIConsoleImpl::refresh_tetrises(unsigned long long tetrises)
+void GameUiConsoleImpl::refresh_tetrises(unsigned long long tetrises)
 {
 
 }
 
-void GameUIConsoleImpl::refresh_next(const Brick& brick)
+void GameUiConsoleImpl::refresh_next(const Brick& brick)
 {
 
 }
 
-void GameUIConsoleImpl::refresh_hold(const Brick& brick)
+void GameUiConsoleImpl::refresh_hold(const Brick& brick)
 {
 
 }
 
-void GameUIConsoleImpl::input_received(int input)
+void GameUiConsoleImpl::input_received(int input)
 {
     if (auto it{this->input_to_signal.find(input)}; it != this->input_to_signal.end())
         it->second();

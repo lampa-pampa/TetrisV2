@@ -1,9 +1,9 @@
-#ifndef RNG_MOCK_H
-#define RNG_MOCK_H
+#ifndef Rng_MOCK_H
+#define Rng_MOCK_H
 
 #include "rng.h"
 
-class RNGMock final: public RNG
+class RngMock final: public Rng
 {   
 public:
     int random(int range) override
