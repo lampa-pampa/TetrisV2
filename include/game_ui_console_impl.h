@@ -11,38 +11,12 @@
 #include <ncurses.h>
 #include <string>
 #include <vector>
-
-class NCursesColors final
-{
-    const std::map<Color, int> color_to_ncurses_color
-    {
-        {Color::black, COLOR_BLACK},
-        {Color::red, COLOR_RED},
-        {Color::green, COLOR_GREEN},
-        {Color::yellow, COLOR_YELLOW},
-        {Color::blue, COLOR_BLUE},
-        {Color::purple, COLOR_MAGENTA},
-        {Color::orange, COLOR_MAGENTA},
-        {Color::pink, COLOR_MAGENTA},
-    };
-    std::map<Color, int> color_to_pair;
-    
-public:
-    int get_color_pair(Color color)
-    {
-        auto it = this->color_to_pair.find(color);
-        if (it == this->color_to_pair.end())
-        {
-            const int ncurses_color{this->color_to_ncurses_color.at(color)};
-            ::init_pair(ncurses_color, ncurses_color, COLOR_BLACK);
-            it = this->color_to_pair.insert({color, ncurses_color}).first;
-        }
-        return it->second;
-    }
-};
+#include "ncurses_colors.h"
 
 class GameUIConsoleImpl final: public GameUI
 {
+    using signal = boost::signals2::signal<void()>;
+
     std::vector<std::vector<Pixel>> pixels{};
     NCursesColors ncurses_colors;
     const std::string title{"TETRIS"};
@@ -53,7 +27,7 @@ class GameUIConsoleImpl final: public GameUI
     const std::string filled_pixel{"[]"};
     const std::string ghost_pixel{"::"};
     
-    const std::map<int, boost::signals2::signal<void()>&> input_to_signal{
+    const std::map<int, signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
         {KEY_UP, this->rotate_pressed},
@@ -66,13 +40,13 @@ class GameUIConsoleImpl final: public GameUI
     int width;
     int height;
     ::WINDOW* window;
-    boost::signals2::signal<void()> move_left_pressed;
-    boost::signals2::signal<void()> move_right_pressed;
-    boost::signals2::signal<void()> rotate_pressed;
-    boost::signals2::signal<void()> soft_drop_pressed;
-    boost::signals2::signal<void()> hard_drop_pressed;
-    boost::signals2::signal<void()> hold_pressed;
-    boost::signals2::signal<void()> handle_pause_pressed;
+    signal move_left_pressed;
+    signal move_right_pressed;
+    signal rotate_pressed;
+    signal soft_drop_pressed;
+    signal hard_drop_pressed;
+    signal hold_pressed;
+    signal handle_pause_pressed;
 
     std::string get_pixel_as_text(const Pixel& pixel) const;
     void print_colored_str(std::string str, int x, int y, Color color);
@@ -113,8 +87,8 @@ public:
     GameUIConsoleImpl(int width, int height, NCursesColors& ncurses_colors);
 
     void refresh_board(const std::vector<std::vector<Pixel>>& pixels) override;
-    void refresh_score(int score) override;
-    void refresh_tetrises(int tetrises) override;
+    void refresh_score(unsigned long long score) override;
+    void refresh_tetrises(unsigned long long tetrises) override;
     void refresh_next(const Brick& brick) override;
     void refresh_hold(const Brick& brick) override;
     void input_received(int input);

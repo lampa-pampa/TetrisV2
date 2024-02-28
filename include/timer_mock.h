@@ -7,7 +7,9 @@
 
 class TimerMock final: public Timer
 {
-    boost::signals2::signal<void()> timeout;
+    using signal = boost::signals2::signal<void()>;
+    
+    signal timeout;
 
 public:
     void start() override{}

@@ -11,6 +11,7 @@
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_mock.h"
+#include "ncurses_colors.h"
 #include <ncurses.h>
 
 int main()

@@ -10,8 +10,8 @@ class GameUIMock final: public GameUI
 {
 public:
     void refresh_board(const std::vector<std::vector<Pixel>>& pixels) override{}
-    void refresh_score(int score) override{}
-    void refresh_tetrises(int tetrises) override{}
+    void refresh_score(unsigned long long score) override{}
+    void refresh_tetrises(unsigned long long tetrises) override{}
     void refresh_next(const Brick& brick) override{}
     void refresh_hold(const Brick& brick) override{}
     void game_over() override{}

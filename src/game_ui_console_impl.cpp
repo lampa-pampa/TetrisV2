@@ -86,12 +86,12 @@ void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
     wrefresh(this->window);
 }
 
-void GameUIConsoleImpl::refresh_score(int score)
+void GameUIConsoleImpl::refresh_score(unsigned long long score)
 {
 
 }
 
-void GameUIConsoleImpl::refresh_tetrises(int tetrises)
+void GameUIConsoleImpl::refresh_tetrises(unsigned long long tetrises)
 {
 
 }
