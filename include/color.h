@@ -1,5 +1,5 @@
-#ifndef COLOR_H
-#define COLOR_H
+#ifndef INCLUDE_COLOR_H
+#define INCLUDE_COLOR_H
 
 #include <map>
 #include <ostream>

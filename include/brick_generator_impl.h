@@ -1,5 +1,5 @@
-#ifndef BRICK_GENERATOR_IMPL_H
-#define BRICK_GENERATOR_IMPL_H
+#ifndef INCLUDE_BRICK_GENERATOR_IMPL_H
+#define INCLUDE_BRICK_GENERATOR_IMPL_H
 
 #include "bag.h"
 #include "brick_generator.h"

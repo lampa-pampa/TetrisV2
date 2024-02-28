@@ -1,5 +1,5 @@
-#ifndef BOARD_H
-#define BOARD_H
+#ifndef INCLUDE_BOARD_H
+#define INCLUDE_BOARD_H
 
 #include "brick.h"
 #include "pixel.h"

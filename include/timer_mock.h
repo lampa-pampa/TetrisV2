@@ -1,5 +1,5 @@
-#ifndef TIMER_MOCK_H
-#define TIMER_MOCK_H
+#ifndef INCLUDE_TIMER_MOCK_H
+#define INCLUDE_TIMER_MOCK_H
 
 #include "timer.h"
 #include <boost/signals2.hpp>

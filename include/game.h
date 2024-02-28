@@ -1,5 +1,5 @@
-#ifndef GAME_H
-#define GAME_H
+#ifndef INCLUDE_GAME_H
+#define INCLUDE_GAME_H
 
 #include "game_state.h"
 

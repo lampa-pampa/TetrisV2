@@ -1,5 +1,5 @@
-#ifndef GAME_UI_MOCK_H
-#define GAME_UI_MOCK_H
+#ifndef INCLUDE_GAME_UI_MOCK_H
+#define INCLUDE_GAME_UI_MOCK_H
 
 #include "brick.h"
 #include "game_ui.h"

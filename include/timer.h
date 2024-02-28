@@ -1,5 +1,5 @@
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef INCLUDE_TIMER_H
+#define INCLUDE_TIMER_H
 
 #include <functional>
 

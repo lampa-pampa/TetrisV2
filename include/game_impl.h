@@ -1,5 +1,5 @@
-#ifndef GAME_IMPL_H
-#define GAME_IMPL_H
+#ifndef INCLUDE_GAME_IMPL_H
+#define INCLUDE_GAME_IMPL_H
 
 #include "board.h"
 #include "brick_generator.h"

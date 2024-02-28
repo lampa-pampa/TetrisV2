@@ -1,5 +1,5 @@
-#ifndef GAME_STATE_H
-#define GAME_STATE_H
+#ifndef INCLUDE_GAME_STATE_H
+#define INCLUDE_GAME_STATE_H
 
 #include <map>
 #include <ostream>

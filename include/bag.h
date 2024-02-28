@@ -1,5 +1,5 @@
-#ifndef BAG_H
-#define BAG_H
+#ifndef INCLUDE_BAG_H
+#define INCLUDE_BAG_H
 
 #include "rng.h"
 #include <vector>

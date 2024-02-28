@@ -1,5 +1,5 @@
-#ifndef GAME_UI_H
-#define GAME_UI_H
+#ifndef INCLUDE_GAME_UI_H
+#define INCLUDE_GAME_UI_H
 
 #include "brick.h"
 #include "pixel.h"

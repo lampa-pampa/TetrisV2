@@ -1,5 +1,5 @@
-#ifndef Rng_H
-#define Rng_H
+#ifndef INCLUDE_Rng_H
+#define INCLUDE_Rng_H
 
 class Rng
 {

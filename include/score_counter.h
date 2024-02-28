@@ -1,5 +1,5 @@
-#ifndef SCORE_COUNTER_H
-#define SCORE_COUNTER_H
+#ifndef INCLUDE_SCORE_COUNTER_H
+#define INCLUDE_SCORE_COUNTER_H
 
 class ScoreCounter
 {

@@ -1,5 +1,5 @@
-#ifndef PIXEL_H
-#define PIXEL_H
+#ifndef INCLUDE_PIXEL_H
+#define INCLUDE_PIXEL_H
 
 #include "color.h"
 #include "vector_2.h"

@@ -1,5 +1,5 @@
-#ifndef GAME_UI_CONSOLE_IMPL_H
-#define GAME_UI_CONSOLE_IMPL_H
+#ifndef INCLUDE_GAME_UI_CONSOLE_IMPL_H
+#define INCLUDE_GAME_UI_CONSOLE_IMPL_H
 
 #include "brick.h"
 #include "color.h"

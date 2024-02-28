@@ -1,5 +1,5 @@
-#ifndef VECTOR_2_H
-#define VECTOR_2_H
+#ifndef INCLUDE_VECTOR_2_H
+#define INCLUDE_VECTOR_2_H
 
 #include <ostream>
 

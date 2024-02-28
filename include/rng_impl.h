@@ -1,5 +1,5 @@
-#ifndef Rng_IMPL_H
-#define Rng_IMPL_H
+#ifndef INCLUDE_Rng_IMPL_H
+#define INCLUDE_Rng_IMPL_H
 
 #include "rng.h"
 #include <cstdlib>

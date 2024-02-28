@@ -1,5 +1,5 @@
-#ifndef BRICK_H
-#define BRICK_H
+#ifndef INCLUDE_BRICK_H
+#define INCLUDE_BRICK_H
 
 #include "color.h"
 #include "pixel.h"

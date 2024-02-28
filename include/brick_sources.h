@@ -1,5 +1,5 @@
-#ifndef BRICK_SOURCES_H
-#define BRICK_SOURCES_H
+#ifndef INCLUDE_BRICK_SOURCES_H
+#define INCLUDE_BRICK_SOURCES_H
 
 #include "brick.h"
 #include <vector>

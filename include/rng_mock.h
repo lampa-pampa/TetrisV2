@@ -1,5 +1,5 @@
-#ifndef Rng_MOCK_H
-#define Rng_MOCK_H
+#ifndef INCLUDE_Rng_MOCK_H
+#define INCLUDE_Rng_MOCK_H
 
 #include "rng.h"
 

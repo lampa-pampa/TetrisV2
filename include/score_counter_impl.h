@@ -1,5 +1,5 @@
-#ifndef SCORE_COUNTER_IMPL_H
-#define SCORE_COUNTER_IMPL_H
+#ifndef INCLUDE_SCORE_COUNTER_IMPL_H
+#define INCLUDE_SCORE_COUNTER_IMPL_H
 
 #include "score_counter.h"
 

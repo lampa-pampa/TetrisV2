@@ -1,5 +1,5 @@
-#ifndef NCURSES_COLORS_H
-#define NCURSES_COLORS_H
+#ifndef INCLUDE_NCURSES_COLORS_H
+#define INCLUDE_NCURSES_COLORS_H
 
 #include <map>
 #include "color.h"

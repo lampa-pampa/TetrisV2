@@ -1,5 +1,5 @@
-#ifndef GAME_CONTROLLER_H
-#define GAME_CONTROLLER_H
+#ifndef INCLUDE_GAME_CONTROLLER_H
+#define INCLUDE_GAME_CONTROLLER_H
 
 #include "game.h"
 #include "timer.h"
