@@ -3,6 +3,7 @@
 
 #include "rng.h"
 #include <vector>
+#include <boost/range/irange.hpp>
 
 template<typename T>
 class Bag final
@@ -29,7 +30,7 @@ Bag<T>::Bag(const std::vector<T>& items, RNG& rng)
 template<typename T>
 void Bag<T>::shuffle_items(std::vector<T>& items, RNG& rng)
 {
-    for (int i = items.size() - 1; i >= 0; --i)
+    for (const auto& i : boost::irange<size_t>(items.size() - 1, 0, -1))
         std::swap(items[i], items[rng.random(i + 1)]);
 }
 

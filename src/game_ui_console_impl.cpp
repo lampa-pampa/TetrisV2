@@ -72,14 +72,16 @@ void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
 {
     this->pixels = pixels;
     int y{border_width};
-    for (auto row_it{this->pixels.begin()}; row_it != this->pixels.end(); ++row_it, y += this->pixel_height)
+    for (const auto& row : pixels)
     {
         int x{border_width};
-        for (auto it{row_it->begin()}; it != row_it->end(); ++it, x += this->pixel_width)
+        for (const auto& it : row)
         {
-            string text_pixel{this->get_pixel_as_text(*it)};
-            this->print_colored_str(text_pixel, x, y, it->color);
+            string text_pixel{this->get_pixel_as_text(it)};
+            this->print_colored_str(text_pixel, x, y, it.color);
+            x += this->pixel_width;
         }
+        y += this->pixel_height;
     }
     wrefresh(this->window);
 }

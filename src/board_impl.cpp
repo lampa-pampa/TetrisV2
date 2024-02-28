@@ -3,18 +3,20 @@
 #include "pixel.h"
 #include "vector_2.h"
 #include <vector>
+#include <boost/range/irange.hpp>
 
 using std::vector;
+using boost::irange;
 
 BoardImpl::BoardImpl(int width, int height)
 :
     width(width),
     height(height)
 {
-    for (int y{0}; y < height; ++y)
+    for (const auto& y : irange<int>(height))
     {
         vector<Pixel> row;
-        for (int x{0}; x < width; ++x)
+        for (const auto& x : irange<int>(width))
             row.emplace_back(Pixel{x, y});
         this->pixels.emplace_back(std::move(row));
     }
@@ -22,7 +24,7 @@ BoardImpl::BoardImpl(int width, int height)
 
 bool BoardImpl::is_space_for_brick(const Brick& brick) const 
 {
-    for (const Pixel& pixel : brick.pixels)
+    for (const auto& pixel : brick.pixels)
     {
         if (not this->position_is_in_range(pixel.coords)
             or not this->pixels[pixel.coords.y][pixel.coords.x].empty())
@@ -33,24 +35,24 @@ bool BoardImpl::is_space_for_brick(const Brick& brick) const
 
 void BoardImpl::add_brick(const Brick& brick)
 {
-    for (const Pixel& pixel : brick.pixels)
+    for (const auto& pixel : brick.pixels)
         this->pixels[pixel.coords.y][pixel.coords.x] = pixel;
 }
 
 void BoardImpl::remove_brick(const Brick& brick)
 {
-    for (const Pixel& pixel : brick.pixels)
+    for (const auto& pixel : brick.pixels)
         this->pixels[pixel.coords.y][pixel.coords.x].clear();
 }
 
 vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
 {
     vector<Brick> lines;
-    for (int y{from_y}; y <= to_y; ++y)
+    for (const auto& y : irange<size_t>(from_y, to_y + 1))
     {
         Brick line{{}};
         bool is_full_line{true};
-        for (int x{0}; x < this->width; ++x)
+        for (const auto& x : irange<size_t>(this->width))
         {
             const Pixel& pixel = this->pixels[y][x];
             if (pixel.empty())
@@ -68,15 +70,15 @@ vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
 
 void BoardImpl::compress(int start_y)
 {
-    for (int y{start_y}; y > 0; --y)
+    for (const auto& y : irange<int>(start_y, 0, -1))
     {
-        for (int x{0}; x < this->width; ++x)
+        for (const auto& x : irange<int>(this->width))
         {
             this->pixels[y][x] = this->pixels[y - 1][x];
             this->pixels[y][x].coords = {x, y};
         }
     }
-    for (int x{0}; x < this->width; ++x)
+    for (const auto& x : irange<size_t>(this->width))
         this->pixels[0][x].clear();
 }
 

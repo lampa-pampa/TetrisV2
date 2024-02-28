@@ -8,28 +8,30 @@
 #include <gmock/gmock.h>
 #include <vector>
 #include <functional>
+#include <boost/range/irange.hpp>
 
 using std::vector;
 using std::function;
 using std::find;
 using testing::Eq;
+using boost::irange;
 
 namespace {
     Brick create_rectangle_brick(int width, int height, Color color)
     {
         Brick full_brick{};
-        for (int y{0}; y < height; ++y)
+        for (const auto& y : irange<int>(height))
         {
-            for (int x{0}; x < width; ++x)
+            for (const auto& x : irange<int>(width))
                 full_brick.pixels.emplace_back(Pixel{x, y, color});
         }
         return full_brick;
     }
     void for_each_pixel_assert_true(const vector<vector<Pixel>>& pixels, function<bool(Pixel pixel)> compare)
     {
-        for (const vector<Pixel>& row : pixels)
+        for (const auto& row : pixels)
         {
-            for (const Pixel& pixel : row)
+            for (const auto& pixel : row)
                 ASSERT_THAT(compare(pixel), Eq(true));
         }
     }

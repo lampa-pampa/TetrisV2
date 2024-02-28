@@ -3,16 +3,18 @@
 #include <gtest/gtest.h>
 #include <gmock/gmock.h>
 #include <vector>
+#include <boost/range/irange.hpp>
 
 using testing::Eq;
 using std::vector;
+using boost::irange;
 
 TEST(Bag, get_next)
 {
     RNGMock rng{};
     vector<int> items{0, 1, 2, 3, 4};
     Bag<int> bag{items, rng};
-    for (int i{0}; i < 2; ++i)
+    for (const auto& i : irange<size_t>(2))
     {
         auto it{items.begin()};
         while(it != items.end())
