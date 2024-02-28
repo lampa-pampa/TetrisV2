@@ -41,7 +41,10 @@ TEST(Brick, get_rotated_with_moved_center)
 TEST(Brick, get_ghostified)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
-    const Brick expected_brick{{ {1, 2, Color::black, true}, {3, 4, Color::black, true} }};
+    const Brick expected_brick{{
+        {1, 2, Color::black, true},
+        {3, 4, Color::black, true},
+    }};
     
     ASSERT_THAT(Brick::get_ghostified(brick), Eq(expected_brick));
 }

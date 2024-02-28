@@ -14,7 +14,10 @@ void GameImpl::generate_new_brick()
     this->cur_brick = std::move(this->next_brick);
     this->next_brick = this->brick_generator.generate();
     this->cur_brick_rotation = 0;
-    this->cur_brick_position = this->get_brick_spawn_position(this->cur_brick.get_min_y(), this->board.get_width());
+    this->cur_brick_position = this->get_brick_spawn_position(
+        this->cur_brick.get_min_y(),
+        this->board.get_width()
+    );
     this->ui.refresh_next(this->next_brick);
     if (not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
         this->state = GameState::ended;
@@ -26,8 +29,11 @@ void GameImpl::refresh_ghost()
     this->ghost_brick_position = this->cur_brick_position;
     if (this->board.is_space_for_brick(this->get_transformed_ghost_brick()))
     {
-        while(this->board.is_space_for_brick(this->get_transformed_ghost_brick()))
+        while(this->board.is_space_for_brick(
+            this->get_transformed_ghost_brick()
+        ))
             ++this->ghost_brick_position.y;
+        
         --this->ghost_brick_position.y;
     }
 }
@@ -54,7 +60,10 @@ void GameImpl::move_down()
 
 void GameImpl::remove_lines(int from_y, int to_y)
 {
-    const int lines = this->board.remove_lines_in_range_and_compress(from_y, to_y);
+    const int lines = this->board.remove_lines_in_range_and_compress(
+        from_y,
+        to_y
+    );
     if (lines > 0)
     {
         this->add_score(this->score_counter.count_score_for_lines(lines));
@@ -85,8 +94,12 @@ void GameImpl::move_cur_brick_horizontally(int by)
     this->commit_move();   
 }
 
-GameImpl::GameImpl(GameUi& ui, Board& board, BrickGenerator& brick_generator, ScoreCounter& score_counter)
-:
+GameImpl::GameImpl(
+    GameUi& ui,
+    Board& board,
+    BrickGenerator& brick_generator,
+    ScoreCounter& score_counter
+):
     ui(ui),
     board(board),
     brick_generator(brick_generator),
@@ -140,7 +153,10 @@ void GameImpl::handle_hold()
         if (this->cur_brick.empty())
             this->generate_new_brick();
         else
-            this->cur_brick_position = this->get_brick_spawn_position(this->cur_brick.get_min_y(), this->board.get_width());
+            this->cur_brick_position = this->get_brick_spawn_position(
+                this->cur_brick.get_min_y(),
+                this->board.get_width()
+            );
         this->commit_move();
         this->can_hold = false;
     }

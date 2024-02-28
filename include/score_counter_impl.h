@@ -10,8 +10,11 @@ class ScoreCounterImpl final: public ScoreCounter
     int score_for_hard_drop;
 
 public:
-    ScoreCounterImpl(int score_for_line, int score_for_soft_drop, int score_for_hard_drop)
-    :
+    ScoreCounterImpl(
+        int score_for_line,
+        int score_for_soft_drop,
+        int score_for_hard_drop
+    ):
         score_for_line(score_for_line),
         score_for_soft_drop(score_for_soft_drop),
         score_for_hard_drop(score_for_hard_drop)

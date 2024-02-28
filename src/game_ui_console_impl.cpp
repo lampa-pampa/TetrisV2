@@ -30,8 +30,12 @@ void GameUiConsoleImpl::create_window()
     ::nodelay(this->window, true);
 }
 
-void GameUiConsoleImpl::print_colored_str(std::string str, int x, int y, Color color)
-{
+void GameUiConsoleImpl::print_colored_str(
+    std::string str,
+    int x,
+    int y,
+    Color color
+){
     const int pair_index{this->ncurses_colors.get_color_pair(color)};
     ::wattron(this->window, COLOR_PAIR(pair_index));
     this->print_str(str, x, y);
@@ -108,6 +112,8 @@ void GameUiConsoleImpl::refresh_hold(const Brick& brick)
 
 void GameUiConsoleImpl::input_received(int input)
 {
-    if (auto it{this->input_to_signal.find(input)}; it != this->input_to_signal.end())
+    if (auto it{this->input_to_signal.find(input)};
+        it != this->input_to_signal.end()
+    )
         it->second();
 }

@@ -10,7 +10,7 @@ class RngImpl final: public Rng
 public:
     RngImpl()
     {
-        std::srand(static_cast<unsigned>(std::time(NULL)));
+        std::srand(std::time(NULL));
     }
 
     int random(int range) override

@@ -161,12 +161,20 @@ public:
 
     Brick get_transformed_cur_brick() const
     {
-        return Brick::get_transformed(this->cur_brick, this->cur_brick_rotation, this->cur_brick_position);
+        return Brick::get_transformed(
+            this->cur_brick,
+            this->cur_brick_rotation,
+            this->cur_brick_position
+        );
     }
 
     Brick get_transformed_ghost_brick() const
     {
-        return Brick::get_transformed(this->ghost_brick, this->cur_brick_rotation, this->ghost_brick_position);
+        return Brick::get_transformed(
+            this->ghost_brick,
+            this->cur_brick_rotation,
+            this->ghost_brick_position
+        );
     }
 };
 

@@ -27,8 +27,10 @@ namespace {
         }
         return full_brick;
     }
-    void for_each_pixel_assert_true(const vector<vector<Pixel>>& pixels, function<bool(Pixel pixel)> compare)
-    {
+    void for_each_pixel_assert_true(
+        const vector<vector<Pixel>>& pixels,
+        function<bool(Pixel pixel)> compare
+    ){
         for (const auto& row : pixels)
         {
             for (const auto& pixel : row)
@@ -44,12 +46,18 @@ namespace {
 TEST(BoardImpl, BoardImpl)
 {
     BoardImpl board{2, 2};
-    const vector<Pixel> expected_board_pixels{ {0, 0}, {1, 0}, {0, 1}, {1, 1} };
+    const vector<Pixel> expected_board_pixels{
+        {0, 0}, {1, 0},
+        {0, 1}, {1, 1},
+    };
     const vector<vector<Pixel>> board_pixels = board.get_pixels();
     
-    for_each_pixel_assert_true(board_pixels, [expected_board_pixels](Pixel pixel)-> bool{
-        return is_in(pixel, expected_board_pixels);
-    });
+    for_each_pixel_assert_true(
+        board_pixels,
+        [expected_board_pixels](Pixel pixel){
+            return is_in(pixel, expected_board_pixels);
+        }
+    );
 }
 
 TEST(BoardImpl, is_space_for_brick_empty_board)
@@ -84,7 +92,7 @@ TEST(BoardImpl, add_brick)
     board.add_brick(brick);
     const vector<vector<Pixel>> board_pixels = board.get_pixels();
     
-    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel)-> bool{
+    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
         return pixel.empty() != is_in(pixel, brick.pixels);
     });
 }
@@ -97,7 +105,7 @@ TEST(BoardImpl, remove_brick)
     board.remove_brick(brick);
     const vector<vector<Pixel>> board_pixels = board.get_pixels();
     
-    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel)-> bool{
+    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
         return pixel.empty() == is_in(pixel, brick.pixels);
     });
 }
@@ -112,7 +120,7 @@ TEST(BoardImpl, remove_lines_in_range_and_compress_without_lines_in_range)
 
     
     ASSERT_THAT(lines, Eq(0));
-    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel)-> bool{
+    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
         return pixel.empty() != is_in(pixel, brick.pixels);
     });
 }
@@ -127,7 +135,7 @@ TEST(BoardImpl, remove_lines_in_range_and_compress_with_lines_in_range)
     const vector<vector<Pixel>> board_pixels = board.get_pixels();
     
     ASSERT_THAT(lines, Eq(2));
-    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel)-> bool{
+    for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
         return pixel.empty() != is_in(pixel, brick.pixels);
     });
 }

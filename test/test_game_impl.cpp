@@ -88,7 +88,7 @@ TEST(GameImpl, GameImpl)
     for_each_pixel_assert_true(board_pixels, [
         transformed_expected_cur_brick,
         transformed_expected_ghost_brick
-    ](Pixel pixel)-> bool{
+    ](Pixel pixel){
         return pixel.empty() != is_in(pixel, transformed_expected_cur_brick.pixels)
             or is_in(pixel, transformed_expected_ghost_brick.pixels);
     });
@@ -118,7 +118,7 @@ TEST(GameImpl, move_down_free_fall)
     for_each_pixel_assert_true(board_pixels, [
         transformed_cur_brick,
         transformed_ghost_brick
-    ](Pixel pixel)-> bool{
+    ](Pixel pixel){
         return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
             or is_in(pixel, transformed_ghost_brick.pixels);
     });
@@ -151,7 +151,7 @@ TEST(GameImpl, move_down_place)
         transformed_cur_brick,
         transformed_ghost_brick,
         transformed_expected_placed_brick
-    ](Pixel pixel)-> bool{
+    ](Pixel pixel){
         return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
             or is_in(pixel, transformed_ghost_brick.pixels)
             or is_in(pixel, transformed_expected_placed_brick.pixels);
@@ -185,7 +185,7 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
         transformed_cur_brick,
         transformed_ghost_brick,
         expected_remaining_brick
-    ](Pixel pixel)-> bool{
+    ](Pixel pixel){
         return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
             or is_in(pixel, transformed_ghost_brick.pixels)
             or is_in(pixel, expected_remaining_brick.pixels);
@@ -224,7 +224,7 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
         transformed_cur_brick,
         transformed_ghost_brick,
         expected_remaining_brick
-    ](Pixel pixel)-> bool{
+    ](Pixel pixel){
         return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
             or is_in(pixel, transformed_ghost_brick.pixels)
             or is_in(pixel, expected_remaining_brick.pixels);
@@ -363,7 +363,10 @@ TEST(GameImpl, handle_hard_drop)
 {
     const Color bricks_color{Color::blue};
     const Brick brick{{ {-1, 0}, {0, 0} }};
-    const Brick expected_remaining_brick{{ {0, 9, bricks_color}, {1, 9, bricks_color} }};
+    const Brick expected_remaining_brick{{
+        {0, 9, bricks_color},
+        {1, 9, bricks_color},
+    }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
@@ -384,7 +387,7 @@ TEST(GameImpl, handle_hard_drop)
         transformed_cur_brick,
         transformed_ghost_brick,
         expected_remaining_brick
-    ](Pixel pixel)-> bool{
+    ](Pixel pixel){
         return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
             or is_in(pixel, transformed_ghost_brick.pixels)
             or is_in(pixel, expected_remaining_brick.pixels);
@@ -395,7 +398,10 @@ TEST(GameImpl, handle_soft_drop)
 {
     const Color bricks_color{Color::blue};
     const Brick brick{{ {-1, 0}, {0, 0} }};
-    const Brick expected_remaining_brick{{ {0, 9, bricks_color}, {1, 9, bricks_color} }};
+    const Brick expected_remaining_brick{{
+        {0, 9, bricks_color},
+        {1, 9, bricks_color},
+    }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
@@ -415,7 +421,10 @@ TEST(GameImpl, hold_locking)
 {
     const Color bricks_color{Color::red};
     const Brick brick{{ {-1, 0, bricks_color}, {0, 0, bricks_color} }};
-    const Brick expected_remaining_brick{{ {0, 0, bricks_color}, {0, 1, bricks_color} }};
+    const Brick expected_remaining_brick{{
+        {0, 0, bricks_color},
+        {0, 1, bricks_color},
+    }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};

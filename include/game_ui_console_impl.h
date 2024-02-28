@@ -73,7 +73,10 @@ class GameUiConsoleImpl final: public GameUi
     {
         int size{this->get_text_size(this->width, this->pixel_width)};
         int center_x = this->get_centered_index(size, message.size());
-        int center_y = this->get_text_size(this->height, this->pixel_height) / 2;
+        int center_y = this->get_text_size(
+            this->height,
+            this->pixel_height
+        ) / 2;
         this->print_str(message, center_x, center_y);
     }
 

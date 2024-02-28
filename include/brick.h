@@ -9,22 +9,32 @@
 
 struct Brick final
 {
+    std::vector<Pixel> pixels;
+    bool is_center_moved;
+
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
+    
+    bool operator==(const Brick& other) const
+    {
+        return this->pixels == other.pixels
+            and this->is_center_moved == other.is_center_moved;
+    }
 
     static constexpr unsigned short rotation_quantity{4};
     static Brick get_colored(const Brick& brick, Color color);
     static Brick get_translated(const Brick& brick, Vector2 position);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
     static Brick get_ghostified(const Brick& brick);
-    
-    static Brick get_transformed(const Brick& brick, int quarters_rotation, Vector2 position)
-    {
-        const Brick rotated_brick{get_rotated(brick, quarters_rotation)};
+    static Brick get_transformed(
+        const Brick& brick,
+        int quarters_rotation,
+        Vector2 position
+    ){
+        const Brick rotated_brick{
+            Brick::get_rotated(brick, quarters_rotation)
+        };
         return Brick::get_translated(rotated_brick, position);
     }
-
-    std::vector<Pixel> pixels;
-    bool is_center_moved;
     
     Brick(std::vector<Pixel> pixels, bool is_center_moved)
     :
@@ -42,12 +52,6 @@ struct Brick final
         Brick({}, false)
     {}
 
-    bool operator==(const Brick& other) const
-    {
-        return this->pixels == other.pixels
-            and this->is_center_moved == other.is_center_moved;
-    }
-
     bool empty() const
     {
         return this->pixels.empty();
@@ -55,30 +59,46 @@ struct Brick final
 
     int get_min_x() const
     {
-        return std::min_element(this->pixels.begin(), this->pixels.end(), [](const Pixel& a, const Pixel& b)-> bool{
-            return a.coords.x < b.coords.x;
-        })->coords.x;
+        return std::min_element(
+            this->pixels.begin(),
+            this->pixels.end(),
+            [](const Pixel& a, const Pixel& b){
+                return a.coords.x < b.coords.x;
+            }
+        )->coords.x;
     }
 
     int get_max_x() const
     {
-        return std::max_element(this->pixels.begin(), this->pixels.end(), [](const Pixel& a, const Pixel& b)-> bool{
-            return a.coords.x < b.coords.x;
-        })->coords.x;
+        return std::max_element(
+            this->pixels.begin(),
+            this->pixels.end(),
+            [](const Pixel& a, const Pixel& b){
+                return a.coords.x < b.coords.x;
+            }
+        )->coords.x;
     }
 
     int get_min_y() const
     {
-        return std::min_element(this->pixels.begin(), this->pixels.end(), [](const Pixel& a, const Pixel& b)-> bool{
-            return a.coords.y < b.coords.y;
-        })->coords.y;
+        return std::min_element(
+            this->pixels.begin(),
+            this->pixels.end(),
+            [](const Pixel& a, const Pixel& b){
+                return a.coords.y < b.coords.y;
+            }
+        )->coords.y;
     }
 
     int get_max_y() const
     {
-        return std::max_element(this->pixels.begin(), this->pixels.end(), [](const Pixel& a, const Pixel& b)-> bool{
-            return a.coords.y < b.coords.y;
-        })->coords.y;
+        return std::max_element(
+            this->pixels.begin(),
+            this->pixels.end(),
+            [](const Pixel& a, const Pixel& b){
+                return a.coords.y < b.coords.y;
+            }
+        )->coords.y;
     }
 };
 
