@@ -12,7 +12,7 @@ TEST(Bag, get_next)
     RNGMock rng{};
     vector<int> items{0, 1, 2, 3, 4};
     Bag<int> bag{items, rng};
-    for(int i{0}; i < 2; ++i)
+    for (int i{0}; i < 2; ++i)
     {
         auto it{items.begin()};
         while(it != items.end())

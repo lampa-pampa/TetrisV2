@@ -29,9 +29,9 @@ TEST(BrickGeneratorImpl, generate)
         {{ {1, 0, Color::red}, {0, 1, Color::red} }},
         {{ {2, 0, Color::blue}, {0, 2, Color::blue} }},
     };
-    for(int i{0}; i < 2; ++i)
+    for (int i{0}; i < 2; ++i)
     {
-        for(const Brick& expected_brick : expected_bricks)
+        for (const Brick& expected_brick : expected_bricks)
             ASSERT_THAT(brick_generator.generate(), Eq(expected_brick));
     }
 }

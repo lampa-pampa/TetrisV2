@@ -18,18 +18,18 @@ namespace {
     Brick create_rectangle_brick(int width, int height, Color color)
     {
         Brick full_brick{};
-        for(int y{0}; y < height; ++y)
+        for (int y{0}; y < height; ++y)
         {
-            for(int x{0}; x < width; ++x)
+            for (int x{0}; x < width; ++x)
                 full_brick.pixels.emplace_back(Pixel{x, y, color});
         }
         return full_brick;
     }
     void for_each_pixel_assert_true(const vector<vector<Pixel>>& pixels, function<bool(Pixel pixel)> compare)
     {
-        for(const vector<Pixel>& row : pixels)
+        for (const vector<Pixel>& row : pixels)
         {
-            for(const Pixel& pixel : row)
+            for (const Pixel& pixel : row)
                 ASSERT_THAT(compare(pixel), Eq(true));
         }
     }

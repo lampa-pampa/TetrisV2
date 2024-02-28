@@ -29,14 +29,14 @@ Bag<T>::Bag(const std::vector<T>& items, RNG& rng)
 template<typename T>
 void Bag<T>::shuffle_items(std::vector<T>& items, RNG& rng)
 {
-    for(int i = items.size() - 1; i >= 0; --i)
+    for (int i = items.size() - 1; i >= 0; --i)
         std::swap(items[i], items[rng.random(i + 1)]);
 }
 
 template<typename T>
 T Bag<T>::get_next()
 {
-    if(this->current_index == 0)
+    if (this->current_index == 0)
         this->shuffle_items(this->items, this->rng);
     T item{this->items[this->current_index]};
     this->current_index = (this->current_index + 1) % this->items.size();
