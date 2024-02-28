@@ -7,6 +7,12 @@
 
 struct Pixel final
 {
+    friend std::ostream& operator<<(std::ostream& os, const Pixel& pixel)
+    {
+        return os << "{" << pixel.coords.x << ", " << pixel.coords.y
+            << ", " << pixel.color << "}";  
+    }
+
     Vector2 coords;
     Color color;
     bool is_ghost;
@@ -33,12 +39,6 @@ struct Pixel final
         return this->coords == other.coords
             and this->is_ghost == other.is_ghost
             and this->color == other.color;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Pixel& pixel)
-    {
-        return os << "{" << pixel.coords.x << ", " << pixel.coords.y
-            << ", " << pixel.color << "}";  
     }
 
     bool empty() const

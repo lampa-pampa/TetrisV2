@@ -8,6 +8,43 @@
 using std::vector;
 using boost::irange;
 
+vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
+{
+    vector<Brick> lines;
+    for (const auto& y : irange<int>(from_y, to_y + 1))
+    {
+        Brick line{};
+        bool is_full_line{true};
+        for (const auto& x : irange<int>(this->width))
+        {
+            const Pixel& pixel = this->pixels[y][x];
+            if (pixel.empty())
+            {
+                is_full_line = false;
+                break;
+            }
+            line.pixels.push_back(pixel);
+        }
+        if (is_full_line)
+            lines.emplace_back(std::move(line));
+    }
+    return lines;
+}
+
+void BoardImpl::compress(int start_y)
+{
+    for (const auto& y : irange<int>(start_y, 0, -1))
+    {
+        for (const auto& x : irange<int>(this->width))
+        {
+            this->pixels[y][x] = this->pixels[y - 1][x];
+            this->pixels[y][x].coords = {x, y};
+        }
+    }
+    for (const auto& x : irange<int>(this->width))
+        this->pixels[0][x].clear();
+}
+
 BoardImpl::BoardImpl(int width, int height)
 :
     width(width),
@@ -43,43 +80,6 @@ void BoardImpl::remove_brick(const Brick& brick)
 {
     for (const auto& pixel : brick.pixels)
         this->pixels[pixel.coords.y][pixel.coords.x].clear();
-}
-
-vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
-{
-    vector<Brick> lines;
-    for (const auto& y : irange<int>(from_y, to_y + 1))
-    {
-        Brick line{{}};
-        bool is_full_line{true};
-        for (const auto& x : irange<int>(this->width))
-        {
-            const Pixel& pixel = this->pixels[y][x];
-            if (pixel.empty())
-            {
-                is_full_line = false;
-                break;
-            }
-            line.pixels.push_back(pixel);
-        }
-        if (is_full_line)
-            lines.emplace_back(std::move(line));
-    }
-    return lines;
-}
-
-void BoardImpl::compress(int start_y)
-{
-    for (const auto& y : irange<int>(start_y, 0, -1))
-    {
-        for (const auto& x : irange<int>(this->width))
-        {
-            this->pixels[y][x] = this->pixels[y - 1][x];
-            this->pixels[y][x].coords = {x, y};
-        }
-    }
-    for (const auto& x : irange<int>(this->width))
-        this->pixels[0][x].clear();
 }
 
 int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)

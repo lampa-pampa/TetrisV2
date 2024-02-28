@@ -12,21 +12,6 @@
 using std::vector;
 using std::string;
 
-GameUiConsoleImpl::GameUiConsoleImpl(
-    int width, int height, NCursesColors& ncurses_colors)    
-:   
-    ncurses_colors(ncurses_colors),
-    width(width),
-    height(height)
-{
-    ::initscr();
-    ::noecho();
-    ::cbreak();
-    ::start_color();
-    this->create_window();
-    this->print_title();
-}
-
 void GameUiConsoleImpl::create_window()
 {
     int screen_width;
@@ -45,6 +30,14 @@ void GameUiConsoleImpl::create_window()
     ::nodelay(this->window, true);
 }
 
+void GameUiConsoleImpl::print_colored_str(std::string str, int x, int y, Color color)
+{
+    const int pair_index{this->ncurses_colors.get_color_pair(color)};
+    ::wattron(this->window, COLOR_PAIR(pair_index));
+    this->print_str(str, x, y);
+    ::wattroff(this->window, COLOR_PAIR(pair_index));
+}
+
 string GameUiConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
 {
     if (not pixel.empty())
@@ -60,12 +53,19 @@ string GameUiConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
     }
 }
 
-void GameUiConsoleImpl::print_colored_str(std::string str, int x, int y, Color color)
+GameUiConsoleImpl::GameUiConsoleImpl(
+    int width, int height, NCursesColors& ncurses_colors
+):   
+    ncurses_colors(ncurses_colors),
+    width(width),
+    height(height)
 {
-    const int pair_index{this->ncurses_colors.get_color_pair(color)};
-    ::wattron(this->window, COLOR_PAIR(pair_index));
-    this->print_str(str, x, y);
-    ::wattroff(this->window, COLOR_PAIR(pair_index));
+    ::initscr();
+    ::noecho();
+    ::cbreak();
+    ::start_color();
+    this->create_window();
+    this->print_title();
 }
 
 void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)

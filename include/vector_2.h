@@ -7,6 +7,11 @@ struct Vector2 final
 {
     int x;
     int y;
+
+    friend std::ostream& operator<<(std::ostream& os, const Vector2& vector2)
+    {
+        return os << "{" << vector2.x << ", " << vector2.y << "}";
+    }
     
     Vector2& operator+=(Vector2 other)
     {
@@ -19,11 +24,6 @@ struct Vector2 final
     {
         return this->x == other.x
             and this->y == other.y;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Vector2& vector2)
-    {
-        return os << "{" << vector2.x << ", " << vector2.y << "}";
     }
 };
 

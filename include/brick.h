@@ -9,6 +9,8 @@
 
 struct Brick final
 {
+    friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
+
     static constexpr unsigned short rotation_quantity{4};
     static Brick get_colored(const Brick& brick, Color color);
     static Brick get_translated(const Brick& brick, Vector2 position);
@@ -39,6 +41,12 @@ struct Brick final
     :
         Brick({}, false)
     {}
+
+    bool operator==(const Brick& other) const
+    {
+        return this->pixels == other.pixels
+            and this->is_center_moved == other.is_center_moved;
+    }
 
     bool empty() const
     {
@@ -72,14 +80,6 @@ struct Brick final
             return a.coords.y < b.coords.y;
         })->coords.y;
     }
-
-    bool operator==(const Brick& other) const
-    {
-        return this->pixels == other.pixels
-            and this->is_center_moved == other.is_center_moved;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
 };
 
 #endif

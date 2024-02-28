@@ -48,10 +48,9 @@ class GameUiConsoleImpl final: public GameUi
     signal hold_pressed;
     signal handle_pause_pressed;
 
-    std::string get_pixel_as_text(const Pixel& pixel) const;
-    void print_colored_str(std::string str, int x, int y, Color color);
     void create_window();
-    void get_color_pair_index(Color color);
+    void print_colored_str(std::string str, int x, int y, Color color);
+    std::string get_pixel_as_text(const Pixel& pixel) const;
 
     int get_text_size(int size, int pixel_size) const
     {
@@ -85,6 +84,11 @@ class GameUiConsoleImpl final: public GameUi
 
 public:
     GameUiConsoleImpl(int width, int height, NCursesColors& ncurses_colors);
+    
+    ~GameUiConsoleImpl()
+    {
+        ::endwin();
+    }
 
     void refresh_board(const std::vector<std::vector<Pixel>>& pixels) override;
     void refresh_score(unsigned long long score) override;
@@ -92,11 +96,6 @@ public:
     void refresh_next(const Brick& brick) override;
     void refresh_hold(const Brick& brick) override;
     void input_received(int input);
-
-    ~GameUiConsoleImpl()
-    {
-        ::endwin();
-    }
 
     WINDOW * get_game_window()
     {

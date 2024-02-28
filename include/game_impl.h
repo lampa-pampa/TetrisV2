@@ -33,8 +33,8 @@ class GameImpl final: public Game
     void refresh_ghost();
     void commit_move();
     void move_down();
-    void place_and_generate_cur_brick();
     void remove_lines(int from_y, int to_y);
+    void place_and_generate_cur_brick();
     void move_cur_brick_horizontally(int by);
  
     void init_move()
@@ -61,6 +61,7 @@ public:
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter
     );
+
     void handle_rotate() override;
     void handle_hard_drop() override;
     void handle_hold() override;

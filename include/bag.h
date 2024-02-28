@@ -16,8 +16,16 @@ class Bag final
 
 public:
     Bag(const std::vector<T>& items, Rng& rng);
+
     T get_next();
 };
+
+template<typename T>
+void Bag<T>::shuffle_items(std::vector<T>& items, Rng& rng)
+{
+    for (const auto& i : boost::irange<int>(items.size() - 1, -1, -1))
+        std::swap(items[i], items[rng.random(i + 1)]);
+}
 
 template<typename T>
 Bag<T>::Bag(const std::vector<T>& items, Rng& rng)
@@ -26,13 +34,6 @@ Bag<T>::Bag(const std::vector<T>& items, Rng& rng)
     current_index(0),
     rng(rng)
 {}
-
-template<typename T>
-void Bag<T>::shuffle_items(std::vector<T>& items, Rng& rng)
-{
-    for (const auto& i : boost::irange<int>(items.size() - 1, -1, -1))
-        std::swap(items[i], items[rng.random(i + 1)]);
-}
 
 template<typename T>
 T Bag<T>::get_next()
