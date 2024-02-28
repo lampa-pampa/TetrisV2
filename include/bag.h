@@ -14,9 +14,9 @@ class Bag final
 
     void shuffle_items(std::vector<T>& items, RNG& rng);
 
-    public:
-        Bag(const std::vector<T>& items, RNG& rng);
-        T get_next();
+public:
+    Bag(const std::vector<T>& items, RNG& rng);
+    T get_next();
 };
 
 template<typename T>

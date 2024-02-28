@@ -5,9 +5,9 @@
 
 class BrickGenerator
 {
-    public:
-        virtual Brick generate() = 0;
-        virtual ~BrickGenerator() = default;
+public:
+    virtual Brick generate() = 0;
+    virtual ~BrickGenerator() = default;
 };
 
 #endif

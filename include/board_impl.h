@@ -22,22 +22,22 @@ class BoardImpl final: public Board
             and position.y >= 0 and position.y < this->height;
     }
 
-    public:
-        BoardImpl(int width, int height);
-        bool is_space_for_brick(const Brick& brick) const override;
-        void add_brick(const Brick& brick) override;
-        void remove_brick(const Brick& brick) override;
-        int remove_lines_in_range_and_compress(int from_y, int to_y) override;
-        
-        const std::vector<std::vector<Pixel>>& get_pixels() const override
-        {
-            return this->pixels;
-        }
-        
-        int get_width() const override
-        {
-            return this->width;
-        }
+public:
+    BoardImpl(int width, int height);
+    bool is_space_for_brick(const Brick& brick) const override;
+    void add_brick(const Brick& brick) override;
+    void remove_brick(const Brick& brick) override;
+    int remove_lines_in_range_and_compress(int from_y, int to_y) override;
+    
+    const std::vector<std::vector<Pixel>>& get_pixels() const override
+    {
+        return this->pixels;
+    }
+    
+    int get_width() const override
+    {
+        return this->width;
+    }
 };
 
 #endif

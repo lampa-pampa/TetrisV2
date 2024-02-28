@@ -5,11 +5,11 @@
 
 class RNGMock final: public RNG
 {   
-    public:
-        int random(int range) override
-        {
-            return range - 1;
-        }
+public:
+    int random(int range) override
+    {
+        return range - 1;
+    }
 };
 
 #endif

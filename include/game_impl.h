@@ -54,119 +54,119 @@ class GameImpl final: public Game
         this->ui.refresh_score(this->score);
     }
 
-    public:
-        GameImpl(
-            GameUI& ui,
-            Board& board,
-            BrickGenerator& brick_generator,
-            ScoreCounter& score_counter
-        );
-        void handle_rotate() override;
-        void handle_hard_drop() override;
-        void handle_hold() override;
+public:
+    GameImpl(
+        GameUI& ui,
+        Board& board,
+        BrickGenerator& brick_generator,
+        ScoreCounter& score_counter
+    );
+    void handle_rotate() override;
+    void handle_hard_drop() override;
+    void handle_hold() override;
 
-        void game_over() override
-        {
-            this->ui.game_over();
-        }
+    void game_over() override
+    {
+        this->ui.game_over();
+    }
 
-        void pause() override
-        {
-            this->ui.pause();
-            this->state = GameState::paused;
-        }
+    void pause() override
+    {
+        this->ui.pause();
+        this->state = GameState::paused;
+    }
 
-        void resume() override
-        {
-            this->ui.resume();
-            this->state = GameState::in_progress;
-        }
+    void resume() override
+    {
+        this->ui.resume();
+        this->state = GameState::in_progress;
+    }
 
-        void handle_soft_drop() override
-        {
-            this->move_down();
-            this->add_score(this->score_counter.count_score_for_soft_drop());
-        }
+    void handle_soft_drop() override
+    {
+        this->move_down();
+        this->add_score(this->score_counter.count_score_for_soft_drop());
+    }
 
-        GameState get_state() const override
-        {
-            return this->state;
-        }
+    GameState get_state() const override
+    {
+        return this->state;
+    }
 
-        void handle_tick() override
-        {
-            this->move_down();
-        }
+    void handle_tick() override
+    {
+        this->move_down();
+    }
 
-        void handle_move_left() override
-        {
-            this->move_cur_brick_horizontally(-1);
-        }
+    void handle_move_left() override
+    {
+        this->move_cur_brick_horizontally(-1);
+    }
 
-        void handle_move_right() override
-        {
-            this->move_cur_brick_horizontally(1);
-        }
-        
-        std::vector<std::vector<Pixel>> get_board_pixels() const
-        {
-            return this->board.get_pixels();
-        }
+    void handle_move_right() override
+    {
+        this->move_cur_brick_horizontally(1);
+    }
+    
+    std::vector<std::vector<Pixel>> get_board_pixels() const
+    {
+        return this->board.get_pixels();
+    }
 
-        unsigned long long get_score() const
-        {
-            return this->score;
-        }
+    unsigned long long get_score() const
+    {
+        return this->score;
+    }
 
-        unsigned long long get_tetrises() const
-        {
-            return this->tetrises;
-        }
+    unsigned long long get_tetrises() const
+    {
+        return this->tetrises;
+    }
 
-        Brick get_cur_brick() const
-        {
-            return this->cur_brick;
-        }
+    Brick get_cur_brick() const
+    {
+        return this->cur_brick;
+    }
 
-        Vector2 get_cur_brick_position() const
-        {
-            return this->cur_brick_position;
-        }
+    Vector2 get_cur_brick_position() const
+    {
+        return this->cur_brick_position;
+    }
 
-        unsigned short get_cur_brick_rotation() const
-        {
-            return this->cur_brick_rotation;
-        }
+    unsigned short get_cur_brick_rotation() const
+    {
+        return this->cur_brick_rotation;
+    }
 
-        Brick get_ghost_brick() const
-        {
-            return this->ghost_brick;
-        }
+    Brick get_ghost_brick() const
+    {
+        return this->ghost_brick;
+    }
 
-        Vector2 get_ghost_brick_position() const
-        {
-            return this->ghost_brick_position;
-        }
+    Vector2 get_ghost_brick_position() const
+    {
+        return this->ghost_brick_position;
+    }
 
-        Brick get_next_brick() const
-        {
-            return this->next_brick;
-        }
+    Brick get_next_brick() const
+    {
+        return this->next_brick;
+    }
 
-        Brick get_hold_brick() const
-        {
-            return this->hold_brick;
-        }
+    Brick get_hold_brick() const
+    {
+        return this->hold_brick;
+    }
 
-        Brick get_transformed_cur_brick() const
-        {
-            return Brick::get_transformed(this->cur_brick, this->cur_brick_rotation, this->cur_brick_position);
-        }
+    Brick get_transformed_cur_brick() const
+    {
+        return Brick::get_transformed(this->cur_brick, this->cur_brick_rotation, this->cur_brick_position);
+    }
 
-        Brick get_transformed_ghost_brick() const
-        {
-            return Brick::get_transformed(this->ghost_brick, this->cur_brick_rotation, this->ghost_brick_position);
-        }
+    Brick get_transformed_ghost_brick() const
+    {
+        return Brick::get_transformed(this->ghost_brick, this->cur_brick_rotation, this->ghost_brick_position);
+    }
 };
 
 #endif

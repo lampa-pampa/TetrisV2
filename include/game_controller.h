@@ -9,14 +9,14 @@ class GameController final
     Timer& timer;
     Game& game;
 
-    public:
-        void handle_pause_pressed();
+public:
+    void handle_pause_pressed();
 
-        GameController(Timer& timer, Game& game)
-        :
-            timer(timer),
-            game(game)
-        {}
+    GameController(Timer& timer, Game& game)
+    :
+        timer(timer),
+        game(game)
+    {}
 };
 
 #endif
