@@ -1,77 +1,111 @@
 #include "game_ui_console_impl.h"
-#include "pixel.h"
-#include <ostream>
-#include <vector>
-#include <iostream>
+
 #include <string>
-#include <functional>
+#include <vector>
+
+#include <ncurses.h>
+
+#include "brick.h"
+#include "color.h"
+#include "pixel.h"
 
 using std::vector;
-using std::cout;
 using std::string;
-using std::flush;
-using std::function;
 
-void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>> &pixels){
-    cout << "\e[1;1H\e[2J";
-    for(const vector<Pixel> &row : pixels)
+GameUIConsoleImpl::GameUIConsoleImpl(
+    int width, int height, NCursesColors& ncurses_colors)    
+:   
+    ncurses_colors(ncurses_colors),
+    width(width),
+    height(height)
+{
+    initscr();
+    noecho();
+    cbreak();
+    start_color();
+    this->create_window();
+    this->print_title();
+}
+
+void GameUIConsoleImpl::create_window()
+{
+    int screen_width;
+    int screen_height;
+    getmaxyx(stdscr, screen_height, screen_width);
+    
+    int char_width{get_text_size(this->width, this->pixel_width)};
+    int char_height{get_text_size(this->height, this->pixel_height)};    
+    int center_x = this->get_centered_index(screen_width, char_width);
+    int center_y = this->get_centered_index(screen_height, char_height);
+    
+    this->window = newwin(char_height, char_width, center_y, center_x);
+    box(this->window, 0, 0);
+    refresh();
+    keypad(this->window, true);
+    nodelay(this->window, true);
+}
+
+string GameUIConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
+{
+    if (not pixel.empty())
     {
-        for(const Pixel &pixel: row)
-        {
-            string pixel_text{"--"};
-            if(!pixel.empty())
-            {
-                if(pixel.is_ghost)
-                    pixel_text = "::";
-                else
-                    pixel_text = "[]";
-            }
-            cout << pixel_text;
-        }
-        cout << '\n';
+        if (pixel.is_ghost)
+            return this->ghost_pixel;
+        else
+            return this->filled_pixel;
     }
-    cout << flush;
+    else
+    {
+        return this->empty_pixel;
+    }
 }
 
-void GameUIConsoleImpl::refresh_score(int score){}
-
-void GameUIConsoleImpl::refresh_tetrises(int tetrises){}
-
-void GameUIConsoleImpl::refresh_next(const Brick &brick){}
-
-void GameUIConsoleImpl::refresh_hold(const Brick &brick){}
-
-void GameUIConsoleImpl::connect_move_left_pressed(function<void()> handler)
+void GameUIConsoleImpl::print_colored_str(std::string str, int x, int y, Color color)
 {
-    this->move_left_pressed.connect(handler);
+    const int pair_index{this->ncurses_colors.get_color_pair(color)};
+    wattron(this->window, COLOR_PAIR(pair_index));
+    this->print_str(str, x, y);
+    wattroff(this->window, COLOR_PAIR(pair_index));
 }
 
-void GameUIConsoleImpl::connect_move_right_pressed(function<void()> handler)
+void GameUIConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
 {
-    this->move_right_pressed.connect(handler);
+    this->pixels = pixels;
+    int y{border_width};
+    for (auto row_it{this->pixels.begin()}; row_it != this->pixels.end(); ++row_it, y += this->pixel_height)
+    {
+        int x{border_width};
+        for (auto it{row_it->begin()}; it != row_it->end(); ++it, x += this->pixel_width)
+        {
+            string text_pixel{this->get_pixel_as_text(*it)};
+            this->print_colored_str(text_pixel, x, y, it->color);
+        }
+    }
+    wrefresh(this->window);
 }
 
-void GameUIConsoleImpl::connect_rotate_pressed(function<void()> handler)
+void GameUIConsoleImpl::refresh_score(int score)
 {
-    this->rotate_pressed.connect(handler);
+
 }
 
-void GameUIConsoleImpl::connect_soft_drop_pressed(function<void()> handler)
+void GameUIConsoleImpl::refresh_tetrises(int tetrises)
 {
-    this->soft_drop_pressed.connect(handler);
+
 }
 
-void GameUIConsoleImpl::connect_hard_drop_pressed(function<void()> handler)
+void GameUIConsoleImpl::refresh_next(const Brick& brick)
 {
-    this->hard_drop_pressed.connect(handler);
+
 }
 
-void GameUIConsoleImpl::connect_hold_pressed(function<void()> handler)
+void GameUIConsoleImpl::refresh_hold(const Brick& brick)
 {
-    this->hold_pressed.connect(handler);
+
 }
 
-void GameUIConsoleImpl::connect_pause_pressed(function<void()> handler)
+void GameUIConsoleImpl::input_received(int input)
 {
-    this->pause_pressed.connect(handler);
+    if (auto it{this->input_to_signal.find(input)}; it != this->input_to_signal.end())
+        it->second();
 }
