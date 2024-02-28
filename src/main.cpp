@@ -66,8 +66,8 @@ int main()
     });
 
     int input;
-    WINDOW * game_window{ui.get_game_window()};
-    while((input = wgetch(game_window)) != 'q')
+    ::WINDOW * game_window{ui.get_game_window()};
+    while((input = ::wgetch(game_window)) != 'q')
     {
         ui.input_received(input);
 

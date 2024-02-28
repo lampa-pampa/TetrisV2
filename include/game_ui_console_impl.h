@@ -60,7 +60,7 @@ class GameUiConsoleImpl final: public GameUi
 
     void print_str(std::string str, int x, int y)
     {
-        mvwprintw(this->window, y, x, "%s", str.data());
+        ::mvwprintw(this->window, y, x, "%s", str.data());
     }
 
     void print_title()
@@ -95,7 +95,7 @@ public:
 
     ~GameUiConsoleImpl()
     {
-        endwin();
+        ::endwin();
     }
 
     WINDOW * get_game_window()

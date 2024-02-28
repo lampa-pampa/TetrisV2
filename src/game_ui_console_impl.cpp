@@ -19,10 +19,10 @@ GameUiConsoleImpl::GameUiConsoleImpl(
     width(width),
     height(height)
 {
-    initscr();
-    noecho();
-    cbreak();
-    start_color();
+    ::initscr();
+    ::noecho();
+    ::cbreak();
+    ::start_color();
     this->create_window();
     this->print_title();
 }
@@ -38,11 +38,11 @@ void GameUiConsoleImpl::create_window()
     int center_x = this->get_centered_index(screen_width, char_width);
     int center_y = this->get_centered_index(screen_height, char_height);
     
-    this->window = newwin(char_height, char_width, center_y, center_x);
-    box(this->window, 0, 0);
-    refresh();
-    keypad(this->window, true);
-    nodelay(this->window, true);
+    this->window = ::newwin(char_height, char_width, center_y, center_x);
+    ::box(this->window, 0, 0);
+    ::refresh();
+    ::keypad(this->window, true);
+    ::nodelay(this->window, true);
 }
 
 string GameUiConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
@@ -63,9 +63,9 @@ string GameUiConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
 void GameUiConsoleImpl::print_colored_str(std::string str, int x, int y, Color color)
 {
     const int pair_index{this->ncurses_colors.get_color_pair(color)};
-    wattron(this->window, COLOR_PAIR(pair_index));
+    ::wattron(this->window, COLOR_PAIR(pair_index));
     this->print_str(str, x, y);
-    wattroff(this->window, COLOR_PAIR(pair_index));
+    ::wattroff(this->window, COLOR_PAIR(pair_index));
 }
 
 void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
@@ -83,7 +83,7 @@ void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
         }
         y += this->pixel_height;
     }
-    wrefresh(this->window);
+    ::wrefresh(this->window);
 }
 
 void GameUiConsoleImpl::refresh_score(unsigned long long score)

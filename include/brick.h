@@ -18,7 +18,7 @@ struct Brick final
     static Brick get_transformed(const Brick& brick, int quarters_rotation, Vector2 position)
     {
         const Brick rotated_brick{get_rotated(brick, quarters_rotation)};
-        return get_translated(rotated_brick, position);
+        return Brick::get_translated(rotated_brick, position);
     }
 
     std::vector<Pixel> pixels;
