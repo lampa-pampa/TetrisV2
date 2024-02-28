@@ -30,7 +30,7 @@ Bag<T>::Bag(const std::vector<T>& items, RNG& rng)
 template<typename T>
 void Bag<T>::shuffle_items(std::vector<T>& items, RNG& rng)
 {
-    for (const auto& i : boost::irange<size_t>(items.size() - 1, 0, -1))
+    for (const auto& i : boost::irange<int>(items.size() - 1, -1, -1))
         std::swap(items[i], items[rng.random(i + 1)]);
 }
 

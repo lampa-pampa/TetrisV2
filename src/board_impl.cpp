@@ -48,11 +48,11 @@ void BoardImpl::remove_brick(const Brick& brick)
 vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
 {
     vector<Brick> lines;
-    for (const auto& y : irange<size_t>(from_y, to_y + 1))
+    for (const auto& y : irange<int>(from_y, to_y + 1))
     {
         Brick line{{}};
         bool is_full_line{true};
-        for (const auto& x : irange<size_t>(this->width))
+        for (const auto& x : irange<int>(this->width))
         {
             const Pixel& pixel = this->pixels[y][x];
             if (pixel.empty())
@@ -78,7 +78,7 @@ void BoardImpl::compress(int start_y)
             this->pixels[y][x].coords = {x, y};
         }
     }
-    for (const auto& x : irange<size_t>(this->width))
+    for (const auto& x : irange<int>(this->width))
         this->pixels[0][x].clear();
 }
 
