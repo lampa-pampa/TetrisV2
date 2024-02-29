@@ -42,7 +42,7 @@ void GameUiConsoleImpl::set_pixel(int d_x, int d_y, Color color)
     int c_x{d_x * this->c_dot_width};
     int c_y{d_y * this->c_dot_height};
     ::wattron(this->window, COLOR_PAIR(pair_index));
-    ::mvwprintw(this->window, c_y, c_x, "▣");
+    ::mvwprintw(this->window, c_y, c_x, "%ls", &this->dot_char);
     ::wattroff(this->window, COLOR_PAIR(pair_index));
 }
 

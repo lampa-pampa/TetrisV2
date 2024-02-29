@@ -33,7 +33,7 @@ class GameUiConsoleImpl final: public GameUi
         this->d_border_width,
         this->d_border_width
     };
-    const Color border_color{Color::pink};
+    const Color border_color{Color::white};
     const std::map<int, signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
@@ -43,6 +43,7 @@ class GameUiConsoleImpl final: public GameUi
         {'c', this->hold_pressed},
         {'p', this->handle_pause_pressed},
     };
+    const wchar_t dot_char{U'◼'};
     int width;
     int height;
     std::vector<std::vector<Pixel>> pixels{};

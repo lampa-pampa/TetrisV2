@@ -18,6 +18,7 @@ enum class Color
     purple,
     orange,
     pink,
+    white,
 };
 
 const std::map<Color, std::string> color_to_name
@@ -30,6 +31,7 @@ const std::map<Color, std::string> color_to_name
     {Color::purple, "purple"},
     {Color::orange, "orange"},
     {Color::pink, "pink"},
+    {Color::white, "pink"},
 };
 
 inline std::ostream& operator<<(std::ostream& os, Color color)
