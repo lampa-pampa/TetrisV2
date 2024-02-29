@@ -1,6 +1,7 @@
-#include "brick.h"
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include "brick.h"
 
 using testing::Eq;
 using Tetris::Brick;

@@ -1,9 +1,10 @@
 #ifndef INCLUDE_BOARD_H
 #define INCLUDE_BOARD_H
 
+#include <vector>
+
 #include "brick.h"
 #include "pixel.h"
-#include <vector>
 
 namespace Tetris
 {

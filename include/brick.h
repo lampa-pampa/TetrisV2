@@ -1,11 +1,12 @@
 #ifndef INCLUDE_BRICK_H
 #define INCLUDE_BRICK_H
 
+#include <algorithm>
+#include <vector>
+
 #include "color.h"
 #include "pixel.h"
 #include "vector_2.h"
-#include <algorithm>
-#include <vector>
 
 namespace Tetris
 {

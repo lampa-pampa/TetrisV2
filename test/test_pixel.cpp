@@ -1,11 +1,12 @@
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
 #include "color.h"
 #include "pixel.h"
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
 using testing::Eq;
-using Tetris::Pixel;
 using Tetris::Color;
+using Tetris::Pixel;
 
 TEST(Pixel, empty_color_black_ghost_false)
 {

@@ -1,6 +1,8 @@
 #ifndef INCLUDE_GAME_IMPL_H
 #define INCLUDE_GAME_IMPL_H
 
+#include <vector>
+
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
@@ -9,7 +11,6 @@
 #include "game.h"
 #include "score_counter.h"
 #include "vector_2.h"
-#include <vector>
 
 namespace Tetris
 {

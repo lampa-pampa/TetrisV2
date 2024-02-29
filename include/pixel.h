@@ -1,9 +1,10 @@
 #ifndef INCLUDE_PIXEL_H
 #define INCLUDE_PIXEL_H
 
+#include <ostream>
+
 #include "color.h"
 #include "vector_2.h"
-#include <ostream>
 
 namespace Tetris
 {

@@ -1,9 +1,11 @@
 #ifndef INCLUDE_TIMER_MOCK_H
 #define INCLUDE_TIMER_MOCK_H
 
-#include "timer.h"
-#include <boost/signals2.hpp>
 #include <functional>
+
+#include <boost/signals2.hpp>
+
+#include "timer.h"
 
 namespace Tetris
 {

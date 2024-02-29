@@ -1,21 +1,23 @@
+#include <vector>
+
+#include <boost/range/irange.hpp>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
 #include "bag.h"
-#include "brick.h"
 #include "brick_generator_impl.h"
+#include "brick.h"
 #include "color.h"
 #include "rng_mock.h"
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <vector>
-#include <boost/range/irange.hpp>
 
-using testing::Eq;
-using std::vector;
 using boost::irange;
+using std::vector;
+using testing::Eq;
+using Tetris::Bag;
 using Tetris::Brick;
+using Tetris::BrickGeneratorImpl;
 using Tetris::Color;
 using Tetris::RngMock;
-using Tetris::BrickGeneratorImpl;
-using Tetris::Bag;
 
 
 TEST(BrickGeneratorImpl, generate)

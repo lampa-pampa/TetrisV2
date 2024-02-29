@@ -1,34 +1,35 @@
+#include <ncurses.h>
+
 #include "bag.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "brick_sources.h"
-#include "color.h"
 #include "color_sources.h"
+#include "color.h"
 #include "game_controller.h"
 #include "game_impl.h"
 #include "game_state.h"
 #include "game_ui_console_impl.h"
+#include "ncurses_colors.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_mock.h"
-#include "ncurses_colors.h"
-#include <ncurses.h>
 
-using Tetris::TimerMock;
-using Tetris::NCursesColors;
-using Tetris::GameUiConsoleImpl;
-using Tetris::BoardImpl;
-using Tetris::RngImpl;
-using Tetris::BrickGeneratorImpl;
 using Tetris::Bag;
-using Tetris::Brick;
+using Tetris::BoardImpl;
 using Tetris::brick_sources;
+using Tetris::Brick;
+using Tetris::BrickGeneratorImpl;
 using Tetris::color_sources;
 using Tetris::Color;
-using Tetris::ScoreCounterImpl;
-using Tetris::GameImpl;
 using Tetris::GameController;
+using Tetris::GameImpl;
 using Tetris::GameState;
+using Tetris::GameUiConsoleImpl;
+using Tetris::NCursesColors;
+using Tetris::RngImpl;
+using Tetris::ScoreCounterImpl;
+using Tetris::TimerMock;
 
 int main()
 {

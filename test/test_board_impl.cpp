@@ -1,24 +1,25 @@
+#include <algorithm>
+#include <functional>
+#include <vector>
+
+#include <boost/range/irange.hpp>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
 #include "board_impl.h"
 #include "brick.h"
 #include "color.h"
 #include "pixel.h"
-#include <algorithm>
-#include <gmock/gmock-matchers.h>
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <vector>
-#include <functional>
-#include <boost/range/irange.hpp>
 
-using std::vector;
-using std::function;
-using std::find;
-using testing::Eq;
 using boost::irange;
+using std::find;
+using std::function;
+using std::vector;
+using testing::Eq;
+using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::Color;
 using Tetris::Pixel;
-using Tetris::BoardImpl;
 
 namespace {
     Brick create_rectangle_brick(int width, int height, Color color)

@@ -2,8 +2,10 @@
 #define INCLUDE_NCURSES_COLORS_H
 
 #include <map>
-#include "color.h"
+
 #include <ncurses.h>
+
+#include "color.h"
 
 namespace Tetris
 {

@@ -1,9 +1,12 @@
 #include "brick.h"
-#include "pixel.h"
-#include "vector_2.h"
+
 #include <algorithm>
 #include <ostream>
+
 #include <boost/range/irange.hpp>
+
+#include "pixel.h"
+#include "vector_2.h"
 
 namespace Tetris
 {

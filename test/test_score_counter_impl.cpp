@@ -1,6 +1,7 @@
-#include "score_counter_impl.h"
-#include <gtest/gtest.h>
 #include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
+#include "score_counter_impl.h"
 
 using testing::Eq;
 using Tetris::ScoreCounterImpl;

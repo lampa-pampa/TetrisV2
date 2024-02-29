@@ -1,9 +1,12 @@
 #include "board_impl.h"
+
+#include <vector>
+
+#include <boost/range/irange.hpp>
+
 #include "brick.h"
 #include "pixel.h"
 #include "vector_2.h"
-#include <vector>
-#include <boost/range/irange.hpp>
 
 namespace Tetris
 {

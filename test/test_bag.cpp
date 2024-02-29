@@ -1,15 +1,17 @@
+#include <vector>
+
+#include <boost/range/irange.hpp>
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+
 #include "bag.h"
 #include "rng_mock.h"
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <vector>
-#include <boost/range/irange.hpp>
 
-using testing::Eq;
-using std::vector;
 using boost::irange;
-using Tetris::RngMock;
+using std::vector;
+using testing::Eq;
 using Tetris::Bag;
+using Tetris::RngMock;
 
 TEST(Bag, get_next)
 {

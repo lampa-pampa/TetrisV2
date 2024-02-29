@@ -1,8 +1,9 @@
 #ifndef INCLUDE_COLOR_SOURCES_H
 #define INCLUDE_COLOR_SOURCES_H
 
-#include "color.h"
 #include <vector>
+
+#include "color.h"
 
 namespace Tetris
 {

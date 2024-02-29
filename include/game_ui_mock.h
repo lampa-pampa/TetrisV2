@@ -1,10 +1,11 @@
 #ifndef INCLUDE_GAME_UI_MOCK_H
 #define INCLUDE_GAME_UI_MOCK_H
 
+#include <vector>
+
 #include "brick.h"
 #include "game_ui.h"
 #include "pixel.h"
-#include <vector>
 
 namespace Tetris
 {

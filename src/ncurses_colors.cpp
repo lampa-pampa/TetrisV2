@@ -1,5 +1,7 @@
 #include "ncurses_colors.h"
+
 #include <ncurses.h>
+
 #include"color.h"
 
 namespace Tetris

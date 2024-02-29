@@ -1,9 +1,10 @@
 #ifndef INCLUDE_Rng_IMPL_H
 #define INCLUDE_Rng_IMPL_H
 
-#include "rng.h"
 #include <cstdlib>
 #include <ctime>
+
+#include "rng.h"
 
 namespace Tetris
 {

@@ -1,9 +1,11 @@
 #ifndef INCLUDE_BAG_H
 #define INCLUDE_BAG_H
 
-#include "rng.h"
 #include <vector>
+
 #include <boost/range/irange.hpp>
+
+#include "rng.h"
 
 namespace Tetris
 {

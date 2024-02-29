@@ -1,7 +1,15 @@
+#include <algorithm>
+#include <functional>
+#include <vector>
+
+#include <gmock/gmock.h>
+#include <gtest/gtest.h>
+#include <boost/range/irange.hpp>
+
 #include "bag.h"
 #include "board_impl.h"
-#include "brick.h"
 #include "brick_generator_impl.h"
+#include "brick.h"
 #include "color.h"
 #include "game_impl.h"
 #include "game_state.h"
@@ -10,32 +18,25 @@
 #include "score_counter_impl.h"
 #include "score_counter_mock.h"
 #include "vector_2.h"
-#include <algorithm>
-#include <gmock/gmock-matchers.h>
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
-#include <vector>
-#include <functional>
-#include <boost/range/irange.hpp>
 
-using testing::Eq;
-using std::function;
-using std::find;
-using std::vector;
 using boost::irange;
-using Tetris::Pixel;
-using Tetris::Brick;
-using Tetris::GameUiMock;
-using Tetris::BoardImpl;
-using Tetris::RngMock;
-using Tetris::BrickGeneratorImpl;
-using Tetris::ScoreCounterMock;
+using std::find;
+using std::function;
+using std::vector;
+using testing::Eq;
 using Tetris::Bag;
+using Tetris::BoardImpl;
+using Tetris::Brick;
+using Tetris::BrickGeneratorImpl;
 using Tetris::Color;
-using Tetris::Vector2;
 using Tetris::GameImpl;
 using Tetris::GameState;
+using Tetris::GameUiMock;
+using Tetris::Pixel;
+using Tetris::RngMock;
 using Tetris::ScoreCounterImpl;
+using Tetris::ScoreCounterMock;
+using Tetris::Vector2;
 
 namespace {
     void for_each_pixel_assert_true(const vector<vector<Pixel>>& pixels, function<bool(Pixel pixel)> compare)

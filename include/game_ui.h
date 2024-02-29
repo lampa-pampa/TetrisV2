@@ -1,9 +1,10 @@
 #ifndef INCLUDE_GAME_UI_H
 #define INCLUDE_GAME_UI_H
 
+#include <vector>
+
 #include "brick.h"
 #include "pixel.h"
-#include <vector>
 
 namespace Tetris
 {

@@ -1,17 +1,19 @@
 #ifndef INCLUDE_GAME_UI_CONSOLE_IMPL_H
 #define INCLUDE_GAME_UI_CONSOLE_IMPL_H
 
+#include <functional>
+#include <map>
+#include <string>
+#include <vector>
+
+#include <boost/signals2.hpp>
+#include <ncurses.h>
+
 #include "brick.h"
 #include "color.h"
 #include "game_ui.h"
-#include "pixel.h"
-#include <boost/signals2.hpp>
-#include <functional>
-#include <map>
-#include <ncurses.h>
-#include <string>
-#include <vector>
 #include "ncurses_colors.h"
+#include "pixel.h"
 
 namespace Tetris
 {

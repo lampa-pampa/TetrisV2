@@ -1,11 +1,13 @@
+#include "game_impl.h"
+
+#include <algorithm>
+
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
-#include "game_impl.h"
 #include "game_state.h"
 #include "game_ui.h"
 #include "score_counter.h"
-#include <algorithm>
 
 namespace Tetris
 {
