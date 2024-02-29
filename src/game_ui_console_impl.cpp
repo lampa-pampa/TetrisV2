@@ -61,11 +61,11 @@ string GameUiConsoleImpl::get_pixel_as_text(const Pixel& pixel) const
 }
 
 GameUiConsoleImpl::GameUiConsoleImpl(
-    int width, int height, NCursesColors& ncurses_colors
+    int width, int height, const NCursesColors& ncurses_colors
 ):   
-    ncurses_colors(ncurses_colors),
-    width(width),
-    height(height)
+    ncurses_colors{ncurses_colors},
+    width{width},
+    height{height}
 {
     ::initscr();
     ::noecho();

@@ -89,7 +89,7 @@ class GameUiConsoleImpl final: public GameUi
     }
 
 public:
-    GameUiConsoleImpl(int width, int height, NCursesColors& ncurses_colors);
+    GameUiConsoleImpl(int width, int height, const NCursesColors& ncurses_colors);
     
     ~GameUiConsoleImpl()
     {

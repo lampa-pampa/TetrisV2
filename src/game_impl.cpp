@@ -103,16 +103,16 @@ GameImpl::GameImpl(
     BrickGenerator& brick_generator,
     ScoreCounter& score_counter
 ):
-    ui(ui),
-    board(board),
-    brick_generator(brick_generator),
-    score_counter(score_counter),
-    state(GameState::in_progress),
-    score(0),
-    tetrises(0),
-    next_brick(this->brick_generator.generate()),
-    cur_brick_rotation(0),
-    can_hold(true)
+    ui{ui},
+    board{board},
+    brick_generator{brick_generator},
+    score_counter{score_counter},
+    state{GameState::in_progress},
+    score{0},
+    tetrises{0},
+    next_brick{this->brick_generator.generate()},
+    cur_brick_rotation{0},
+    can_hold{true}
 {
     this->generate_new_brick();
     this->commit_move();
