@@ -17,7 +17,7 @@ class Bag final
 
     void shuffle_items(std::vector<T>& items, Rng& rng)
     {
-        for (const auto& i : boost::irange<int>(items.size() - 1, -1, -1))
+        for (const auto& i : boost::irange<int>(items.size() - 1, 0, -1))
             std::swap(items[i], items[rng.random(i + 1)]);
     }
 
