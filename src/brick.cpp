@@ -56,10 +56,10 @@ Brick Brick::get_ghostified(const Brick& brick)
 ostream& operator<<(ostream& os, const Brick& brick)
 {
     os << "{{ ";
-    for (auto it{brick.pixels.begin()}; it != brick.pixels.end(); ++it)
+    for (const auto& pixel : brick.pixels)
     {
-        os << *it;
-        if (it != brick.pixels.end() - 1)
+        os << pixel;
+        if (&pixel != &brick.pixels.back())
             os << ", ";
     }
     return os << " }, " << boolalpha << brick.is_center_moved << "}";
