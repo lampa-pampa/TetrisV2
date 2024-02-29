@@ -91,6 +91,38 @@ void GameUiConsoleImpl::draw_line(Vector2 from, Vector2 to, Color color)
     }
 }
 
+void GameUiConsoleImpl::print_board(const vector<vector<Pixel>>& board, Vector2 position)
+{
+    for (const auto& p_y : irange<int>(board.size()))
+    {
+        int d_start_y = this->d_pixel_size * p_y;
+        for (const auto& p_x : irange<int>(board[0].size()))
+        {
+            int d_start_x = this->d_pixel_size * p_x;
+            this->print_pixel(d_start_x, d_start_y, board[p_y][p_x].color);
+        }
+    }
+    ::wrefresh(this->window);
+}
+
+void GameUiConsoleImpl::print_pixel(int d_start_x, int d_start_y, Color color)
+{
+    for(const auto& d_offset_y : irange(this->d_pixel_size))
+    {
+        for(const auto& d_offset_x : irange(this->d_pixel_size))
+        {
+            Vector2 d_position{this->d_game_board_position};
+            int d_pixel_x{d_start_x + d_offset_x + d_position.x};
+            int d_pixel_y{d_start_y + d_offset_y + d_position.y};
+            this->set_pixel(
+                d_pixel_x,
+                d_pixel_y,
+                color
+            );
+        }
+    }
+}
+
 GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
 :   
     ncurses_colors{ncurses_colors}
@@ -110,29 +142,7 @@ GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
 void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
 {
     this->pixels = pixels;
-    for (const auto& p_y : irange<int>(pixels.size()))
-    {
-        int d_pixel_start_y = this->d_pixel_size * p_y;
-        for (const auto& p_x : irange<int>(pixels[0].size()))
-        {
-            int d_pixel_start_x = this->d_pixel_size * p_x;
-            for(const auto& d_offset_y : irange(this->d_pixel_size))
-            {
-                for(const auto& d_offset_x : irange(this->d_pixel_size))
-                {
-                    Vector2 d_position{this->d_game_board_position};
-                    int d_pixel_x{d_pixel_start_x + d_offset_x + d_position.x};
-                    int d_pixel_y{d_pixel_start_y + d_offset_y + d_position.y};
-                    this->set_pixel(
-                        d_pixel_x,
-                        d_pixel_y,
-                        pixels[p_y][p_x].color
-                    );
-                }
-            }
-        }
-    }
-    ::wrefresh(this->window);
+    this->print_board(pixels, this->d_game_board_position);
 }
 
 void GameUiConsoleImpl::refresh_score(unsigned long long score)

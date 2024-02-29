@@ -61,6 +61,11 @@ class GameUiConsoleImpl final: public GameUi
     void set_pixel(int x, int y, Color color);
     void draw_border();
     void draw_line(Vector2 from, Vector2 to, Color color);
+    void print_board(
+        const std::vector<std::vector<Pixel>>& pixels,
+        Vector2 position
+    );
+    void print_pixel(int d_start_x, int d_start_y, Color color);
 
 public:
     GameUiConsoleImpl(const NCursesColors& ncurses_colors);
