@@ -3,7 +3,8 @@
 #include <gmock/gmock.h>
 
 using testing::Eq;
-using namespace Tetris;
+using Tetris::Brick;
+using Tetris::Color;
 
 TEST(Brick, get_colored)
 {

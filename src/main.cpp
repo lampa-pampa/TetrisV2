@@ -14,7 +14,21 @@
 #include "ncurses_colors.h"
 #include <ncurses.h>
 
-using namespace Tetris;
+using Tetris::TimerMock;
+using Tetris::NCursesColors;
+using Tetris::GameUiConsoleImpl;
+using Tetris::BoardImpl;
+using Tetris::RngImpl;
+using Tetris::BrickGeneratorImpl;
+using Tetris::Bag;
+using Tetris::Brick;
+using Tetris::brick_sources;
+using Tetris::color_sources;
+using Tetris::Color;
+using Tetris::ScoreCounterImpl;
+using Tetris::GameImpl;
+using Tetris::GameController;
+using Tetris::GameState;
 
 int main()
 {
@@ -36,34 +50,27 @@ int main()
     });
 
     ui.connect_move_left_pressed([&game](){
-        if (game.get_state() == GameState::in_progress)
-            game.handle_move_left();
+        game.handle_move_left();
     });
 
     ui.connect_move_right_pressed([&game](){
-        if (game.get_state() == GameState::in_progress)
-            game.handle_move_right();
+        game.handle_move_right();
     });
 
-
     ui.connect_rotate_pressed([&game](){
-        if (game.get_state() == GameState::in_progress)
-            game.handle_rotate();
+        game.handle_rotate();
     });
 
     ui.connect_soft_drop_pressed([&game](){
-        if (game.get_state() == GameState::in_progress)
-            game.handle_soft_drop();
+        game.handle_soft_drop();
     });
 
     ui.connect_hard_drop_pressed([&game](){
-        if (game.get_state() == GameState::in_progress)
-            game.handle_hard_drop();
+        game.handle_hard_drop();
     });
 
     ui.connect_hold_pressed([&game](){
-        if (game.get_state() == GameState::in_progress)
-            game.handle_hold();
+        game.handle_hold();
     });
 
     ui.connect_pause_pressed([&game_controller](){

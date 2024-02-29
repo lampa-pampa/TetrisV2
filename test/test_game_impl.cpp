@@ -23,7 +23,19 @@ using std::function;
 using std::find;
 using std::vector;
 using boost::irange;
-using namespace Tetris;
+using Tetris::Pixel;
+using Tetris::Brick;
+using Tetris::GameUiMock;
+using Tetris::BoardImpl;
+using Tetris::RngMock;
+using Tetris::BrickGeneratorImpl;
+using Tetris::ScoreCounterMock;
+using Tetris::Bag;
+using Tetris::Color;
+using Tetris::Vector2;
+using Tetris::GameImpl;
+using Tetris::GameState;
+using Tetris::ScoreCounterImpl;
 
 namespace {
     void for_each_pixel_assert_true(const vector<vector<Pixel>>& pixels, function<bool(Pixel pixel)> compare)

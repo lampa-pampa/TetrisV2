@@ -11,7 +11,12 @@
 using testing::Eq;
 using std::vector;
 using boost::irange;
-using namespace Tetris;
+using Tetris::Brick;
+using Tetris::Color;
+using Tetris::RngMock;
+using Tetris::BrickGeneratorImpl;
+using Tetris::Bag;
+
 
 TEST(BrickGeneratorImpl, generate)
 {
