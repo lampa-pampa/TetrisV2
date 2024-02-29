@@ -17,12 +17,6 @@ struct Brick final
     bool is_center_moved;
 
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
-    
-    bool operator==(const Brick& other) const
-    {
-        return this->pixels == other.pixels
-            and this->is_center_moved == other.is_center_moved;
-    }
 
     static constexpr unsigned short rotation_quantity{4};
     static Brick get_colored(const Brick& brick, Color color);
@@ -38,6 +32,12 @@ struct Brick final
             Brick::get_rotated(brick, quarters_rotation)
         };
         return Brick::get_translated(rotated_brick, position);
+    }
+
+    bool operator==(const Brick& other) const
+    {
+        return this->pixels == other.pixels
+            and this->is_center_moved == other.is_center_moved;
     }
     
     Brick(std::vector<Pixel> pixels, bool is_center_moved)

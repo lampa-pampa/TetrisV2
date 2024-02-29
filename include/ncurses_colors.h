@@ -23,6 +23,7 @@ class NCursesColors final
         {Color::orange, COLOR_MAGENTA},
         {Color::pink, COLOR_MAGENTA},
     };
+    
     std::map<Color, int> color_to_pair;
     
 public:
