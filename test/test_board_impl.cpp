@@ -15,6 +15,7 @@ using std::function;
 using std::find;
 using testing::Eq;
 using boost::irange;
+using namespace Tetris;
 
 namespace {
     Brick create_rectangle_brick(int width, int height, Color color)

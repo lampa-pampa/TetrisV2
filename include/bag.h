@@ -5,6 +5,9 @@
 #include <vector>
 #include <boost/range/irange.hpp>
 
+namespace Tetris
+{
+
 template<typename T>
 class Bag final
 {
@@ -43,6 +46,8 @@ T Bag<T>::get_next()
     T item{this->items[this->current_index]};
     this->current_index = (this->current_index + 1) % this->items.size();
     return item; 
+}
+
 }
 
 #endif

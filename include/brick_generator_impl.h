@@ -6,6 +6,9 @@
 #include "brick.h"
 #include "color.h"
 
+namespace Tetris
+{
+
 class BrickGeneratorImpl final: public BrickGenerator
 {
     Bag<Brick> bricks_bag;
@@ -25,5 +28,7 @@ public:
         );
     }
 };
+
+}
 
 #endif

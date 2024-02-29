@@ -5,6 +5,9 @@
 #include "color.h"
 #include <ncurses.h>
 
+namespace Tetris
+{
+
 class NCursesColors final
 {
     const std::map<Color, int> color_to_ncurses_color
@@ -23,5 +26,7 @@ class NCursesColors final
 public:
     int get_color_pair(Color color);
 };
+
+}
 
 #endif

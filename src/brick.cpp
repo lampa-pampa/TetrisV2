@@ -5,6 +5,9 @@
 #include <ostream>
 #include <boost/range/irange.hpp>
 
+namespace Tetris
+{
+
 using std::swap;
 using std::ostream;
 using std::boolalpha;
@@ -60,4 +63,6 @@ ostream& operator<<(ostream& os, const Brick& brick)
             os << ", ";
     }
     return os << " }, " << boolalpha << brick.is_center_moved << "}";
+}
+
 }

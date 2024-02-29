@@ -1,6 +1,9 @@
 #include "game_controller.h"
 #include "game_state.h"
 
+namespace Tetris
+{
+
 void GameController::handle_pause_pressed()
 {
     const GameState game_state{this->game.get_state()};
@@ -15,4 +18,6 @@ void GameController::handle_pause_pressed()
         this->timer.start();
         this->game.resume();
     }
+}
+
 }

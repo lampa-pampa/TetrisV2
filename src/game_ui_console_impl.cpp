@@ -9,6 +9,9 @@
 #include "color.h"
 #include "pixel.h"
 
+namespace Tetris
+{
+
 using std::vector;
 using std::string;
 
@@ -116,4 +119,6 @@ void GameUiConsoleImpl::input_received(int input)
         it != this->input_to_signal.end()
     )
         it->second();
+}
+
 }

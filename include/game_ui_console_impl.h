@@ -13,6 +13,9 @@
 #include <vector>
 #include "ncurses_colors.h"
 
+namespace Tetris
+{
+
 class GameUiConsoleImpl final: public GameUi
 {
     using signal = boost::signals2::signal<void()>;
@@ -155,5 +158,7 @@ public:
         this->handle_pause_pressed.connect(handler);
     }
 };
+
+}
 
 #endif

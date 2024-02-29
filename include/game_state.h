@@ -5,6 +5,9 @@
 #include <ostream>
 #include <string>
 
+namespace Tetris
+{
+
 enum class GameState
 {
     in_progress = 0,
@@ -22,6 +25,8 @@ const std::map<GameState, std::string> game_state_to_name
 inline std::ostream& operator<<(std::ostream& os, GameState state)
 {
     return os << "GameState::" << game_state_to_name.at(state);
+}
+
 }
 
 #endif

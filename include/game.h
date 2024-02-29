@@ -3,6 +3,9 @@
 
 #include "game_state.h"
 
+namespace Tetris
+{
+
 class Game
 {
 public:
@@ -19,5 +22,7 @@ public:
     virtual void handle_move_right() = 0;
     virtual ~Game() = default;
 };
+
+}
 
 #endif

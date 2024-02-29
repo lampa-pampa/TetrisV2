@@ -2,6 +2,9 @@
 #include <ncurses.h>
 #include"color.h"
 
+namespace Tetris
+{
+
 int NCursesColors::get_color_pair(Color color)
 {
     auto it = this->color_to_pair.find(color);
@@ -12,4 +15,6 @@ int NCursesColors::get_color_pair(Color color)
         it = this->color_to_pair.insert({color, ncurses_color}).first;
     }
     return it->second;
+}
+
 }

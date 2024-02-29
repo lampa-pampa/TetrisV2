@@ -5,6 +5,9 @@
 #include <vector>
 #include <boost/range/irange.hpp>
 
+namespace Tetris
+{
+
 using std::vector;
 using boost::irange;
 
@@ -91,4 +94,6 @@ int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)
         this->compress(line.pixels[0].coords.y);
     }
     return lines.size();
+}
+
 }

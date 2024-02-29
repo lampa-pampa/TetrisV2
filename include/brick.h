@@ -7,6 +7,9 @@
 #include <algorithm>
 #include <vector>
 
+namespace Tetris
+{
+
 struct Brick final
 {
     std::vector<Pixel> pixels;
@@ -101,5 +104,7 @@ struct Brick final
         )->coords.y;
     }
 };
+
+}
 
 #endif

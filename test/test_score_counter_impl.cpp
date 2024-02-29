@@ -3,6 +3,7 @@
 #include <gmock/gmock.h>
 
 using testing::Eq;
+using namespace Tetris;
 
 TEST(ScoreCounterImpl, test_count_score_for_lines)
 {

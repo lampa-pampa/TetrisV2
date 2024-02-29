@@ -3,6 +3,9 @@
 
 #include "rng.h"
 
+namespace Tetris
+{
+
 class RngMock final: public Rng
 {   
 public:
@@ -11,5 +14,7 @@ public:
         return range - 1;
     }
 };
+
+}
 
 #endif

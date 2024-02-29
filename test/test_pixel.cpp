@@ -4,6 +4,7 @@
 #include <gmock/gmock.h>
 
 using testing::Eq;
+using namespace Tetris;
 
 TEST(Pixel, empty_color_black_ghost_false)
 {

@@ -1,6 +1,9 @@
 #ifndef INCLUDE_SCORE_COUNTER_H
 #define INCLUDE_SCORE_COUNTER_H
 
+namespace Tetris
+{
+
 class ScoreCounter
 {
 public:
@@ -9,5 +12,7 @@ public:
     virtual int count_score_for_hard_drop(int distance) const = 0;
     virtual ~ScoreCounter() = default;
 };
+
+}
 
 #endif

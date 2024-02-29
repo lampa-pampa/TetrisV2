@@ -5,6 +5,9 @@
 #include <ostream>
 #include <string>
 
+namespace Tetris
+{
+
 enum class Color
 {
     black,
@@ -32,6 +35,8 @@ const std::map<Color, std::string> color_to_name
 inline std::ostream& operator<<(std::ostream& os, Color color)
 {
     return os << "Color::" << color_to_name.at(color);
+}
+
 }
 
 #endif

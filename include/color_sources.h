@@ -4,6 +4,9 @@
 #include "color.h"
 #include <vector>
 
+namespace Tetris
+{
+
 const std::vector<Color> color_sources
 {
     Color::red,
@@ -14,5 +17,7 @@ const std::vector<Color> color_sources
     Color::orange,
     Color::pink,
 };
+
+}
 
 #endif

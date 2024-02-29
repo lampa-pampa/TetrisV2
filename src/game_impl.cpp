@@ -7,6 +7,9 @@
 #include "score_counter.h"
 #include <algorithm>
 
+namespace Tetris
+{
+
 using std::swap;
 
 void GameImpl::generate_new_brick()
@@ -160,4 +163,6 @@ void GameImpl::handle_hold()
         this->commit_move();
         this->can_hold = false;
     }
+}
+
 }

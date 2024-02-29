@@ -3,6 +3,9 @@
 
 #include <ostream>
 
+namespace Tetris
+{
+
 struct Vector2 final
 {
     int x;
@@ -26,5 +29,7 @@ struct Vector2 final
             and this->y == other.y;
     }
 };
+
+}
 
 #endif

@@ -5,6 +5,9 @@
 #include "pixel.h"
 #include <vector>
 
+namespace Tetris
+{
+
 class Board
 {
 public:
@@ -16,5 +19,7 @@ public:
     virtual const std::vector<std::vector<Pixel>>& get_pixels() const = 0; 
     virtual ~Board() = default;
 };
+
+}
 
 #endif

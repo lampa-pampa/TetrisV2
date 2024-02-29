@@ -4,6 +4,9 @@
 #include "game.h"
 #include "timer.h"
 
+namespace Tetris
+{
+
 class GameController final
 {
     Timer& timer;
@@ -18,5 +21,7 @@ public:
         game(game)
     {}
 };
+
+}
 
 #endif

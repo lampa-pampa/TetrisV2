@@ -3,6 +3,9 @@
 
 #include "score_counter.h"
 
+namespace Tetris
+{
+
 class ScoreCounterMock final: public ScoreCounter
 {
 public:
@@ -21,5 +24,7 @@ public:
         return 0;
     }
 };
+
+}
 
 #endif

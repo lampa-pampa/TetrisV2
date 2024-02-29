@@ -5,6 +5,9 @@
 #include "pixel.h"
 #include <vector>
 
+namespace Tetris
+{
+
 class GameUi
 {
 public:
@@ -20,5 +23,7 @@ public:
     virtual void resume() = 0;
     virtual ~GameUi() = default;
 };
+
+}
 
 #endif

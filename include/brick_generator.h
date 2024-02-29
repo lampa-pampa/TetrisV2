@@ -3,11 +3,16 @@
 
 #include "brick.h"
 
+namespace Tetris
+{
+
 class BrickGenerator
 {
 public:
     virtual Brick generate() = 0;
     virtual ~BrickGenerator() = default;
 };
+
+}
 
 #endif

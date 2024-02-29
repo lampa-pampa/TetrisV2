@@ -8,6 +8,8 @@
 using testing::Eq;
 using std::vector;
 using boost::irange;
+using namespace Tetris;
+
 
 TEST(Bag, get_next)
 {

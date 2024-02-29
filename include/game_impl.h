@@ -11,6 +11,9 @@
 #include "vector_2.h"
 #include <vector>
 
+namespace Tetris
+{
+
 class GameImpl final: public Game
 {
     GameUi& ui;
@@ -177,5 +180,7 @@ public:
         );
     }
 };
+
+}
 
 #endif

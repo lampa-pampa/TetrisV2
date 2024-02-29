@@ -6,6 +6,9 @@
 #include "pixel.h"
 #include <vector>
 
+namespace Tetris
+{
+
 class GameUiMock final: public GameUi
 {
 public:
@@ -20,5 +23,7 @@ public:
     void pause() override{}
     void resume() override{}
 };
+
+}
 
 #endif

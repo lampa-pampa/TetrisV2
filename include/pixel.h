@@ -5,6 +5,9 @@
 #include "vector_2.h"
 #include <ostream>
 
+namespace Tetris
+{
+
 struct Pixel final
 {
     Vector2 coords;
@@ -52,5 +55,7 @@ struct Pixel final
         this->is_ghost = false;
     }
 };
+
+}
 
 #endif

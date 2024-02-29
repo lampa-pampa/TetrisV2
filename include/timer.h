@@ -3,6 +3,9 @@
 
 #include <functional>
 
+namespace Tetris
+{
+
 class Timer
 {
 public:
@@ -11,5 +14,7 @@ public:
     virtual void connect_timeout(const std::function<void()> handler) = 0;
     virtual ~Timer() = default;
 };
+
+}
 
 #endif

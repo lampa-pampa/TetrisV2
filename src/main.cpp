@@ -14,6 +14,8 @@
 #include "ncurses_colors.h"
 #include <ncurses.h>
 
+using namespace Tetris;
+
 int main()
 {
     TimerMock timer{};
@@ -22,8 +24,8 @@ int main()
     BoardImpl board{10, 20};
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick_sources}, rng},
-        Bag<Color>{{color_sources}, rng}
+        Bag<Brick>{brick_sources, rng},
+        Bag<Color>{color_sources, rng}
     };
     ScoreCounterImpl score_counter{10, 1, 2};
     GameImpl game{ui, board, brick_generator, score_counter};

@@ -7,6 +7,9 @@
 #include "vector_2.h"
 #include <vector>
 
+namespace Tetris
+{
+
 class BoardImpl final: public Board
 {
     int width;
@@ -40,5 +43,7 @@ public:
         return this->pixels;
     }
 };
+
+}
 
 #endif
