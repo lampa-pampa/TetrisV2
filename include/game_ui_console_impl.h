@@ -13,6 +13,7 @@
 #include "game_ui.h"
 #include "ncurses_colors.h"
 #include "pixel.h"
+#include "vector_2.h"
 
 namespace Tetris
 {
@@ -21,9 +22,18 @@ class GameUiConsoleImpl final: public GameUi
 {
     using signal = boost::signals2::signal<void()>;
 
-    const int pixel_size{3};
-    const int display_width{64};
-    const int display_height{64};
+    const int c_dot_width{2};
+    const int c_dot_height{1};
+    const int d_display_width{64};
+    const int d_display_height{64};
+    const int d_pixel_size{3};
+    const int d_border_width{2};
+    const int p_game_board_width{10};
+    const Vector2 d_game_board_position{
+        this->d_border_width,
+        this->d_border_width
+    };
+    const Color border_color{Color::pink};
     const std::map<int, signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
@@ -48,6 +58,8 @@ class GameUiConsoleImpl final: public GameUi
 
     void create_window();
     void set_pixel(int x, int y, Color color);
+    void draw_border();
+    void draw_line(Vector2 from, Vector2 to, Color color);
 
 public:
     GameUiConsoleImpl(const NCursesColors& ncurses_colors);

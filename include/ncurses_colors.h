@@ -14,14 +14,14 @@ class NCursesColors final
 {
     const std::map<Color, int> color_to_ncurses_color
     {
-        {Color::black, COLOR_BLACK},
+        {Color::black, -1},
         {Color::red, COLOR_RED},
         {Color::green, COLOR_GREEN},
         {Color::yellow, COLOR_YELLOW},
         {Color::blue, COLOR_BLUE},
         {Color::purple, COLOR_MAGENTA},
-        {Color::orange, COLOR_MAGENTA},
-        {Color::pink, COLOR_MAGENTA},
+        {Color::orange, COLOR_CYAN},
+        {Color::pink, 9},
     };
     
     std::map<Color, int> color_to_pair;

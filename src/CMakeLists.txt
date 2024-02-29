@@ -24,5 +24,5 @@ add_executable(tetris_v2
 
 target_link_libraries(tetris_v2
     TETRIS_V2
-    -lncurses
+    -lncursesw
 )
