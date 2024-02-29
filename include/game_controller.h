@@ -17,8 +17,8 @@ public:
 
     GameController(Timer& timer, Game& game)
     :
-        timer(timer),
-        game(game)
+        timer{timer},
+        game{game}
     {}
 };
 

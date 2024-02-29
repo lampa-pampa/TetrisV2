@@ -17,8 +17,8 @@ class BrickGeneratorImpl final: public BrickGenerator
 public:
     BrickGeneratorImpl(const Bag<Brick>& bricks, const Bag<Color>& colors)
     :
-        bricks_bag(bricks),
-        colors_bag(colors)
+        bricks_bag{bricks},
+        colors_bag{colors}
     {}
     
     Brick generate() override

@@ -41,18 +41,18 @@ struct Brick final
     
     Brick(std::vector<Pixel> pixels, bool is_center_moved)
     :
-        pixels(pixels),
-        is_center_moved(is_center_moved)
+        pixels{pixels},
+        is_center_moved{is_center_moved}
     {}
         
     Brick(std::vector<Pixel> pixels)
     :
-        Brick(pixels, false)
+        Brick{pixels, false}
     {}
 
     Brick()
     :
-        Brick({}, false)
+        Brick{{}, false}
     {}
 
     bool empty() const

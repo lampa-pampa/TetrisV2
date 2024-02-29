@@ -22,19 +22,19 @@ struct Pixel final
 
     Pixel(int x, int y, Color color, bool is_ghost)
     :
-        coords({x, y}),
-        color(color),
-        is_ghost(is_ghost)
+        coords{x, y},
+        color{color},
+        is_ghost{is_ghost}
     {}
 
     Pixel(int x, int y, Color color)
     :
-        Pixel(x, y, color, false)
+        Pixel{x, y, color, false}
     {}
 
     Pixel(int x, int y)
     :
-        Pixel(x, y, Color::black, false)
+        Pixel{x, y, Color::black, false}
     {}
 
     bool operator==(const Pixel& other) const
