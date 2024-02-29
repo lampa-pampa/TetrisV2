@@ -3,7 +3,6 @@
 
 #include <functional>
 #include <map>
-#include <string>
 #include <vector>
 
 #include <boost/signals2.hpp>
@@ -22,28 +21,22 @@ class GameUiConsoleImpl final: public GameUi
 {
     using signal = boost::signals2::signal<void()>;
 
-    std::vector<std::vector<Pixel>> pixels{};
-    NCursesColors ncurses_colors;
-    const std::string title{"TETRIS"};
-    const int pixel_width{2};
-    const int pixel_height{1};
-    const int border_width{1};
-    const std::string empty_pixel{"  "};
-    const std::string filled_pixel{"[]"};
-    const std::string ghost_pixel{"::"};
-    
+    const int pixel_size{3};
+    const int display_width{64};
+    const int display_height{64};
     const std::map<int, signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
         {KEY_UP, this->rotate_pressed},
         {KEY_DOWN, this->soft_drop_pressed},
         {' ', this->hard_drop_pressed},
-        {'e', this->hold_pressed},
+        {'c', this->hold_pressed},
         {'p', this->handle_pause_pressed},
     };
-
     int width;
     int height;
+    std::vector<std::vector<Pixel>> pixels{};
+    NCursesColors ncurses_colors;
     ::WINDOW* window;
     signal move_left_pressed;
     signal move_right_pressed;
@@ -54,44 +47,10 @@ class GameUiConsoleImpl final: public GameUi
     signal handle_pause_pressed;
 
     void create_window();
-    void print_colored_str(std::string str, int x, int y, Color color);
-    std::string get_pixel_as_text(const Pixel& pixel) const;
-
-    int get_text_size(int size, int pixel_size) const
-    {
-        return size * pixel_size + 2 * this->border_width;
-    }
-
-    void print_str(std::string str, int x, int y)
-    {
-        ::mvwprintw(this->window, y, x, "%s", str.data());
-    }
-
-    void print_title()
-    {
-        int size{this->get_text_size(this->width, this->pixel_width)};
-        int center_x = this->get_centered_index(size, this->title.size());
-        this->print_str(this->title, center_x, 0);
-    }
-
-    void print_centered(std::string message)
-    {
-        int size{this->get_text_size(this->width, this->pixel_width)};
-        int center_x = this->get_centered_index(size, message.size());
-        int center_y = this->get_text_size(
-            this->height,
-            this->pixel_height
-        ) / 2;
-        this->print_str(message, center_x, center_y);
-    }
-
-    int get_centered_index(int max_index, int content_size) const
-    {
-        return max_index / 2 - content_size / 2;
-    }
+    void set_pixel(int x, int y, Color color);
 
 public:
-    GameUiConsoleImpl(int width, int height, const NCursesColors& ncurses_colors);
+    GameUiConsoleImpl(const NCursesColors& ncurses_colors);
     
     ~GameUiConsoleImpl()
     {
@@ -112,12 +71,12 @@ public:
 
     void game_over() override
     {
-        this->print_centered("GAME OVER!");
+        
     }
 
     void pause() override
     {
-        this->print_centered("GAME PAUSED");
+        
     }
 
     void resume() override
