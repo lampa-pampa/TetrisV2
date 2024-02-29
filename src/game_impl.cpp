@@ -123,6 +123,9 @@ GameImpl::GameImpl(
 
 void GameImpl::handle_rotate()
 {
+    if (this->state != GameState::in_progress)
+        return;
+
     this->init_move();
     int old_rotation = this->cur_brick_rotation;
     this->cur_brick_rotation = (this->cur_brick_rotation + 1) % (Brick::rotation_quantity);
@@ -133,6 +136,9 @@ void GameImpl::handle_rotate()
 
 void GameImpl::handle_hard_drop()
 {
+    if (this->state != GameState::in_progress)
+        return;
+
     this->init_move();
     int distance{};
     while(this->board.is_space_for_brick(this->get_transformed_cur_brick()))
@@ -148,6 +154,9 @@ void GameImpl::handle_hard_drop()
 
 void GameImpl::handle_hold()
 {
+    if (this->state != GameState::in_progress)
+        return;
+
     if (this->can_hold)
     {
         this->init_move();

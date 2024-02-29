@@ -88,6 +88,9 @@ public:
 
     void handle_soft_drop() override
     {
+        if (this->state != GameState::in_progress)
+            return;
+
         this->move_down();
         this->add_score(this->score_counter.count_score_for_soft_drop());
     }
@@ -99,16 +102,25 @@ public:
 
     void handle_tick() override
     {
+        if (this->state != GameState::in_progress)
+            return;
+
         this->move_down();
     }
 
     void handle_move_left() override
     {
+        if (this->state != GameState::in_progress)
+            return;
+
         this->move_cur_brick_horizontally(-1);
     }
 
     void handle_move_right() override
     {
+        if (this->state != GameState::in_progress)
+            return;
+
         this->move_cur_brick_horizontally(1);
     }
     
