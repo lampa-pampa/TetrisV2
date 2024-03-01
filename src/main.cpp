@@ -82,7 +82,7 @@ int main()
     {
         ui.input_received(input);
 
-        const GameState state = game.get_state();
+        const GameState state{game.get_state()};
         if (state == GameState::ended)
             game.game_over();
     }    

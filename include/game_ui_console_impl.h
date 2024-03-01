@@ -20,7 +20,8 @@ namespace Tetris
 
 class GameUiConsoleImpl final: public GameUi
 {
-    using signal = boost::signals2::signal<void()>;
+    using Pixels = std::vector<std::vector<Pixel>>;
+    using Signal = boost::signals2::signal<void()>;
 
     const int dot_width_chr{2};
     const int dot_height_chr{1};
@@ -34,7 +35,7 @@ class GameUiConsoleImpl final: public GameUi
         this->border_width_dot
     };
     const Color border_color{Color::white};
-    const std::map<int, signal&> input_to_signal{
+    const std::map<int, Signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
         {KEY_UP, this->rotate_pressed},
@@ -46,25 +47,22 @@ class GameUiConsoleImpl final: public GameUi
     const wchar_t dot_char{U'◼'};
     int width;
     int height;
-    std::vector<std::vector<Pixel>> game_board_pixels{};
+    Pixels game_board_pixels{};
     NCursesColors ncurses_colors;
     ::WINDOW* window;
-    signal move_left_pressed;
-    signal move_right_pressed;
-    signal rotate_pressed;
-    signal soft_drop_pressed;
-    signal hard_drop_pressed;
-    signal hold_pressed;
-    signal handle_pause_pressed;
+    Signal move_left_pressed;
+    Signal move_right_pressed;
+    Signal rotate_pressed;
+    Signal soft_drop_pressed;
+    Signal hard_drop_pressed;
+    Signal hold_pressed;
+    Signal handle_pause_pressed;
 
     void create_window();
     void set_pixel(int x, int y, Color color);
     void draw_border();
     void draw_line(Vector2 from, Vector2 to, Color color);
-    void print_board(
-        const std::vector<std::vector<Pixel>>& pixels,
-        Vector2 position
-    );
+    void print_board(const Pixels& pixels, Vector2 position);
     void print_pixel(int d_start_x, int d_start_y, Color color);
 
 public:
@@ -75,11 +73,11 @@ public:
         ::endwin();
     }
 
-    void refresh_board(const std::vector<std::vector<Pixel>>& pixels) override;
-    void refresh_score(unsigned long long score) override;
-    void refresh_tetrises(unsigned long long tetrises) override;
+    void refresh_board(const Pixels& pixels) override;
     void refresh_next(const Brick& brick) override;
     void refresh_hold(const Brick& brick) override;
+    void refresh_score(unsigned long long score) override;
+    void refresh_tetrises(unsigned long long tetrises) override;
     void input_received(int input);
 
     WINDOW * get_game_window()

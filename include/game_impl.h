@@ -17,6 +17,8 @@ namespace Tetris
 
 class GameImpl final: public Game
 {
+    using Pixels = std::vector<std::vector<Pixel>>;
+
     GameUi& ui;
     Board& board;
     BrickGenerator& brick_generator;
@@ -125,7 +127,7 @@ public:
         this->move_cur_brick_horizontally(1);
     }
     
-    std::vector<std::vector<Pixel>> get_board_pixels() const
+    Pixels get_board_pixels() const
     {
         return this->board.get_pixels();
     }

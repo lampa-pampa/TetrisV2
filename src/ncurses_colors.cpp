@@ -9,7 +9,7 @@ namespace Tetris
 
 int NCursesColors::get_color_pair(Color color)
 {
-    auto it = this->color_to_pair.find(color);
+    auto it{this->color_to_pair.find(color)};
     if (it == this->color_to_pair.end())
     {
         const int ncurses_color{this->color_to_ncurses_color.at(color)};

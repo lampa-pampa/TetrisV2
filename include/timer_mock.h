@@ -12,9 +12,9 @@ namespace Tetris
 
 class TimerMock final: public Timer
 {
-    using signal = boost::signals2::signal<void()>;
+    using Signal = boost::signals2::signal<void()>;
     
-    signal timeout;
+    Signal timeout;
 
 public:
     void start() override{}

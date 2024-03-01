@@ -22,6 +22,8 @@ using Tetris::Color;
 using Tetris::Pixel;
 
 namespace {
+    using Pixels = vector<vector<Pixel>>;
+
     Brick create_rectangle_brick(int width, int height, Color color)
     {
         Brick full_brick{};
@@ -33,7 +35,7 @@ namespace {
         return full_brick;
     }
     void for_each_pixel_assert_true(
-        const vector<vector<Pixel>>& pixels,
+        const Pixels& pixels,
         function<bool(Pixel pixel)> compare
     ){
         for (const auto& row : pixels)
@@ -55,7 +57,7 @@ TEST(BoardImpl, BoardImpl)
         {0, 0}, {1, 0},
         {0, 1}, {1, 1},
     };
-    const vector<vector<Pixel>> board_pixels = board.get_pixels();
+    const Pixels board_pixels{board.get_pixels()};
     
     for_each_pixel_assert_true(
         board_pixels,
@@ -95,7 +97,7 @@ TEST(BoardImpl, add_brick)
     BoardImpl board{3, 3};
     const Brick brick{{ {1, 2, Color::green}, {2, 2, Color::green} }};
     board.add_brick(brick);
-    const vector<vector<Pixel>> board_pixels = board.get_pixels();
+    const Pixels board_pixels{board.get_pixels()};
     
     for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
         return pixel.empty() != is_in(pixel, brick.pixels);
@@ -108,7 +110,7 @@ TEST(BoardImpl, remove_brick)
     board.add_brick(create_rectangle_brick(3, 3, Color::red));
     const Brick brick{{ {0, 0}, {0, 1} }};   
     board.remove_brick(brick);
-    const vector<vector<Pixel>> board_pixels = board.get_pixels();
+    const Pixels board_pixels{board.get_pixels()};
     
     for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
         return pixel.empty() == is_in(pixel, brick.pixels);
@@ -118,10 +120,10 @@ TEST(BoardImpl, remove_brick)
 TEST(BoardImpl, remove_lines_in_range_and_compress_without_lines_in_range)
 {
     BoardImpl board{3, 3};
-    const Brick brick = create_rectangle_brick(3, 2, Color::red);
+    const Brick brick{create_rectangle_brick(3, 2, Color::red)};
     board.add_brick(brick);
-    const int lines = board.remove_lines_in_range_and_compress(2, 2);
-    const vector<vector<Pixel>> board_pixels = board.get_pixels();
+    const int lines{board.remove_lines_in_range_and_compress(2, 2)};
+    const Pixels board_pixels{board.get_pixels()};
 
     
     ASSERT_THAT(lines, Eq(0));
@@ -136,8 +138,8 @@ TEST(BoardImpl, remove_lines_in_range_and_compress_with_lines_in_range)
     board.add_brick(create_rectangle_brick(3, 2, Color::red));
     board.add_brick(create_rectangle_brick(2, 3, Color::red));
     const Brick brick{{ {0, 2, Color::red}, {1, 2, Color::red} }};
-    const int lines = board.remove_lines_in_range_and_compress(0, 2);
-    const vector<vector<Pixel>> board_pixels = board.get_pixels();
+    const int lines{board.remove_lines_in_range_and_compress(0, 2)};
+    const Pixels board_pixels{board.get_pixels()};
     
     ASSERT_THAT(lines, Eq(2));
     for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){

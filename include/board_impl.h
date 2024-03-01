@@ -13,9 +13,11 @@ namespace Tetris
 
 class BoardImpl final: public Board
 {
+    using Pixels = std::vector<std::vector<Pixel>>;
+
     int width;
     int height;
-    std::vector<std::vector<Pixel>> pixels;
+    Pixels pixels;
     
     std::vector<Brick> find_lines_in_range(int from_y, int to_y) const;
     void compress(int start_y);
@@ -39,7 +41,7 @@ public:
         return this->width;
     }
 
-    const std::vector<std::vector<Pixel>>& get_pixels() const override
+    const Pixels& get_pixels() const override
     {
         return this->pixels;
     }

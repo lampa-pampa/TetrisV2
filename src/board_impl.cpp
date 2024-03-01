@@ -23,7 +23,7 @@ vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
         bool is_full_line{true};
         for (const auto& x : irange<int>(this->width))
         {
-            const Pixel& pixel = this->pixels[y][x];
+            const Pixel& pixel{this->pixels[y][x]};
             if (pixel.empty())
             {
                 is_full_line = false;

@@ -6,7 +6,6 @@
 #include <boost/range/irange.hpp>
 #include <ncurses.h>
 
-#include "brick.h"
 #include "color.h"
 #include "pixel.h"
 #include "vector_2.h"
@@ -20,6 +19,8 @@ using boost::irange;
 
 void GameUiConsoleImpl::create_window()
 {
+    using Pixels = vector<vector<Pixel>>;
+
     int screen_width_chr;
     int screen_height_chr;
     getmaxyx(stdscr, screen_height_chr, screen_width_chr);
@@ -49,11 +50,11 @@ void GameUiConsoleImpl::set_pixel(int x_dot, int y_dot, Color color)
 
 void GameUiConsoleImpl::draw_border()
 {
-    int max_x_dot{this->display_width_dot - 1};
-    int max_y_dot{this->display_height_dot - 1};
-    int max_border_width_dot = this->border_width_dot - 1;
-    int game_board_width_dot{this->pixel_size_dot * this->game_board_width_px};
-    int center_x_dot{game_board_width_dot + this->border_width_dot};
+    const int max_x_dot{this->display_width_dot - 1};
+    const int max_y_dot{this->display_height_dot - 1};
+    const int max_border_width_dot{this->border_width_dot - 1};
+    const int game_board_width_dot{this->pixel_size_dot * this->game_board_width_px};
+    const int center_x_dot{game_board_width_dot + this->border_width_dot};
 
     this->draw_line(
         {0, 0},
@@ -92,33 +93,30 @@ void GameUiConsoleImpl::draw_line(Vector2 from, Vector2 to, Color color)
     }
 }
 
-void GameUiConsoleImpl::print_board(
-    const vector<vector<Pixel>>& board,
-    Vector2 position
-){
+void GameUiConsoleImpl::print_board(const Pixels& board, Vector2 position)
+{
     for (const auto& y_px : irange<int>(board.size()))
     {
-        int start_y_dot = this->pixel_size_dot * y_px;
+        const int start_y_dot{this->pixel_size_dot * y_px};
         for (const auto& x_px : irange<int>(board[0].size()))
         {
-            int start_x_dot = this->pixel_size_dot * x_px;
-            this->print_pixel(start_x_dot, start_y_dot, board[y_px][x_px].color);
+            const int start_x_dot{this->pixel_size_dot * x_px};
+            const Color color{board[y_px][x_px].color};
+            this->print_pixel(start_x_dot, start_y_dot, color);
         }
     }
     ::wrefresh(this->window);
 }
 
-void GameUiConsoleImpl::print_pixel(int x_dot, int y_dot, Color color)
+void GameUiConsoleImpl::print_pixel(int start_x_dot, int start_y_dot, Color color)
 {
     for(const auto& offset_y_dot : irange(this->pixel_size_dot))
     {
         for(const auto& offset_x_dot : irange(this->pixel_size_dot))
         {
-            this->set_pixel(
-                x_dot + offset_x_dot + board_position_dot.x,
-                y_dot + offset_y_dot + board_position_dot.y,
-                color
-            );
+            const int x_dot{start_x_dot + offset_x_dot + board_position_dot.x};
+            const int y_dot{start_y_dot + offset_y_dot + board_position_dot.y};
+            this->set_pixel(x_dot, y_dot, color);
         }
     }
 }
@@ -139,20 +137,10 @@ GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
     this->draw_border();
 }
 
-void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
+void GameUiConsoleImpl::refresh_board(const Pixels& pixels)
 {
     this->game_board_pixels = pixels;
     this->print_board(pixels, this->board_position_dot);
-}
-
-void GameUiConsoleImpl::refresh_score(unsigned long long score)
-{
-
-}
-
-void GameUiConsoleImpl::refresh_tetrises(unsigned long long tetrises)
-{
-
 }
 
 void GameUiConsoleImpl::refresh_next(const Brick& brick)
@@ -161,6 +149,16 @@ void GameUiConsoleImpl::refresh_next(const Brick& brick)
 }
 
 void GameUiConsoleImpl::refresh_hold(const Brick& brick)
+{
+
+}
+
+void GameUiConsoleImpl::refresh_score(unsigned long long score)
+{
+
+}
+
+void GameUiConsoleImpl::refresh_tetrises(unsigned long long tetrises)
 {
 
 }

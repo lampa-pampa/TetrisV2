@@ -65,10 +65,10 @@ void GameImpl::move_down()
 
 void GameImpl::remove_lines(int from_y, int to_y)
 {
-    const int lines = this->board.remove_lines_in_range_and_compress(
+    const int lines{this->board.remove_lines_in_range_and_compress(
         from_y,
         to_y
-    );
+    )};
     if (lines > 0)
     {
         this->add_score(this->score_counter.count_score_for_lines(lines));
@@ -129,7 +129,7 @@ void GameImpl::handle_rotate()
         return;
 
     this->init_move();
-    int old_rotation = this->cur_brick_rotation;
+    const int old_rotation = this->cur_brick_rotation;
     this->cur_brick_rotation = (this->cur_brick_rotation + 1) % (Brick::rotation_quantity);
     if (not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
         this->cur_brick_rotation = old_rotation;
