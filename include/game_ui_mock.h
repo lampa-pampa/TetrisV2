@@ -15,14 +15,21 @@ class GameUiMock final: public GameUi
     using Pixels = std::vector<std::vector<Pixel>>;
 
 public:
-    void refresh_board(const Pixels& pixels) override{}
-    void refresh_next(const Brick& brick) override{}
-    void refresh_hold(const Brick& brick) override{}
-    void refresh_score(unsigned long long score) override{}
-    void refresh_tetrises(unsigned long long tetrises) override{}
-    void game_over() override{}
-    void pause() override{}
-    void resume() override{}
+    void draw_board(const Pixels& pixels) override {}
+    void draw_next(const Brick& brick) override {}
+    void draw_hold(const Brick& brick) override {}
+    void draw_score(unsigned long long score) override {}
+    void draw_tetrises(unsigned long long tetrises) override {}
+    void game_over() override {}
+    void pause() override {}
+    void resume() override {}
+    void connect_move_left_pressed(std::function<void()> handler) override {}
+    void connect_move_right_pressed(std::function<void()> handler) override {}
+    void connect_rotate_pressed(std::function<void()> handler) override {}
+    void connect_soft_drop_pressed(std::function<void()> handler) override {}
+    void connect_hard_drop_pressed(std::function<void()> handler) override {}
+    void connect_hold_pressed(std::function<void()> handler) override {}
+    void connect_pause_pressed(std::function<void()> handler) override {}
 };
 
 }
