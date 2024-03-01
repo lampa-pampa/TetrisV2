@@ -157,7 +157,7 @@ TEST(GameImpl, move_down_place)
     const Vector2 expected_cur_brick_position{4, 1};
     const Vector2 expected_ghost_brick_position{4, 15};
     const Brick transformed_expected_placed_brick{Brick::get_translated(game.get_cur_brick(), {4, 18})};
-    for (const auto& i : irange<int>(18))
+    for (const auto& i : irange(18))
         game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
@@ -191,7 +191,7 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
     };
     ScoreCounterImpl score_counter{10, 5, 3};
     GameImpl game{ui, board, brick_generator, score_counter};
-    for (const auto& i : irange<int>(20))
+    for (const auto& i : irange(20))
         game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
@@ -230,7 +230,7 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
     };
     ScoreCounterImpl score_counter{10, 0, 0};
     GameImpl game{ui, board, brick_generator, score_counter};
-    for (const auto& i : irange<int>(13))
+    for (const auto& i : irange(13))
         game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
@@ -261,7 +261,7 @@ TEST(GameImpl, move_down_end_game)
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
-    for (const auto& i : irange<int>(15))
+    for (const auto& i : irange(15))
         game.handle_tick();
 
     ASSERT_THAT(game.get_state(), Eq(GameState::ended));
@@ -453,10 +453,10 @@ TEST(GameImpl, hold_locking)
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
 
-    for (const auto& i : irange<int>(5))
+    for (const auto& i : irange(5))
         game.handle_tick();
 
-    for (const auto& i : irange<int>(2))
+    for (const auto& i : irange(2))
     {
         game.handle_hold();
         ASSERT_THAT(game.get_hold_brick(), Eq(brick));

@@ -27,9 +27,9 @@ namespace {
     Brick create_rectangle_brick(int width, int height, Color color)
     {
         Brick full_brick{};
-        for (const auto& y : irange<int>(height))
+        for (const auto& y : irange(height))
         {
-            for (const auto& x : irange<int>(width))
+            for (const auto& x : irange(width))
                 full_brick.pixels.emplace_back(Pixel{x, y, color});
         }
         return full_brick;

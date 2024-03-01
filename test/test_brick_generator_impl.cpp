@@ -39,7 +39,7 @@ TEST(BrickGeneratorImpl, generate)
         {{ {1, 0, Color::red}, {0, 1, Color::red} }},
         {{ {2, 0, Color::blue}, {0, 2, Color::blue} }},
     };
-    for (const auto& i : irange<int>(2))
+    for (const auto& i : irange(2))
     {
         for (const auto& expected_brick : expected_bricks)
             ASSERT_THAT(brick_generator.generate(), Eq(expected_brick));

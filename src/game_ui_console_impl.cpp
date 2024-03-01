@@ -77,9 +77,9 @@ void GameUiConsoleImpl::draw_border()
 
 void GameUiConsoleImpl::draw_line(Vector2 from, Vector2 to, Color color)
 {
-    for (const auto& y : irange<int>(from.y, to.y + 1))
+    for (const auto& y : irange(from.y, to.y + 1))
     {
-        for (const auto& x : irange<int>(from.x, to.x + 1))
+        for (const auto& x : irange(from.x, to.x + 1))
             this->set_pixel(x, y, color);
     }
 }

@@ -17,11 +17,11 @@ using boost::irange;
 vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
 {
     vector<Brick> lines;
-    for (const auto& y : irange<int>(from_y, to_y + 1))
+    for (const auto& y : irange(from_y, to_y + 1))
     {
         Brick line{};
         bool is_full_line{true};
-        for (const auto& x : irange<int>(this->width))
+        for (const auto& x : irange(this->width))
         {
             const Pixel& pixel{this->pixels[y][x]};
             if (pixel.empty())
@@ -39,15 +39,15 @@ vector<Brick> BoardImpl::find_lines_in_range(int from_y, int to_y) const
 
 void BoardImpl::compress(int start_y)
 {
-    for (const auto& y : irange<int>(start_y, 0, -1))
+    for (const auto& y : irange(start_y, 0, -1))
     {
-        for (const auto& x : irange<int>(this->width))
+        for (const auto& x : irange(this->width))
         {
             this->pixels[y][x] = this->pixels[y - 1][x];
             this->pixels[y][x].coords = {x, y};
         }
     }
-    for (const auto& x : irange<int>(this->width))
+    for (const auto& x : irange(this->width))
         this->pixels[0][x].clear();
 }
 
@@ -56,10 +56,10 @@ BoardImpl::BoardImpl(int width, int height)
     width(width),
     height(height)
 {
-    for (const auto& y : irange<int>(height))
+    for (const auto& y : irange(height))
     {
         vector<Pixel> row;
-        for (const auto& x : irange<int>(width))
+        for (const auto& x : irange(width))
             row.emplace_back(Pixel{x, y});
         this->pixels.emplace_back(std::move(row));
     }
