@@ -8,7 +8,7 @@
 #include "game_controller.h"
 #include "game_impl.h"
 #include "game_state.h"
-#include "game_ui_console_impl.h"
+#include "matrix_game_ui_impl.h"
 #include "ncurses_colors.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
@@ -22,7 +22,7 @@ using Tetris::color_sources;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::GameState;
-using Tetris::GameUiConsoleImpl;
+using Tetris::MatrixGameUiImpl;
 using Tetris::NCursesColors;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
@@ -32,8 +32,7 @@ int main()
 {
     TimerMock timer{};
     NCursesColors colors;
-    
-    GameUiConsoleImpl ui{colors};
+    MatrixGameUiImpl ui{colors};
     BoardImpl board{10, 20};
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{

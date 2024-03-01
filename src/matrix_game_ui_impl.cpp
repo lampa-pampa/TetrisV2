@@ -1,4 +1,4 @@
-#include "game_ui_console_impl.h"
+#include "matrix_game_ui_impl.h"
 
 #include <string>
 #include <vector>
@@ -17,9 +17,9 @@ using std::vector;
 using std::string;
 using boost::irange;
 using Pixels = vector<vector<Pixel>>;
-constexpr wchar_t GameUiConsoleImpl::dot_char;
+constexpr wchar_t MatrixGameUiImpl::dot_char;
 
-void GameUiConsoleImpl::create_window()
+void MatrixGameUiImpl::create_window()
 {
     int screen_width_chr;
     int screen_height_chr;
@@ -35,7 +35,7 @@ void GameUiConsoleImpl::create_window()
     ::refresh();
 }
 
-void GameUiConsoleImpl::set_pixel(int x_dot, int y_dot, Color color)
+void MatrixGameUiImpl::set_pixel(int x_dot, int y_dot, Color color)
 {
     const int pair_index{this->ncurses_colors.get_color_pair(color)};
     const int x_chr{x_dot * dot_width_chr};
@@ -45,7 +45,7 @@ void GameUiConsoleImpl::set_pixel(int x_dot, int y_dot, Color color)
     ::wattroff(this->window, COLOR_PAIR(pair_index));
 }
 
-void GameUiConsoleImpl::draw_border()
+void MatrixGameUiImpl::draw_border()
 {
     this->draw_line(
         {0, 0},
@@ -75,7 +75,7 @@ void GameUiConsoleImpl::draw_border()
     );
 }
 
-void GameUiConsoleImpl::draw_line(Vector2 from, Vector2 to, Color color)
+void MatrixGameUiImpl::draw_line(Vector2 from, Vector2 to, Color color)
 {
     for (const auto& y : irange(from.y, to.y + 1))
     {
@@ -84,7 +84,7 @@ void GameUiConsoleImpl::draw_line(Vector2 from, Vector2 to, Color color)
     }
 }
 
-void GameUiConsoleImpl::print_board(const Pixels& board, Vector2 position)
+void MatrixGameUiImpl::print_board(const Pixels& board, Vector2 position)
 {
     for (const auto& y_px : irange<int>(board.size()))
     {
@@ -103,7 +103,7 @@ void GameUiConsoleImpl::print_board(const Pixels& board, Vector2 position)
     ::wrefresh(this->window);
 }
 
-void GameUiConsoleImpl::print_pixel(
+void MatrixGameUiImpl::print_pixel(
     int start_x_dot,
     int start_y_dot,
     Color color
@@ -119,7 +119,7 @@ void GameUiConsoleImpl::print_pixel(
     }
 }
 
-GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
+MatrixGameUiImpl::MatrixGameUiImpl(const NCursesColors& ncurses_colors)
 :   
     ncurses_colors{ncurses_colors}
 {
@@ -135,33 +135,33 @@ GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
     this->draw_border();
 }
 
-void GameUiConsoleImpl::draw_board(const Pixels& pixels)
+void MatrixGameUiImpl::draw_board(const Pixels& pixels)
 {
     this->game_board_pixels = pixels;
     this->print_board(pixels, board_position_dot);
 }
 
-void GameUiConsoleImpl::draw_next(const Brick& brick)
+void MatrixGameUiImpl::draw_next(const Brick& brick)
 {
 
 }
 
-void GameUiConsoleImpl::draw_hold(const Brick& brick)
+void MatrixGameUiImpl::draw_hold(const Brick& brick)
 {
 
 }
 
-void GameUiConsoleImpl::draw_score(unsigned long long score)
+void MatrixGameUiImpl::draw_score(unsigned long long score)
 {
 
 }
 
-void GameUiConsoleImpl::draw_tetrises(unsigned long long tetrises)
+void MatrixGameUiImpl::draw_tetrises(unsigned long long tetrises)
 {
 
 }
 
-void GameUiConsoleImpl::input_received(int input)
+void MatrixGameUiImpl::input_received(int input)
 {
     if (auto it{this->input_to_signal.find(input)};
         it != this->input_to_signal.end()

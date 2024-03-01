@@ -14,7 +14,7 @@ target_sources(TETRIS_V2
         board_impl.cpp
         game_controller.cpp
         game_impl.cpp
-        game_ui_console_impl.cpp
+        matrix_game_ui_impl.cpp
         ncurses_colors.cpp
 )
 

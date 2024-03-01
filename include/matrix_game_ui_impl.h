@@ -1,5 +1,5 @@
-#ifndef INCLUDE_GAME_UI_CONSOLE_IMPL_H
-#define INCLUDE_GAME_UI_CONSOLE_IMPL_H
+#ifndef INCLUDE_MATRIX_GAME_UI_IMPL_H
+#define INCLUDE_MATRIX_GAME_UI_IMPL_H
 
 #include <functional>
 #include <map>
@@ -18,7 +18,7 @@
 namespace Tetris
 {
 
-class GameUiConsoleImpl final: public GameUi
+class MatrixGameUiImpl final: public GameUi
 {
     using Pixels = std::vector<std::vector<Pixel>>;
     using Signal = boost::signals2::signal<void()>;
@@ -83,9 +83,9 @@ class GameUiConsoleImpl final: public GameUi
     void print_pixel(int d_start_x, int d_start_y, Color color);
 
 public:
-    GameUiConsoleImpl(const NCursesColors& ncurses_colors);
+    MatrixGameUiImpl(const NCursesColors& ncurses_colors);
     
-    ~GameUiConsoleImpl()
+    ~MatrixGameUiImpl()
     {
         ::endwin();
     }
