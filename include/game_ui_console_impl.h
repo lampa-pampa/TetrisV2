@@ -23,18 +23,36 @@ class GameUiConsoleImpl final: public GameUi
     using Pixels = std::vector<std::vector<Pixel>>;
     using Signal = boost::signals2::signal<void()>;
 
-    const int dot_width_chr{2};
-    const int dot_height_chr{1};
-    const int display_width_dot{64};
-    const int display_height_dot{64};
-    const int pixel_size_dot{3};
-    const int border_width_dot{2};
-    const int game_board_width_px{10};
-    const Vector2 board_position_dot{
-        this->border_width_dot,
-        this->border_width_dot
+    static constexpr int dot_width_chr{2};
+    static constexpr int dot_height_chr{1};
+    static constexpr int display_width_dot{64};
+    static constexpr int display_height_dot{64};
+    static constexpr int pixel_size_dot{3};
+    static constexpr int border_width_dot{2};
+    static constexpr int game_board_width_px{10};
+    static constexpr Vector2 board_position_dot{
+        border_width_dot,
+        border_width_dot
     };
-    const Color border_color{Color::white};
+    static constexpr Color border_color{Color::white};
+    static constexpr wchar_t dot_char{U'◼'};
+
+    static constexpr int display_width_chr{
+        display_width_dot * dot_width_chr
+    }; 
+    static constexpr int display_height_chr{
+        display_height_dot * dot_height_chr
+    };
+    static constexpr int max_x_dot{display_width_dot - 1};
+    static constexpr int max_y_dot{display_height_dot - 1};
+    static constexpr int max_border_width_dot{border_width_dot - 1};
+    static constexpr int game_board_width_dot{
+        pixel_size_dot * game_board_width_px
+    };
+    static constexpr int center_x_dot{
+        game_board_width_dot + border_width_dot
+    };
+    
     const std::map<int, Signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
@@ -44,7 +62,6 @@ class GameUiConsoleImpl final: public GameUi
         {'c', this->hold_pressed},
         {'p', this->handle_pause_pressed},
     };
-    const wchar_t dot_char{U'◼'};
     int width;
     int height;
     Pixels game_board_pixels{};

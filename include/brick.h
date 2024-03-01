@@ -18,7 +18,7 @@ struct Brick final
 
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
 
-    static constexpr unsigned short rotation_quantity{4};
+    static constexpr int rotation_quantity{4};
     static Brick get_colored(const Brick& brick, Color color);
     static Brick get_translated(const Brick& brick, Vector2 position);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);

@@ -28,7 +28,7 @@ class GameImpl final: public Game
     unsigned long long tetrises;
     Brick cur_brick;
     Vector2 cur_brick_position;
-    unsigned short cur_brick_rotation;
+    int cur_brick_rotation;
     Brick ghost_brick;
     Vector2 ghost_brick_position;
     Brick next_brick;
@@ -152,7 +152,7 @@ public:
         return this->cur_brick_position;
     }
 
-    unsigned short get_cur_brick_rotation() const
+    int get_cur_brick_rotation() const
     {
         return this->cur_brick_rotation;
     }
