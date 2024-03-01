@@ -46,7 +46,7 @@ class GameUiConsoleImpl final: public GameUi
     const wchar_t dot_char{U'◼'};
     int width;
     int height;
-    std::vector<std::vector<Pixel>> pixels{};
+    std::vector<std::vector<Pixel>> game_board_pixels{};
     NCursesColors ncurses_colors;
     ::WINDOW* window;
     signal move_left_pressed;
@@ -99,7 +99,7 @@ public:
 
     void resume() override
     {
-        this->refresh_board(this->pixels);
+        this->refresh_board(this->game_board_pixels);
     }
 
     void connect_move_left_pressed(std::function<void()> handler)

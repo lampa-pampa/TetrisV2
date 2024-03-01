@@ -141,7 +141,7 @@ GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
 
 void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
 {
-    this->pixels = pixels;
+    this->game_board_pixels = pixels;
     this->print_board(pixels, this->board_position_dot);
 }
 
