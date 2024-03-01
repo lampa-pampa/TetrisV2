@@ -5,7 +5,6 @@
 #include "brick_generator_impl.h"
 #include "brick_sources.h"
 #include "color_sources.h"
-#include "color.h"
 #include "game_controller.h"
 #include "game_impl.h"
 #include "game_state.h"
@@ -18,10 +17,8 @@
 using Tetris::Bag;
 using Tetris::BoardImpl;
 using Tetris::brick_sources;
-using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
 using Tetris::color_sources;
-using Tetris::Color;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::GameState;
@@ -39,8 +36,8 @@ int main()
     BoardImpl board{10, 20};
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{brick_sources, rng},
-        Bag<Color>{color_sources, rng}
+        Bag{brick_sources, rng},
+        Bag{color_sources, rng}
     };
     ScoreCounterImpl score_counter{10, 1, 2};
     GameImpl game{ui, board, brick_generator, score_counter};

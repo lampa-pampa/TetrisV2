@@ -65,8 +65,8 @@ TEST(GameImpl, GameImpl)
     BoardImpl board{10, 20};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::blue, Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::blue, Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -115,8 +115,8 @@ TEST(GameImpl, move_down_free_fall)
     BoardImpl board{10, 20};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::blue}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::blue}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -145,8 +145,8 @@ TEST(GameImpl, move_down_place)
     BoardImpl board{10, 20};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::blue, Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::blue, Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -182,8 +182,8 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{base_brick, falling_brick}, rng},
-        Bag<Color>{{bricks_color}, rng}
+        Bag{{base_brick, falling_brick}, rng},
+        Bag{{bricks_color}, rng}
     };
     ScoreCounterImpl score_counter{10, 5, 3};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -221,8 +221,8 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{base_brick, falling_brick}, rng},
-        Bag<Color>{{bricks_color}, rng}
+        Bag{{base_brick, falling_brick}, rng},
+        Bag{{bricks_color}, rng}
     };
     ScoreCounterImpl score_counter{10, 0, 0};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -252,8 +252,8 @@ TEST(GameImpl, move_down_end_game)
     BoardImpl board{5, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -270,8 +270,8 @@ TEST(GameImpl, handle_move_left)
     BoardImpl board{5, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -288,8 +288,8 @@ TEST(GameImpl, move_left_blocked)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -306,8 +306,8 @@ TEST(GameImpl, handle_move_right)
     BoardImpl board{5, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -324,8 +324,8 @@ TEST(GameImpl, move_right_blocked)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -342,8 +342,8 @@ TEST(GameImpl, handle_rotate)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -362,8 +362,8 @@ TEST(GameImpl, rotate_blocked)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{Color::red}, rng}
+        Bag{{brick}, rng},
+        Bag{{Color::red}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -385,8 +385,8 @@ TEST(GameImpl, handle_hard_drop)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{bricks_color}, rng}
+        Bag{{brick}, rng},
+        Bag{{bricks_color}, rng}
     };
     ScoreCounterImpl score_counter{0, 0, 2};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -420,8 +420,8 @@ TEST(GameImpl, handle_soft_drop)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick}, rng},
-        Bag<Color>{{bricks_color}, rng}
+        Bag{{brick}, rng},
+        Bag{{bricks_color}, rng}
     };
     ScoreCounterImpl score_counter{0, 1, 0};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -443,8 +443,8 @@ TEST(GameImpl, hold_locking)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick, expected_remaining_brick}, rng},
-        Bag<Color>{{bricks_color}, rng}
+        Bag{{brick, expected_remaining_brick}, rng},
+        Bag{{bricks_color}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -471,8 +471,8 @@ TEST(GameImpl, hold_unlocked)
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{{brick1, brick2, brick3}, rng},
-        Bag<Color>{{bricks_color}, rng}
+        Bag{{brick1, brick2, brick3}, rng},
+        Bag{{bricks_color}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};

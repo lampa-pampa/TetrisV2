@@ -17,7 +17,7 @@ TEST(Bag, get_next)
 {
     RngMock rng{};
     vector<int> items{0, 1, 2, 3, 4};
-    Bag<int> bag{items, rng};
+    Bag bag{items, rng};
     for (const auto& i : irange<int>(2))
     {
         auto it{items.begin()};

@@ -1,10 +1,13 @@
 #ifndef INCLUDE_BAG_H
 #define INCLUDE_BAG_H
 
+#include <initializer_list>
 #include <vector>
 
 #include <boost/range/irange.hpp>
 
+#include "brick.h"
+#include "color.h"
 #include "rng.h"
 
 namespace Tetris
@@ -43,6 +46,9 @@ T Bag<T>::get_next()
     this->current_index = (this->current_index + 1) % this->items.size();
     return item; 
 }
+
+explicit Bag(std::initializer_list<Brick>, Rng& rng)-> Bag<Brick>;
+explicit Bag(std::initializer_list<Color>, Rng& rng)-> Bag<Color>;
 
 }
 

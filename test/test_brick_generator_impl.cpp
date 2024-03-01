@@ -26,14 +26,14 @@ TEST(BrickGeneratorImpl, generate)
         {{ {1, 0}, {0, 1} }},
         {{ {2, 0}, {0, 2} }},
     };
-    const vector<Color> colors{
+    const vector colors{
         Color::red,
         Color::blue,
     };
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag<Brick>{bricks, rng},
-        Bag<Color>{colors, rng},
+        Bag{bricks, rng},
+        Bag{colors, rng},
     };
     const vector<Brick> expected_bricks{
         {{ {1, 0, Color::red}, {0, 1, Color::red} }},
