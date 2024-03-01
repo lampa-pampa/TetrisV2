@@ -1,5 +1,5 @@
-#ifndef INCLUDE_Rng_IMPL_H
-#define INCLUDE_Rng_IMPL_H
+#ifndef INCLUDE_RNG_IMPL_H
+#define INCLUDE_RNG_IMPL_H
 
 #include <cstdlib>
 #include <ctime>

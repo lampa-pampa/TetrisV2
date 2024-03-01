@@ -1,5 +1,5 @@
-#ifndef INCLUDE_Rng_H
-#define INCLUDE_Rng_H
+#ifndef INCLUDE_RNG_H
+#define INCLUDE_RNG_H
 
 namespace Tetris
 {
