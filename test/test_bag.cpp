@@ -16,12 +16,11 @@ using Tetris::RngMock;
 TEST(Bag, get_next)
 {
     RngMock rng{};
-    vector<int> items{0, 1, 2, 3, 4};
+    const vector<int> items{0, 1, 2, 3, 4};
     Bag bag{items, rng};
     for (const auto& i : irange<int>(2))
     {
-        auto it{items.begin()};
-        while(it != items.end())
-            ASSERT_THAT(bag.get_next(), Eq(*it++));
+        for(const auto& item : items)
+            ASSERT_THAT(bag.get_next(), Eq(item));
     }
 }

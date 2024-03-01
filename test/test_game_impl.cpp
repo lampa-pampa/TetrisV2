@@ -91,7 +91,7 @@ TEST(GameImpl, GameImpl)
         expected_cur_brick_rotation,
         expected_ghost_brick_position
     )};
-    Pixels board_pixels{game.get_board_pixels()};
+    const Pixels board_pixels{game.get_board_pixels()};
 
     ASSERT_THAT(game.get_state(), Eq(GameState::in_progress));
     ASSERT_THAT(game.get_score(), Eq(0));
@@ -129,7 +129,7 @@ TEST(GameImpl, move_down_free_fall)
     game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    Pixels board_pixels{game.get_board_pixels()};
+    const Pixels board_pixels{game.get_board_pixels()};
     
     ASSERT_THAT(game.get_cur_brick_position(), Eq(expected_cur_brick_position));
     ASSERT_THAT(game.get_ghost_brick_position(), Eq(expected_ghost_brick_position));
@@ -161,7 +161,7 @@ TEST(GameImpl, move_down_place)
         game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    Pixels board_pixels{game.get_board_pixels()};
+    const Pixels board_pixels{game.get_board_pixels()};
     
     ASSERT_THAT(game.get_cur_brick_position(), Eq(expected_cur_brick_position));
     ASSERT_THAT(game.get_ghost_brick_position(), Eq(expected_ghost_brick_position));
@@ -195,7 +195,7 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
         game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    Pixels board_pixels{game.get_board_pixels()};
+    const Pixels board_pixels{game.get_board_pixels()};
     
     ASSERT_THAT(game.get_score(), Eq(10));
     ASSERT_THAT(game.get_tetrises(), Eq(0));
@@ -234,7 +234,7 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
         game.handle_tick();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    Pixels board_pixels{game.get_board_pixels()};
+    const Pixels board_pixels{game.get_board_pixels()};
     
     ASSERT_THAT(game.get_score(), Eq(40));
     ASSERT_THAT(game.get_tetrises(), Eq(1));
@@ -398,7 +398,7 @@ TEST(GameImpl, handle_hard_drop)
     game.handle_hard_drop();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    Pixels board_pixels{game.get_board_pixels()};
+    const Pixels board_pixels{game.get_board_pixels()};
     
     ASSERT_THAT(game.get_score(), Eq(20));
     for_each_pixel_assert_true(board_pixels, [

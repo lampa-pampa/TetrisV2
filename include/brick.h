@@ -28,9 +28,10 @@ struct Brick final
         int quarters_rotation,
         Vector2 position
     ){
-        const Brick rotated_brick{
-            Brick::get_rotated(brick, quarters_rotation)
-        };
+        const Brick rotated_brick{Brick::get_rotated(
+            brick,
+            quarters_rotation
+        )};
         return Brick::get_translated(rotated_brick, position);
     }
 

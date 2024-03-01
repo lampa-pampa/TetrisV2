@@ -82,7 +82,7 @@ void GameImpl::remove_lines(int from_y, int to_y)
 
 void GameImpl::place_and_generate_cur_brick()
 {
-    Brick placed_brick{this->get_transformed_cur_brick()};
+    const Brick placed_brick{this->get_transformed_cur_brick()};
     this->board.add_brick(placed_brick);
     this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
     this->generate_new_brick();

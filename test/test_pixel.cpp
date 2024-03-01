@@ -10,21 +10,21 @@ using Tetris::Pixel;
 
 TEST(Pixel, empty_color_black_ghost_false)
 {
-    Pixel pixel{0, 0, Color::black};
+    const Pixel pixel{0, 0, Color::black};
     
     ASSERT_THAT(pixel.empty(), Eq(true));
 }
 
 TEST(Pixel, empty_color_red_ghost_false)
 {
-    Pixel pixel{0, 0, Color::red};
+    const Pixel pixel{0, 0, Color::red};
     
     ASSERT_THAT(pixel.empty(), Eq(false));
 }
 
 TEST(Pixel, empty_color_yellow_ghost_true)
 {
-    Pixel pixel{0, 0, Color::yellow, true};
+    const Pixel pixel{0, 0, Color::yellow, true};
     
     ASSERT_THAT(pixel.empty(), Eq(false));
 }
@@ -32,7 +32,7 @@ TEST(Pixel, empty_color_yellow_ghost_true)
 TEST(Pixel, clear)
 {
     Pixel pixel{1, 2, Color::purple, true};
-    Pixel expected_pixel{1, 2, Color::black, false};
+    const Pixel expected_pixel{1, 2, Color::black, false};
     pixel.clear();
     
     ASSERT_THAT(pixel, Eq(expected_pixel));

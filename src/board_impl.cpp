@@ -90,7 +90,7 @@ void BoardImpl::remove_brick(const Brick& brick)
 
 int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)
 {
-    vector<Brick> lines{this->find_lines_in_range(from_y, to_y)};
+    const vector lines{this->find_lines_in_range(from_y, to_y)};
     for (const auto& line : lines)
     {
         this->remove_brick(line);

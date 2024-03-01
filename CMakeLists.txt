@@ -9,6 +9,6 @@ include(CTest)
 
 add_subdirectory(src)
 
-if(BUILD_TESTING)
+if (BUILD_TESTING)
     add_subdirectory(test)
-endif()
+endif ()
