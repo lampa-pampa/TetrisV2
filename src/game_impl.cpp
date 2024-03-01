@@ -34,9 +34,9 @@ void GameImpl::refresh_ghost()
     this->ghost_brick_position = this->cur_brick_position;
     if (this->board.is_space_for_brick(this->get_transformed_ghost_brick()))
     {
-        while(this->board.is_space_for_brick(
-            this->get_transformed_ghost_brick()
-        ))
+        while(
+            this->board.is_space_for_brick(this->get_transformed_ghost_brick())
+        )
             ++this->ghost_brick_position.y;
         
         --this->ghost_brick_position.y;

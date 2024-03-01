@@ -28,7 +28,7 @@ class GameUiConsoleImpl final: public GameUi
     const int display_height_dot{64};
     const int pixel_size_dot{3};
     const int border_width_dot{2};
-    const int board_width_px{10};
+    const int game_board_width_px{10};
     const Vector2 board_position_dot{
         this->border_width_dot,
         this->border_width_dot

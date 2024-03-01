@@ -52,8 +52,8 @@ void GameUiConsoleImpl::draw_border()
     int max_x_dot{this->display_width_dot - 1};
     int max_y_dot{this->display_height_dot - 1};
     int max_border_width_dot = this->border_width_dot - 1;
-    int board_width_dot{this->pixel_size_dot * this->board_width_px};
-    int center_x_dot{board_width_dot + this->border_width_dot};
+    int game_board_width_dot{this->pixel_size_dot * this->game_board_width_px};
+    int center_x_dot{game_board_width_dot + this->border_width_dot};
 
     this->draw_line(
         {0, 0},
@@ -92,8 +92,10 @@ void GameUiConsoleImpl::draw_line(Vector2 from, Vector2 to, Color color)
     }
 }
 
-void GameUiConsoleImpl::print_board(const vector<vector<Pixel>>& board, Vector2 position)
-{
+void GameUiConsoleImpl::print_board(
+    const vector<vector<Pixel>>& board,
+    Vector2 position
+){
     for (const auto& y_px : irange<int>(board.size()))
     {
         int start_y_dot = this->pixel_size_dot * y_px;
