@@ -22,16 +22,16 @@ class GameUiConsoleImpl final: public GameUi
 {
     using signal = boost::signals2::signal<void()>;
 
-    const int c_dot_width{2};
-    const int c_dot_height{1};
-    const int d_display_width{64};
-    const int d_display_height{64};
-    const int d_pixel_size{3};
-    const int d_border_width{2};
-    const int p_game_board_width{10};
-    const Vector2 d_game_board_position{
-        this->d_border_width,
-        this->d_border_width
+    const int dot_width_chr{2};
+    const int dot_height_chr{1};
+    const int display_width_dot{64};
+    const int display_height_dot{64};
+    const int pixel_size_dot{3};
+    const int border_width_dot{2};
+    const int board_width_px{10};
+    const Vector2 board_position_dot{
+        this->border_width_dot,
+        this->border_width_dot
     };
     const Color border_color{Color::white};
     const std::map<int, signal&> input_to_signal{

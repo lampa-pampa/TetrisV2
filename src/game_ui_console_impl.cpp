@@ -20,64 +20,65 @@ using boost::irange;
 
 void GameUiConsoleImpl::create_window()
 {
-    int c_screen_width;
-    int c_screen_height;
-    getmaxyx(stdscr, c_screen_height, c_screen_width);
+    int screen_width_chr;
+    int screen_height_chr;
+    getmaxyx(stdscr, screen_height_chr, screen_width_chr);
      
-    int c_display_width{this->d_display_width * this->c_dot_width}; 
-    int c_display_height{this->d_display_height * this->c_dot_height};
-    int c_x{c_screen_width / 2 - c_display_width / 2};
-    int c_y{c_screen_height / 2 - c_display_height / 2};
+    int display_width_chr{this->display_width_dot * this->dot_width_chr}; 
+    int display_height_chr{this->display_height_dot * this->dot_height_chr};
+    int center_x_chr{screen_width_chr / 2 - display_width_chr / 2};
+    int center_y_chr{screen_height_chr / 2 - display_height_chr / 2};
     this->window = ::newwin(
-        c_display_height,
-        c_display_width,
-        c_y, c_x
+        display_height_chr,
+        display_width_chr,
+        center_y_chr,
+        center_x_chr
     );
     ::refresh();
 }
 
-void GameUiConsoleImpl::set_pixel(int d_x, int d_y, Color color)
+void GameUiConsoleImpl::set_pixel(int x_dot, int y_dot, Color color)
 {
     const int pair_index{this->ncurses_colors.get_color_pair(color)};
-    int c_x{d_x * this->c_dot_width};
-    int c_y{d_y * this->c_dot_height};
+    int x_chr{x_dot * this->dot_width_chr};
+    int y_chr{y_dot * this->dot_height_chr};
     ::wattron(this->window, COLOR_PAIR(pair_index));
-    ::mvwprintw(this->window, c_y, c_x, "%ls", &this->dot_char);
+    ::mvwprintw(this->window, y_chr, x_chr, "%ls", &this->dot_char);
     ::wattroff(this->window, COLOR_PAIR(pair_index));
 }
 
 void GameUiConsoleImpl::draw_border()
 {
-    int d_end_x{this->d_display_width - 1};
-    int d_end_y{this->d_display_height - 1};
-    int d_border_size = this->d_border_width - 1;
-    int d_game_board_width{this->d_pixel_size * this->p_game_board_width};
-    int d_center_x{d_game_board_width + this->d_border_width};
+    int max_x_dot{this->display_width_dot - 1};
+    int max_y_dot{this->display_height_dot - 1};
+    int max_border_width_dot = this->border_width_dot - 1;
+    int board_width_dot{this->pixel_size_dot * this->board_width_px};
+    int center_x_dot{board_width_dot + this->border_width_dot};
 
     this->draw_line(
         {0, 0},
-        {d_end_x, d_border_size},
+        {max_x_dot, max_border_width_dot},
         this->border_color
     );
     this->draw_line(
         {0, 0},
-        {d_border_size, d_end_y},
+        {max_border_width_dot, max_y_dot},
         this->border_color
     );
     this->draw_line(
-        {d_end_x - d_border_size, 0},
-        {d_end_x, d_end_y},
+        {max_x_dot - max_border_width_dot, 0},
+        {max_x_dot, max_y_dot},
         this->border_color
     );
     this->draw_line(
-        {0, d_end_y - d_border_size},
-        {d_end_x, d_end_y},
+        {0, max_y_dot - max_border_width_dot},
+        {max_x_dot, max_y_dot},
         this->border_color
     );
 
     this->draw_line(
-        {d_center_x, 0},
-        {d_center_x + d_border_size, d_end_y},
+        {center_x_dot, 0},
+        {center_x_dot + max_border_width_dot, max_y_dot},
         this->border_color
     );
 }
@@ -93,30 +94,27 @@ void GameUiConsoleImpl::draw_line(Vector2 from, Vector2 to, Color color)
 
 void GameUiConsoleImpl::print_board(const vector<vector<Pixel>>& board, Vector2 position)
 {
-    for (const auto& p_y : irange<int>(board.size()))
+    for (const auto& y_px : irange<int>(board.size()))
     {
-        int d_start_y = this->d_pixel_size * p_y;
-        for (const auto& p_x : irange<int>(board[0].size()))
+        int start_y_dot = this->pixel_size_dot * y_px;
+        for (const auto& x_px : irange<int>(board[0].size()))
         {
-            int d_start_x = this->d_pixel_size * p_x;
-            this->print_pixel(d_start_x, d_start_y, board[p_y][p_x].color);
+            int start_x_dot = this->pixel_size_dot * x_px;
+            this->print_pixel(start_x_dot, start_y_dot, board[y_px][x_px].color);
         }
     }
     ::wrefresh(this->window);
 }
 
-void GameUiConsoleImpl::print_pixel(int d_start_x, int d_start_y, Color color)
+void GameUiConsoleImpl::print_pixel(int x_dot, int y_dot, Color color)
 {
-    for(const auto& d_offset_y : irange(this->d_pixel_size))
+    for(const auto& offset_y_dot : irange(this->pixel_size_dot))
     {
-        for(const auto& d_offset_x : irange(this->d_pixel_size))
+        for(const auto& offset_x_dot : irange(this->pixel_size_dot))
         {
-            Vector2 d_position{this->d_game_board_position};
-            int d_pixel_x{d_start_x + d_offset_x + d_position.x};
-            int d_pixel_y{d_start_y + d_offset_y + d_position.y};
             this->set_pixel(
-                d_pixel_x,
-                d_pixel_y,
+                x_dot + offset_x_dot + board_position_dot.x,
+                y_dot + offset_y_dot + board_position_dot.y,
                 color
             );
         }
@@ -142,7 +140,7 @@ GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
 void GameUiConsoleImpl::refresh_board(const vector<vector<Pixel>>& pixels)
 {
     this->pixels = pixels;
-    this->print_board(pixels, this->d_game_board_position);
+    this->print_board(pixels, this->board_position_dot);
 }
 
 void GameUiConsoleImpl::refresh_score(unsigned long long score)
