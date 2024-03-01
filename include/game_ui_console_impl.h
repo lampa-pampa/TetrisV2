@@ -35,11 +35,11 @@ class GameUiConsoleImpl final: public GameUi
         border_width_dot
     };
     static constexpr Color border_color{Color::white};
-    static constexpr wchar_t dot_char{U'◼'};
+    static constexpr wchar_t dot_char{L'◼'};
 
     static constexpr int display_width_chr{
         display_width_dot * dot_width_chr
-    }; 
+    };
     static constexpr int display_height_chr{
         display_height_dot * dot_height_chr
     };
@@ -90,11 +90,11 @@ public:
         ::endwin();
     }
 
-    void refresh_board(const Pixels& pixels) override;
-    void refresh_next(const Brick& brick) override;
-    void refresh_hold(const Brick& brick) override;
-    void refresh_score(unsigned long long score) override;
-    void refresh_tetrises(unsigned long long tetrises) override;
+    void draw_board(const Pixels& pixels) override;
+    void draw_next(const Brick& brick) override;
+    void draw_hold(const Brick& brick) override;
+    void draw_score(unsigned long long score) override;
+    void draw_tetrises(unsigned long long tetrises) override;
     void input_received(int input);
 
     WINDOW * get_game_window()
@@ -114,40 +114,40 @@ public:
 
     void resume() override
     {
-        this->refresh_board(this->game_board_pixels);
+        this->draw_board(this->game_board_pixels);
     }
 
-    void connect_move_left_pressed(std::function<void()> handler)
+    void connect_move_left_pressed(std::function<void()> handler) override
     {
         this->move_left_pressed.connect(handler);
     }
 
-    void connect_move_right_pressed(std::function<void()> handler)
+    void connect_move_right_pressed(std::function<void()> handler) override
     {
         this->move_right_pressed.connect(handler);
     }
 
-    void connect_rotate_pressed(std::function<void()> handler)
+    void connect_rotate_pressed(std::function<void()> handler) override
     {
         this->rotate_pressed.connect(handler);
     }
 
-    void connect_soft_drop_pressed(std::function<void()> handler)
+    void connect_soft_drop_pressed(std::function<void()> handler) override
     {
         this->soft_drop_pressed.connect(handler);
     }
 
-    void connect_hard_drop_pressed(std::function<void()> handler)
+    void connect_hard_drop_pressed(std::function<void()> handler) override
     {
         this->hard_drop_pressed.connect(handler);
     }
 
-    void connect_hold_pressed(std::function<void()> handler)
+    void connect_hold_pressed(std::function<void()> handler) override
     {
         this->hold_pressed.connect(handler);
     }
 
-    void connect_pause_pressed(std::function<void()> handler)
+    void connect_pause_pressed(std::function<void()> handler) override
     {
         this->handle_pause_pressed.connect(handler);
     }

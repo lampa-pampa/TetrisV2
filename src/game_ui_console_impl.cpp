@@ -16,11 +16,11 @@ namespace Tetris
 using std::vector;
 using std::string;
 using boost::irange;
+using Pixels = vector<vector<Pixel>>;
+constexpr wchar_t GameUiConsoleImpl::dot_char;
 
 void GameUiConsoleImpl::create_window()
 {
-    using Pixels = vector<vector<Pixel>>;
-
     int screen_width_chr;
     int screen_height_chr;
     getmaxyx(stdscr, screen_height_chr, screen_width_chr);
@@ -41,7 +41,7 @@ void GameUiConsoleImpl::set_pixel(int x_dot, int y_dot, Color color)
     const int x_chr{x_dot * dot_width_chr};
     const int y_chr{y_dot * dot_height_chr};
     ::wattron(this->window, COLOR_PAIR(pair_index));
-    ::mvwprintw(this->window, y_chr, x_chr, "%ls", &dot_char);
+    ::mvwprintw(this->window, y_chr, x_chr, "%lc", dot_char);
     ::wattroff(this->window, COLOR_PAIR(pair_index));
 }
 
@@ -135,28 +135,28 @@ GameUiConsoleImpl::GameUiConsoleImpl(const NCursesColors& ncurses_colors)
     this->draw_border();
 }
 
-void GameUiConsoleImpl::refresh_board(const Pixels& pixels)
+void GameUiConsoleImpl::draw_board(const Pixels& pixels)
 {
     this->game_board_pixels = pixels;
     this->print_board(pixels, board_position_dot);
 }
 
-void GameUiConsoleImpl::refresh_next(const Brick& brick)
+void GameUiConsoleImpl::draw_next(const Brick& brick)
 {
 
 }
 
-void GameUiConsoleImpl::refresh_hold(const Brick& brick)
+void GameUiConsoleImpl::draw_hold(const Brick& brick)
 {
 
 }
 
-void GameUiConsoleImpl::refresh_score(unsigned long long score)
+void GameUiConsoleImpl::draw_score(unsigned long long score)
 {
 
 }
 
-void GameUiConsoleImpl::refresh_tetrises(unsigned long long tetrises)
+void GameUiConsoleImpl::draw_tetrises(unsigned long long tetrises)
 {
 
 }
