@@ -43,7 +43,7 @@ int main()
     GameImpl game{ui, board, brick_generator, score_counter};
     GameController game_controller{timer, game};
     
-    timer.connect_timeout([&game](){ game.handle_tick(); });
+    timer.connect_timeout([&game](){ game.handle_timeout(); });
     ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
     ui.connect_move_right_pressed([&game](){ game.handle_move_right(); });
     ui.connect_rotate_pressed([&game](){ game.handle_rotate(); });
@@ -57,7 +57,7 @@ int main()
     int input;
     ::WINDOW * game_window{ui.get_game_window()};
     
-    while((input = ::wgetch(game_window)) != 'q')
+    while ((input = ::wgetch(game_window)) != 'q')
     {
         ui.input_received(input);
 
