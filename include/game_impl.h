@@ -36,14 +36,14 @@ class GameImpl final: public Game
     bool can_hold;
 
     void generate_new_brick();
-    void refresh_ghost();
+    void generate_ghost();
     void commit_move();
     void move_down();
     void remove_lines(int from_y, int to_y);
     void place_and_generate_cur_brick();
     void move_cur_brick_horizontally(int by);
  
-    void init_move()
+    void remove_bricks()
     {
         this->board.remove_brick(this->get_transformed_ghost_brick());
         this->board.remove_brick(this->get_transformed_cur_brick());
@@ -57,7 +57,7 @@ class GameImpl final: public Game
     void add_score(unsigned long long amount)
     {
         this->score += amount;
-        this->ui.refresh_score(this->score);
+        this->ui.draw_score(this->score);
     }
 
 public:
