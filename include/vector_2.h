@@ -16,11 +16,16 @@ struct Vector2 final
         return os << "{" << vector2.x << ", " << vector2.y << "}";
     }
     
-    Vector2& operator+=(Vector2 other)
+    Vector2& operator+=(const Vector2& other)
     {
         this->x += other.x;
         this->y += other.y;
         return *this;
+    }
+
+    Vector2 operator+(const Vector2& other) const
+    {
+        return {this->x + other.x, this->y + other.y};
     }
 
     bool operator==(const Vector2& other) const
