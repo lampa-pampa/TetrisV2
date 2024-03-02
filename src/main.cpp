@@ -3,12 +3,13 @@
 #include "bag.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
-#include "brick_sources.h"
-#include "color_sources.h"
+#include "bricks_source.h"
+#include "color_codes_source.h"
+#include "console_matrix_display_impl.h"
 #include "game_controller.h"
 #include "game_impl.h"
 #include "game_state.h"
-#include "matrix_game_ui_impl.h"
+#include "matrix_display_game_ui_impl.h"
 #include "ncurses_colors.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
@@ -16,13 +17,14 @@
 
 using Tetris::Bag;
 using Tetris::BoardImpl;
-using Tetris::brick_sources;
+using Tetris::bricks_source;
 using Tetris::BrickGeneratorImpl;
-using Tetris::color_sources;
+using Tetris::color_codes_source;
+using Tetris::ConsoleMatrixDisplayImpl;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::GameState;
-using Tetris::MatrixGameUiImpl;
+using Tetris::MatrixDisplayGameUiImpl;
 using Tetris::NCursesColors;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
@@ -32,12 +34,13 @@ int main()
 {
     TimerMock timer{};
     NCursesColors colors{};
-    MatrixGameUiImpl ui{colors};
+    ConsoleMatrixDisplayImpl matrix{64, 64, colors};
+    MatrixDisplayGameUiImpl ui{matrix};
     BoardImpl board{10, 20};
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{
-        Bag{brick_sources, rng},
-        Bag{color_sources, rng}
+        Bag{bricks_source, rng},
+        Bag{color_codes_source, rng}
     };
     ScoreCounterImpl score_counter{10, 1, 2};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -55,7 +58,7 @@ int main()
     });
 
     int input;
-    ::WINDOW * game_window{ui.get_game_window()};
+    ::WINDOW * game_window{matrix.get_game_window()};
     
     while ((input = ::wgetch(game_window)) != 'q')
     {
