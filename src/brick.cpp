@@ -37,7 +37,7 @@ Brick Brick::get_rotated(const Brick& brick, int quarters_rotation)
     Brick rotated_brick{brick};
     for (auto& pixel : rotated_brick.pixels)
     {
-        for (const auto& i : irange(quarters_rotation % 4))
+        for (const auto& i : irange(quarters_rotation % rotation_quantity))
         {
             swap(pixel.coords.x, pixel.coords.y);
             pixel.coords.x *= -1;
