@@ -13,12 +13,14 @@ namespace Tetris
 
 struct Brick final
 {
+    static constexpr int rotation_quantity{4};
+
+
     std::vector<Pixel> pixels;
     bool is_center_moved;
 
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
 
-    static constexpr int rotation_quantity{4};
     static Brick get_colored(const Brick& brick, Color color);
     static Brick get_translated(const Brick& brick, Vector2 position);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
@@ -54,7 +56,7 @@ struct Brick final
 
     Brick()
     :
-        Brick{{}, false}
+        Brick{{}}
     {}
 
     bool empty() const
