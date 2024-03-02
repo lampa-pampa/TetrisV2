@@ -4,7 +4,7 @@ add_executable(all_tests
     test_score_counter_impl.cpp
     test_brick_generator_impl.cpp
     test_board_impl.cpp
-    test_pixel.cpp
+    test_cube.cpp
     test_game_impl.cpp
 )
 

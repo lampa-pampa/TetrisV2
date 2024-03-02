@@ -5,7 +5,7 @@
 
 #include "board.h"
 #include "brick.h"
-#include "pixel.h"
+#include "cube.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -13,11 +13,11 @@ namespace Tetris
 
 class BoardImpl final: public Board
 {
-    using Pixels = std::vector<std::vector<Pixel>>;
+    using CubeMatrix = std::vector<std::vector<Cube>>;
 
     const int width;
     const int height;
-    Pixels pixels;
+    CubeMatrix cubes;
     
     std::vector<Brick> find_lines_in_range(int from_y, int to_y) const;
     void compress(int start_y);
@@ -32,8 +32,8 @@ public:
     BoardImpl(int width, int height);
 
     bool is_space_for_brick(const Brick& brick) const override;
-    void put_pixels(const std::vector<Pixel>& pixels) override;
-    void clear_pixels(const std::vector<Pixel>& pixels) override;
+    void put_cubes(const std::vector<Cube>& cubes) override;
+    void clear_cubes(const std::vector<Cube>& cubes) override;
     int remove_lines_in_range_and_compress(int from_y, int to_y) override;
     
     int get_width() const override
@@ -41,9 +41,9 @@ public:
         return this->width;
     }
 
-    const Pixels& get_pixels() const override
+    const CubeMatrix& get_cubes() const override
     {
-        return this->pixels;
+        return this->cubes;
     }
 };
 

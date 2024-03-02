@@ -21,7 +21,7 @@ void MatrixDisplayGameUiImpl::draw_border()
 {
     const int display_width{this->matrix.get_width()};
     const int display_height{this->matrix.get_height()};
-    const int center_x{game_board_width * pixel_size + border_width};
+    const int center_x{game_board_width * cube_size + border_width};
 
     this->draw_rectangle(
         {0, 0},
@@ -68,29 +68,29 @@ void MatrixDisplayGameUiImpl::draw_rectangle(
     for (const auto& y : irange(position.y, position.y + height))
     {
         for (const auto& x : irange(position.x, position.x + width))
-            this->draw_pixel(x, y, color_code);
+            this->draw_cube(x, y, color_code);
     }
 }
 
-void MatrixDisplayGameUiImpl::draw_board_pixel(Vector2 position, int color_code)
+void MatrixDisplayGameUiImpl::draw_board_cube(Vector2 position, int color_code)
 {
-    for(const auto& y : irange(position.y, position.y + pixel_size))
+    for(const auto& y : irange(position.y, position.y + cube_size))
     {
-        for(const auto& x : irange(position.x, position.x + pixel_size))
-            this->draw_pixel(x, y, color_code);
+        for(const auto& x : irange(position.x, position.x + cube_size))
+            this->draw_cube(x, y, color_code);
     }
 }
 
-void MatrixDisplayGameUiImpl::draw_board(Vector2 position, const Pixels& board)
+void MatrixDisplayGameUiImpl::draw_board(Vector2 position, const CubeMatrix& board)
 {
     for (const auto& y : irange<int>(board.size()))
     {
-        const int pixel_y{game_board_position.y + y * pixel_size};
+        const int cube_y{game_board_position.y + y * cube_size};
         for (const auto& x : irange<int>(board[y].size()))
         {
-            const int pixel_x{game_board_position.x + x * pixel_size};
+            const int cube_x{game_board_position.x + x * cube_size};
             const int color_code{board[y][x].color_code};
-            this->draw_board_pixel({pixel_x, pixel_y}, color_code);
+            this->draw_board_cube({cube_x, cube_y}, color_code);
         }
     }
     this->matrix.refresh(this->color_codes);
@@ -107,10 +107,10 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(MatrixDisplay& matrix)
     this->draw_border();
 }
 
-void MatrixDisplayGameUiImpl::draw_game_board(const Pixels& pixels)
+void MatrixDisplayGameUiImpl::draw_game_board(const CubeMatrix& cubes)
 {
-    this->game_board_pixels = pixels;
-    this->draw_board(game_board_position, pixels);
+    this->game_board_cubes = cubes;
+    this->draw_board(game_board_position, cubes);
 }
 
 void MatrixDisplayGameUiImpl::draw_next(const Brick& brick)

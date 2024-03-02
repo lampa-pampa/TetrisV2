@@ -13,7 +13,7 @@
 #include "color_name.h"
 #include "game_ui.h"
 #include "matrix.h"
-#include "pixel.h"
+#include "cube.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -21,11 +21,11 @@ namespace Tetris
 
 class MatrixDisplayGameUiImpl final: public GameUi
 {
-    using ColorCodes = std::vector<std::vector<int>>;
-    using Pixels = std::vector<std::vector<Pixel>>;
+    using ColorCodeMatrix = std::vector<std::vector<int>>;
+    using CubeMatrix = std::vector<std::vector<Cube>>;
     using Signal = boost::signals2::signal<void()>;
 
-    static constexpr int pixel_size{3};
+    static constexpr int cube_size{3};
     static constexpr int border_width{2};
     static constexpr int game_board_width{10};
     static constexpr Vector2 game_board_position{
@@ -45,8 +45,8 @@ class MatrixDisplayGameUiImpl final: public GameUi
     };
     
     MatrixDisplay& matrix;
-    ColorCodes color_codes;
-    Pixels game_board_pixels;
+    ColorCodeMatrix color_codes;
+    CubeMatrix game_board_cubes;
     Signal move_left_pressed;
     Signal move_right_pressed;
     Signal rotate_pressed;
@@ -55,7 +55,7 @@ class MatrixDisplayGameUiImpl final: public GameUi
     Signal hold_pressed;
     Signal handle_pause_pressed;
 
-    ColorCodes create_color_codes(int width, int height);
+    ColorCodeMatrix create_color_codes(int width, int height);
     void draw_border();
     void draw_rectangle(
         Vector2 position,
@@ -63,10 +63,10 @@ class MatrixDisplayGameUiImpl final: public GameUi
         int height,
         ColorName color
     );
-    void draw_board_pixel(Vector2 position, int color_code);
-    void draw_board(Vector2 position, const Pixels& board);
+    void draw_board_cube(Vector2 position, int color_code);
+    void draw_board(Vector2 position, const CubeMatrix& board);
 
-    void draw_pixel(int x, int y, int color_code)
+    void draw_cube(int x, int y, int color_code)
     {
         assert(this->position_is_on_display({x, y}));
         this->color_codes[y][x] = color_code;
@@ -82,7 +82,7 @@ class MatrixDisplayGameUiImpl final: public GameUi
 public:
     MatrixDisplayGameUiImpl(MatrixDisplay& matrix);
     
-    void draw_game_board(const Pixels& pixels) override;
+    void draw_game_board(const CubeMatrix& cubes) override;
     void draw_next(const Brick& brick) override;
     void draw_hold(const Brick& brick) override;
     void draw_score(unsigned long long score) override;
@@ -101,7 +101,7 @@ public:
 
     void resume() override
     {
-        this->draw_game_board(this->game_board_pixels);
+        this->draw_game_board(this->game_board_cubes);
     }
 
     void connect_move_left_pressed(std::function<void()> handler) override

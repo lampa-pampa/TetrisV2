@@ -12,11 +12,11 @@ namespace Tetris
 
 class ConsoleMatrixDisplayImpl final: public MatrixDisplay
 {
-    using ColorCodes = std::vector<std::vector<int>>;
+    using ColorCodeMatrix = std::vector<std::vector<int>>;
 
-    static constexpr wchar_t dot_char{L'◼'};
-    static constexpr int pixel_width{2};
-    static constexpr int pixel_height{1};
+    static constexpr wchar_t pixel_char{L'◼'};
+    static constexpr int cube_width{2};
+    static constexpr int cube_height{1};
 
     const int width;
     const int height;
@@ -53,7 +53,7 @@ public:
         return this->window;
     }
 
-    void refresh(const ColorCodes& color_codes) override;
+    void refresh(const ColorCodeMatrix& color_codes) override;
 
 };
 

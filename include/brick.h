@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "pixel.h"
+#include "cube.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -15,7 +15,7 @@ struct Brick final
     static constexpr int rotation_quantity{4};
 
 
-    std::vector<Pixel> pixels;
+    std::vector<Cube> cubes;
     bool is_center_moved;
 
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
@@ -38,19 +38,19 @@ struct Brick final
 
     bool operator==(const Brick& other) const
     {
-        return this->pixels == other.pixels
+        return this->cubes == other.cubes
             and this->is_center_moved == other.is_center_moved;
     }
     
-    Brick(std::vector<Pixel> pixels, bool is_center_moved)
+    Brick(std::vector<Cube> cubes, bool is_center_moved)
     :
-        pixels{pixels},
+        cubes{cubes},
         is_center_moved{is_center_moved}
     {}
         
-    Brick(std::vector<Pixel> pixels)
+    Brick(std::vector<Cube> cubes)
     :
-        Brick{pixels, false}
+        Brick{cubes, false}
     {}
 
     Brick()
@@ -60,15 +60,15 @@ struct Brick final
 
     bool empty() const
     {
-        return this->pixels.empty();
+        return this->cubes.empty();
     }
 
     int get_min_x() const
     {
         return std::min_element(
-            this->pixels.begin(),
-            this->pixels.end(),
-            [](const Pixel& a, const Pixel& b){
+            this->cubes.begin(),
+            this->cubes.end(),
+            [](const Cube& a, const Cube& b){
                 return a.coords.x < b.coords.x;
             }
         )->coords.x;
@@ -77,9 +77,9 @@ struct Brick final
     int get_max_x() const
     {
         return std::max_element(
-            this->pixels.begin(),
-            this->pixels.end(),
-            [](const Pixel& a, const Pixel& b){
+            this->cubes.begin(),
+            this->cubes.end(),
+            [](const Cube& a, const Cube& b){
                 return a.coords.x < b.coords.x;
             }
         )->coords.x;
@@ -88,9 +88,9 @@ struct Brick final
     int get_min_y() const
     {
         return std::min_element(
-            this->pixels.begin(),
-            this->pixels.end(),
-            [](const Pixel& a, const Pixel& b){
+            this->cubes.begin(),
+            this->cubes.end(),
+            [](const Cube& a, const Cube& b){
                 return a.coords.y < b.coords.y;
             }
         )->coords.y;
@@ -99,9 +99,9 @@ struct Brick final
     int get_max_y() const
     {
         return std::max_element(
-            this->pixels.begin(),
-            this->pixels.end(),
-            [](const Pixel& a, const Pixel& b){
+            this->cubes.begin(),
+            this->cubes.end(),
+            [](const Cube& a, const Cube& b){
                 return a.coords.y < b.coords.y;
             }
         )->coords.y;

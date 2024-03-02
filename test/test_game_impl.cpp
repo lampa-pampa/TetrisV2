@@ -30,28 +30,28 @@ using Tetris::BrickGeneratorImpl;
 using Tetris::GameImpl;
 using Tetris::GameState;
 using Tetris::GameUiMock;
-using Tetris::Pixel;
+using Tetris::Cube;
 using Tetris::RngMock;
 using Tetris::ScoreCounterImpl;
 using Tetris::ScoreCounterMock;
 using Tetris::Vector2;
 
 namespace {
-    using Pixels = vector<vector<Pixel>>;
+    using CubeMatrix = vector<vector<Cube>>;
 
-    void for_each_pixel_assert_true(
-        const Pixels& pixels,
-        function<bool(Pixel pixel)> compare
+    void for_each_cube_assert_true(
+        const CubeMatrix& cubes,
+        function<bool(Cube cube)> compare
     ){
-        for (const auto& row : pixels)
+        for (const auto& row : cubes)
         {
-            for (const auto& pixel : row)
-                ASSERT_THAT(compare(pixel), Eq(true));
+            for (const auto& cube : row)
+                ASSERT_THAT(compare(cube), Eq(true));
         }
     }
-    bool is_in(Pixel pixel, vector<Pixel> pixels)
+    bool is_in(Cube cube, vector<Cube> cubes)
     {
-        return find(pixels.begin(), pixels.end(), pixel) != pixels.end();
+        return find(cubes.begin(), cubes.end(), cube) != cubes.end();
     }
 }
 
@@ -89,7 +89,7 @@ TEST(GameImpl, GameImpl)
         expected_cur_brick_rotation,
         expected_ghost_brick_position
     )};
-    const Pixels board_pixels{board.get_pixels()};
+    const CubeMatrix board_cubes{board.get_cubes()};
 
     ASSERT_THAT(game.get_state(), Eq(GameState::in_progress));
     ASSERT_THAT(game.get_score(), Eq(0));
@@ -110,15 +110,15 @@ TEST(GameImpl, GameImpl)
         Eq(expected_ghost_brick_position)
     );
     ASSERT_THAT(game.get_hold_brick(), Eq(expected_hold_brick));
-    for_each_pixel_assert_true(board_pixels, [
+    for_each_cube_assert_true(board_cubes, [
         transformed_expected_cur_brick,
         transformed_expected_ghost_brick
-    ](Pixel pixel){
-        return pixel.empty() != is_in(
-            pixel,
-            transformed_expected_cur_brick.pixels
+    ](Cube cube){
+        return cube.empty() != is_in(
+            cube,
+            transformed_expected_cur_brick.cubes
         )
-            or is_in(pixel, transformed_expected_ghost_brick.pixels);
+            or is_in(cube, transformed_expected_ghost_brick.cubes);
     });
 }
 
@@ -139,7 +139,7 @@ TEST(GameImpl, move_down_free_fall)
     game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    const Pixels board_pixels{board.get_pixels()};
+    const CubeMatrix board_cubes{board.get_cubes()};
     
     ASSERT_THAT(
         game.get_cur_brick_position(),
@@ -149,12 +149,12 @@ TEST(GameImpl, move_down_free_fall)
         game.get_ghost_brick_position(),
         Eq(expected_ghost_brick_position)
     );
-    for_each_pixel_assert_true(board_pixels, [
+    for_each_cube_assert_true(board_cubes, [
         transformed_cur_brick,
         transformed_ghost_brick
-    ](Pixel pixel){
-        return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
-            or is_in(pixel, transformed_ghost_brick.pixels);
+    ](Cube cube){
+        return cube.empty() != is_in(cube, transformed_cur_brick.cubes)
+            or is_in(cube, transformed_ghost_brick.cubes);
     });
 }
 
@@ -179,7 +179,7 @@ TEST(GameImpl, move_down_place)
         game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    const Pixels board_pixels{board.get_pixels()};
+    const CubeMatrix board_cubes{board.get_cubes()};
     
     ASSERT_THAT(
         game.get_cur_brick_position(),
@@ -189,14 +189,14 @@ TEST(GameImpl, move_down_place)
         game.get_ghost_brick_position(),
         Eq(expected_ghost_brick_position)
     );
-    for_each_pixel_assert_true(board_pixels, [
+    for_each_cube_assert_true(board_cubes, [
         transformed_cur_brick,
         transformed_ghost_brick,
         transformed_expected_placed_brick
-    ](Pixel pixel){
-        return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
-            or is_in(pixel, transformed_ghost_brick.pixels)
-            or is_in(pixel, transformed_expected_placed_brick.pixels);
+    ](Cube cube){
+        return cube.empty() != is_in(cube, transformed_cur_brick.cubes)
+            or is_in(cube, transformed_ghost_brick.cubes)
+            or is_in(cube, transformed_expected_placed_brick.cubes);
     });
 }
 
@@ -219,18 +219,18 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
         game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    const Pixels board_pixels{board.get_pixels()};
+    const CubeMatrix board_cubes{board.get_cubes()};
     
     ASSERT_THAT(game.get_score(), Eq(10));
     ASSERT_THAT(game.get_tetrises(), Eq(0));
-    for_each_pixel_assert_true(board_pixels, [
+    for_each_cube_assert_true(board_cubes, [
         transformed_cur_brick,
         transformed_ghost_brick,
         expected_remaining_brick
-    ](Pixel pixel){
-        return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
-            or is_in(pixel, transformed_ghost_brick.pixels)
-            or is_in(pixel, expected_remaining_brick.pixels);
+    ](Cube cube){
+        return cube.empty() != is_in(cube, transformed_cur_brick.cubes)
+            or is_in(cube, transformed_ghost_brick.cubes)
+            or is_in(cube, expected_remaining_brick.cubes);
     });
 }
 
@@ -258,18 +258,18 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
         game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    const Pixels board_pixels{board.get_pixels()};
+    const CubeMatrix board_cubes{board.get_cubes()};
     
     ASSERT_THAT(game.get_score(), Eq(40));
     ASSERT_THAT(game.get_tetrises(), Eq(1));
-    for_each_pixel_assert_true(board_pixels, [
+    for_each_cube_assert_true(board_cubes, [
         transformed_cur_brick,
         transformed_ghost_brick,
         expected_remaining_brick
-    ](Pixel pixel){
-        return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
-            or is_in(pixel, transformed_ghost_brick.pixels)
-            or is_in(pixel, expected_remaining_brick.pixels);
+    ](Cube cube){
+        return cube.empty() != is_in(cube, transformed_cur_brick.cubes)
+            or is_in(cube, transformed_ghost_brick.cubes)
+            or is_in(cube, expected_remaining_brick.cubes);
     });
 }
 
@@ -422,17 +422,17 @@ TEST(GameImpl, handle_hard_drop)
     game.handle_hard_drop();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
-    const Pixels board_pixels{board.get_pixels()};
+    const CubeMatrix board_cubes{board.get_cubes()};
     
     ASSERT_THAT(game.get_score(), Eq(18));
-    for_each_pixel_assert_true(board_pixels, [
+    for_each_cube_assert_true(board_cubes, [
         transformed_cur_brick,
         transformed_ghost_brick,
         expected_remaining_brick
-    ](Pixel pixel){
-        return pixel.empty() != is_in(pixel, transformed_cur_brick.pixels)
-            or is_in(pixel, transformed_ghost_brick.pixels)
-            or is_in(pixel, expected_remaining_brick.pixels);
+    ](Cube cube){
+        return cube.empty() != is_in(cube, transformed_cur_brick.cubes)
+            or is_in(cube, transformed_ghost_brick.cubes)
+            or is_in(cube, expected_remaining_brick.cubes);
     });
 }
 

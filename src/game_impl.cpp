@@ -51,9 +51,9 @@ void GameImpl::update_ghost()
 void GameImpl::put_bricks_on_board()
 {
     this->update_ghost();
-    this->board.put_pixels(this->get_transformed_ghost_brick().pixels);
-    this->board.put_pixels(this->get_transformed_cur_brick().pixels);
-    this->ui.draw_game_board(this->board.get_pixels());
+    this->board.put_cubes(this->get_transformed_ghost_brick().cubes);
+    this->board.put_cubes(this->get_transformed_cur_brick().cubes);
+    this->ui.draw_game_board(this->board.get_cubes());
 }
 
 void GameImpl::handle_tick()
@@ -78,7 +78,7 @@ void GameImpl::remove_lines(int from_y, int to_y)
 void GameImpl::place_and_generate_cur_brick()
 {
     const Brick placed_brick{this->get_transformed_cur_brick()};
-    this->board.put_pixels(placed_brick.pixels);
+    this->board.put_cubes(placed_brick.cubes);
     this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
     this->generate_new_brick();
     this->can_hold = true;

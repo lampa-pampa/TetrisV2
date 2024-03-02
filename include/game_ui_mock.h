@@ -5,17 +5,17 @@
 
 #include "brick.h"
 #include "game_ui.h"
-#include "pixel.h"
+#include "cube.h"
 
 namespace Tetris
 {
 
 class GameUiMock final: public GameUi
 {
-    using Pixels = std::vector<std::vector<Pixel>>;
+    using CubeMatrix = std::vector<std::vector<Cube>>;
 
 public:
-    void draw_game_board(const Pixels& pixels) override {}
+    void draw_game_board(const CubeMatrix& cubes) override {}
     void draw_next(const Brick& brick) override {}
     void draw_hold(const Brick& brick) override {}
     void draw_score(unsigned long long score) override {}

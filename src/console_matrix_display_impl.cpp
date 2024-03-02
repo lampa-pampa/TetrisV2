@@ -9,15 +9,15 @@ namespace Tetris
 
 using boost::irange;
 using Tetris::ConsoleMatrixDisplayImpl;
-constexpr wchar_t ConsoleMatrixDisplayImpl::dot_char;
+constexpr wchar_t ConsoleMatrixDisplayImpl::pixel_char;
 
 void ConsoleMatrixDisplayImpl::create_window()
 {
     int console_width_chr;
     int console_height_chr;
     getmaxyx(stdscr, console_height_chr, console_width_chr);
-    const int width_chr{this->width * pixel_width};
-    const int height_chr{this->width * pixel_height};
+    const int width_chr{this->width * cube_width};
+    const int height_chr{this->width * cube_height};
     const int center_x_chr{console_width_chr / 2 - width_chr / 2};
     const int center_y_chr{console_height_chr / 2 - height_chr / 2};
     this->window = ::newwin(
@@ -31,10 +31,10 @@ void ConsoleMatrixDisplayImpl::create_window()
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(int x, int y, int ncurses_color)
 {
-    const int x_chr{x * pixel_width};
-    const int y_chr{y * pixel_height};
+    const int x_chr{x * cube_width};
+    const int y_chr{y * cube_height};
     ::wattron(this->window, COLOR_PAIR(ncurses_color));
-    ::mvwprintw(this->window, y_chr, x_chr, "%lc", dot_char);
+    ::mvwprintw(this->window, y_chr, x_chr, "%lc", pixel_char);
     ::wattroff(this->window, COLOR_PAIR(ncurses_color));
 }
 
@@ -57,7 +57,7 @@ ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
     ::nodelay(this->window, true);
 }
 
-void ConsoleMatrixDisplayImpl::refresh(const ColorCodes& color_codes)
+void ConsoleMatrixDisplayImpl::refresh(const ColorCodeMatrix& color_codes)
 {
     for(const auto& y : irange(this->height))
     {

@@ -5,17 +5,17 @@
 #include <vector>
 
 #include "brick.h"
-#include "pixel.h"
+#include "cube.h"
 
 namespace Tetris
 {
 
 class GameUi
 {
-    using Pixels = std::vector<std::vector<Pixel>>;
+    using CubeMatrix = std::vector<std::vector<Cube>>;
 
 public:
-    virtual void draw_game_board(const Pixels& pixels) = 0;
+    virtual void draw_game_board(const CubeMatrix& cubes) = 0;
     virtual void draw_next(const Brick& brick) = 0;
     virtual void draw_hold(const Brick& brick) = 0;
     virtual void draw_score(unsigned long long score) = 0;

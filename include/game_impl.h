@@ -17,7 +17,7 @@ namespace Tetris
 
 class GameImpl final: public Game
 {
-    using Pixels = std::vector<std::vector<Pixel>>;
+    using CubeMatrix = std::vector<std::vector<Cube>>;
     
     static constexpr int tetris_line_count{4};
 
@@ -65,8 +65,8 @@ class GameImpl final: public Game
 
     void remove_bricks_from_board()
     {
-        this->board.clear_pixels(this->get_transformed_ghost_brick().pixels);
-        this->board.clear_pixels(this->get_transformed_cur_brick().pixels);
+        this->board.clear_cubes(this->get_transformed_ghost_brick().cubes);
+        this->board.clear_cubes(this->get_transformed_cur_brick().cubes);
     }
 
     Vector2 compute_cur_brick_spawn_position(
