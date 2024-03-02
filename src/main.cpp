@@ -31,7 +31,7 @@ using Tetris::TimerMock;
 int main()
 {
     TimerMock timer{};
-    NCursesColors colors;
+    NCursesColors colors{};
     MatrixGameUiImpl ui{colors};
     BoardImpl board{10, 20};
     RngImpl rng{};

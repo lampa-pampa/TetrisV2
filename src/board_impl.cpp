@@ -1,5 +1,6 @@
 #include "board_impl.h"
 
+#include <cassert>
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -79,13 +80,19 @@ bool BoardImpl::is_space_for_brick(const Brick& brick) const
 void BoardImpl::add_brick(const Brick& brick)
 {
     for (const auto& pixel : brick.pixels)
+    {
+        assert(this->position_is_in_range(pixel.coords));
         this->pixels[pixel.coords.y][pixel.coords.x] = pixel;
+    }
 }
 
 void BoardImpl::remove_brick(const Brick& brick)
 {
     for (const auto& pixel : brick.pixels)
+    {
+        assert(this->position_is_in_range(pixel.coords));
         this->pixels[pixel.coords.y][pixel.coords.x].clear();
+    }
 }
 
 int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)
