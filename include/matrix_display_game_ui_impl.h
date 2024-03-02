@@ -1,6 +1,7 @@
-#ifndef INCLUDE_MATRIX_GAME_UI_IMPL_H
-#define INCLUDE_MATRIX_GAME_UI_IMPL_H
+#ifndef INCLUDE_MATRIX_DISPLAY_GAME_UI_IMPL_H
+#define INCLUDE_MATRIX_DISPLAY_GAME_UI_IMPL_H
 
+#include <cassert>
 #include <functional>
 #include <map>
 #include <vector>
@@ -9,49 +10,29 @@
 #include <ncurses.h>
 
 #include "brick.h"
-#include "color.h"
+#include "color_name.h"
 #include "game_ui.h"
-#include "ncurses_colors.h"
+#include "matrix.h"
 #include "pixel.h"
 #include "vector_2.h"
 
 namespace Tetris
 {
 
-class MatrixGameUiImpl final: public GameUi
+class MatrixDisplayGameUiImpl final: public GameUi
 {
+    using ColorCodes = std::vector<std::vector<int>>;
     using Pixels = std::vector<std::vector<Pixel>>;
     using Signal = boost::signals2::signal<void()>;
 
-    static constexpr int dot_width_chr{2};
-    static constexpr int dot_height_chr{1};
-    static constexpr int display_width_dot{64};
-    static constexpr int display_height_dot{64};
-    static constexpr int pixel_size_dot{3};
-    static constexpr int border_width_dot{2};
-    static constexpr int game_board_width_px{10};
-    static constexpr Vector2 board_position_dot{
-        border_width_dot,
-        border_width_dot
+    static constexpr int pixel_size{3};
+    static constexpr int border_width{2};
+    static constexpr int game_board_width{10};
+    static constexpr Vector2 game_board_position{
+        border_width,
+        border_width
     };
-    static constexpr Color border_color{Color::white};
-    static constexpr wchar_t dot_char{L'◼'};
-
-    static constexpr int display_width_chr{
-        display_width_dot * dot_width_chr
-    };
-    static constexpr int display_height_chr{
-        display_height_dot * dot_height_chr
-    };
-    static constexpr int max_x_dot{display_width_dot - 1};
-    static constexpr int max_y_dot{display_height_dot - 1};
-    static constexpr int max_border_width_dot{border_width_dot - 1};
-    static constexpr int game_board_width_dot{
-        pixel_size_dot * game_board_width_px
-    };
-    static constexpr int center_x_dot{
-        game_board_width_dot + border_width_dot
-    };
+    static constexpr ColorName border_color{ColorName::white};
     
     const std::map<int, Signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
@@ -62,11 +43,10 @@ class MatrixGameUiImpl final: public GameUi
         {'c', this->hold_pressed},
         {'p', this->handle_pause_pressed},
     };
-    int width;
-    int height;
-    Pixels game_board_pixels{};
-    NCursesColors ncurses_colors;
-    ::WINDOW* window;
+    
+    MatrixDisplay& matrix;
+    ColorCodes color_codes;
+    Pixels game_board_pixels;
     Signal move_left_pressed;
     Signal move_right_pressed;
     Signal rotate_pressed;
@@ -75,32 +55,39 @@ class MatrixGameUiImpl final: public GameUi
     Signal hold_pressed;
     Signal handle_pause_pressed;
 
-    void create_window();
-    void set_pixel(int x, int y, Color color);
+    ColorCodes create_color_codes(int width, int height);
     void draw_border();
-    void draw_line(Vector2 from, Vector2 to, Color color);
-    void print_board(const Pixels& pixels, Vector2 position);
-    void print_pixel(int d_start_x, int d_start_y, Color color);
+    void draw_rectangle(
+        Vector2 position,
+        int width,
+        int height,
+        ColorName color
+    );
+    void draw_board_pixel(Vector2 position, int color_code);
+    void draw_board(Vector2 position, const Pixels& board);
 
-public:
-    MatrixGameUiImpl(const NCursesColors& ncurses_colors);
-    
-    ~MatrixGameUiImpl()
+    void draw_pixel(int x, int y, int color_code)
     {
-        ::endwin();
+        assert(this->position_is_on_display({x, y}));
+        this->color_codes[y][x] = color_code;
     }
 
-    void draw_board(const Pixels& pixels) override;
+    bool position_is_on_display(Vector2 position) const
+    {
+        return position.x >= 0 and position.x < this->matrix.get_width()
+            and position.y >= 0 and position.y < this->matrix.get_height();
+    }
+
+
+public:
+    MatrixDisplayGameUiImpl(MatrixDisplay& matrix);
+    
+    void draw_game_board(const Pixels& pixels) override;
     void draw_next(const Brick& brick) override;
     void draw_hold(const Brick& brick) override;
     void draw_score(unsigned long long score) override;
     void draw_tetrises(unsigned long long tetrises) override;
     void input_received(int input);
-
-    WINDOW * get_game_window()
-    {
-        return this->window;
-    }
 
     void game_over() override
     {
@@ -114,7 +101,7 @@ public:
 
     void resume() override
     {
-        this->draw_board(this->game_board_pixels);
+        this->draw_game_board(this->game_board_pixels);
     }
 
     void connect_move_left_pressed(std::function<void()> handler) override
