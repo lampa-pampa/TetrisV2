@@ -22,13 +22,13 @@ using Tetris::Pixel;
 namespace {
     using Pixels = vector<vector<Pixel>>;
 
-    vector<Pixel> create_rectangle_shape(int width, int height, int color)
+    vector<Pixel> create_rectangle_shape(int width, int height, int color_code)
     {
         vector<Pixel> shape{};
         for (const auto& y : irange(height))
         {
             for (const auto& x : irange(width))
-                shape.emplace_back(Pixel{x, y, color});
+                shape.emplace_back(Pixel{x, y, color_code});
         }
         return shape;
     }
