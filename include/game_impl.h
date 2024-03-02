@@ -18,6 +18,8 @@ namespace Tetris
 class GameImpl final: public Game
 {
     using Pixels = std::vector<std::vector<Pixel>>;
+    
+    static constexpr int tetris_line_count{4};
 
     GameUi& ui;
     Board& board;
@@ -35,29 +37,60 @@ class GameImpl final: public Game
     Brick hold_brick;
     bool can_hold;
 
+    int compute_max_brick_move_vector_y(const Brick& brick) const;
     void generate_new_brick();
-    void generate_ghost();
-    void commit_move();
-    void move_down();
+    void update_ghost();
+    void add_bricks();
+    void handle_tick();
     void remove_lines(int from_y, int to_y);
     void place_and_generate_cur_brick();
     void move_cur_brick_horizontally(int by);
- 
+
+    bool can_move_brick_by(const Brick& brick, Vector2 vector) const
+    {
+        return this->board.is_space_for_brick(
+            Brick::get_translated(brick, vector)
+        );
+    }
+    
+    bool can_rotate_brick_by(
+        const Brick& brick,
+        Vector2 brick_position,
+        int quarters_rotation
+    ) const {
+        return this->board.is_space_for_brick(
+            Brick::get_transformed(brick, quarters_rotation, brick_position)
+        );
+    }
+
     void remove_bricks()
     {
         this->board.remove_brick(this->get_transformed_ghost_brick());
         this->board.remove_brick(this->get_transformed_cur_brick());
     }
 
-    Vector2 get_brick_spawn_position(int brick_min_y, int board_width) const
-    {
+    Vector2 compute_cur_brick_spawn_position(
+        int brick_min_y,
+        int board_width
+    ) const {
         return {(board_width - 1) / 2, -brick_min_y};
+    }
+
+    int compute_quarters_rotation(int rotation, int step) const
+    {
+        return (rotation + 1) % Brick::rotation_quantity;
     }
 
     void add_score(unsigned long long amount)
     {
-        this->score += amount;
-        this->ui.draw_score(this->score);
+        if(amount > 0)
+            this->ui.draw_score(this->score += amount);
+    }
+
+    void add_tetrises(unsigned long long amount)
+    {
+        if(amount > 0)
+            this->ui.draw_tetrises(this->tetrises += amount);
     }
 
 public:
@@ -94,7 +127,7 @@ public:
         if (this->state != GameState::in_progress)
             return;
 
-        this->move_down();
+        this->handle_tick();
         this->add_score(this->score_counter.count_score_for_soft_drop());
     }
 
@@ -103,12 +136,12 @@ public:
         return this->state;
     }
 
-    void handle_tick() override
+    void handle_timeout() override
     {
         if (this->state != GameState::in_progress)
             return;
 
-        this->move_down();
+        this->handle_tick();
     }
 
     void handle_move_left() override
@@ -125,11 +158,6 @@ public:
             return;
 
         this->move_cur_brick_horizontally(1);
-    }
-    
-    Pixels get_board_pixels() const
-    {
-        return this->board.get_pixels();
     }
 
     unsigned long long get_score() const
