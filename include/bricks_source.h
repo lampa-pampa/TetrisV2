@@ -1,5 +1,5 @@
-#ifndef INCLUDE_BRICK_SOURCES_H
-#define INCLUDE_BRICK_SOURCES_H
+#ifndef INCLUDE_BRICKS_SOURCE_H
+#define INCLUDE_BRICKS_SOURCE_H
 
 #include <vector>
 
@@ -8,7 +8,7 @@
 namespace Tetris
 {
 
-const std::vector<Brick> brick_sources
+const std::vector<Brick> bricks_source
 {
     {{ {-1, 0}, {0, 0}, {1, 0}, {2, 0} }, true},
     {{ {0, 0}, {1, 0}, {0, 1}, {1, 1} }, true},
