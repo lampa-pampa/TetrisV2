@@ -32,8 +32,8 @@ public:
     BoardImpl(int width, int height);
 
     bool is_space_for_brick(const Brick& brick) const override;
-    void add_brick(const Brick& brick) override;
-    void remove_brick(const Brick& brick) override;
+    void paste_pixels(const std::vector<Pixel>& pixels) override;
+    void cut_pixels(const std::vector<Pixel>& pixels) override;
     int remove_lines_in_range_and_compress(int from_y, int to_y) override;
     
     int get_width() const override

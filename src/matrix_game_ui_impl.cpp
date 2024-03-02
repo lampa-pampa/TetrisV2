@@ -1,22 +1,18 @@
 #include "matrix_game_ui_impl.h"
 
 #include <string>
-#include <vector>
 
 #include <boost/range/irange.hpp>
 #include <ncurses.h>
 
 #include "color.h"
-#include "pixel.h"
 #include "vector_2.h"
 
 namespace Tetris
 {
 
-using std::vector;
 using std::string;
 using boost::irange;
-using Pixels = vector<vector<Pixel>>;
 constexpr wchar_t MatrixGameUiImpl::dot_char;
 
 void MatrixGameUiImpl::create_window()

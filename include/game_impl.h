@@ -40,7 +40,7 @@ class GameImpl final: public Game
     int compute_max_brick_move_vector_y(const Brick& brick) const;
     void generate_new_brick();
     void update_ghost();
-    void add_bricks();
+    void paste_bricks();
     void handle_tick();
     void remove_lines(int from_y, int to_y);
     void place_and_generate_cur_brick();
@@ -63,10 +63,10 @@ class GameImpl final: public Game
         );
     }
 
-    void remove_bricks()
+    void cut_bricks()
     {
-        this->board.remove_brick(this->get_transformed_ghost_brick());
-        this->board.remove_brick(this->get_transformed_cur_brick());
+        this->board.cut_pixels(this->get_transformed_ghost_brick().pixels);
+        this->board.cut_pixels(this->get_transformed_cur_brick().pixels);
     }
 
     Vector2 compute_cur_brick_spawn_position(
