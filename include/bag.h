@@ -7,7 +7,6 @@
 #include <boost/range/irange.hpp>
 
 #include "brick.h"
-#include "color.h"
 #include "rng.h"
 
 namespace Tetris
@@ -48,7 +47,7 @@ T Bag<T>::get_next()
 }
 
 explicit Bag(std::initializer_list<Brick>, Rng& rng)-> Bag<Brick>;
-explicit Bag(std::initializer_list<Color>, Rng& rng)-> Bag<Color>;
+explicit Bag(std::initializer_list<int>, Rng& rng)-> Bag<int>;
 
 }
 

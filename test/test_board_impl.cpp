@@ -8,7 +8,6 @@
 
 #include "board_impl.h"
 #include "brick.h"
-#include "color.h"
 #include "pixel.h"
 
 using boost::irange;
@@ -18,13 +17,12 @@ using std::vector;
 using testing::Eq;
 using Tetris::BoardImpl;
 using Tetris::Brick;
-using Tetris::Color;
 using Tetris::Pixel;
 
 namespace {
     using Pixels = vector<vector<Pixel>>;
 
-    vector<Pixel> create_rectangle_shape(int width, int height, Color color)
+    vector<Pixel> create_rectangle_shape(int width, int height, int color)
     {
         vector<Pixel> shape{};
         for (const auto& y : irange(height))
@@ -87,16 +85,16 @@ TEST(BoardImpl, is_space_for_brick_filled_board)
 {
     BoardImpl board{3, 3};
     const Brick brick{{ {0, 0} }};
-    board.paste_pixels(create_rectangle_shape(3, 3, Color::red));
+    board.put_pixels(create_rectangle_shape(3, 3, 1));
     
     ASSERT_THAT(board.is_space_for_brick(brick.pixels), Eq(false));    
 }
 
-TEST(BoardImpl, paste_pixels)
+TEST(BoardImpl, put_pixels)
 {
     BoardImpl board{3, 3};
-    const Brick brick{{ {1, 2, Color::green}, {2, 2, Color::green} }};
-    board.paste_pixels(brick.pixels);
+    const Brick brick{{ {1, 2, 2}, {2, 2, 2} }};
+    board.put_pixels(brick.pixels);
     const Pixels board_pixels{board.get_pixels()};
     
     for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
@@ -104,12 +102,12 @@ TEST(BoardImpl, paste_pixels)
     });
 }
 
-TEST(BoardImpl, cut_pixels)
+TEST(BoardImpl, clear_pixels)
 {
     BoardImpl board{3, 3};
-    board.paste_pixels(create_rectangle_shape(3, 3, Color::red));
+    board.put_pixels(create_rectangle_shape(3, 3, 1));
     const Brick brick{{ {0, 0}, {0, 1} }};   
-    board.cut_pixels(brick.pixels);
+    board.clear_pixels(brick.pixels);
     const Pixels board_pixels{board.get_pixels()};
     
     for_each_pixel_assert_true(board_pixels, [brick](Pixel pixel){
@@ -120,8 +118,8 @@ TEST(BoardImpl, cut_pixels)
 TEST(BoardImpl, remove_lines_in_range_and_compress_without_lines_in_range)
 {
     BoardImpl board{3, 3};
-    const Brick brick{create_rectangle_shape(3, 2, Color::red)};
-    board.paste_pixels(brick.pixels);
+    const Brick brick{create_rectangle_shape(3, 2, 1)};
+    board.put_pixels(brick.pixels);
     const int lines{board.remove_lines_in_range_and_compress(2, 2)};
     const Pixels board_pixels{board.get_pixels()};
 
@@ -135,9 +133,9 @@ TEST(BoardImpl, remove_lines_in_range_and_compress_without_lines_in_range)
 TEST(BoardImpl, remove_lines_in_range_and_compress_with_lines_in_range)
 {
     BoardImpl board{3, 3};
-    board.paste_pixels(create_rectangle_shape(3, 2, Color::red));
-    board.paste_pixels(create_rectangle_shape(2, 3, Color::red));
-    const Brick brick{{ {0, 2, Color::red}, {1, 2, Color::red} }};
+    board.put_pixels(create_rectangle_shape(3, 2, 1));
+    board.put_pixels(create_rectangle_shape(2, 3, 1));
+    const Brick brick{{ {0, 2, 1}, {1, 2, 1} }};
     const int lines{board.remove_lines_in_range_and_compress(0, 2)};
     const Pixels board_pixels{board.get_pixels()};
     

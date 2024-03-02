@@ -5,14 +5,13 @@
 
 using testing::Eq;
 using Tetris::Brick;
-using Tetris::Color;
 
 TEST(Brick, get_colored)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
-    const Brick expected_brick{{ {1, 2, Color::red}, {3, 4, Color::red} }};
+    const Brick expected_brick{{ {1, 2, 1}, {3, 4, 1} }};
     
-    ASSERT_THAT(Brick::get_colored(brick, Color::red), Eq(expected_brick));
+    ASSERT_THAT(Brick::get_colored(brick, 1), Eq(expected_brick));
 }
 
 TEST(Brick, get_translated)
@@ -45,8 +44,8 @@ TEST(Brick, get_ghostified)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
     const Brick expected_brick{{
-        {1, 2, Color::black, true},
-        {3, 4, Color::black, true},
+        {1, 2, 0, true},
+        {3, 4, 0, true},
     }};
     
     ASSERT_THAT(Brick::get_ghostified(brick), Eq(expected_brick));

@@ -10,7 +10,6 @@
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "brick.h"
-#include "color.h"
 #include "game_impl.h"
 #include "game_state.h"
 #include "game_ui_mock.h"
@@ -28,7 +27,6 @@ using Tetris::Bag;
 using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
-using Tetris::Color;
 using Tetris::GameImpl;
 using Tetris::GameState;
 using Tetris::GameUiMock;
@@ -70,12 +68,12 @@ TEST(GameImpl, GameImpl)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::blue, Color::red}, rng}
+        Bag{{3, 1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
-    const Brick expected_cur_brick{Brick::get_colored(brick, Color::blue)};
-    const Brick expected_next_brick{Brick::get_colored(brick, Color::red)};
+    const Brick expected_cur_brick{Brick::get_colored(brick, 3)};
+    const Brick expected_next_brick{Brick::get_colored(brick, 1)};
     const Brick expected_ghost_brick{Brick::get_ghostified(expected_cur_brick)};
     const Brick expected_hold_brick{};
     const Vector2 expected_cur_brick_position{4, 1};
@@ -98,16 +96,28 @@ TEST(GameImpl, GameImpl)
     ASSERT_THAT(game.get_tetrises(), Eq(0));
     ASSERT_THAT(game.get_cur_brick(), Eq(expected_cur_brick));
     ASSERT_THAT(game.get_next_brick(), Eq(expected_next_brick));
-    ASSERT_THAT(game.get_cur_brick_rotation(), Eq(expected_cur_brick_rotation));
-    ASSERT_THAT(game.get_cur_brick_position(), Eq(expected_cur_brick_position));
+    ASSERT_THAT(
+        game.get_cur_brick_rotation(),
+        Eq(expected_cur_brick_rotation)
+    );
+    ASSERT_THAT(
+        game.get_cur_brick_position(),
+        Eq(expected_cur_brick_position)
+    );
     ASSERT_THAT(game.get_ghost_brick(), Eq(expected_ghost_brick));
-    ASSERT_THAT(game.get_ghost_brick_position(), Eq(expected_ghost_brick_position));
+    ASSERT_THAT(
+        game.get_ghost_brick_position(),
+        Eq(expected_ghost_brick_position)
+    );
     ASSERT_THAT(game.get_hold_brick(), Eq(expected_hold_brick));
     for_each_pixel_assert_true(board_pixels, [
         transformed_expected_cur_brick,
         transformed_expected_ghost_brick
     ](Pixel pixel){
-        return pixel.empty() != is_in(pixel, transformed_expected_cur_brick.pixels)
+        return pixel.empty() != is_in(
+            pixel,
+            transformed_expected_cur_brick.pixels
+        )
             or is_in(pixel, transformed_expected_ghost_brick.pixels);
     });
 }
@@ -120,7 +130,7 @@ TEST(GameImpl, move_down_free_fall)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::blue}, rng}
+        Bag{{3}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -131,8 +141,14 @@ TEST(GameImpl, move_down_free_fall)
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     const Pixels board_pixels{board.get_pixels()};
     
-    ASSERT_THAT(game.get_cur_brick_position(), Eq(expected_cur_brick_position));
-    ASSERT_THAT(game.get_ghost_brick_position(), Eq(expected_ghost_brick_position));
+    ASSERT_THAT(
+        game.get_cur_brick_position(),
+        Eq(expected_cur_brick_position)
+    );
+    ASSERT_THAT(
+        game.get_ghost_brick_position(),
+        Eq(expected_ghost_brick_position)
+    );
     for_each_pixel_assert_true(board_pixels, [
         transformed_cur_brick,
         transformed_ghost_brick
@@ -150,21 +166,29 @@ TEST(GameImpl, move_down_place)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::blue, Color::red}, rng}
+        Bag{{3, 1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
     const Vector2 expected_cur_brick_position{4, 1};
     const Vector2 expected_ghost_brick_position{4, 15};
-    const Brick transformed_expected_placed_brick{Brick::get_translated(game.get_cur_brick(), {4, 18})};
+    const Brick transformed_expected_placed_brick{
+        Brick::get_translated(game.get_cur_brick(), {4, 18})
+    };
     for (const auto& i : irange(18))
         game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
     const Brick transformed_ghost_brick{game.get_transformed_ghost_brick()};
     const Pixels board_pixels{board.get_pixels()};
     
-    ASSERT_THAT(game.get_cur_brick_position(), Eq(expected_cur_brick_position));
-    ASSERT_THAT(game.get_ghost_brick_position(), Eq(expected_ghost_brick_position));
+    ASSERT_THAT(
+        game.get_cur_brick_position(),
+        Eq(expected_cur_brick_position)
+    );
+    ASSERT_THAT(
+        game.get_ghost_brick_position(),
+        Eq(expected_ghost_brick_position)
+    );
     for_each_pixel_assert_true(board_pixels, [
         transformed_cur_brick,
         transformed_ghost_brick,
@@ -180,14 +204,14 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
 {
     const Brick base_brick{{ {-1, 0}, {1, 0} }};
     const Brick falling_brick{{ {0, 0}, {0, 1} }};
-    const Color bricks_color{Color::blue};
-    const Brick expected_remaining_brick{{ {1, 9, bricks_color} }};
+    const int bricks_color_code{3};
+    const Brick expected_remaining_brick{{ {1, 9, bricks_color_code} }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{base_brick, falling_brick}, rng},
-        Bag{{bricks_color}, rng}
+        Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{10, 5, 3};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -219,14 +243,14 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
         {-1, 3}, {1, 3},
     }};
     const Brick falling_brick{{ {0, 0}, {0, 1}, {0, 2}, {0, 3}, {0, 4} }};
-    const Color bricks_color{Color::blue};
-    const Brick expected_remaining_brick{{ {1, 9, bricks_color} }};
+    const int bricks_color_code{3};
+    const Brick expected_remaining_brick{{ {1, 9, bricks_color_code} }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{base_brick, falling_brick}, rng},
-        Bag{{bricks_color}, rng}
+        Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{10, 0, 0};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -257,7 +281,7 @@ TEST(GameImpl, move_down_end_game)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::red}, rng}
+        Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -275,7 +299,7 @@ TEST(GameImpl, handle_move_left)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::red}, rng}
+        Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -293,7 +317,7 @@ TEST(GameImpl, move_left_blocked)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::red}, rng}
+        Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -311,7 +335,7 @@ TEST(GameImpl, handle_move_right)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::red}, rng}
+        Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -329,7 +353,7 @@ TEST(GameImpl, move_right_blocked)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::red}, rng}
+        Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -347,7 +371,7 @@ TEST(GameImpl, handle_rotate)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::red}, rng}
+        Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -367,7 +391,7 @@ TEST(GameImpl, rotate_blocked)
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{Color::red}, rng}
+        Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -379,18 +403,18 @@ TEST(GameImpl, rotate_blocked)
 
 TEST(GameImpl, handle_hard_drop)
 {
-    const Color bricks_color{Color::blue};
+    const int bricks_color_code{3};
     const Brick brick{{ {-1, 0}, {0, 0} }};
     const Brick expected_remaining_brick{{
-        {0, 9, bricks_color},
-        {1, 9, bricks_color},
+        {0, 9, bricks_color_code},
+        {1, 9, bricks_color_code},
     }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{bricks_color}, rng}
+        Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{0, 0, 2};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -414,18 +438,18 @@ TEST(GameImpl, handle_hard_drop)
 
 TEST(GameImpl, handle_soft_drop)
 {
-    const Color bricks_color{Color::blue};
+    const int bricks_color_code{3};
     const Brick brick{{ {-1, 0}, {0, 0} }};
     const Brick expected_remaining_brick{{
-        {0, 9, bricks_color},
-        {1, 9, bricks_color},
+        {0, 9, bricks_color_code},
+        {1, 9, bricks_color_code},
     }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick}, rng},
-        Bag{{bricks_color}, rng}
+        Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{0, 1, 0};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -437,18 +461,21 @@ TEST(GameImpl, handle_soft_drop)
 
 TEST(GameImpl, hold_locking)
 {
-    const Color bricks_color{Color::red};
-    const Brick brick{{ {-1, 0, bricks_color}, {0, 0, bricks_color} }};
+    const int bricks_color_code{1};
+    const Brick brick{{
+        {-1, 0, bricks_color_code},
+        {0, 0, bricks_color_code},
+    }};
     const Brick expected_remaining_brick{{
-        {0, 0, bricks_color},
-        {0, 1, bricks_color},
+        {0, 0, bricks_color_code},
+        {0, 1, bricks_color_code},
     }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick, expected_remaining_brick}, rng},
-        Bag{{bricks_color}, rng}
+        Bag{{bricks_color_code}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};
@@ -467,16 +494,25 @@ TEST(GameImpl, hold_locking)
 
 TEST(GameImpl, hold_unlocked)
 {
-    const Color bricks_color{Color::red};
-    const Brick brick1{{ {-1, 0, bricks_color}, {0, 0, bricks_color} }};
-    const Brick brick2{{ {0, 0, bricks_color}, {1, 0, bricks_color} }};
-    const Brick brick3{{ {0, 0, bricks_color}, {0, 1, bricks_color} }};
+    const int bricks_color_code{1};
+    const Brick brick1{{
+        {-1, 0, bricks_color_code},
+        {0, 0, bricks_color_code},
+    }};
+    const Brick brick2{{
+        {0, 0, bricks_color_code},
+        {1, 0, bricks_color_code},
+    }};
+    const Brick brick3{{
+        {0, 0, bricks_color_code},
+        {0, 1, bricks_color_code},
+    }};
     GameUiMock ui{};
     BoardImpl board{3, 10};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{{brick1, brick2, brick3}, rng},
-        Bag{{bricks_color}, rng}
+        Bag{{bricks_color_code}, rng}
     };
     ScoreCounterMock score_counter{};
     GameImpl game{ui, board, brick_generator, score_counter};

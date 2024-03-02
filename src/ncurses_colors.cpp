@@ -2,19 +2,20 @@
 
 #include <ncurses.h>
 
-#include"color.h"
-
 namespace Tetris
 {
 
-int NCursesColors::get_color_pair(Color color)
+int NCursesColors::get_ncurses_color(int color_code)
 {
-    auto it{this->color_to_pair.find(color)};
+    auto it{this->color_to_pair.find(color_code)};
     if (it == this->color_to_pair.end())
     {
         const int ncurses_color{this->color_to_ncurses_color.at(color)};
+        const int ncurses_color{
+            this->color_code_to_ncurses_color.at(color_code)
+        };
         ::init_pair(ncurses_color, ncurses_color, COLOR_BLACK);
-        it = this->color_to_pair.insert({color, ncurses_color}).first;
+        it = this->color_to_pair.insert({color_code, ncurses_color}).first;
     }
     return it->second;
 }

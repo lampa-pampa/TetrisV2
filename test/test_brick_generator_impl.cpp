@@ -7,7 +7,6 @@
 #include "bag.h"
 #include "brick_generator_impl.h"
 #include "brick.h"
-#include "color.h"
 #include "rng_mock.h"
 
 using boost::irange;
@@ -16,28 +15,21 @@ using testing::Eq;
 using Tetris::Bag;
 using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
-using Tetris::Color;
 using Tetris::RngMock;
 
 
 TEST(BrickGeneratorImpl, generate)
 {
-    const vector<Brick> bricks{
-        {{ {1, 0}, {0, 1} }},
-        {{ {2, 0}, {0, 2} }},
-    };
-    const vector colors{
-        Color::red,
-        Color::blue,
-    };
+    const vector<Brick> bricks{ {{ {1, 0}, {0, 1} }}, {{ {2, 0}, {0, 2} }} };
+    const vector color_codes{1, 3};
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
         Bag{bricks, rng},
-        Bag{colors, rng},
+        Bag{color_codes, rng},
     };
     const vector<Brick> expected_bricks{
-        {{ {1, 0, Color::red}, {0, 1, Color::red} }},
-        {{ {2, 0, Color::blue}, {0, 2, Color::blue} }},
+        {{ {1, 0, 1}, {0, 1, 1} }},
+        {{ {2, 0, 3}, {0, 2, 3} }},
     };
     for (const auto& i : irange(2))
     {

@@ -3,7 +3,6 @@
 
 #include <ostream>
 
-#include "color.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -12,47 +11,47 @@ namespace Tetris
 struct Pixel final
 {
     Vector2 coords;
-    Color color;
+    int color_code;
     bool is_ghost;
 
     friend std::ostream& operator<<(std::ostream& os, const Pixel& pixel)
     {
         return os << "{" << pixel.coords.x << ", " << pixel.coords.y
-            << ", " << pixel.color << "}";  
+            << ", " << pixel.color_code << "}";  
     }
 
-    Pixel(int x, int y, Color color, bool is_ghost)
+    Pixel(int x, int y, int color_code, bool is_ghost)
     :
         coords{x, y},
-        color{color},
+        color_code{color_code},
         is_ghost{is_ghost}
     {}
 
-    Pixel(int x, int y, Color color)
+    Pixel(int x, int y, int color_code)
     :
-        Pixel{x, y, color, false}
+        Pixel{x, y, color_code, false}
     {}
 
     Pixel(int x, int y)
     :
-        Pixel{x, y, Color::black, false}
+        Pixel{x, y, 0, false}
     {}
 
     bool operator==(const Pixel& other) const
     {
         return this->coords == other.coords
             and this->is_ghost == other.is_ghost
-            and this->color == other.color;
+            and this->color_code == other.color_code;
     }
 
     bool empty() const
     {
-        return this->color == Color::black;
+        return this->color_code == 0;
     }
 
     void clear()
     {
-        this->color = Color::black;
+        this->color_code = 0;
         this->is_ghost = false;
     }
 };

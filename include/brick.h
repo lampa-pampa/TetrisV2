@@ -4,7 +4,6 @@
 #include <algorithm>
 #include <vector>
 
-#include "color.h"
 #include "pixel.h"
 #include "vector_2.h"
 
@@ -21,7 +20,7 @@ struct Brick final
 
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
 
-    static Brick get_colored(const Brick& brick, Color color);
+    static Brick get_colored(const Brick& brick, int color_code);
     static Brick get_translated(const Brick& brick, Vector2 position);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
     static Brick get_ghostified(const Brick& brick);

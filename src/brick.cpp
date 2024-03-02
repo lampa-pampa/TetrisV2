@@ -16,11 +16,11 @@ using std::ostream;
 using std::boolalpha;
 using boost::irange;
 
-Brick Brick::get_colored(const Brick& brick, Color color)
+Brick Brick::get_colored(const Brick& brick, int color_code)
 {
     Brick colored_brick{brick};
     for (auto& pixel : colored_brick.pixels)
-        pixel.color = color;
+        pixel.color_code = color_code;
     return colored_brick;
 }
 
