@@ -5,30 +5,28 @@
 
 #include <ncurses.h>
 
-#include "color.h"
-
 namespace Tetris
 {
 
 class NCursesColors final
 {
-    const std::map<Color, int> color_to_ncurses_color
+    const std::map<int, int> color_code_to_ncurses_color
     {
-        {Color::black, -1},
-        {Color::red, COLOR_RED},
-        {Color::green, COLOR_GREEN},
-        {Color::yellow, COLOR_YELLOW},
-        {Color::blue, COLOR_BLUE},
-        {Color::purple, COLOR_MAGENTA},
-        {Color::orange, COLOR_CYAN},
-        {Color::pink, 9},
-        {Color::white, COLOR_WHITE},
+        {0, 16},
+        {1, 9},
+        {2, 10},
+        {3, 27},
+        {4, 11},
+        {5, 5},
+        {6, 3},
+        {7, 13},
+        {8, 15},
     };
     
-    std::map<Color, int> color_to_pair;
+    std::map<int, int> color_to_pair;
     
 public:
-    int get_color_pair(Color color);
+    int get_ncurses_color(int color_code);
 };
 
 }
