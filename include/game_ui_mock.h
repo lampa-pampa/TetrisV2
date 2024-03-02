@@ -15,7 +15,7 @@ class GameUiMock final: public GameUi
     using Pixels = std::vector<std::vector<Pixel>>;
 
 public:
-    void draw_board(const Pixels& pixels) override {}
+    void draw_game_board(const Pixels& pixels) override {}
     void draw_next(const Brick& brick) override {}
     void draw_hold(const Brick& brick) override {}
     void draw_score(unsigned long long score) override {}

@@ -37,10 +37,10 @@ class GameImpl final: public Game
     Brick hold_brick;
     bool can_hold;
 
-    int compute_max_brick_move_vector_y(const Brick& brick) const;
+    int compute_max_move_down(const Brick& brick) const;
     void generate_new_brick();
     void update_ghost();
-    void paste_bricks();
+    void put_bricks_on_board();
     void handle_tick();
     void remove_lines(int from_y, int to_y);
     void place_and_generate_cur_brick();
@@ -63,10 +63,10 @@ class GameImpl final: public Game
         );
     }
 
-    void cut_bricks()
+    void remove_bricks_from_board()
     {
-        this->board.cut_pixels(this->get_transformed_ghost_brick().pixels);
-        this->board.cut_pixels(this->get_transformed_cur_brick().pixels);
+        this->board.clear_pixels(this->get_transformed_ghost_brick().pixels);
+        this->board.clear_pixels(this->get_transformed_cur_brick().pixels);
     }
 
     Vector2 compute_cur_brick_spawn_position(
@@ -84,13 +84,19 @@ class GameImpl final: public Game
     void add_score(unsigned long long amount)
     {
         if(amount > 0)
-            this->ui.draw_score(this->score += amount);
+        {
+            this->score += amount;
+            this->ui.draw_score(this->score);
+        }
     }
 
     void add_tetrises(unsigned long long amount)
     {
         if(amount > 0)
-            this->ui.draw_tetrises(this->tetrises += amount);
+        {
+            this->tetrises += amount;
+            this->ui.draw_tetrises(this->tetrises);
+        }
     }
 
 public:

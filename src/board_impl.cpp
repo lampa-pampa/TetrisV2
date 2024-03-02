@@ -77,7 +77,7 @@ bool BoardImpl::is_space_for_brick(const Brick& brick) const
     return true;
 }
 
-void BoardImpl::paste_pixels(const vector<Pixel>& pixels)
+void BoardImpl::put_pixels(const vector<Pixel>& pixels)
 {
     for (const auto& pixel : pixels)
     {
@@ -86,7 +86,7 @@ void BoardImpl::paste_pixels(const vector<Pixel>& pixels)
     }
 }
 
-void BoardImpl::cut_pixels(const vector<Pixel>& pixels)
+void BoardImpl::clear_pixels(const vector<Pixel>& pixels)
 {
     for (const auto& pixel : pixels)
     {
@@ -100,7 +100,7 @@ int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)
     const vector lines{this->find_lines_in_range(from_y, to_y)};
     for (const auto& line : lines)
     {
-        this->cut_pixels(line.pixels);
+        this->clear_pixels(line.pixels);
         this->compress(line.pixels[0].coords.y);
     }
     return lines.size();

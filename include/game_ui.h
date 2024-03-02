@@ -15,7 +15,7 @@ class GameUi
     using Pixels = std::vector<std::vector<Pixel>>;
 
 public:
-    virtual void draw_board(const Pixels& pixels) = 0;
+    virtual void draw_game_board(const Pixels& pixels) = 0;
     virtual void draw_next(const Brick& brick) = 0;
     virtual void draw_hold(const Brick& brick) = 0;
     virtual void draw_score(unsigned long long score) = 0;

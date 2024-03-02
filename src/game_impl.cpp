@@ -29,7 +29,7 @@ void GameImpl::generate_new_brick()
         this->state = GameState::ended;
 }
 
-int GameImpl::compute_max_brick_move_vector_y(const Brick& brick) const
+int GameImpl::compute_max_move_down(const Brick& brick) const
 {
     int y{};
     while (this->board.is_space_for_brick(
@@ -43,27 +43,27 @@ void GameImpl::update_ghost()
 {
     this->ghost_brick = Brick::get_ghostified(this->cur_brick);
     this->ghost_brick_position = this->cur_brick_position;
-    this->ghost_brick_position.y += this->compute_max_brick_move_vector_y(
+    this->ghost_brick_position.y += this->compute_max_move_down(
         this->get_transformed_ghost_brick()
     );
 }
 
-void GameImpl::paste_bricks()
+void GameImpl::put_bricks_on_board()
 {
     this->update_ghost();
-    this->board.paste_pixels(this->get_transformed_ghost_brick().pixels);
-    this->board.paste_pixels(this->get_transformed_cur_brick().pixels);
-    this->ui.draw_board(this->board.get_pixels());
+    this->board.put_pixels(this->get_transformed_ghost_brick().pixels);
+    this->board.put_pixels(this->get_transformed_cur_brick().pixels);
+    this->ui.draw_game_board(this->board.get_pixels());
 }
 
 void GameImpl::handle_tick()
 {
-    this->cut_bricks();
+    this->remove_bricks_from_board();
     if (this->can_move_brick_by(this->get_transformed_cur_brick(), {0, 1}))
         ++this->cur_brick_position.y;
     else
         this->place_and_generate_cur_brick();
-    this->paste_bricks();
+    this->put_bricks_on_board();
 }
 
 void GameImpl::remove_lines(int from_y, int to_y)
@@ -78,7 +78,7 @@ void GameImpl::remove_lines(int from_y, int to_y)
 void GameImpl::place_and_generate_cur_brick()
 {
     const Brick placed_brick{this->get_transformed_cur_brick()};
-    this->board.paste_pixels(placed_brick.pixels);
+    this->board.put_pixels(placed_brick.pixels);
     this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
     this->generate_new_brick();
     this->can_hold = true;
@@ -86,10 +86,10 @@ void GameImpl::place_and_generate_cur_brick()
 
 void GameImpl::move_cur_brick_horizontally(int by)
 {
-    this->cut_bricks();
+    this->remove_bricks_from_board();
     if (this->can_move_brick_by(this->get_transformed_cur_brick(), {by, 0}))
         this->cur_brick_position.x += by;
-    this->paste_bricks();
+    this->put_bricks_on_board();
 }
 
 GameImpl::GameImpl(
@@ -110,7 +110,7 @@ GameImpl::GameImpl(
     can_hold{true}
 {
     this->generate_new_brick();
-    this->paste_bricks();
+    this->put_bricks_on_board();
     this->ui.draw_hold(this->hold_brick);
     this->ui.draw_score(this->score);
     this->ui.draw_tetrises(this->tetrises);
@@ -121,7 +121,7 @@ void GameImpl::handle_rotate()
     if (this->state != GameState::in_progress)
         return;
 
-    this->cut_bricks();
+    this->remove_bricks_from_board();
     if (this->can_rotate_brick_by(
         Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
         this->cur_brick_position,
@@ -131,7 +131,7 @@ void GameImpl::handle_rotate()
             this->cur_brick_rotation, 1
         );
         
-    this->paste_bricks();
+    this->put_bricks_on_board();
 }
 
 void GameImpl::handle_hard_drop()
@@ -139,36 +139,33 @@ void GameImpl::handle_hard_drop()
     if (this->state != GameState::in_progress)
         return;
 
-    this->cut_bricks();
-    const int distance{this->compute_max_brick_move_vector_y(
+    this->remove_bricks_from_board();
+    const int distance{this->compute_max_move_down(
         this->get_transformed_cur_brick()
     )};
     this->cur_brick_position.y += distance;
     this->place_and_generate_cur_brick();
     this->add_score(this->score_counter.count_score_for_hard_drop(distance));
-    this->paste_bricks();
+    this->put_bricks_on_board();
 }
 
 void GameImpl::handle_hold()
 {
-    if (this->state != GameState::in_progress)
+    if (this->state != GameState::in_progress or not this->can_hold)
         return;
 
-    if (this->can_hold)
-    {
-        this->cut_bricks();
-        swap(this->hold_brick, this->cur_brick);
-        this->ui.draw_hold(this->hold_brick);
-        if (this->cur_brick.empty())
-            this->generate_new_brick();
-        else
-            this->cur_brick_position = this->compute_cur_brick_spawn_position(
-                this->cur_brick.get_min_y(),
-                this->board.get_width()
-            );
-        this->paste_bricks();
-        this->can_hold = false;
-    }
+    this->remove_bricks_from_board();
+    swap(this->hold_brick, this->cur_brick);
+    this->ui.draw_hold(this->hold_brick);
+    if (this->cur_brick.empty())
+        this->generate_new_brick();
+    else
+        this->cur_brick_position = this->compute_cur_brick_spawn_position(
+            this->cur_brick.get_min_y(),
+            this->board.get_width()
+        );
+    this->put_bricks_on_board();
+    this->can_hold = false;
 }
 
 }
