@@ -45,7 +45,7 @@ void BoardImpl::compress(int start_y)
         for (const auto& x : irange(this->width))
         {
             this->cubes[y][x] = this->cubes[y - 1][x];
-            this->cubes[y][x].coords = {x, y};
+            this->cubes[y][x].position = {x, y};
         }
     }
     for (const auto& x : irange(this->width))
@@ -66,12 +66,12 @@ BoardImpl::BoardImpl(int width, int height)
     }
 }
 
-bool BoardImpl::is_space_for_brick(const Brick& brick) const 
+bool BoardImpl::brick_is_valid(const Brick& brick) const 
 {
     for (const auto& cube : brick.cubes)
     {
-        if (not this->position_is_in_range(cube.coords)
-            or not this->cubes[cube.coords.y][cube.coords.x].empty())
+        if (not this->position_is_in_range(cube.position)
+            or not this->cubes[cube.position.y][cube.position.x].empty())
             return false;
     }
     return true;
@@ -81,8 +81,8 @@ void BoardImpl::put_cubes(const vector<Cube>& cubes)
 {
     for (const auto& cube : cubes)
     {
-        assert(this->position_is_in_range(cube.coords));
-        this->cubes[cube.coords.y][cube.coords.x] = cube;
+        assert(this->position_is_in_range(cube.position));
+        this->cubes[cube.position.y][cube.position.x] = cube;
     }
 }
 
@@ -90,18 +90,18 @@ void BoardImpl::clear_cubes(const vector<Cube>& cubes)
 {
     for (const auto& cube : cubes)
     {
-        assert(this->position_is_in_range(cube.coords));
-        this->cubes[cube.coords.y][cube.coords.x].clear();
+        assert(this->position_is_in_range(cube.position));
+        this->cubes[cube.position.y][cube.position.x].clear();
     }
 }
 
-int BoardImpl::remove_lines_in_range_and_compress(int from_y, int to_y)
+int BoardImpl::remove_lines_and_compress(int from_y, int to_y)
 {
     const vector lines{this->find_lines_in_range(from_y, to_y)};
     for (const auto& line : lines)
     {
         this->clear_cubes(line.cubes);
-        this->compress(line.cubes[0].coords.y);
+        this->compress(line.cubes[0].position.y);
     }
     return lines.size();
 }

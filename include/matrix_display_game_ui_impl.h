@@ -31,9 +31,7 @@ class MatrixDisplayGameUiImpl final: public GameUi
     static constexpr int max_brick_width{4};
     static constexpr ColorName border_color{ColorName::white};
     static constexpr Vector2 board_position{border_width, border_width};
-    static constexpr Vector2 next_brick_position{
-        46, border_width + 2 * cube_size
-    };
+    static constexpr Vector2 next_brick_position{46, border_width + 2 * cube_size};
     static constexpr Vector2 hold_brick_position{
         46, 2 * border_width + cube_size * (max_brick_height + 3)
     };
@@ -63,12 +61,7 @@ class MatrixDisplayGameUiImpl final: public GameUi
     Signal handle_pause_pressed;
 
     void draw_border();
-    void draw_rectangle(
-        Vector2 position,
-        int width,
-        int height,
-        ColorName color
-    );
+    void draw_rectangle(Vector2 position, int width, int height, ColorName color);
     void draw_cube(Vector2 position, int color_code);
     void draw_board(Vector2 position, const CubeMatrix& board);
     void draw_brick(Vector2 position, std::vector<Cube> cubes);

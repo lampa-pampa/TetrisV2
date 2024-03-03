@@ -87,9 +87,9 @@ void MatrixDisplayGameUiImpl::draw_rectangle(
 
 void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, int color_code)
 {
-    for(const auto& y : irange(position.y, position.y + cube_size))
+    for (const auto& y : irange(position.y, position.y + cube_size))
     {
-        for(const auto& x : irange(position.x, position.x + cube_size))
+        for (const auto& x : irange(position.x, position.x + cube_size))
             this->draw_pixel({x, y}, color_code);
     }
 }
@@ -108,10 +108,8 @@ void MatrixDisplayGameUiImpl::draw_board(Vector2 position, const CubeMatrix& boa
     }
 }
 
-void MatrixDisplayGameUiImpl::draw_brick(
-    Vector2 position,
-    vector<Cube> cubes
-){
+void MatrixDisplayGameUiImpl::draw_brick(Vector2 position, vector<Cube> cubes)
+{
     for (const auto& cube : cubes)
     {
         const int cube_x{position.x + cube.position.x * cube_size};

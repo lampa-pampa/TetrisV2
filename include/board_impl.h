@@ -31,10 +31,10 @@ class BoardImpl final: public Board
 public:
     BoardImpl(int width, int height);
 
-    bool is_space_for_brick(const Brick& brick) const override;
+    bool brick_is_valid(const Brick& brick) const override;
     void put_cubes(const std::vector<Cube>& cubes) override;
     void clear_cubes(const std::vector<Cube>& cubes) override;
-    int remove_lines_in_range_and_compress(int from_y, int to_y) override;
+    int remove_lines_and_compress(int from_y, int to_y) override;
     
     int get_width() const override
     {

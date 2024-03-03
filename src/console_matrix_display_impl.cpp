@@ -62,9 +62,9 @@ ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
 
 void ConsoleMatrixDisplayImpl::refresh(const ColorCodeMatrix& color_codes)
 {
-    for(const auto& y : irange(this->height))
+    for (const auto& y : irange(this->height))
     {
-        for(const auto& x : irange(this->width))
+        for (const auto& x : irange(this->width))
             this->refresh_pixel(
                 {x, y},
                 this->ncurses_colors.get_ncurses_color(color_codes[y][x])

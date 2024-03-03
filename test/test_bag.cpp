@@ -20,7 +20,7 @@ TEST(Bag, get_next)
     Bag bag{items, rng};
     for (const auto& i : irange(2))
     {
-        for(const auto& item : items)
+        for (const auto& item : items)
             ASSERT_THAT(bag.get_next(), Eq(item));
     }
 }
