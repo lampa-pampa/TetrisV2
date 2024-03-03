@@ -33,8 +33,8 @@ TEST(Brick, get_rotated_without_moved_center)
 
 TEST(Brick, get_rotated_with_moved_center)
 {
-    const Brick brick{{ {1, 2}, {3, 4} }, true};
-    const Brick expected_brick{{ {0, -1}, {-2, -3} }, true};
+    const Brick brick{{ {1, 2}, {3, 4} }, {1, 0}};
+    const Brick expected_brick{{ {0, -1}, {-2, -3} }, {1, 0}};
     
     ASSERT_THAT(Brick::get_rotated(brick, 4), Eq(brick));
     ASSERT_THAT(Brick::get_rotated(brick, 2), Eq(expected_brick));

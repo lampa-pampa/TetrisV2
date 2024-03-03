@@ -13,7 +13,6 @@ namespace Tetris
 
 using std::swap;
 using std::ostream;
-using std::boolalpha;
 using boost::irange;
 
 Brick Brick::get_colored(const Brick& brick, int color_code)
@@ -28,7 +27,7 @@ Brick Brick::get_translated(const Brick& brick, Vector2 position)
 {
     Brick translated_brick{brick};
     for (auto& cube : translated_brick.cubes)
-        cube.coords += position;
+        cube.position += position;
     return translated_brick;
 }
 
@@ -39,10 +38,9 @@ Brick Brick::get_rotated(const Brick& brick, int quarters_rotation)
     {
         for (const auto& i : irange(quarters_rotation % rotation_quantity))
         {
-            swap(cube.coords.x, cube.coords.y);
-            cube.coords.x *= -1;
-            if (rotated_brick.is_center_moved)
-                ++cube.coords.x;
+            swap(cube.position.x, cube.position.y);
+            cube.position.x *= -1;
+            cube.position += brick.rotation_offset;
         }
     }
     return rotated_brick;
@@ -65,7 +63,7 @@ ostream& operator<<(ostream& os, const Brick& brick)
         if (&cube != &brick.cubes.back())
             os << ", ";
     }
-    return os << " }, " << boolalpha << brick.is_center_moved << "}";
+    return os << " }, " << brick.rotation_offset << "}";
 }
 
 }

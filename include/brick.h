@@ -14,9 +14,8 @@ struct Brick final
 {
     static constexpr int rotation_quantity{4};
 
-
     std::vector<Cube> cubes;
-    bool is_center_moved;
+    Vector2 rotation_offset;
 
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
 
@@ -39,24 +38,21 @@ struct Brick final
     bool operator==(const Brick& other) const
     {
         return this->cubes == other.cubes
-            and this->is_center_moved == other.is_center_moved;
+            and this->rotation_offset == other.rotation_offset;
     }
     
-    Brick(std::vector<Cube> cubes, bool is_center_moved)
+    Brick(std::vector<Cube> cubes, Vector2 rotation_offset)
     :
         cubes{cubes},
-        is_center_moved{is_center_moved}
+        rotation_offset{rotation_offset}
     {}
         
     Brick(std::vector<Cube> cubes)
     :
-        Brick{cubes, false}
+        Brick{cubes, {0, 0}}
     {}
 
-    Brick()
-    :
-        Brick{{}}
-    {}
+    Brick() = default;
 
     bool empty() const
     {
@@ -69,9 +65,9 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.coords.x < b.coords.x;
+                return a.position.x < b.position.x;
             }
-        )->coords.x;
+        )->position.x;
     }
 
     int get_max_x() const
@@ -80,9 +76,9 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.coords.x < b.coords.x;
+                return a.position.x < b.position.x;
             }
-        )->coords.x;
+        )->position.x;
     }
 
     int get_min_y() const
@@ -91,9 +87,9 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.coords.y < b.coords.y;
+                return a.position.y < b.position.y;
             }
-        )->coords.y;
+        )->position.y;
     }
 
     int get_max_y() const
@@ -102,9 +98,9 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.coords.y < b.coords.y;
+                return a.position.y < b.position.y;
             }
-        )->coords.y;
+        )->position.y;
     }
 };
 
