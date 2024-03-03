@@ -64,23 +64,23 @@ class MatrixDisplayGameUiImpl final: public GameUi
 
     void draw_border();
     void draw_rectangle(
-        const Vector2 position,
+        Vector2 position,
         int width,
         int height,
         ColorName color
     );
-    void draw_cube(const Vector2 position, int color_code);
-    void draw_board(const Vector2 position, const CubeMatrix& board);
-    void draw_brick(const Vector2 position, std::vector<Cube> cubes);
-    void cover_brick_with_rectangle(const Vector2 position);
+    void draw_cube(Vector2 position, int color_code);
+    void draw_board(Vector2 position, const CubeMatrix& board);
+    void draw_brick(Vector2 position, std::vector<Cube> cubes);
+    void cover_brick_with_rectangle(Vector2 position);
 
-    bool position_is_on_display(const Vector2 position) const
+    bool position_is_on_display(Vector2 position) const
     {
         return position.x >= 0 and position.x < this->matrix.get_width()
             and position.y >= 0 and position.y < this->matrix.get_height();
     }
 
-    void draw_pixel(const Vector2 position, int color_code)
+    void draw_pixel(Vector2 position, int color_code)
     {
         assert(this->position_is_on_display(position));
         this->color_codes[position.y][position.x] = color_code;

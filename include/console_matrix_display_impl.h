@@ -26,7 +26,7 @@ class ConsoleMatrixDisplayImpl final: public MatrixDisplay
     NCursesColors ncurses_colors;
 
     void create_window();
-    void refresh_pixel(const Vector2 position, int ncurses_color);
+    void refresh_pixel(Vector2 position, int ncurses_color);
     
 public:
     ConsoleMatrixDisplayImpl(

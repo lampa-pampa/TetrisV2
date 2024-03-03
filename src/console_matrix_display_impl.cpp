@@ -31,7 +31,7 @@ void ConsoleMatrixDisplayImpl::create_window()
 }
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(
-    const Vector2 position,
+    Vector2 position,
     int ncurses_color
 ){
     const int x_chr{position.x * cube_width};

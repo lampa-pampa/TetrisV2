@@ -109,7 +109,7 @@ void MatrixDisplayGameUiImpl::draw_board(Vector2 position, const CubeMatrix& boa
 }
 
 void MatrixDisplayGameUiImpl::draw_brick(
-    const Vector2 position,
+    Vector2 position,
     vector<Cube> cubes
 ){
     for (const auto& cube : cubes)
@@ -121,7 +121,7 @@ void MatrixDisplayGameUiImpl::draw_brick(
     }
 }
 
-void MatrixDisplayGameUiImpl::cover_brick_with_rectangle(const Vector2 position)
+void MatrixDisplayGameUiImpl::cover_brick_with_rectangle(Vector2 position)
 {
     const Vector2 rectangle_position{
         position.x - (max_brick_width - 1) / 2 * cube_size,
