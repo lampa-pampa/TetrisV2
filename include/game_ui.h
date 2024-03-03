@@ -4,7 +4,6 @@
 #include <functional>
 #include <vector>
 
-#include "brick.h"
 #include "cube.h"
 
 namespace Tetris
@@ -15,9 +14,9 @@ class GameUi
     using CubeMatrix = std::vector<std::vector<Cube>>;
 
 public:
-    virtual void draw_game_board(const CubeMatrix& cubes) = 0;
-    virtual void draw_next(const Brick& brick) = 0;
-    virtual void draw_hold(const Brick& brick) = 0;
+    virtual void draw_board(const CubeMatrix& cubes) = 0;
+    virtual void draw_next(const std::vector<Cube>& cubes) = 0;
+    virtual void draw_hold(const std::vector<Cube>& cubes) = 0;
     virtual void draw_score(unsigned long long score) = 0;
     virtual void draw_tetrises(unsigned long long tetrises) = 0;
     virtual void game_over() = 0;

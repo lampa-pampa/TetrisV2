@@ -3,6 +3,7 @@
 #include <boost/range/irange.hpp>
 
 #include "ncurses_colors.h"
+#include "vector_2.h"
 
 namespace Tetris
 {
@@ -29,10 +30,12 @@ void ConsoleMatrixDisplayImpl::create_window()
     ::refresh();
 }
 
-void ConsoleMatrixDisplayImpl::refresh_pixel(int x, int y, int ncurses_color)
-{
-    const int x_chr{x * cube_width};
-    const int y_chr{y * cube_height};
+void ConsoleMatrixDisplayImpl::refresh_pixel(
+    const Vector2 position,
+    int ncurses_color
+){
+    const int x_chr{position.x * cube_width};
+    const int y_chr{position.y * cube_height};
     ::wattron(this->window, COLOR_PAIR(ncurses_color));
     ::mvwprintw(this->window, y_chr, x_chr, "%lc", pixel_char);
     ::wattroff(this->window, COLOR_PAIR(ncurses_color));
@@ -63,7 +66,7 @@ void ConsoleMatrixDisplayImpl::refresh(const ColorCodeMatrix& color_codes)
     {
         for(const auto& x : irange(this->width))
             this->refresh_pixel(
-                x, y,
+                {x, y},
                 this->ncurses_colors.get_ncurses_color(color_codes[y][x])
             );
     }

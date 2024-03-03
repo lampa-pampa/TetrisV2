@@ -3,7 +3,6 @@
 
 #include <vector>
 
-#include "brick.h"
 #include "game_ui.h"
 #include "cube.h"
 
@@ -15,9 +14,9 @@ class GameUiMock final: public GameUi
     using CubeMatrix = std::vector<std::vector<Cube>>;
 
 public:
-    void draw_game_board(const CubeMatrix& cubes) override {}
-    void draw_next(const Brick& brick) override {}
-    void draw_hold(const Brick& brick) override {}
+    void draw_board(const CubeMatrix& cubes) override {}
+    void draw_next(const std::vector<Cube>& cubes) override {}
+    void draw_hold(const std::vector<Cube>& cubes) override {}
     void draw_score(unsigned long long score) override {}
     void draw_tetrises(unsigned long long tetrises) override {}
     void game_over() override {}

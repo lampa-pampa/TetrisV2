@@ -6,6 +6,7 @@
 
 #include "matrix.h"
 #include "ncurses_colors.h"
+#include "vector_2.h"
 
 namespace Tetris
 {
@@ -25,7 +26,7 @@ class ConsoleMatrixDisplayImpl final: public MatrixDisplay
     NCursesColors ncurses_colors;
 
     void create_window();
-    void refresh_pixel(int x, int y, int ncurses_color);
+    void refresh_pixel(const Vector2 position, int ncurses_color);
     
 public:
     ConsoleMatrixDisplayImpl(
@@ -33,6 +34,7 @@ public:
         int height,
         NCursesColors ncurses_colors
     );
+    
     ~ConsoleMatrixDisplayImpl()
     {
         ::endwin();

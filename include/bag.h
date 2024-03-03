@@ -29,7 +29,6 @@ public:
     Bag(const std::vector<T>& items, Rng& rng)
     :
         items{items},
-        current_index{0},
         rng{rng}
     {}
     

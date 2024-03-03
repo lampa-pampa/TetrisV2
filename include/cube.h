@@ -10,19 +10,19 @@ namespace Tetris
 
 struct Cube final
 {
-    Vector2 coords;
+    Vector2 position;
     int color_code;
     bool is_ghost;
 
     friend std::ostream& operator<<(std::ostream& os, const Cube& cube)
     {
-        return os << "{" << cube.coords.x << ", " << cube.coords.y
+        return os << "{" << cube.position.x << ", " << cube.position.y
             << ", " << cube.color_code << "}";  
     }
 
     Cube(int x, int y, int color_code, bool is_ghost)
     :
-        coords{x, y},
+        position{x, y},
         color_code{color_code},
         is_ghost{is_ghost}
     {}
@@ -39,7 +39,7 @@ struct Cube final
 
     bool operator==(const Cube& other) const
     {
-        return this->coords == other.coords
+        return this->position == other.position
             and this->is_ghost == other.is_ghost
             and this->color_code == other.color_code;
     }
