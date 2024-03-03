@@ -9,7 +9,6 @@
 #include <boost/signals2.hpp>
 #include <ncurses.h>
 
-#include "brick.h"
 #include "color_name.h"
 #include "game_ui.h"
 #include "matrix.h"
@@ -27,13 +26,18 @@ class MatrixDisplayGameUiImpl final: public GameUi
 
     static constexpr int cube_size{3};
     static constexpr int border_width{2};
-    static constexpr int game_board_width{10};
-    static constexpr Vector2 game_board_position{
-        border_width,
-        border_width
-    };
+    static constexpr int center_x{30 + border_width};
+    static constexpr int max_brick_height{3};
+    static constexpr int max_brick_width{4};
     static constexpr ColorName border_color{ColorName::white};
-    
+    static constexpr Vector2 board_position{border_width, border_width};
+    static constexpr Vector2 next_brick_position{
+        46, border_width + 2 * cube_size
+    };
+    static constexpr Vector2 hold_brick_position{
+        46, 2 * border_width + cube_size * (max_brick_height + 3)
+    };
+
     const std::map<int, Signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
@@ -46,7 +50,10 @@ class MatrixDisplayGameUiImpl final: public GameUi
     
     MatrixDisplay& matrix;
     ColorCodeMatrix color_codes;
-    CubeMatrix game_board_cubes;
+    CubeMatrix board_cubes;
+    std::vector<Cube> next_brick_cubes;
+    std::vector<Cube> hold_brick_cubes;
+
     Signal move_left_pressed;
     Signal move_right_pressed;
     Signal rotate_pressed;
@@ -55,37 +62,37 @@ class MatrixDisplayGameUiImpl final: public GameUi
     Signal hold_pressed;
     Signal handle_pause_pressed;
 
-    ColorCodeMatrix create_color_codes(int width, int height);
     void draw_border();
     void draw_rectangle(
-        Vector2 position,
+        const Vector2 position,
         int width,
         int height,
         ColorName color
     );
-    void draw_board_cube(Vector2 position, int color_code);
-    void draw_board(Vector2 position, const CubeMatrix& board);
+    void draw_cube(const Vector2 position, int color_code);
+    void draw_board(const Vector2 position, const CubeMatrix& board);
+    void draw_brick(const Vector2 position, std::vector<Cube> cubes);
+    void cover_brick_with_rectangle(const Vector2 position);
 
-    void draw_cube(int x, int y, int color_code)
-    {
-        assert(this->position_is_on_display({x, y}));
-        this->color_codes[y][x] = color_code;
-    }
-
-    bool position_is_on_display(Vector2 position) const
+    bool position_is_on_display(const Vector2 position) const
     {
         return position.x >= 0 and position.x < this->matrix.get_width()
             and position.y >= 0 and position.y < this->matrix.get_height();
     }
 
+    void draw_pixel(const Vector2 position, int color_code)
+    {
+        assert(this->position_is_on_display(position));
+        this->color_codes[position.y][position.x] = color_code;
+    }
 
 public:
     MatrixDisplayGameUiImpl(MatrixDisplay& matrix);
     
-    void draw_game_board(const CubeMatrix& cubes) override;
-    void draw_next(const Brick& brick) override;
-    void draw_hold(const Brick& brick) override;
+    void draw_board(const CubeMatrix& cubes) override;
     void draw_score(unsigned long long score) override;
+    void draw_next(const std::vector<Cube>& cubes) override;
+    void draw_hold(const std::vector<Cube>& cubes) override;
     void draw_tetrises(unsigned long long tetrises) override;
     void input_received(int input);
 
@@ -101,7 +108,7 @@ public:
 
     void resume() override
     {
-        this->draw_game_board(this->game_board_cubes);
+        this->draw_board(this->board_cubes);
     }
 
     void connect_move_left_pressed(std::function<void()> handler) override
