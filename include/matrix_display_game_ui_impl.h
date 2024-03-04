@@ -105,37 +105,37 @@ public:
         this->draw_board(this->board_cubes);
     }
 
-    void connect_move_left_pressed(std::function<void()> handler) override
+    void connect_move_left_pressed(const std::function<void()>& handler) override
     {
         this->move_left_pressed.connect(handler);
     }
 
-    void connect_move_right_pressed(std::function<void()> handler) override
+    void connect_move_right_pressed(const std::function<void()>& handler) override
     {
         this->move_right_pressed.connect(handler);
     }
 
-    void connect_rotate_pressed(std::function<void()> handler) override
+    void connect_rotate_pressed(const std::function<void()>& handler) override
     {
         this->rotate_pressed.connect(handler);
     }
 
-    void connect_soft_drop_pressed(std::function<void()> handler) override
+    void connect_soft_drop_pressed(const std::function<void()>& handler) override
     {
         this->soft_drop_pressed.connect(handler);
     }
 
-    void connect_hard_drop_pressed(std::function<void()> handler) override
+    void connect_hard_drop_pressed(const std::function<void()>& handler) override
     {
         this->hard_drop_pressed.connect(handler);
     }
 
-    void connect_hold_pressed(std::function<void()> handler) override
+    void connect_hold_pressed(const std::function<void()>& handler) override
     {
         this->hold_pressed.connect(handler);
     }
 
-    void connect_pause_pressed(std::function<void()> handler) override
+    void connect_pause_pressed(const std::function<void()>& handler) override
     {
         this->handle_pause_pressed.connect(handler);
     }
