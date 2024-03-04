@@ -10,6 +10,7 @@
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "brick.h"
+#include "config.h"
 #include "game_impl.h"
 #include "game_state.h"
 #include "game_ui_mock.h"
@@ -27,10 +28,11 @@ using Tetris::Bag;
 using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
+using Tetris::Cube;
+using Tetris::GameConfig;
 using Tetris::GameImpl;
 using Tetris::GameState;
 using Tetris::GameUiMock;
-using Tetris::Cube;
 using Tetris::RngMock;
 using Tetris::ScoreCounterImpl;
 using Tetris::ScoreCounterMock;
@@ -57,12 +59,7 @@ namespace {
 
 TEST(GameImpl, GameImpl)
 {
-    const Brick brick{{
-        {0, -1},
-        {0, 0},
-        {0, 1},
-        {1, 1}
-    }};
+    const Brick brick{{ {0, 0}, {0, 1}, {1, 1} }};
     GameUiMock ui{};
     BoardImpl board{10, 20};
     RngMock rng{};
@@ -71,12 +68,13 @@ TEST(GameImpl, GameImpl)
         Bag{{3, 1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
     const Brick expected_cur_brick{Brick::get_colored(brick, 3)};
     const Brick expected_next_brick{Brick::get_colored(brick, 1)};
     const Brick expected_ghost_brick{Brick::get_ghostified(expected_cur_brick)};
     const Brick expected_hold_brick{};
-    const Vector2 expected_cur_brick_position{4, 1};
+    const Vector2 expected_cur_brick_position{4, 0};
     const int expected_cur_brick_rotation{0};
     const Vector2 expected_ghost_brick_position{4, 18};
     const Brick transformed_expected_cur_brick{Brick::get_transformed(
@@ -124,7 +122,7 @@ TEST(GameImpl, GameImpl)
 
 TEST(GameImpl, move_down_free_fall)
 {
-    const Brick brick{{ {0, -1}, {0, 0}, {0, 1}, {1, 1} }};
+    const Brick brick{{ {-1, 0}, {0, 0}, {0, 1} }};
     GameUiMock ui{};
     BoardImpl board{10, 20};
     RngMock rng{};
@@ -133,8 +131,9 @@ TEST(GameImpl, move_down_free_fall)
         Bag{{3}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
-    const Vector2 expected_cur_brick_position{4, 2};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
+    const Vector2 expected_cur_brick_position{4, 1};
     const Vector2 expected_ghost_brick_position{4, 18};
     game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
@@ -160,7 +159,7 @@ TEST(GameImpl, move_down_free_fall)
 
 TEST(GameImpl, move_down_place)
 {
-    const Brick brick{{ {0, -1}, {0, 0}, {0, 1}, {1, 1} }};
+    const Brick brick{{ {0, 0}, {0, 1}, {0, 2} }};
     GameUiMock ui{};
     BoardImpl board{10, 20};
     RngMock rng{};
@@ -169,11 +168,12 @@ TEST(GameImpl, move_down_place)
         Bag{{3, 1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
-    const Vector2 expected_cur_brick_position{4, 1};
-    const Vector2 expected_ghost_brick_position{4, 15};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
+    const Vector2 expected_cur_brick_position{4, 0};
+    const Vector2 expected_ghost_brick_position{4, 14};
     const Brick transformed_expected_placed_brick{
-        Brick::get_translated(game.get_cur_brick(), {4, 18})
+        Brick::get_translated(game.get_cur_brick(), {4, 17})
     };
     for (const auto& i : irange(18))
         game.handle_timeout();
@@ -214,7 +214,8 @@ TEST(GameImpl, move_down_remove_lines_without_tetris)
         Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{10, 5, 3};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
     for (const auto& i : irange(20))
         game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
@@ -253,7 +254,8 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
         Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{10, 0, 0};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
     for (const auto& i : irange(13))
         game.handle_timeout();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
@@ -275,7 +277,7 @@ TEST(GameImpl, move_down_remove_lines_with_tetris)
 
 TEST(GameImpl, move_down_end_game)
 {
-    const Brick brick{{ {0, -1}, {0, 0}, {0, 1} }};
+    const Brick brick{{ {0, 0}, {0, 1}, {0, 2} }};
     GameUiMock ui{};
     BoardImpl board{5, 10};
     RngMock rng{};
@@ -284,7 +286,8 @@ TEST(GameImpl, move_down_end_game)
         Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
     for (const auto& i : irange(15))
         game.handle_timeout();
 
@@ -302,7 +305,8 @@ TEST(GameImpl, handle_move_left)
         Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
         
     game.handle_move_left();
    
@@ -320,7 +324,8 @@ TEST(GameImpl, move_left_blocked)
         Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
         
     game.handle_move_left();
     
@@ -338,7 +343,8 @@ TEST(GameImpl, handle_move_right)
         Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
         
     game.handle_move_right();
     
@@ -356,7 +362,8 @@ TEST(GameImpl, move_right_blocked)
         Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
         
     game.handle_move_right();
     
@@ -374,7 +381,8 @@ TEST(GameImpl, handle_rotate)
         Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
 
     game.handle_timeout();
     game.handle_rotate();
@@ -394,7 +402,8 @@ TEST(GameImpl, rotate_blocked)
         Bag{{1}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
         
     game.handle_rotate();
     
@@ -417,7 +426,8 @@ TEST(GameImpl, handle_hard_drop)
         Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{0, 0, 2};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
 
     game.handle_hard_drop();
     const Brick transformed_cur_brick{game.get_transformed_cur_brick()};
@@ -452,7 +462,8 @@ TEST(GameImpl, handle_soft_drop)
         Bag{{bricks_color_code}, rng}
     };
     ScoreCounterImpl score_counter{0, 1, 0};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
 
     game.handle_soft_drop();
     ASSERT_THAT(game.get_cur_brick_position().y, Eq(1));
@@ -478,7 +489,8 @@ TEST(GameImpl, hold_locking)
         Bag{{bricks_color_code}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
 
     for (const auto& i : irange(5))
         game.handle_timeout();
@@ -515,7 +527,8 @@ TEST(GameImpl, hold_unlocked)
         Bag{{bricks_color_code}, rng}
     };
     ScoreCounterMock score_counter{};
-    GameImpl game{ui, board, brick_generator, score_counter};
+    GameConfig config{4, 0, 0};
+    GameImpl game{config, ui, board, brick_generator, score_counter};
 
     
     game.handle_hold();

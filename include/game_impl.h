@@ -1,11 +1,13 @@
 #ifndef INCLUDE_GAME_IMPL_H
 #define INCLUDE_GAME_IMPL_H
 
+#include <functional>
 #include <vector>
 
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
+#include "config.h"
 #include "game_state.h"
 #include "game_ui.h"
 #include "game.h"
@@ -18,8 +20,9 @@ namespace Tetris
 class GameImpl final: public Game
 {
     using CubeMatrix = std::vector<std::vector<Cube>>;
-    
-    static constexpr int tetris_line_count{4};
+
+    const GameConfig config;
+    const Vector2 brick_start_position;
 
     GameUi& ui;
     Board& board;
@@ -37,30 +40,126 @@ class GameImpl final: public Game
     Brick hold_brick;
     bool can_hold;
 
-    int compute_max_move_down(const Brick& brick) const;
-    void generate_new_brick();
-    void update_ghost();
-    void put_bricks_on_board();
-    void handle_tick();
-    void remove_lines(int from_y, int to_y);
+    Vector2 compute_spawn_position(const Brick& brick) const;
+    void hold();
     void place_and_generate_cur_brick();
-    void move_cur_brick_horizontally(int by);
+    void move_cur_brick_horizontally(int d_x);
 
-    bool can_move_brick_by(const Brick& brick, Vector2 vector) const
+    int compute_lowest_position(const Brick& brick) const
     {
-        return this->board.is_space_for_brick(
-            Brick::get_translated(brick, vector)
-        );
+        int y{};
+        while (this->board.brick_is_valid(Brick::get_translated(brick, {0, y + 1})))
+            ++y;
+        return y;
+    }
+
+    bool can_move(const Brick& brick, Vector2 vector) const
+    {
+        return this->board.brick_is_valid(Brick::get_translated(brick, vector));
     }
     
-    bool can_rotate_brick_by(
-        const Brick& brick,
-        Vector2 brick_position,
-        int quarters_rotation
-    ) const {
-        return this->board.is_space_for_brick(
-            Brick::get_transformed(brick, quarters_rotation, brick_position)
+    bool can_rotate(const Brick& brick, Vector2 position) const
+    {
+        return this->board.brick_is_valid(Brick::get_transformed(brick, 1, position));
+    }
+
+    int compute_next_rotation(int rotation, int step) const
+    {
+        return (rotation + 1) % Brick::rotation_quantity;
+    }
+
+    void try_to_perform_action(const std::function<void()>& action)
+    {
+        if (this->state != GameState::in_progress)
+            return;
+
+        this->remove_bricks_from_board();
+        action();
+        this->put_bricks_on_board();
+    };
+
+    void tick()
+    {
+        if (this->can_move(this->get_transformed_cur_brick(), {0, 1}))
+            ++this->cur_brick_position.y;
+        else
+            this->place_and_generate_cur_brick();
+    }
+
+    void rotate()
+    {
+        if (this->can_rotate(
+            Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
+            this->cur_brick_position
+        ))
+            this->cur_brick_rotation = compute_next_rotation(this->cur_brick_rotation, 1);
+    }
+
+    void hard_drop()
+    {
+        const int distance{this->compute_lowest_position(
+            this->get_transformed_cur_brick())
+        };
+        this->cur_brick_position.y += distance;
+        this->place_and_generate_cur_brick();
+        this->add_score(this->score_counter.count_score_for_hard_drop(distance));
+    }
+
+    void soft_drop()
+    {
+        this->tick();
+        this->add_score(this->score_counter.count_score_for_soft_drop());
+    }
+
+    void move_left()
+    {
+        if (this->can_move(this->get_transformed_cur_brick(), {-1, 0}))
+            --this->cur_brick_position.x;
+    }
+
+    void move_right()
+    {
+        if (this->can_move(this->get_transformed_cur_brick(), {1, 0}))
+            ++this->cur_brick_position.x;
+    }
+
+    void update_ghost()
+    {
+        this->ghost_brick = Brick::get_ghostified(this->cur_brick);
+        this->ghost_brick_position = this->cur_brick_position;
+        this->ghost_brick_position.y += this->compute_lowest_position(
+            this->get_transformed_ghost_brick()
         );
+    }
+
+    void put_bricks_on_board()
+    {
+        this->update_ghost();
+        this->board.put_cubes(this->get_transformed_ghost_brick().cubes);
+        this->board.put_cubes(this->get_transformed_cur_brick().cubes);
+        this->ui.draw_board(this->board.get_cubes(this->config.board_offset));
+    }
+
+    void remove_lines(int from_y, int to_y)
+    {
+        const int lines{this->board.remove_lines_and_compress(from_y, to_y)};
+        this->add_score(this->score_counter.count_score_for_lines(lines));
+        this->add_tetrises(lines / this->config.tetris_line_count);
+    }
+
+    void generate_new_brick()
+    {
+        this->cur_brick = this->next_brick;
+        this->next_brick = this->brick_generator.generate();
+        this->ui.draw_next(this->next_brick.cubes);
+    }
+
+    void reset_cur_brick_rotation_and_position()
+    {
+        this->cur_brick_position = this->compute_spawn_position(this->cur_brick);
+        this->cur_brick_rotation = 0;
+        if (not this->board.brick_is_valid(this->get_transformed_cur_brick()))
+            this->state = GameState::ended;
     }
 
     void remove_bricks_from_board()
@@ -69,21 +168,9 @@ class GameImpl final: public Game
         this->board.clear_cubes(this->get_transformed_cur_brick().cubes);
     }
 
-    Vector2 compute_cur_brick_spawn_position(
-        int brick_min_y,
-        int board_width
-    ) const {
-        return {(board_width - 1) / 2, -brick_min_y};
-    }
-
-    int compute_quarters_rotation(int rotation, int step) const
-    {
-        return (rotation + 1) % Brick::rotation_quantity;
-    }
-
     void add_score(unsigned long long amount)
     {
-        if(amount > 0)
+        if (amount > 0)
         {
             this->score += amount;
             this->ui.draw_score(this->score);
@@ -92,7 +179,7 @@ class GameImpl final: public Game
 
     void add_tetrises(unsigned long long amount)
     {
-        if(amount > 0)
+        if (amount > 0)
         {
             this->tetrises += amount;
             this->ui.draw_tetrises(this->tetrises);
@@ -101,15 +188,12 @@ class GameImpl final: public Game
 
 public:
     GameImpl(
+        GameConfig config,
         GameUi& ui,
         Board& board,
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter
     );
-
-    void handle_rotate() override;
-    void handle_hard_drop() override;
-    void handle_hold() override;
 
     void game_over() override
     {
@@ -128,42 +212,44 @@ public:
         this->state = GameState::in_progress;
     }
 
-    void handle_soft_drop() override
-    {
-        if (this->state != GameState::in_progress)
-            return;
-
-        this->handle_tick();
-        this->add_score(this->score_counter.count_score_for_soft_drop());
-    }
-
     GameState get_state() const override
     {
         return this->state;
     }
 
+    void handle_soft_drop() override
+    {
+        this->try_to_perform_action([this](){this->soft_drop();});
+    }
+
     void handle_timeout() override
     {
-        if (this->state != GameState::in_progress)
-            return;
-
-        this->handle_tick();
+        this->try_to_perform_action([this](){this->tick();});
     }
 
     void handle_move_left() override
     {
-        if (this->state != GameState::in_progress)
-            return;
-
-        this->move_cur_brick_horizontally(-1);
+        this->try_to_perform_action([this](){this->move_left();});
     }
 
     void handle_move_right() override
     {
-        if (this->state != GameState::in_progress)
-            return;
+        this->try_to_perform_action([this](){this->move_right();});
+    }
 
-        this->move_cur_brick_horizontally(1);
+    void handle_rotate() override
+    {
+        this->try_to_perform_action([this](){this->rotate();});
+    }
+
+    void handle_hard_drop() override
+    {
+        this->try_to_perform_action([this](){this->hard_drop();});
+    }
+
+    void handle_hold() override
+    {
+        this->try_to_perform_action([this](){this->hold();});
     }
 
     unsigned long long get_score() const

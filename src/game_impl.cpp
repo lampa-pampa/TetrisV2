@@ -15,64 +15,31 @@ namespace Tetris
 
 using std::swap;
 
-void GameImpl::generate_new_brick()
+Vector2 GameImpl::compute_spawn_position(const Brick& brick) const
 {
-    this->cur_brick = this->next_brick;
-    this->next_brick = this->brick_generator.generate();
-    this->cur_brick_rotation = 0;
-    this->cur_brick_position = this->compute_cur_brick_spawn_position(
-        this->cur_brick.get_min_y(),
-        this->board.get_width()
-    );
-    this->ui.draw_next(this->next_brick);
-    if (not this->board.is_space_for_brick(this->get_transformed_cur_brick()))
-        this->state = GameState::ended;
+    Vector2 position{brick_start_position};
+    Brick translated_brick{brick};
+    while (not this->board.brick_is_valid(
+            translated_brick = Brick::get_translated(brick, position)
+        )
+        and translated_brick.get_max_y() > this->config.board_offset
+        and translated_brick.get_min_y() > 0
+    )
+        --position.y;
+    return position;
 }
 
-int GameImpl::compute_max_move_down(const Brick& brick) const
+void GameImpl::hold()
 {
-    int y{};
-    while (this->board.is_space_for_brick(
-        Brick::get_translated(brick, {0, y + 1})
-    ))
-        ++y;
-    return y;
-}
-
-void GameImpl::update_ghost()
-{
-    this->ghost_brick = Brick::get_ghostified(this->cur_brick);
-    this->ghost_brick_position = this->cur_brick_position;
-    this->ghost_brick_position.y += this->compute_max_move_down(
-        this->get_transformed_ghost_brick()
-    );
-}
-
-void GameImpl::put_bricks_on_board()
-{
-    this->update_ghost();
-    this->board.put_cubes(this->get_transformed_ghost_brick().cubes);
-    this->board.put_cubes(this->get_transformed_cur_brick().cubes);
-    this->ui.draw_game_board(this->board.get_cubes());
-}
-
-void GameImpl::handle_tick()
-{
-    this->remove_bricks_from_board();
-    if (this->can_move_brick_by(this->get_transformed_cur_brick(), {0, 1}))
-        ++this->cur_brick_position.y;
-    else
-        this->place_and_generate_cur_brick();
-    this->put_bricks_on_board();
-}
-
-void GameImpl::remove_lines(int from_y, int to_y)
-{
-    const int lines{this->board.remove_lines_in_range_and_compress(
-        from_y, to_y
-    )};
-    this->add_score(this->score_counter.count_score_for_lines(lines));
-    this->add_tetrises(lines / tetris_line_count);
+    if (not this->can_hold)
+        return;
+    
+    swap(this->hold_brick, this->cur_brick);
+    this->ui.draw_hold(this->hold_brick.cubes);
+    if (this->cur_brick.empty())
+        this->generate_new_brick();
+    this->reset_cur_brick_rotation_and_position();
+    this->can_hold = false;
 }
 
 void GameImpl::place_and_generate_cur_brick()
@@ -81,23 +48,18 @@ void GameImpl::place_and_generate_cur_brick()
     this->board.put_cubes(placed_brick.cubes);
     this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
     this->generate_new_brick();
+    this->reset_cur_brick_rotation_and_position();
     this->can_hold = true;
 }
 
-void GameImpl::move_cur_brick_horizontally(int by)
-{
-    this->remove_bricks_from_board();
-    if (this->can_move_brick_by(this->get_transformed_cur_brick(), {by, 0}))
-        this->cur_brick_position.x += by;
-    this->put_bricks_on_board();
-}
-
 GameImpl::GameImpl(
+    GameConfig config,
     GameUi& ui,
     Board& board,
     BrickGenerator& brick_generator,
     ScoreCounter& score_counter
 ):
+    config{config},
     ui{ui},
     board{board},
     brick_generator{brick_generator},
@@ -105,67 +67,17 @@ GameImpl::GameImpl(
     state{GameState::in_progress},
     score{0},
     tetrises{0},
+    hold_brick{},
     next_brick{this->brick_generator.generate()},
-    cur_brick_rotation{0},
-    can_hold{true}
+    can_hold{true},
+    brick_start_position{(board.get_width() - 1) / 2, this->config.brick_start_position_y}
 {
     this->generate_new_brick();
+    this->reset_cur_brick_rotation_and_position();
     this->put_bricks_on_board();
-    this->ui.draw_hold(this->hold_brick);
+    this->ui.draw_hold(this->hold_brick.cubes);
     this->ui.draw_score(this->score);
     this->ui.draw_tetrises(this->tetrises);
-}
-
-void GameImpl::handle_rotate()
-{
-    if (this->state != GameState::in_progress)
-        return;
-
-    this->remove_bricks_from_board();
-    if (this->can_rotate_brick_by(
-        Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
-        this->cur_brick_position,
-        1
-    ))
-        this->cur_brick_rotation = compute_quarters_rotation(
-            this->cur_brick_rotation, 1
-        );
-        
-    this->put_bricks_on_board();
-}
-
-void GameImpl::handle_hard_drop()
-{
-    if (this->state != GameState::in_progress)
-        return;
-
-    this->remove_bricks_from_board();
-    const int distance{this->compute_max_move_down(
-        this->get_transformed_cur_brick()
-    )};
-    this->cur_brick_position.y += distance;
-    this->place_and_generate_cur_brick();
-    this->add_score(this->score_counter.count_score_for_hard_drop(distance));
-    this->put_bricks_on_board();
-}
-
-void GameImpl::handle_hold()
-{
-    if (this->state != GameState::in_progress or not this->can_hold)
-        return;
-
-    this->remove_bricks_from_board();
-    swap(this->hold_brick, this->cur_brick);
-    this->ui.draw_hold(this->hold_brick);
-    if (this->cur_brick.empty())
-        this->generate_new_brick();
-    else
-        this->cur_brick_position = this->compute_cur_brick_spawn_position(
-            this->cur_brick.get_min_y(),
-            this->board.get_width()
-        );
-    this->put_bricks_on_board();
-    this->can_hold = false;
 }
 
 }
