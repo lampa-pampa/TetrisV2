@@ -40,10 +40,11 @@ class MatrixDisplayGameUiImpl final: public GameUi
     const std::map<int, Signal&> input_to_signal{
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
-        {KEY_UP, this->rotate_pressed},
+        {KEY_UP, this->rotate_clockwise_pressed},
         {KEY_DOWN, this->soft_drop_pressed},
         {' ', this->hard_drop_pressed},
         {'c', this->hold_pressed},
+        {'z', this->rotate_counter_clockwise_pressed},
         {'p', this->handle_pause_pressed},
     };
     
@@ -55,7 +56,8 @@ class MatrixDisplayGameUiImpl final: public GameUi
 
     Signal move_left_pressed;
     Signal move_right_pressed;
-    Signal rotate_pressed;
+    Signal rotate_clockwise_pressed;
+    Signal rotate_counter_clockwise_pressed;
     Signal soft_drop_pressed;
     Signal hard_drop_pressed;
     Signal hold_pressed;
@@ -115,9 +117,15 @@ public:
         this->move_right_pressed.connect(handler);
     }
 
-    void connect_rotate_pressed(const std::function<void()>& handler) override
+    void connect_rotate_clockwise_pressed(const std::function<void()>& handler) override
     {
-        this->rotate_pressed.connect(handler);
+        this->rotate_clockwise_pressed.connect(handler);
+    }
+
+    void connect_rotate_counter_clockwise_pressed(
+        const std::function<void()>& handler
+    ) override {
+        this->rotate_counter_clockwise_pressed.connect(handler);
     }
 
     void connect_soft_drop_pressed(const std::function<void()>& handler) override

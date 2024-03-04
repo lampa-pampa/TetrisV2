@@ -9,7 +9,8 @@ namespace Tetris
 class Game
 {
 public:
-    virtual void handle_rotate() = 0;
+    virtual void handle_rotate_clockwise() = 0;
+    virtual void handle_rotate_counter_clockwise() = 0;
     virtual void handle_hard_drop() = 0;
     virtual void handle_hold() = 0;
     virtual void game_over() = 0;

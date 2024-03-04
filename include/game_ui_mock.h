@@ -25,7 +25,10 @@ public:
     void resume() override {}
     void connect_move_left_pressed(const std::function<void()>& handler) override {}
     void connect_move_right_pressed(const std::function<void()>& handler) override {}
-    void connect_rotate_pressed(const std::function<void()>& handler) override {}
+    void connect_rotate_clockwise_pressed(const std::function<void()>& handler) override {}
+    void connect_rotate_counter_clockwise_pressed(
+        const std::function<void()>& handler
+    ) override {}
     void connect_soft_drop_pressed(const std::function<void()>& handler) override {}
     void connect_hard_drop_pressed(const std::function<void()>& handler) override {}
     void connect_hold_pressed(const std::function<void()>& handler) override {}

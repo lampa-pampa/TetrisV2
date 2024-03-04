@@ -370,7 +370,7 @@ TEST(GameImpl, move_right_blocked)
     ASSERT_THAT(game.get_cur_brick_position(), Eq(Vector2{1, 0}));
 }
 
-TEST(GameImpl, handle_rotate)
+TEST(GameImpl, handle_rotate_clockwise)
 {
     const Brick brick{{ {-1, 0}, {0, 0}, {1, 0} }};
     GameUiMock ui{};
@@ -385,7 +385,7 @@ TEST(GameImpl, handle_rotate)
     GameImpl game{config, ui, board, brick_generator, score_counter};
 
     game.handle_timeout();
-    game.handle_rotate();
+    game.handle_rotate_clockwise();
 
     ASSERT_THAT(game.get_cur_brick_rotation(), Eq(1));
 }
@@ -405,7 +405,7 @@ TEST(GameImpl, rotate_blocked)
     GameConfig config{4, 0, 0};
     GameImpl game{config, ui, board, brick_generator, score_counter};
         
-    game.handle_rotate();
+    game.handle_rotate_clockwise();
     
     ASSERT_THAT(game.get_cur_brick_rotation(), Eq(0));
 }

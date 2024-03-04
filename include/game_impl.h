@@ -58,14 +58,17 @@ class GameImpl final: public Game
         return this->board.brick_is_valid(Brick::get_translated(brick, vector));
     }
     
-    bool can_rotate(const Brick& brick, Vector2 position) const
+    bool can_rotate(const Brick& brick, Vector2 position, int rotation, int d_q) const
     {
-        return this->board.brick_is_valid(Brick::get_transformed(brick, 1, position));
+        const int next_rotation{this->compute_next_rotation(rotation, d_q)};
+        return this->board.brick_is_valid(
+            Brick::get_transformed(brick, next_rotation, position)
+        );
     }
 
-    int compute_next_rotation(int rotation, int step) const
+    int compute_next_rotation(int rotation, int d_q) const
     {
-        return (rotation + 1) % Brick::rotation_quantity;
+        return (rotation + d_q + Brick::rotation_quantity) % Brick::rotation_quantity;
     }
 
     void try_to_perform_action(const std::function<void()>& action)
@@ -86,13 +89,26 @@ class GameImpl final: public Game
             this->place_and_generate_cur_brick();
     }
 
-    void rotate()
+    void rotate_clockwise()
     {
         if (this->can_rotate(
             Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
-            this->cur_brick_position
+            this->cur_brick_position,
+            this->cur_brick_rotation,
+            -1
         ))
             this->cur_brick_rotation = compute_next_rotation(this->cur_brick_rotation, 1);
+    }
+
+    void rotate_counter_clockwise()
+    {
+        if (this->can_rotate(
+            Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
+            this->cur_brick_position,
+            this->cur_brick_rotation,
+            -1
+        ))
+            this->cur_brick_rotation = compute_next_rotation(this->cur_brick_rotation, -1);
     }
 
     void hard_drop()
@@ -237,9 +253,14 @@ public:
         this->try_to_perform_action([this](){this->move_right();});
     }
 
-    void handle_rotate() override
+    void handle_rotate_clockwise() override
     {
-        this->try_to_perform_action([this](){this->rotate();});
+        this->try_to_perform_action([this](){this->rotate_clockwise();});
+    }
+
+    void handle_rotate_counter_clockwise() override
+    {
+        this->try_to_perform_action([this](){this->rotate_counter_clockwise();});
     }
 
     void handle_hard_drop() override

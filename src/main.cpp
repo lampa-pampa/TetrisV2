@@ -52,7 +52,10 @@ int main()
     timer.connect_timeout([&game](){ game.handle_timeout(); });
     ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
     ui.connect_move_right_pressed([&game](){ game.handle_move_right(); });
-    ui.connect_rotate_pressed([&game](){ game.handle_rotate(); });
+    ui.connect_rotate_clockwise_pressed([&game](){ game.handle_rotate_clockwise(); });
+    ui.connect_rotate_counter_clockwise_pressed(
+        [&game](){ game.handle_rotate_counter_clockwise(); }
+    );
     ui.connect_soft_drop_pressed([&game](){ game.handle_soft_drop(); });
     ui.connect_hard_drop_pressed([&game](){ game.handle_hard_drop(); });
     ui.connect_hold_pressed([&game](){ game.handle_hold(); });
