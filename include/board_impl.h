@@ -45,6 +45,11 @@ public:
     {
         return this->cubes;
     }
+
+    CubeMatrix get_cubes(int offset) const override
+    {
+        return {this->cubes.begin() + offset, this->cubes.end()};
+    }
 };
 
 }
