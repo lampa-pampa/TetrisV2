@@ -151,7 +151,7 @@ class GameImpl final: public Game
     {
         this->cur_brick = this->next_brick;
         this->next_brick = this->brick_generator.generate();
-        this->ui.draw_next(this->next_brick.cubes);
+        this->ui.draw_next(this->next_brick);
     }
 
     void reset_cur_brick_rotation_and_position()

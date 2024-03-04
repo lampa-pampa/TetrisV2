@@ -6,6 +6,7 @@
 #include <boost/range/irange.hpp>
 #include <ncurses.h>
 
+#include "brick.h"
 #include "color_name.h"
 #include "matrix.h"
 #include "vector_2.h"
@@ -148,19 +149,19 @@ void MatrixDisplayGameUiImpl::draw_board(const CubeMatrix& cubes)
     this->matrix.refresh(this->color_codes);
 }
 
-void MatrixDisplayGameUiImpl::draw_next(const vector<Cube>& cubes)
+void MatrixDisplayGameUiImpl::draw_next(const Brick& brick)
 {
-    this->next_brick_cubes = cubes;
+    this->next_brick = brick;
     this->cover_brick_with_rectangle(next_brick_position);
-    this->draw_brick(next_brick_position, cubes);
+    this->draw_brick(next_brick_position, brick.cubes);
     this->matrix.refresh(this->color_codes);
 }
 
-void MatrixDisplayGameUiImpl::draw_hold(const vector<Cube>& cubes)
+void MatrixDisplayGameUiImpl::draw_hold(const Brick& brick)
 {
-    this->hold_brick_cubes = cubes;
+    this->hold_brick = brick;
     this->cover_brick_with_rectangle(hold_brick_position);
-    this->draw_brick(hold_brick_position, cubes);
+    this->draw_brick(hold_brick_position, brick.cubes);
     this->matrix.refresh(this->color_codes);
 }
 

@@ -3,8 +3,9 @@
 
 #include <vector>
 
-#include "game_ui.h"
+#include "brick.h"
 #include "cube.h"
+#include "game_ui.h"
 
 namespace Tetris
 {
@@ -15,8 +16,8 @@ class GameUiMock final: public GameUi
 
 public:
     void draw_board(const CubeMatrix& cubes) override {}
-    void draw_next(const std::vector<Cube>& cubes) override {}
-    void draw_hold(const std::vector<Cube>& cubes) override {}
+    void draw_next(const Brick& brick) override {}
+    void draw_hold(const Brick& brick) override {}
     void draw_score(unsigned long long score) override {}
     void draw_tetrises(unsigned long long tetrises) override {}
     void game_over() override {}

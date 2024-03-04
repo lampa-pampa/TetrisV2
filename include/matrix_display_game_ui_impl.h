@@ -9,6 +9,7 @@
 #include <boost/signals2.hpp>
 #include <ncurses.h>
 
+#include "brick.h"
 #include "color_name.h"
 #include "game_ui.h"
 #include "matrix.h"
@@ -49,8 +50,8 @@ class MatrixDisplayGameUiImpl final: public GameUi
     MatrixDisplay& matrix;
     ColorCodeMatrix color_codes;
     CubeMatrix board_cubes;
-    std::vector<Cube> next_brick_cubes;
-    std::vector<Cube> hold_brick_cubes;
+    Brick next_brick;
+    Brick hold_brick;
 
     Signal move_left_pressed;
     Signal move_right_pressed;
@@ -84,8 +85,8 @@ public:
     
     void draw_board(const CubeMatrix& cubes) override;
     void draw_score(unsigned long long score) override;
-    void draw_next(const std::vector<Cube>& cubes) override;
-    void draw_hold(const std::vector<Cube>& cubes) override;
+    void draw_next(const Brick& brick) override;
+    void draw_hold(const Brick& brick) override;
     void draw_tetrises(unsigned long long tetrises) override;
     void input_received(int input);
 

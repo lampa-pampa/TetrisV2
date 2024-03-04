@@ -35,7 +35,7 @@ void GameImpl::hold()
         return;
     
     swap(this->hold_brick, this->cur_brick);
-    this->ui.draw_hold(this->hold_brick.cubes);
+    this->ui.draw_hold(this->hold_brick);
     if (this->cur_brick.empty())
         this->generate_new_brick();
     this->reset_cur_brick_rotation_and_position();
@@ -75,7 +75,7 @@ GameImpl::GameImpl(
     this->generate_new_brick();
     this->reset_cur_brick_rotation_and_position();
     this->put_bricks_on_board();
-    this->ui.draw_hold(this->hold_brick.cubes);
+    this->ui.draw_hold(this->hold_brick);
     this->ui.draw_score(this->score);
     this->ui.draw_tetrises(this->tetrises);
 }
