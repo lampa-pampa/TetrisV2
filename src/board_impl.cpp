@@ -1,6 +1,5 @@
 #include "board_impl.h"
 
-#include <cassert>
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -63,35 +62,6 @@ BoardImpl::BoardImpl(int width, int height)
         for (const auto& x : irange(width))
             row.emplace_back(Cube{x, y});
         this->cubes.emplace_back(std::move(row));
-    }
-}
-
-bool BoardImpl::brick_is_valid(const Brick& brick) const 
-{
-    for (const auto& cube : brick.cubes)
-    {
-        if (not this->position_is_in_range(cube.position)
-            or not this->cubes[cube.position.y][cube.position.x].empty())
-            return false;
-    }
-    return true;
-}
-
-void BoardImpl::put_cubes(const vector<Cube>& cubes)
-{
-    for (const auto& cube : cubes)
-    {
-        assert(this->position_is_in_range(cube.position));
-        this->cubes[cube.position.y][cube.position.x] = cube;
-    }
-}
-
-void BoardImpl::clear_cubes(const vector<Cube>& cubes)
-{
-    for (const auto& cube : cubes)
-    {
-        assert(this->position_is_in_range(cube.position));
-        this->cubes[cube.position.y][cube.position.x].clear();
     }
 }
 

@@ -32,12 +32,13 @@ class MatrixDisplayGameUiImpl final: public GameUi
     static constexpr int max_brick_width{4};
     static constexpr ColorName border_color{ColorName::white};
     static constexpr Vector2 board_position{border_width, border_width};
-    static constexpr Vector2 next_brick_position{46, border_width + 2 * cube_size};
+    static constexpr Vector2 next_brick_position{
+        46, border_width + 2 * cube_size};
     static constexpr Vector2 hold_brick_position{
-        46, 2 * border_width + cube_size * (max_brick_height + 3)
-    };
+        46, 2 * border_width + cube_size * (max_brick_height + 3)};
 
-    const std::map<int, Signal&> input_to_signal{
+    const std::map<int, Signal&> input_to_signal
+    {
         {KEY_LEFT, this->move_left_pressed},
         {KEY_RIGHT, this->move_right_pressed},
         {KEY_UP, this->rotate_clockwise_pressed},
@@ -64,7 +65,8 @@ class MatrixDisplayGameUiImpl final: public GameUi
     Signal handle_pause_pressed;
 
     void draw_border();
-    void draw_rectangle(Vector2 position, int width, int height, ColorName color);
+    void draw_rectangle(
+        Vector2 position, int width, int height, ColorName color);
     void draw_cube(Vector2 position, int color_code);
     void draw_board(Vector2 position, const CubeMatrix& board);
     void draw_brick(Vector2 position, std::vector<Cube> cubes);
@@ -107,43 +109,50 @@ public:
         this->draw_board(this->board_cubes);
     }
 
-    void connect_move_left_pressed(const std::function<void()>& handler) override
+    void connect_move_left_pressed(
+        const std::function<void()>& handler) override
     {
         this->move_left_pressed.connect(handler);
     }
 
-    void connect_move_right_pressed(const std::function<void()>& handler) override
+    void connect_move_right_pressed(
+        const std::function<void()>& handler) override
     {
         this->move_right_pressed.connect(handler);
     }
 
-    void connect_rotate_clockwise_pressed(const std::function<void()>& handler) override
+    void connect_rotate_clockwise_pressed(
+        const std::function<void()>& handler) override
     {
         this->rotate_clockwise_pressed.connect(handler);
     }
 
     void connect_rotate_counter_clockwise_pressed(
-        const std::function<void()>& handler
-    ) override {
+        const std::function<void()>& handler) override
+    {
         this->rotate_counter_clockwise_pressed.connect(handler);
     }
 
-    void connect_soft_drop_pressed(const std::function<void()>& handler) override
+    void connect_soft_drop_pressed(
+        const std::function<void()>& handler) override
     {
         this->soft_drop_pressed.connect(handler);
     }
 
-    void connect_hard_drop_pressed(const std::function<void()>& handler) override
+    void connect_hard_drop_pressed(
+        const std::function<void()>& handler) override
     {
         this->hard_drop_pressed.connect(handler);
     }
 
-    void connect_hold_pressed(const std::function<void()>& handler) override
+    void connect_hold_pressed(
+        const std::function<void()>& handler) override
     {
         this->hold_pressed.connect(handler);
     }
 
-    void connect_pause_pressed(const std::function<void()>& handler) override
+    void connect_pause_pressed(
+        const std::function<void()>& handler) override
     {
         this->handle_pause_pressed.connect(handler);
     }

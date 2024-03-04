@@ -27,47 +27,40 @@ void MatrixDisplayGameUiImpl::draw_border()
         {0, 0},
         display_width,
         border_width,
-        border_color
-    );
+        border_color);
     this->draw_rectangle(
         {0, 0},
         border_width,
         display_height,
-        border_color
-    );
+        border_color);
     this->draw_rectangle(
         {display_width - border_width, 0},
         border_width,
         display_height,
-        border_color
-    );
+        border_color);
     this->draw_rectangle(
         {0, display_height - border_width},
         display_width,
         border_width,
-        border_color
-    );
+        border_color);
 
     this->draw_rectangle(
         {center_x, 0},
         border_width,
         display_height,
-        border_color
-    );
+        border_color);
 
     this->draw_rectangle(
         {center_x, next_brick_position.y + (max_brick_height - 1) * cube_size},
         display_width - center_x,
         border_width,
-        border_color
-    );
+        border_color);
 
     this->draw_rectangle(
         {center_x, hold_brick_position.y + (max_brick_height - 1) * cube_size},
         display_width - center_x,
         border_width,
-        border_color
-    );
+        border_color);
 
     this->matrix.refresh(this->color_codes);
 }
@@ -76,8 +69,8 @@ void MatrixDisplayGameUiImpl::draw_rectangle(
     Vector2 position,
     int width,
     int height,
-    ColorName color
-){
+    ColorName color)
+{
     const int color_code{color_name_to_code.at(color)};
     for (const auto& y : irange(position.y, position.y + height))
     {
@@ -95,7 +88,8 @@ void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, int color_code)
     }
 }
 
-void MatrixDisplayGameUiImpl::draw_board(Vector2 position, const CubeMatrix& board)
+void MatrixDisplayGameUiImpl::draw_board(
+    Vector2 position, const CubeMatrix& board)
 {
     for (const auto& y : irange<int>(board.size()))
     {
@@ -124,8 +118,7 @@ void MatrixDisplayGameUiImpl::cover_brick_with_rectangle(Vector2 position)
 {
     const Vector2 rectangle_position{
         position.x - (max_brick_width - 1) / 2 * cube_size,
-        position.y - (max_brick_height - 1) / 2 * cube_size
-    };
+        position.y - (max_brick_height - 1) / 2 * cube_size};
     const int width{max_brick_width * cube_size};
     const int height{max_brick_height * cube_size};
     this->draw_rectangle(rectangle_position, width, height, ColorName::black);
@@ -137,8 +130,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(MatrixDisplay& matrix)
 {
     this->color_codes.resize(
         this->matrix.get_height(),
-        vector<int>(this->matrix.get_width())
-    );
+        vector<int>(this->matrix.get_width()));
     this->draw_border();
 }
 
@@ -178,8 +170,7 @@ void MatrixDisplayGameUiImpl::draw_tetrises(unsigned long long tetrises)
 void MatrixDisplayGameUiImpl::input_received(int input)
 {
     if (const auto it{this->input_to_signal.find(input)};
-        it != this->input_to_signal.end()
-    )
+            it != this->input_to_signal.end())
         it->second();
 }
 

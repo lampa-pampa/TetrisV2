@@ -23,8 +23,7 @@ public:
     Brick generate() override
     {
         return Brick::get_colored(
-            this->bricks_bag.get_next(), this->color_codes_bag.get_next()
-        );
+            this->bricks_bag.get_next(), this->color_codes_bag.get_next());
     }
 };
 

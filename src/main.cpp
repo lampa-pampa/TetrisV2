@@ -43,8 +43,7 @@ int main()
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{
         Bag{bricks_source, rng},
-        Bag{color_codes_source, rng}
-    };
+        Bag{color_codes_source, rng}};
     ScoreCounterImpl score_counter{10, 1, 2};
     GameImpl game{config, ui, board, brick_generator, score_counter};
     GameController game_controller{timer, game};
@@ -52,16 +51,15 @@ int main()
     timer.connect_timeout([&game](){ game.handle_timeout(); });
     ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
     ui.connect_move_right_pressed([&game](){ game.handle_move_right(); });
-    ui.connect_rotate_clockwise_pressed([&game](){ game.handle_rotate_clockwise(); });
+    ui.connect_rotate_clockwise_pressed(
+        [&game](){ game.handle_rotate_clockwise(); });
     ui.connect_rotate_counter_clockwise_pressed(
-        [&game](){ game.handle_rotate_counter_clockwise(); }
-    );
+        [&game](){ game.handle_rotate_counter_clockwise(); });
     ui.connect_soft_drop_pressed([&game](){ game.handle_soft_drop(); });
     ui.connect_hard_drop_pressed([&game](){ game.handle_hard_drop(); });
     ui.connect_hold_pressed([&game](){ game.handle_hold(); });
     ui.connect_pause_pressed([&game_controller](){
-        game_controller.handle_pause_pressed();
-    });
+        game_controller.handle_pause_pressed();});
 
     int input;
     ::WINDOW * game_window{matrix.get_game_window()};
@@ -69,9 +67,7 @@ int main()
     while ((input = ::wgetch(game_window)) != 'q')
     {
         ui.input_received(input);
-
-        const GameState state{game.get_state()};
-        if (state == GameState::ended)
+        if (game.get_state() == GameState::ended)
             game.game_over();
     }    
     return 0;

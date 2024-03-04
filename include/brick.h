@@ -26,13 +26,11 @@ struct Brick final
     static Brick get_transformed(
         const Brick& brick,
         int quarters_rotation,
-        Vector2 position
-    ){
-        const Brick rotated_brick{Brick::get_rotated(
-            brick,
-            quarters_rotation
-        )};
-        return Brick::get_translated(rotated_brick, position);
+        Vector2 position)
+    {
+        return Brick::get_translated(
+            Brick::get_rotated(brick, quarters_rotation),
+            position);
     }
 
     bool operator==(const Brick& other) const
@@ -65,9 +63,8 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.position.x < b.position.x;
-            }
-        )->position.x;
+                return a.position.x < b.position.x;}
+            )->position.x;
     }
 
     int get_max_x() const
@@ -76,9 +73,8 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.position.x < b.position.x;
-            }
-        )->position.x;
+                return a.position.x < b.position.x;}
+            )->position.x;
     }
 
     int get_min_y() const
@@ -87,9 +83,8 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.position.y < b.position.y;
-            }
-        )->position.y;
+                return a.position.y < b.position.y;}
+            )->position.y;
     }
 
     int get_max_y() const
@@ -98,9 +93,8 @@ struct Brick final
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
-                return a.position.y < b.position.y;
-            }
-        )->position.y;
+                return a.position.y < b.position.y;}
+            )->position.y;
     }
 };
 

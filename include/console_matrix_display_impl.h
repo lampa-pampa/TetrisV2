@@ -32,8 +32,7 @@ public:
     ConsoleMatrixDisplayImpl(
         int width,
         int height,
-        NCursesColors ncurses_colors
-    );
+        NCursesColors ncurses_colors);
     
     ~ConsoleMatrixDisplayImpl()
     {

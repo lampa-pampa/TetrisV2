@@ -6,7 +6,7 @@
 namespace Tetris
 {
 
-enum class ColorName
+enum class ColorName: int
 {
     black,
     red,

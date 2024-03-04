@@ -25,15 +25,14 @@ void ConsoleMatrixDisplayImpl::create_window()
         height_chr,
         width_chr,
         center_y_chr,
-        center_x_chr
-    );
+        center_x_chr);
     ::refresh();
 }
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(
     Vector2 position,
-    int ncurses_color
-){
+    int ncurses_color)
+{
     const int x_chr{position.x * cube_width};
     const int y_chr{position.y * cube_height};
     ::wattron(this->window, COLOR_PAIR(ncurses_color));
@@ -44,8 +43,8 @@ void ConsoleMatrixDisplayImpl::refresh_pixel(
 ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
     int width,
     int height,
-    NCursesColors ncurses_colors
-):
+    NCursesColors ncurses_colors)
+:
     width{width},
     height{height},
     ncurses_colors{ncurses_colors}
@@ -67,8 +66,7 @@ void ConsoleMatrixDisplayImpl::refresh(const ColorCodeMatrix& color_codes)
         for (const auto& x : irange(this->width))
             this->refresh_pixel(
                 {x, y},
-                this->ncurses_colors.get_ncurses_color(color_codes[y][x])
-            );
+                this->ncurses_colors.get_ncurses_color(color_codes[y][x]));
     }
     ::wrefresh(this->window);
 }

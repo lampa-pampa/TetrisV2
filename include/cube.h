@@ -17,7 +17,7 @@ struct Cube final
     friend std::ostream& operator<<(std::ostream& os, const Cube& cube)
     {
         return os << "{" << cube.position.x << ", " << cube.position.y
-            << ", " << cube.color_code << "}";  
+            << ", " << cube.color_code << "}";
     }
 
     Cube(int x, int y, int color_code, bool is_ghost)

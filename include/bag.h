@@ -15,9 +15,9 @@ namespace Tetris
 template<typename T>
 class Bag final
 {
-    std::vector<T> items;
     int current_index;
     Rng& rng;
+    std::vector<T> items;
 
     void shuffle_items(std::vector<T>& items, Rng& rng)
     {
@@ -46,8 +46,8 @@ T Bag<T>::get_next()
     return item;
 }
 
-explicit Bag(std::initializer_list<Brick>, Rng& rng)-> Bag<Brick>;
-explicit Bag(std::initializer_list<int>, Rng& rng)-> Bag<int>;
+explicit Bag(std::initializer_list<Brick>, Rng& rng) -> Bag<Brick>;
+explicit Bag(std::initializer_list<int>, Rng& rng) -> Bag<int>;
 
 }
 

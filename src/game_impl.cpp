@@ -19,12 +19,11 @@ Vector2 GameImpl::compute_spawn_position(const Brick& brick) const
 {
     Vector2 position{brick_start_position};
     Brick translated_brick{brick};
-    while (not this->board.brick_is_valid(
-            translated_brick = Brick::get_translated(brick, position)
-        )
-        and translated_brick.get_max_y() > this->config.board_offset
-        and translated_brick.get_min_y() > 0
-    )
+    while (
+            not this->board.brick_is_valid(
+                translated_brick = Brick::get_translated(brick, position))
+            and translated_brick.get_max_y() > this->config.board_offset
+            and translated_brick.get_min_y() > 0)
         --position.y;
     return position;
 }
@@ -38,7 +37,7 @@ void GameImpl::hold()
     this->ui.draw_hold(this->hold_brick);
     if (this->cur_brick.empty())
         this->generate_new_brick();
-    this->reset_cur_brick_rotation_and_position();
+    this->set_start_position_and_rotation();
     this->can_hold = false;
 }
 
@@ -48,7 +47,7 @@ void GameImpl::place_and_generate_cur_brick()
     this->board.put_cubes(placed_brick.cubes);
     this->remove_lines(placed_brick.get_min_y(), placed_brick.get_max_y());
     this->generate_new_brick();
-    this->reset_cur_brick_rotation_and_position();
+    this->set_start_position_and_rotation();
     this->can_hold = true;
 }
 
@@ -57,8 +56,8 @@ GameImpl::GameImpl(
     GameUi& ui,
     Board& board,
     BrickGenerator& brick_generator,
-    ScoreCounter& score_counter
-):
+    ScoreCounter& score_counter)
+:
     config{config},
     ui{ui},
     board{board},
@@ -70,10 +69,12 @@ GameImpl::GameImpl(
     hold_brick{},
     next_brick{this->brick_generator.generate()},
     can_hold{true},
-    brick_start_position{(board.get_width() - 1) / 2, this->config.brick_start_position_y}
+    brick_start_position{
+        (board.get_width() - 1) / 2,
+        this->config.brick_start_position_y}
 {
     this->generate_new_brick();
-    this->reset_cur_brick_rotation_and_position();
+    this->set_start_position_and_rotation();
     this->put_bricks_on_board();
     this->ui.draw_hold(this->hold_brick);
     this->ui.draw_score(this->score);

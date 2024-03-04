@@ -34,9 +34,11 @@ Brick Brick::get_translated(const Brick& brick, Vector2 position)
 Brick Brick::get_rotated(const Brick& brick, int quarters_rotation)
 {
     Brick rotated_brick{brick};
+    const int rotation{
+        quarters_rotation + rotation_quantity % rotation_quantity};
     for (auto& cube : rotated_brick.cubes)
     {
-        for (const auto& i : irange(quarters_rotation % rotation_quantity))
+        for (const auto& i : irange(rotation))
         {
             swap(cube.position.x, cube.position.y);
             cube.position.x *= -1;

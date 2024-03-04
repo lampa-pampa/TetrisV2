@@ -48,34 +48,36 @@ class GameImpl final: public Game
     int compute_lowest_position(const Brick& brick) const
     {
         int y{};
-        while (this->board.brick_is_valid(Brick::get_translated(brick, {0, y + 1})))
+        while (this->board.brick_is_valid(
+                Brick::get_translated(brick, {0, y + 1})))
             ++y;
         return y;
     }
 
     bool can_move(const Brick& brick, Vector2 vector) const
     {
-        return this->board.brick_is_valid(Brick::get_translated(brick, vector));
+        return this->board.brick_is_valid(
+            Brick::get_translated(brick, vector));
     }
     
-    bool can_rotate(const Brick& brick, Vector2 position, int rotation, int d_q) const
+    bool can_rotate(
+        const Brick& brick, Vector2 position, int rotation, int d_q) const
     {
         const int next_rotation{this->compute_next_rotation(rotation, d_q)};
         return this->board.brick_is_valid(
-            Brick::get_transformed(brick, next_rotation, position)
-        );
+            Brick::get_transformed(brick, next_rotation, position));
     }
 
     int compute_next_rotation(int rotation, int d_q) const
     {
-        return (rotation + d_q + Brick::rotation_quantity) % Brick::rotation_quantity;
+        return (rotation + d_q + Brick::rotation_quantity)
+            % Brick::rotation_quantity;
     }
 
     void try_to_perform_action(const std::function<void()>& action)
     {
         if (this->state != GameState::in_progress)
             return;
-
         this->remove_bricks_from_board();
         action();
         this->put_bricks_on_board();
@@ -92,33 +94,33 @@ class GameImpl final: public Game
     void rotate_clockwise()
     {
         if (this->can_rotate(
-            Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
-            this->cur_brick_position,
-            this->cur_brick_rotation,
-            -1
-        ))
-            this->cur_brick_rotation = compute_next_rotation(this->cur_brick_rotation, 1);
+                Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
+                this->cur_brick_position,
+                this->cur_brick_rotation,
+                -1))
+            this->cur_brick_rotation = compute_next_rotation(
+                this->cur_brick_rotation, 1);
     }
 
     void rotate_counter_clockwise()
     {
         if (this->can_rotate(
-            Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
-            this->cur_brick_position,
-            this->cur_brick_rotation,
-            -1
-        ))
-            this->cur_brick_rotation = compute_next_rotation(this->cur_brick_rotation, -1);
+                Brick::get_rotated(this->cur_brick, this->cur_brick_rotation),
+                this->cur_brick_position,
+                this->cur_brick_rotation,
+                -1))
+            this->cur_brick_rotation = compute_next_rotation(
+                this->cur_brick_rotation, -1);
     }
 
     void hard_drop()
     {
         const int distance{this->compute_lowest_position(
-            this->get_transformed_cur_brick())
-        };
+            this->get_transformed_cur_brick())};
         this->cur_brick_position.y += distance;
         this->place_and_generate_cur_brick();
-        this->add_score(this->score_counter.count_score_for_hard_drop(distance));
+        this->add_score(
+            this->score_counter.count_score_for_hard_drop(distance));
     }
 
     void soft_drop()
@@ -144,8 +146,7 @@ class GameImpl final: public Game
         this->ghost_brick = Brick::get_ghostified(this->cur_brick);
         this->ghost_brick_position = this->cur_brick_position;
         this->ghost_brick_position.y += this->compute_lowest_position(
-            this->get_transformed_ghost_brick()
-        );
+            this->get_transformed_ghost_brick());
     }
 
     void put_bricks_on_board()
@@ -170,9 +171,10 @@ class GameImpl final: public Game
         this->ui.draw_next(this->next_brick);
     }
 
-    void reset_cur_brick_rotation_and_position()
+    void set_start_position_and_rotation()
     {
-        this->cur_brick_position = this->compute_spawn_position(this->cur_brick);
+        this->cur_brick_position = this->compute_spawn_position(
+            this->cur_brick);
         this->cur_brick_rotation = 0;
         if (not this->board.brick_is_valid(this->get_transformed_cur_brick()))
             this->state = GameState::ended;
@@ -208,8 +210,7 @@ public:
         GameUi& ui,
         Board& board,
         BrickGenerator& brick_generator,
-        ScoreCounter& score_counter
-    );
+        ScoreCounter& score_counter);
 
     void game_over() override
     {
@@ -235,42 +236,43 @@ public:
 
     void handle_soft_drop() override
     {
-        this->try_to_perform_action([this](){this->soft_drop();});
+        this->try_to_perform_action([this](){ this->soft_drop(); });
     }
 
     void handle_timeout() override
     {
-        this->try_to_perform_action([this](){this->tick();});
+        this->try_to_perform_action([this](){ this->tick(); });
     }
 
     void handle_move_left() override
     {
-        this->try_to_perform_action([this](){this->move_left();});
+        this->try_to_perform_action([this](){ this->move_left(); });
     }
 
     void handle_move_right() override
     {
-        this->try_to_perform_action([this](){this->move_right();});
+        this->try_to_perform_action([this](){ this->move_right(); });
     }
 
     void handle_rotate_clockwise() override
     {
-        this->try_to_perform_action([this](){this->rotate_clockwise();});
+        this->try_to_perform_action([this](){ this->rotate_clockwise(); });
     }
 
     void handle_rotate_counter_clockwise() override
     {
-        this->try_to_perform_action([this](){this->rotate_counter_clockwise();});
+        this->try_to_perform_action([this](){
+            this->rotate_counter_clockwise();});
     }
 
     void handle_hard_drop() override
     {
-        this->try_to_perform_action([this](){this->hard_drop();});
+        this->try_to_perform_action([this](){ this->hard_drop(); });
     }
 
     void handle_hold() override
     {
-        this->try_to_perform_action([this](){this->hold();});
+        this->try_to_perform_action([this](){ this->hold(); });
     }
 
     unsigned long long get_score() const
@@ -323,8 +325,7 @@ public:
         return Brick::get_transformed(
             this->cur_brick,
             this->cur_brick_rotation,
-            this->cur_brick_position
-        );
+            this->cur_brick_position);
     }
 
     Brick get_transformed_ghost_brick() const
@@ -332,8 +333,7 @@ public:
         return Brick::get_transformed(
             this->ghost_brick,
             this->cur_brick_rotation,
-            this->ghost_brick_position
-        );
+            this->ghost_brick_position);
     }
 };
 
