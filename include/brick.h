@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <vector>
 
+#include <boost/range/irange.hpp>
+
 #include "cube.h"
 #include "vector_2.h"
 
@@ -19,17 +21,50 @@ struct Brick final
 
     friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
 
-    static Brick get_colored(const Brick& brick, int color_code);
-    static Brick get_translated(const Brick& brick, Vector2 position);
-    static Brick get_rotated(const Brick& brick, int quarters_rotation);
-    static Brick get_ghostified(const Brick& brick);
-    static Brick get_transformed(
-        const Brick& brick,
-        int quarters_rotation,
-        Vector2 position)
+    static Brick get_colored(const Brick& brick, int color_code)
     {
-        return Brick::get_translated(
-            Brick::get_rotated(brick, quarters_rotation),
+        Brick colored_brick{brick};
+        for (auto& cube : colored_brick.cubes)
+            cube.color_code = color_code;
+        return colored_brick;
+    }
+
+    static Brick get_translated(const Brick& brick, Vector2 position)
+    {
+        Brick translated_brick{brick};
+        for (auto& cube : translated_brick.cubes)
+            cube.position += position;
+        return translated_brick;
+    }
+
+    static Vector2 get_rotated_position(
+        Vector2 position, Vector2 rotation_offset, int quarters_rotation)
+    {
+        for(const auto& i : boost::irange(quarters_rotation))
+        {
+            std::swap(position.x, position.y);
+            position.x *= -1;
+            position += rotation_offset;
+        }
+        return position;
+    }
+
+    static Brick get_rotated(const Brick& brick, int quarters_rotation)
+    {
+        Brick rotated_brick{brick};
+        for (auto& cube : rotated_brick.cubes)
+        {
+            cube.position = get_rotated_position(
+                cube.position, brick.rotation_offset, quarters_rotation);
+        }
+        return rotated_brick;
+    }
+
+    static Brick get_transformed(
+        const Brick& brick, int quarters_rotation, Vector2 position)
+    {
+        return get_translated(
+            get_rotated(brick, quarters_rotation),
             position);
     }
 

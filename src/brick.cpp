@@ -1,6 +1,5 @@
 #include "brick.h"
 
-#include <algorithm>
 #include <ostream>
 
 #include <boost/range/irange.hpp>
@@ -11,50 +10,7 @@
 namespace Tetris
 {
 
-using std::swap;
 using std::ostream;
-using boost::irange;
-
-Brick Brick::get_colored(const Brick& brick, int color_code)
-{
-    Brick colored_brick{brick};
-    for (auto& cube : colored_brick.cubes)
-        cube.color_code = color_code;
-    return colored_brick;
-}
-
-Brick Brick::get_translated(const Brick& brick, Vector2 position)
-{
-    Brick translated_brick{brick};
-    for (auto& cube : translated_brick.cubes)
-        cube.position += position;
-    return translated_brick;
-}
-
-Brick Brick::get_rotated(const Brick& brick, int quarters_rotation)
-{
-    Brick rotated_brick{brick};
-    const int rotation{
-        quarters_rotation + rotation_quantity % rotation_quantity};
-    for (auto& cube : rotated_brick.cubes)
-    {
-        for (const auto& i : irange(rotation))
-        {
-            swap(cube.position.x, cube.position.y);
-            cube.position.x *= -1;
-            cube.position += brick.rotation_offset;
-        }
-    }
-    return rotated_brick;
-}
-
-Brick Brick::get_ghostified(const Brick& brick)
-{
-    Brick ghostified_brick{brick};
-    for (auto& cube : ghostified_brick.cubes)
-        cube.is_ghost = true;
-    return ghostified_brick;
-}
 
 ostream& operator<<(ostream& os, const Brick& brick)
 {
