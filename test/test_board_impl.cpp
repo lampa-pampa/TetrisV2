@@ -102,29 +102,16 @@ TEST(BoardImpl, put_cubes)
     });
 }
 
-TEST(BoardImpl, clear_cubes)
-{
-    BoardImpl board{3, 3};
-    board.put_cubes(create_rectangle_shape(3, 3, 1));
-    const Brick brick{{ {0, 0}, {0, 1} }};   
-    board.clear_cubes(brick.cubes);
-    const CubeMatrix board_cubes{board.get_cubes()};
-    
-    for_each_cube_assert_true(board_cubes, [brick](Cube cube){
-        return cube.empty() == is_in(cube, brick.cubes);
-    });
-}
-
 TEST(BoardImpl, remove_lines_and_compress_without_lines_in_range)
 {
     BoardImpl board{3, 3};
     const Brick brick{create_rectangle_shape(3, 2, 1)};
     board.put_cubes(brick.cubes);
-    const int lines{board.remove_lines_and_compress(2, 2)};
+    const vector rows_with_lines{board.remove_lines_and_compress(2, 2)};
     const CubeMatrix board_cubes{board.get_cubes()};
 
     
-    ASSERT_THAT(lines, Eq(0));
+    ASSERT_THAT(rows_with_lines.empty(), Eq(true));
     for_each_cube_assert_true(board_cubes, [brick](Cube cube){
         return cube.empty() != is_in(cube, brick.cubes);
     });
@@ -134,12 +121,11 @@ TEST(BoardImpl, remove_lines_and_compress_with_lines_in_range)
 {
     BoardImpl board{3, 3};
     board.put_cubes(create_rectangle_shape(3, 2, 1));
-    board.put_cubes(create_rectangle_shape(2, 3, 1));
-    const Brick brick{{ {0, 2, 1}, {1, 2, 1} }};
-    const int lines{board.remove_lines_and_compress(0, 2)};
+    const Brick brick{{ {0, 1, 1}, {1, 1, 1}, {2, 1, 1} }};
+    const vector rows_with_lines{board.remove_lines_and_compress(1, 1)};
     const CubeMatrix board_cubes{board.get_cubes()};
     
-    ASSERT_THAT(lines, Eq(2));
+    ASSERT_THAT(rows_with_lines, Eq(vector{1}));
     for_each_cube_assert_true(board_cubes, [brick](Cube cube){
         return cube.empty() != is_in(cube, brick.cubes);
     });

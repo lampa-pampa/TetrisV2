@@ -16,7 +16,7 @@ using Tetris::RngMock;
 TEST(Bag, get_next)
 {
     RngMock rng{};
-    const vector<int> items{0, 1, 2, 3, 4};
+    const vector<int> items{ 0, 1, 2, 3, 4 };
     Bag bag{items, rng};
     for (const auto& i : irange(2))
     {

@@ -40,17 +40,6 @@ TEST(Brick, get_rotated_with_moved_center)
     ASSERT_THAT(Brick::get_rotated(brick, 2), Eq(expected_brick));
 }
 
-TEST(Brick, get_ghostified)
-{
-    const Brick brick{{ {1, 2}, {3, 4} }};
-    const Brick expected_brick{{
-        {1, 2, 0, true},
-        {3, 4, 0, true},
-    }};
-    
-    ASSERT_THAT(Brick::get_ghostified(brick), Eq(expected_brick));
-}
-
 TEST(Brick, get_transformed)
 {
     const Brick brick{{ {1, 2}, {3, 4} }};
