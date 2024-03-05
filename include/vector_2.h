@@ -28,6 +28,11 @@ struct Vector2 final
         return {this->x + other.x, this->y + other.y};
     }
 
+    Vector2 operator*(const int& other) const
+    {
+        return {this->x * other, this->y * other};
+    }
+
     bool operator==(const Vector2& other) const
     {
         return this->x == other.x
