@@ -1,3 +1,5 @@
+#include "brick_generator_impl.h"
+
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -5,7 +7,6 @@
 #include <gtest/gtest.h>
 
 #include "bag.h"
-#include "brick_generator_impl.h"
 #include "brick.h"
 #include "rng_mock.h"
 

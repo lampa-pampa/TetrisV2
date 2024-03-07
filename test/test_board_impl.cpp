@@ -1,9 +1,10 @@
+#include "board_impl.h"
+
 #include <vector>
 
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "board_impl.h"
 #include "brick.h"
 #include "cube.h"
 

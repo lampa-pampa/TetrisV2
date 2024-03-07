@@ -1,10 +1,11 @@
+#include "bag.h"
+
 #include <vector>
 
 #include <boost/range/irange.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "bag.h"
 #include "rng_mock.h"
 
 using boost::irange;
