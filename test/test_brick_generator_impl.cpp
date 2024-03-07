@@ -20,12 +20,16 @@ using Tetris::RngMock;
 
 TEST(BrickGeneratorImpl, generate)
 {
-    const vector<Brick> bricks{ {{ {1, 0}, {0, 1} }}, {{ {2, 0}, {0, 2} }} };
-    const vector color_codes{ 1, 3 };
     RngMock rng{};
     BrickGeneratorImpl brick_generator{
-        Bag{bricks, rng},
-        Bag{color_codes, rng}
+        Bag{{
+            {{ {1, 0}, {0, 1} }},
+            {{ {2, 0}, {0, 2} }},
+        }, rng },
+        Bag{{
+            1,
+            3,
+        }, rng }
     };
     const vector<Brick> expected_bricks{
         {{ {1, 0, 1}, {0, 1, 1} }},
