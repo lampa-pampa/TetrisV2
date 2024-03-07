@@ -1,8 +1,6 @@
-#include <algorithm>
-#include <functional>
+#include <gmock/gmock-matchers.h>
 #include <vector>
 
-#include <boost/range/irange.hpp>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
@@ -10,123 +8,202 @@
 #include "brick.h"
 #include "cube.h"
 
-using boost::irange;
-using std::find;
-using std::function;
+using std::pair;
 using std::vector;
 using testing::Eq;
 using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::Cube;
 
-namespace {
+namespace
+{
     using CubeMatrix = vector<vector<Cube>>;
-
-    vector<Cube> create_rectangle_shape(int width, int height, int color_code)
+    
+    struct Range
     {
-        vector<Cube> shape{};
-        for (const auto& y : irange(height))
-        {
-            for (const auto& x : irange(width))
-                shape.emplace_back(Cube{x, y, color_code});
-        }
-        return shape;
-    }
-    void for_each_cube_assert_true(
-        const CubeMatrix& cubes,
-        function<bool(Cube cube)> compare
-    ){
-        for (const auto& row : cubes)
-        {
-            for (const auto& cube : row)
-                ASSERT_THAT(compare(cube), Eq(true));
-        }
-    }
-    bool is_in(Cube cube, vector<Cube> cubes)
-    {
-        return find(cubes.begin(), cubes.end(), cube) != cubes.end();
-    }
+        int from_y;
+        int to_y;
+    };
 }
+
 
 TEST(BoardImpl, BoardImpl)
 {
-    BoardImpl board{2, 2};
-    const vector<Cube> expected_board_cubes{
-        {0, 0}, {1, 0},
-        {0, 1}, {1, 1},
+    const CubeMatrix expected_board_cubes{
+        { {0, 0}, {1, 0} },
+        { {0, 1}, {1, 1} },
     };
-    const CubeMatrix board_cubes{board.get_cubes()};
-    
-    for_each_cube_assert_true(
-        board_cubes,
-        [expected_board_cubes](Cube cube){
-            return is_in(cube, expected_board_cubes);
-        }
-    );
-}
 
-TEST(BoardImpl, brick_is_valid_empty_board)
-{
-    BoardImpl board{3, 3};
-    const Brick brick{{ {0, 0} }};
-    
-    ASSERT_THAT(board.brick_is_valid(brick.cubes), Eq(true));
-}
+    BoardImpl board{2, 2};
 
-TEST(BoardImpl, brick_is_valid_off_range)
-{
-    BoardImpl board{3, 3};
-    const Brick brick{{ {1, 3} }};
-    
-    ASSERT_THAT(board.brick_is_valid(brick.cubes), Eq(false));
-}
-
-TEST(BoardImpl, brick_is_valid_filled_board)
-{
-    BoardImpl board{3, 3};
-    const Brick brick{{ {0, 0} }};
-    board.put_cubes(create_rectangle_shape(3, 3, 1));
-    
-    ASSERT_THAT(board.brick_is_valid(brick.cubes), Eq(false));    
+    ASSERT_THAT(board.get_cubes(), Eq(expected_board_cubes));
 }
 
 TEST(BoardImpl, put_cubes)
 {
-    BoardImpl board{3, 3};
-    const Brick brick{{ {1, 2, 2}, {2, 2, 2} }};
+    const Brick brick{{ {0, 0, 1}, {0, 1, 1} }};
+    const CubeMatrix expected_board_cubes{
+        { {0, 0, 1}, {1, 0} },
+        { {0, 1, 1}, {1, 1} },
+    };
+
+    BoardImpl board{2, 2};
     board.put_cubes(brick.cubes);
-    const CubeMatrix board_cubes{board.get_cubes()};
     
-    for_each_cube_assert_true(board_cubes, [brick](Cube cube){
-        return cube.empty() != is_in(cube, brick.cubes);
-    });
+    ASSERT_THAT(board.get_cubes(), Eq(expected_board_cubes));
 }
 
-TEST(BoardImpl, remove_lines_and_compress_without_lines_in_range)
+TEST(BoardImpl, remove_lines_and_compress__return_value)
 {
-    BoardImpl board{3, 3};
-    const Brick brick{create_rectangle_shape(3, 2, 1)};
-    board.put_cubes(brick.cubes);
-    const vector rows_with_lines{board.remove_lines_and_compress(2, 2)};
-    const CubeMatrix board_cubes{board.get_cubes()};
+    const vector<pair<vector<Cube>, vector<int>>> initial_cubes_to_expected{
+        { { {0, 0, 1}, {0, 1, 1} }, {} },
+        { { {0, 0, 1}, {1, 0, 1} }, {0} },
+        { { {0, 0, 1}, {1, 0, 1}, {0, 1, 1}, {1, 1, 1} }, {0, 1} },
+    };
+    const Range range{0, 1};
 
-    
-    ASSERT_THAT(rows_with_lines.empty(), Eq(true));
-    for_each_cube_assert_true(board_cubes, [brick](Cube cube){
-        return cube.empty() != is_in(cube, brick.cubes);
-    });
+    for (const auto& pair : initial_cubes_to_expected)
+    {
+        BoardImpl board{2, 2};
+        board.put_cubes(pair.first);
+        const vector actual{
+            board.remove_lines_and_compress(range.from_y, range.to_y)
+        };
+
+        ASSERT_THAT(actual, Eq(pair.second));
+    }    
 }
 
-TEST(BoardImpl, remove_lines_and_compress_with_lines_in_range)
+TEST(BoardImpl, remove_lines_and_compress__range)
 {
-    BoardImpl board{3, 3};
-    board.put_cubes(create_rectangle_shape(3, 2, 1));
-    const Brick brick{{ {0, 1, 1}, {1, 1, 1}, {2, 1, 1} }};
-    const vector rows_with_lines{board.remove_lines_and_compress(1, 1)};
-    const CubeMatrix board_cubes{board.get_cubes()};
+    const vector<Cube> initial_cubes{
+        {0, 0, 1}, {1, 0, 1}, {0, 2, 1}, {1, 2, 1}
+    };
+    const vector<pair<Range, vector<int>>> range_to_expected{
+        { {1, 1}, {} },
+        { {0, 0}, {0} },
+        { {0, 2}, {0, 2} },
+    };
+
+    for (const auto& pair : range_to_expected)
+    {
+        BoardImpl board{2, 3};
+        board.put_cubes(initial_cubes);
+        const vector actual{
+            board.remove_lines_and_compress(pair.first.from_y, pair.first.to_y)
+        };
+
+        ASSERT_THAT(actual, Eq(pair.second));
+    }    
+}
+
+TEST(BoardImpl, remove_lines_and_compress__cubes)
+{
+    const vector<pair<vector<Cube>, CubeMatrix>> initial_cubes_to_expected{
+        { { {0, 0, 1}, {0, 1, 1}, {1, 1, 1} }, {
+            { {0, 0}, {1, 0} },
+            { {0, 1, 1}, {1, 1} },
+        }},
+        { { {0, 0, 1}, {1, 1, 1} }, {
+            { {0, 0, 1}, {1, 0} },
+            { {0, 1}, {1, 1, 1} },
+        }},
+        { { {0, 0, 1}, {1, 0, 1} }, {
+            { {0, 0}, {1, 0} },
+            { {0, 1}, {1, 1} },
+        }},
+    };
+    const Range range{0, 1};
+
+    for (const auto& pair : initial_cubes_to_expected)
+    {
+        BoardImpl board{2, 2};
+        board.put_cubes(pair.first);
+        board.remove_lines_and_compress(range.from_y, range.to_y);
+
+        ASSERT_THAT(board.get_cubes(), Eq(pair.second));
+    }    
+}
+
+TEST(BoardImpl, brick_is_valid)
+{
+    const vector<Cube> initial_cubes{ {1, 1, 1} };
+    const vector<pair<Brick, bool>> brick_to_expected{
+        { {{ {0, 0, 1}, {0, 1, 1} }}, true },
+        { {{ {0, 1, 1}, {1, 1, 1} }}, false },
+        { {{ {0, 1, 1}, {0, 2, 1} }}, false },
+        { {{ {-1, 0, 1}, {0, 0, 1} }}, false },
+        { {{ {0, 1, 1}, {0, 2, 1} }}, false },
+        { {{ {0, -1, 1}, {0, 0, 1} }}, false },
+    };
+
+    BoardImpl board{2, 2};
+    board.put_cubes(initial_cubes);
     
-    ASSERT_THAT(rows_with_lines, Eq(vector{1}));
-    for_each_cube_assert_true(board_cubes, [brick](Cube cube){
-        return cube.empty() != is_in(cube, brick.cubes);
-    });
+    for (const auto& pair : brick_to_expected)
+        ASSERT_THAT(board.brick_is_valid(pair.first), Eq(pair.second));
+}
+
+TEST(BoardImpl, get_width)
+{
+    BoardImpl board{10, 20};
+
+    ASSERT_THAT(board.get_width(), Eq(10));
+}
+
+TEST(BoardImpl, get_offset)
+{
+    const vector<pair<BoardImpl, int>> board_to_expected{
+        { {10, 20}, 0 },
+        { {10, 20, 2}, 2 },
+    };
+
+    for(const auto& pair : board_to_expected)
+        ASSERT_THAT(pair.first.get_offset(), Eq(pair.second));
+}
+
+TEST(BoardImpl, get_visible_cubes)
+{
+    const vector<Cube> initial_cubes{ {0, 0, 1}, {1, 0, 1}, {0, 1, 1} };
+    const vector<pair<int, CubeMatrix>> offset_to_expected{
+        { 0, { 
+            { {0, 0, 1}, {1, 0, 1} },
+            { {0, 1, 1}, {1, 1} },
+        }},
+        { 1, {
+            { {0, 1, 1}, {1, 1} },
+            { {0, 2}, {1, 2} },
+        }},
+        { 2, {
+            { {0, 2}, {1, 2} },
+            { {0, 3}, {1, 3} },
+        }},
+    };
+
+    for (const auto& pair : offset_to_expected)
+    {
+        BoardImpl board{2, 2, pair.first};
+        board.put_cubes(initial_cubes);
+
+        ASSERT_THAT(board.get_visible_cubes(), Eq(pair.second));
+    }    
+}
+
+TEST(BoardImpl, get_visible_brick_cubes)
+{
+    const vector<Cube> brick_cubes{ {0, 0, 1}, {1, 0, 1}, {1, 1, 1} };
+    const vector<pair<int, vector<Cube>>> offset_to_expected{
+        { 0, { {0, 0, 1}, {1, 0, 1}, {1, 1, 1} } },
+        { 1, { {1, 1, 1} } },
+        { 2, {} },
+    };
+
+    for (const auto& pair : offset_to_expected)
+    {
+        BoardImpl board{2, 2, pair.first};
+        board.put_cubes(brick_cubes);
+        const vector<Cube>& actual{board.get_visible_brick_cubes(brick_cubes)};
+
+        ASSERT_THAT(actual, Eq(pair.second));
+    }    
 }
