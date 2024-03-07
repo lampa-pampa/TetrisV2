@@ -1,5 +1,6 @@
 #include "board_impl.h"
 
+#include <utility>
 #include <vector>
 
 #include <gmock/gmock.h>
