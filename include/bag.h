@@ -15,6 +15,24 @@ namespace Tetris
 template<typename T>
 class Bag final
 {
+public:
+    Bag(const std::vector<T>& items, Rng& rng)
+    :
+        items{items},
+        current_index{0},
+        rng{rng}
+    {}
+    
+    T get_next()
+    {
+        if (this->current_index == 0)
+            this->shuffle_items(this->items, this->rng);
+        const T item{this->items[this->current_index]};
+        this->current_index = (this->current_index + 1) % this->items.size();
+        return item;
+    }
+    
+private:
     int current_index;
     Rng& rng;
     std::vector<T> items;
@@ -24,27 +42,7 @@ class Bag final
         for (const auto& i : boost::irange<int>(items.size() - 1, 0, -1))
             std::swap(items[i], items[rng.random(i + 1)]);
     }
-
-public:
-    Bag(const std::vector<T>& items, Rng& rng)
-    :
-        items{items},
-        current_index{0},
-        rng{rng}
-    {}
-    
-    T get_next();
 };
-
-template<typename T>
-T Bag<T>::get_next()
-{
-    if (this->current_index == 0)
-        this->shuffle_items(this->items, this->rng);
-    const T item{this->items[this->current_index]};
-    this->current_index = (this->current_index + 1) % this->items.size();
-    return item;
-}
 
 explicit Bag(std::initializer_list<Brick>, Rng& rng) -> Bag<Brick>;
 explicit Bag(std::initializer_list<int>, Rng& rng) -> Bag<int>;
