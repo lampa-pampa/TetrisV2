@@ -4,10 +4,10 @@
 namespace Tetris
 {
 
-struct GameConfig
+struct DisplayConfig
 {
-    int brick_start_position_y;
-    bool generate_ghost;
+    int width;
+    int height;
 };
 
 struct BoardConfig
@@ -17,9 +17,24 @@ struct BoardConfig
     int offset;
 };
 
+struct ScoreCounterConfig
+{
+    int score_for_line;
+    int score_for_soft_drop;
+    int score_for_hard_drop;
+};
+
+struct GameConfig
+{
+    int brick_spawn_position_y;
+    bool generate_ghost;
+};
+
 struct Config
 {
-    BoardConfig board; 
+    DisplayConfig display;
+    BoardConfig board;
+    ScoreCounterConfig score_counter;
     GameConfig game;
 };
 
