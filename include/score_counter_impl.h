@@ -8,10 +8,6 @@ namespace Tetris
 
 class ScoreCounterImpl final: public ScoreCounter
 {
-    int score_for_line;
-    int score_for_soft_drop;
-    int score_for_hard_drop;
-
 public:
     ScoreCounterImpl(
         int score_for_line,
@@ -37,6 +33,11 @@ public:
     {
         return this->score_for_hard_drop * distance;
     }
+    
+private:
+    int score_for_line;
+    int score_for_soft_drop;
+    int score_for_hard_drop;
 };
 
 }
