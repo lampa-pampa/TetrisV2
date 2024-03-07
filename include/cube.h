@@ -10,16 +10,16 @@ namespace Tetris
 
 struct Cube final
 {
-    static constexpr int black_color_code{0};
-
-    Vector2 position;
-    int color_code;
-
     friend std::ostream& operator<<(std::ostream& os, const Cube& cube)
     {
         return os << "{" << cube.position.x << ", " << cube.position.y
             << ", " << cube.color_code << "}";
     }
+
+    static constexpr int black_color_code{0};
+
+    Vector2 position;
+    int color_code;
 
     Cube(int x, int y, int color_code)
     :
@@ -38,14 +38,14 @@ struct Cube final
             and this->color_code == other.color_code;
     }
 
-    bool empty() const
-    {
-        return this->color_code == black_color_code;
-    }
-
     void clear()
     {
         this->color_code = black_color_code;
+    }
+
+    bool empty() const
+    {
+        return this->color_code == black_color_code;
     }
 };
 
