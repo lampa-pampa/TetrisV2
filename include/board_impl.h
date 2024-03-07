@@ -1,12 +1,13 @@
 #ifndef INCLUDE_BOARD_IMPL_H
 #define INCLUDE_BOARD_IMPL_H
 
+#include "board.h"
+
 #include <cassert>
 #include <vector>
 
 #include <boost/range/irange.hpp>
 
-#include "board.h"
 #include "cube.h"
 #include "vector_2.h"
 
