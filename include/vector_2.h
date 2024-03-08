@@ -1,6 +1,7 @@
 #ifndef INCLUDE_VECTOR_2_H
 #define INCLUDE_VECTOR_2_H
 
+#include <cstdlib>
 #include <ostream>
 
 namespace Tetris
@@ -15,7 +16,22 @@ struct Vector2 final
     {
         return os << "{" << vector2.x << ", " << vector2.y << "}";
     }
-    
+
+    Vector2 abs() const
+    {
+        return {::abs(this->x), ::abs(this->y)};
+    }
+
+    bool operator>=(const Vector2& other) const
+    {
+        return this->x >= other.x and this->y >= other.y; 
+    }
+
+    bool operator==(const Vector2& other) const
+    {
+        return this->x == other.x and this->y == other.y;
+    }
+
     Vector2& operator+=(const Vector2& other)
     {
         this->x += other.x;
@@ -28,15 +44,39 @@ struct Vector2 final
         return {this->x + other.x, this->y + other.y};
     }
 
+    Vector2 operator-(const Vector2& other) const
+    {
+        return {this->x - other.x, this->y - other.y};
+    }
+
+    Vector2 operator*(const Vector2& other) const
+    {
+        return {this->x * other.x, this->y * other.y};
+    }
+
+    Vector2 operator/(const Vector2& other) const
+    {
+        return {this->x / other.x, this->y / other.y};
+    }
+
+    Vector2 operator+(const int& other) const
+    {
+        return {this->x + other, this->y + other};
+    }
+
+    Vector2 operator-(const int& other) const
+    {
+        return {this->x - other, this->y - other};
+    }
+
     Vector2 operator*(const int& other) const
     {
         return {this->x * other, this->y * other};
     }
 
-    bool operator==(const Vector2& other) const
+    Vector2 operator/(const int& other) const
     {
-        return this->x == other.x
-            and this->y == other.y;
+        return {this->x / other, this->y / other};
     }
 };
 
