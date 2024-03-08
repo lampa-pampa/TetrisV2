@@ -18,7 +18,6 @@ using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
 using Tetris::RngMock;
 
-
 TEST(BrickGeneratorImpl, generate)
 {
     RngMock initial_rng{};

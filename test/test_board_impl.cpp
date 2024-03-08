@@ -27,7 +27,6 @@ namespace
     };
 }
 
-
 TEST(BoardImpl, BoardImpl)
 {
     const vector<pair<BoardImpl, CubeMatrix>> board_to_expected{
