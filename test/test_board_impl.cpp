@@ -30,28 +30,51 @@ namespace
 
 TEST(BoardImpl, BoardImpl)
 {
-    const CubeMatrix expected_board_cubes{
-        { {0, 0}, {1, 0} },
-        { {0, 1}, {1, 1} },
+    const vector<pair<BoardImpl, CubeMatrix>> board_to_expected{
+        { {1, 3}, {
+            { {0, 0} },
+            { {0, 1} },
+            { {0, 2} },
+        }},
+        { {2, 2}, {
+            { {0, 0}, {1, 0} },
+            { {0, 1}, {1, 1} },
+        }},
+        { {3, 2}, {
+            { {0, 0}, {1, 0}, {2, 0} },
+            { {0, 1}, {1, 1}, {2, 1} },
+        }},
     };
 
-    BoardImpl board{2, 2};
-
-    ASSERT_THAT(board.get_cubes(), Eq(expected_board_cubes));
+    for(const auto& pair : board_to_expected)
+        ASSERT_THAT(pair.first.get_cubes(), Eq(pair.second));
 }
 
 TEST(BoardImpl, put_cubes)
 {
-    const Brick brick{{ {0, 0, 1}, {0, 1, 1} }};
-    const CubeMatrix expected_board_cubes{
-        { {0, 0, 1}, {1, 0} },
-        { {0, 1, 1}, {1, 1} },
+    BoardImpl initial_board{2, 2};
+    const vector<pair<vector<Cube>, CubeMatrix>> cubes_to_expected{
+        { { {0, 0, 1}, {0, 1, 1} }, {
+            { {0, 0, 1}, {1, 0} },
+            { {0, 1, 1}, {1, 1} },
+        }},
+        { { {0, 1, 1}, {1, 1, 1} }, {
+            { {0, 0}, {1, 0} },
+            { {0, 1, 1}, {1, 1, 1} },
+        }},
+        { { {0, 0, 1}, {1, 1, 1} }, {
+            { {0, 0, 1}, {1, 0} },
+            { {0, 1}, {1, 1, 1} },
+        }},
     };
 
-    BoardImpl board{2, 2};
-    board.put_cubes(brick.cubes);
-    
-    ASSERT_THAT(board.get_cubes(), Eq(expected_board_cubes));
+    for(const auto& pair : cubes_to_expected)
+    {
+        BoardImpl board{initial_board};
+        board.put_cubes(pair.first);
+
+        ASSERT_THAT(board.get_cubes(), Eq(pair.second));
+    }    
 }
 
 TEST(BoardImpl, remove_lines_and_compress__return_value)
@@ -147,9 +170,14 @@ TEST(BoardImpl, brick_is_valid)
 
 TEST(BoardImpl, get_width)
 {
-    BoardImpl board{10, 20};
+    const vector<pair<BoardImpl, int>> board_to_expected{
+        { {10, 20}, 10 },
+        { {2, 10}, 2 },
+        { {20, 20}, 20 },
+    };
 
-    ASSERT_THAT(board.get_width(), Eq(10));
+    for(const auto& pair : board_to_expected)
+        ASSERT_THAT(pair.first.get_width(), Eq(pair.second));
 }
 
 TEST(BoardImpl, get_offset)
@@ -157,6 +185,7 @@ TEST(BoardImpl, get_offset)
     const vector<pair<BoardImpl, int>> board_to_expected{
         { {10, 20}, 0 },
         { {10, 20, 2}, 2 },
+        { {10, 20, 5}, 5 },
     };
 
     for(const auto& pair : board_to_expected)
