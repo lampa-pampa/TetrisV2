@@ -1,5 +1,6 @@
 #include "bag.h"
 
+#include <utility>
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -10,6 +11,7 @@
 
 using boost::irange;
 using std::vector;
+using std::pair;
 using testing::Eq;
 using Tetris::Bag;
 using Tetris::RngMock;
@@ -17,11 +19,19 @@ using Tetris::RngMock;
 TEST(Bag, get_next)
 {
     RngMock rng{};
-    const vector<int> items{ 0, 1, 2, 3, 4 };
-    Bag bag{items, rng};
-    for (const auto& i : irange(2))
+    const vector<pair<vector<int>, vector<int>>> items_to_expected{
+        { {1, 2, 3}, {1, 2, 3} },
+        { {45, 54, 34}, {45, 54, 34} },
+        { {1, 0, 1}, {1, 0, 1} },
+    };
+    
+    for (const auto& pair : items_to_expected)
     {
-        for (const auto& item : items)
-            ASSERT_THAT(bag.get_next(), Eq(item));
+        Bag bag{pair.first, rng};
+        for(const auto& i : irange(2))
+        {
+            for (const auto& expected : pair.second)
+                ASSERT_THAT(bag.get_next(), Eq(expected));
+        }
     }
 }
