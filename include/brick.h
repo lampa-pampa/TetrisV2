@@ -2,6 +2,8 @@
 #define INCLUDE_BRICK_H
 
 #include <algorithm>
+#include <cstdlib>
+#include <iostream>
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -11,6 +13,8 @@
 
 namespace Tetris
 {
+inline std::ostream& operator<<(
+    std::ostream& os, const std::vector<Cube>& cubes);
 
 struct Brick final
 {
@@ -19,7 +23,17 @@ struct Brick final
     std::vector<Cube> cubes;
     Vector2 rotation_offset;
 
-    friend std::ostream& operator<<(std::ostream& os, const Brick& brick);
+    friend inline std::ostream& operator<<(
+        std::ostream& os, const Brick& brick)
+    { 
+        return os << "{{ " << brick.cubes << " }, "
+            << brick.rotation_offset << "}";
+    }
+
+    static int compute_next_rotation(int rotation, int d_q)
+    {
+        return (rotation + d_q + rotation_quantity) % rotation_quantity;
+    }
 
     static Brick get_colored(const Brick& brick, int color_code)
     {
@@ -40,7 +54,7 @@ struct Brick final
     static Vector2 get_rotated_position(
         Vector2 position, Vector2 rotation_offset, int quarters_rotation)
     {
-        for(const auto& i : boost::irange(quarters_rotation))
+        for (const auto& i : boost::irange(quarters_rotation))
         {
             std::swap(position.x, position.y);
             position.x *= -1;
@@ -63,15 +77,7 @@ struct Brick final
     static Brick get_transformed(
         const Brick& brick, int quarters_rotation, Vector2 position)
     {
-        return get_translated(
-            get_rotated(brick, quarters_rotation),
-            position);
-    }
-
-    bool operator==(const Brick& other) const
-    {
-        return this->cubes == other.cubes
-            and this->rotation_offset == other.rotation_offset;
+        return get_translated(get_rotated(brick, quarters_rotation), position);
     }
     
     Brick(std::vector<Cube> cubes, Vector2 rotation_offset)
@@ -87,6 +93,12 @@ struct Brick final
 
     Brick() = default;
 
+    bool operator==(const Brick& other) const
+    {
+        return this->cubes == other.cubes
+            and this->rotation_offset == other.rotation_offset;
+    }
+
     bool empty() const
     {
         return this->cubes.empty();
@@ -94,44 +106,78 @@ struct Brick final
 
     int get_min_x() const
     {
+        if (this->cubes.empty())
+            return 0;
         return std::min_element(
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
                 return a.position.x < b.position.x;}
-            )->position.x;
+        )->position.x;
     }
 
     int get_max_x() const
     {
+        if (this->cubes.empty())
+            return 0;
         return std::max_element(
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
                 return a.position.x < b.position.x;}
-            )->position.x;
+        )->position.x;
     }
 
     int get_min_y() const
     {
+        if (this->cubes.empty())
+            return 0;
         return std::min_element(
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
                 return a.position.y < b.position.y;}
-            )->position.y;
+        )->position.y;
     }
 
     int get_max_y() const
     {
+        if (this->cubes.empty())
+            return 0;
         return std::max_element(
             this->cubes.begin(),
             this->cubes.end(),
             [](const Cube& a, const Cube& b){
                 return a.position.y < b.position.y;}
-            )->position.y;
+        )->position.y;
+    }
+
+    int get_width() const
+    {
+        if(this->empty())
+            return 0;
+        return std::abs(this->get_max_x() - this->get_min_x()) + 1;
+    }
+
+    int get_height() const
+    {
+        if(this->empty())
+            return 0;
+        return std::abs(this->get_max_y() - this->get_min_y()) + 1;
     }
 };
+
+inline std::ostream& operator<<(
+    std::ostream& os, const std::vector<Cube>& cubes)
+{
+    for (const auto& cube : cubes)
+    {
+        os << cube;
+        if (&cube != &cubes.back())
+            os << ", ";
+    }
+    return os;
+}
 
 }
 
