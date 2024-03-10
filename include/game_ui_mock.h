@@ -12,17 +12,19 @@ namespace Tetris
 
 class GameUiMock final: public GameUi
 {
-    using CubeMatrix = std::vector<std::vector<Cube>>;
-
 public:
     void draw_board(const CubeMatrix& cubes) override {}
-    void draw_next(const Brick& brick) override {}
-    void draw_hold(const Brick& brick) override {}
+    void draw_cur_brick(const std::vector<Cube>& cubes) override {}
+    void draw_ghost_brick(const std::vector<Cube>& cubes) override {}
+    void draw_next_brick(const Brick& brick) override {}
+    void draw_hold_brick(const Brick& brick) override {}
     void draw_score(unsigned long long score) override {}
     void draw_tetrises(unsigned long long tetrises) override {}
+    void refresh() override {}
     void game_over() override {}
     void pause() override {}
     void resume() override {}
+    void input_received(int input) override {}
     void connect_move_left_pressed(
         const std::function<void()>& handler) override {}
     void connect_move_right_pressed(
