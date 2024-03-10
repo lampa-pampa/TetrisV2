@@ -1,6 +1,10 @@
 #ifndef INCLUDE_CONFIG
 #define INCLUDE_CONFIG
 
+#include <vector>
+
+#include "brick.h"
+
 namespace Tetris
 {
 
@@ -32,6 +36,8 @@ struct GameConfig
 
 struct Config
 {
+    std::vector<Brick> bricks;
+    std::vector<int> color_codes;
     DisplayConfig display;
     BoardConfig board;
     ScoreCounterConfig score_counter;
