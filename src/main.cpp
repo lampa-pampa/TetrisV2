@@ -1,10 +1,7 @@
 #include <ncurses.h>
 
-#include "bag.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
-#include "bricks_source.h"
-#include "color_codes_source.h"
 #include "config.h"
 #include "console_matrix_display_impl.h"
 #include "game_controller.h"
@@ -16,13 +13,10 @@
 #include "score_counter_impl.h"
 #include "timer_mock.h"
 
-using Tetris::Bag;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
-using Tetris::bricks_source;
-using Tetris::color_codes_source;
+using Tetris::Config;
 using Tetris::ConsoleMatrixDisplayImpl;
-using Tetris::GameConfig;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::GameState;
@@ -34,18 +28,56 @@ using Tetris::TimerMock;
 
 int main()
 {
-    GameConfig config{4, 2, 3};
+    Config config{
+        {
+            {10, 20, 2},
+            {10, 1, 2},
+            {
+                {{ {-1, 0}, {0, 0}, {1, 0}, {2, 0} }, {1, 0} },
+                {{ {0, -1}, {1, -1}, {0, 0}, {1, 0} }, {0, -1} },
+                {{ {-1, -1}, {0, -1}, {0, 0}, {1, 0} }},
+                {{ {0, -1}, {1, -1}, {-1, 0}, {0, 0} }},
+                {{ {0, -1}, {-1, 0}, {0, 0}, {1, 0} }},
+                {{ {-1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
+                {{ {1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
+            },
+            {1, 2, 3, 4, 5, 6, 7},
+            1,
+            true
+        },
+        {64, 64},
+    };
     TimerMock timer{};
     NCursesColors colors{};
-    ConsoleMatrixDisplayImpl matrix{64, 64, colors};
+    ConsoleMatrixDisplayImpl matrix{
+        config.display.width,
+        config.display.height,
+        colors
+    };
     MatrixDisplayGameUiImpl ui{matrix};
-    BoardImpl board{10, 22};
+    BoardImpl board{
+        config.game.board.width,
+        config.game.board.height,
+        config.game.board.offset
+    };
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{
-        Bag{bricks_source, rng},
-        Bag{color_codes_source, rng}};
-    ScoreCounterImpl score_counter{10, 1, 2};
-    GameImpl game{config, ui, board, brick_generator, score_counter};
+        {config.game.bricks, rng},
+        {config.game.color_codes, rng}
+    };
+    ScoreCounterImpl score_counter{
+        config.game.score_counter.score_for_line,    
+        config.game.score_counter.score_for_soft_drop,    
+        config.game.score_counter.score_for_hard_drop,    
+    };
+    GameImpl game{
+        ui,
+        board,
+        brick_generator,
+        score_counter,
+        config.game.brick_spawn_position_y,
+        config.game.generate_ghost
+    };
     GameController game_controller{timer, game};
     
     timer.connect_timeout([&game](){ game.handle_timeout(); });

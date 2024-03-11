@@ -6,6 +6,7 @@ add_executable(all_tests
     test_board_impl.cpp
     test_cube.cpp
     test_game_impl.cpp
+    test_vector_2.cpp
 )
 
 include(FetchContent)

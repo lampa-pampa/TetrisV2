@@ -10,13 +10,7 @@ target_include_directories(TETRIS_V2
 
 target_sources(TETRIS_V2
     PRIVATE
-        brick.cpp
-        board_impl.cpp
-        game_controller.cpp
         game_impl.cpp
-        matrix_display_game_ui_impl.cpp
-        ncurses_colors.cpp
-        console_matrix_display_impl.cpp
 )
 
 add_executable(tetris_v2
