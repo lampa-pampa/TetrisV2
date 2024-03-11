@@ -30,18 +30,18 @@ struct ScoreCounterConfig
 
 struct GameConfig
 {
+    BoardConfig board;
+    ScoreCounterConfig score_counter;
+    std::vector<Brick> bricks;
+    std::vector<int> color_codes;
     int brick_spawn_position_y;
     bool generate_ghost;
 };
 
 struct Config
 {
-    std::vector<Brick> bricks;
-    std::vector<int> color_codes;
-    DisplayConfig display;
-    BoardConfig board;
-    ScoreCounterConfig score_counter;
     GameConfig game;
+    DisplayConfig display;
 };
 
 }
