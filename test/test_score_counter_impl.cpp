@@ -22,9 +22,9 @@ TEST(ScoreCounterImpl, test_count_score_for_lines)
         { {15, 2, 9}, 15},
     };
 
-    for(const auto& pair : score_counter_to_expected)
+    for (const auto& pair : score_counter_to_expected)
     {
-        for(const auto& lines_quantity : irange(3))
+        for (const auto& lines_quantity : irange(3))
         {
             const int actual{pair.first.count_score_for_lines(lines_quantity)};
             
@@ -41,7 +41,7 @@ TEST(ScoreCounterImpl, test_count_score_for_soft_drop)
         { {15, 2, 9}, 2},
     };
 
-    for(const auto& pair : score_counter_to_expected)
+    for (const auto& pair : score_counter_to_expected)
         ASSERT_THAT(pair.first.count_score_for_soft_drop(), Eq(pair.second));
 }
 
@@ -53,9 +53,9 @@ TEST(ScoreCounterImpl, test_count_score_for_hard_drop)
         { {15, 2, 9}, 9},
     };
 
-    for(const auto& pair : score_counter_to_expected)
+    for (const auto& pair : score_counter_to_expected)
     {
-        for(const auto& distance : irange(10))
+        for (const auto& distance : irange(10))
         {
             const int actual{pair.first.count_score_for_hard_drop(distance)};
             

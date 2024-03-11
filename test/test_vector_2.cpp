@@ -21,7 +21,7 @@ TEST(Vector2, abs)
         { {1, -3}, {1, 3} },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
         ASSERT_THAT(pair.first.abs(), Eq(pair.second));
 }
 
@@ -35,7 +35,7 @@ TEST(Vector2, operator_greater_than_or_equal_to_vector_2)
         { {6, 8}, true },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
         ASSERT_THAT(pair.first >= initial_vector, Eq(pair.second));
 }
 
@@ -48,7 +48,7 @@ TEST(Vector2, operator_equal_to_vector_2)
         { {2, 1}, true },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
         ASSERT_THAT(pair.first == initial_vector, Eq(pair.second));
 }
 
@@ -62,7 +62,7 @@ TEST(Vector2, operator_addition_assignment_vector_2)
         { {-4, -3}, {-3, -1} },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
     {
         Vector2 vector_2{initial_vector};
         vector_2 += pair.first;
@@ -81,7 +81,7 @@ TEST(Vector2, operator_addition_vector_2)
         { {-4, -3}, {-2, 2} },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
         ASSERT_THAT(initial_vector + pair.first, Eq(pair.second));
 }
 
@@ -95,7 +95,7 @@ TEST(Vector2, operator_subtraction_vector_2)
         { {3, 3}, {6, 5} },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
         ASSERT_THAT(initial_vector - pair.first, Eq(pair.second));
 }
 
@@ -109,7 +109,7 @@ TEST(Vector2, operator_multiplication_vector_2)
         { {-9, -2}, {-27, -8} },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
         ASSERT_THAT(initial_vector * pair.first, Eq(pair.second));
 }
 
@@ -123,7 +123,7 @@ TEST(Vector2, operator_division_vector_2)
         { {-7, -3}, {0, -2} },
     };
 
-    for(const auto& pair : vector_2_to_expected)
+    for (const auto& pair : vector_2_to_expected)
         ASSERT_THAT(initial_vector / pair.first, Eq(pair.second));
 }
 
@@ -137,7 +137,7 @@ TEST(Vector2, operator_addition_int)
         { -9, {-3, -7} },
     };
 
-    for(const auto& pair : number_to_expected)
+    for (const auto& pair : number_to_expected)
         ASSERT_THAT(initial_vector + pair.first, Eq(pair.second));
 }
 
@@ -151,7 +151,7 @@ TEST(Vector2, operator_subtraction_int)
         { -3, {4, 3} },
     };
 
-    for(const auto& pair : number_to_expected)
+    for (const auto& pair : number_to_expected)
         ASSERT_THAT(initial_vector - pair.first, Eq(pair.second));
 }
 
@@ -165,7 +165,7 @@ TEST(Vector2, operator_multiplication_int)
         { -5, {-25, -35} },
     };
 
-    for(const auto& pair : number_to_expected)
+    for (const auto& pair : number_to_expected)
         ASSERT_THAT(initial_vector * pair.first, Eq(pair.second));
 }
 
@@ -179,6 +179,6 @@ TEST(Vector2, operator_division_int)
         { -5, {-1, 0} },
     };
 
-    for(const auto& pair : number_to_expected)
+    for (const auto& pair : number_to_expected)
         ASSERT_THAT(initial_vector / pair.first, Eq(pair.second));
 }

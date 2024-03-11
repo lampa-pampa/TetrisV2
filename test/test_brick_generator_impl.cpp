@@ -47,7 +47,7 @@ TEST(BrickGeneratorImpl, generate)
         }},
     };
 
-    for(const auto& pair : gen_to_expected)
+    for (const auto& pair : gen_to_expected)
     {
         BrickGeneratorImpl brick_generator{pair.first};
         for (const auto& i : irange(2))

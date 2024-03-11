@@ -42,7 +42,7 @@ TEST(BoardImpl, BoardImpl)
         }},
     };
 
-    for(const auto& pair : board_to_expected)
+    for (const auto& pair : board_to_expected)
         ASSERT_THAT(pair.first.get_cubes(), Eq(pair.second));
 }
 
@@ -64,7 +64,7 @@ TEST(BoardImpl, put_cubes)
         }},
     };
 
-    for(const auto& pair : cubes_to_expected)
+    for (const auto& pair : cubes_to_expected)
     {
         BoardImpl board{initial_board};
         board.put_cubes(pair.first);
@@ -140,7 +140,7 @@ TEST(BoardImpl, get_width)
         { {20, 20}, 20 },
     };
 
-    for(const auto& pair : board_to_expected)
+    for (const auto& pair : board_to_expected)
         ASSERT_THAT(pair.first.get_width(), Eq(pair.second));
 }
 
@@ -152,7 +152,7 @@ TEST(BoardImpl, get_offset)
         { {10, 20, 5}, 5 },
     };
 
-    for(const auto& pair : board_to_expected)
+    for (const auto& pair : board_to_expected)
         ASSERT_THAT(pair.first.get_offset(), Eq(pair.second));
 }
 

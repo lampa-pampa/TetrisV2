@@ -154,14 +154,14 @@ struct Brick final
 
     int get_width() const
     {
-        if(this->empty())
+        if (this->empty())
             return 0;
         return std::abs(this->get_max_x() - this->get_min_x()) + 1;
     }
 
     int get_height() const
     {
-        if(this->empty())
+        if (this->empty())
             return 0;
         return std::abs(this->get_max_y() - this->get_min_y()) + 1;
     }

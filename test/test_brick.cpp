@@ -31,7 +31,7 @@ TEST(Brick, compute_next_rotation)
         {-4, 0},
     };
 
-    for(const auto& pair: delta_quarters_to_expected)
+    for (const auto& pair: delta_quarters_to_expected)
     {
         const int actual{
             Brick::compute_next_rotation(initial_rotation, pair.first)
@@ -50,7 +50,7 @@ TEST(Brick, get_colored)
         { 6, {{ {2, 8, 6}, {1, 2, 6} }} },
     };
 
-    for(const auto& pair: color_code_to_expected)
+    for (const auto& pair: color_code_to_expected)
     {
         const Brick actual{Brick::get_colored(initial_brick, pair.first)};
 
@@ -68,7 +68,7 @@ TEST(Brick, get_translated)
         { {-4, -8}, {{ {2, -5}, {-2, -4} }} },
     };
 
-    for(const auto& pair: position_to_expected)
+    for (const auto& pair: position_to_expected)
     {
         const Brick actual{Brick::get_translated(initial_brick, pair.first)};
 
@@ -93,9 +93,9 @@ TEST(Brick, get_rotated)
         }},
     };
 
-    for(const auto& pair: brick_to_expected)
+    for (const auto& pair: brick_to_expected)
     {
-        for(const auto& i : irange(Brick::rotation_quantity))
+        for (const auto& i : irange(Brick::rotation_quantity))
         {
             const Brick actual{Brick::get_rotated(pair.first, i)};
 
@@ -113,7 +113,7 @@ TEST(Brick, get_transformed)
         { { 3, {5, 8} }, {{ {7, 5}, {6, 4} }} },
     };
 
-    for(const auto& pair: args_to_expected)
+    for (const auto& pair: args_to_expected)
     {
         const auto&[rotation, position]{pair.first};
         const Brick actual{
@@ -133,7 +133,7 @@ TEST(Brick, get_min_x)
         { {{}}, 0 },
     };
 
-    for(const auto& pair: brick_to_expected)
+    for (const auto& pair: brick_to_expected)
         ASSERT_THAT(pair.first.get_min_x(), Eq(pair.second));
 }
 
@@ -146,7 +146,7 @@ TEST(Brick, get_max_x)
         { {{}}, 0 },
     };
 
-    for(const auto& pair: brick_to_expected)
+    for (const auto& pair: brick_to_expected)
         ASSERT_THAT(pair.first.get_max_x(), Eq(pair.second));
 }
 
@@ -159,7 +159,7 @@ TEST(Brick, get_min_y)
         { {{}}, 0 },
     };
 
-    for(const auto& pair: brick_to_expected)
+    for (const auto& pair: brick_to_expected)
         ASSERT_THAT(pair.first.get_min_y(), Eq(pair.second));
 }
 
@@ -172,7 +172,7 @@ TEST(Brick, get_max_y)
         { {{}}, 0 },
     };
 
-    for(const auto& pair: brick_to_expected)
+    for (const auto& pair: brick_to_expected)
         ASSERT_THAT(pair.first.get_max_y(), Eq(pair.second));
 }
 
@@ -185,7 +185,7 @@ TEST(Brick, get_width)
         { {{}}, 0 },
     };
 
-    for(const auto& pair: brick_to_expected)
+    for (const auto& pair: brick_to_expected)
         ASSERT_THAT(pair.first.get_width(), Eq(pair.second));
 }
 
@@ -198,6 +198,6 @@ TEST(Brick, get_height)
         { {{}}, 0 },
     };
 
-    for(const auto& pair: brick_to_expected)
+    for (const auto& pair: brick_to_expected)
         ASSERT_THAT(pair.first.get_height(), Eq(pair.second));
 }

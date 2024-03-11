@@ -21,7 +21,7 @@ TEST(Cube, empty)
         { {8, 0, 2}, false },
     };
 
-    for(const auto& pair : cube_to_expected)    
+    for (const auto& pair : cube_to_expected)    
         ASSERT_THAT(pair.first.empty(), Eq(pair.second));
 }
 
@@ -34,7 +34,7 @@ TEST(Cube, clear)
         { {8, 0, 2}, {8, 0} },
     };
 
-    for(const auto& pair : cube_to_expected)
+    for (const auto& pair : cube_to_expected)
     {
         Cube cube{pair.first};
         cube.clear();

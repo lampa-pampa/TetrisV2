@@ -148,7 +148,7 @@ TEST(GameImpl, GameImpl)
         }},
     };
 
-    for(const auto& pair : game_to_expected)
+    for (const auto& pair : game_to_expected)
     {
         const auto&[
             state,
@@ -221,7 +221,7 @@ TEST(GameImpl, handle_soft_drop)
         }},
     };
 
-    for(const auto& pair : soft_drops_to_expected)
+    for (const auto& pair : soft_drops_to_expected)
     {
         const auto&[
             state,
@@ -233,7 +233,7 @@ TEST(GameImpl, handle_soft_drop)
         
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(pair.first))
+        for (const auto& i : irange(pair.first))
             game.handle_soft_drop();
 
         ASSERT_THAT(game.get_state(), Eq(state));
@@ -280,7 +280,7 @@ TEST(GameImpl, handle_timeout)
         }},
     };
 
-    for(const auto& pair : timeouts_to_expected)
+    for (const auto& pair : timeouts_to_expected)
     {
         const auto&[
             state,
@@ -291,7 +291,7 @@ TEST(GameImpl, handle_timeout)
         
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(pair.first))
+        for (const auto& i : irange(pair.first))
             game.handle_timeout();
 
         ASSERT_THAT(game.get_state(), Eq(state));
@@ -318,11 +318,11 @@ TEST(GameImpl, handle_move_left)
         { 3, {0, 0} },
     };
 
-    for(const auto& pair : moves_left_to_expected)
+    for (const auto& pair : moves_left_to_expected)
     {        
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(pair.first))
+        for (const auto& i : irange(pair.first))
             game.handle_move_left();
 
         ASSERT_THAT(game.get_cur_brick_position(), Eq(pair.second));
@@ -346,11 +346,11 @@ TEST(GameImpl, handle_move_right)
         { 3, {4, 0} },
     };
 
-    for(const auto& pair : moves_right_to_expected)
+    for (const auto& pair : moves_right_to_expected)
     {        
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(pair.first))
+        for (const auto& i : irange(pair.first))
             game.handle_move_right();
 
         ASSERT_THAT(game.get_cur_brick_position(), Eq(pair.second));
@@ -375,7 +375,7 @@ TEST(GameImpl, handle_rotate_clockwise)
         { {2, 0, 3}, 0 },
     };
 
-    for(const auto& pair : timeouts_moves_left_and_rotations_to_expected)
+    for (const auto& pair : timeouts_moves_left_and_rotations_to_expected)
     {
         const auto&[
             timeouts,
@@ -385,11 +385,11 @@ TEST(GameImpl, handle_rotate_clockwise)
         
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(moves_left))
+        for (const auto& i : irange(moves_left))
             game.handle_move_left();
-        for(const auto& i : irange(timeouts))
+        for (const auto& i : irange(timeouts))
             game.handle_timeout();
-        for(const auto& i : irange(rotations))
+        for (const auto& i : irange(rotations))
             game.handle_rotate_clockwise();
 
         ASSERT_THAT(game.get_cur_brick_rotation(), Eq(pair.second));
@@ -414,7 +414,7 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
         { {2, 0, 3}, 0 },
     };
 
-    for(const auto& pair : timeouts_moves_right_and_rotations_to_expected)
+    for (const auto& pair : timeouts_moves_right_and_rotations_to_expected)
     {
         const auto&[
             timeouts,
@@ -424,11 +424,11 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
         
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(timeouts))
+        for (const auto& i : irange(timeouts))
             game.handle_timeout();
-        for(const auto& i : irange(moves_right))
+        for (const auto& i : irange(moves_right))
             game.handle_move_right();
-        for(const auto& i : irange(rotations))
+        for (const auto& i : irange(rotations))
             game.handle_rotate_counter_clockwise();
 
         ASSERT_THAT(game.get_cur_brick_rotation(), Eq(pair.second));
@@ -475,7 +475,7 @@ TEST(GameImpl, handle_hard_drop)
         }},
     };
 
-    for(const auto& pair : hard_drops_to_expected)
+    for (const auto& pair : hard_drops_to_expected)
     {
         const auto&[
             state,
@@ -487,7 +487,7 @@ TEST(GameImpl, handle_hard_drop)
         
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(pair.first))
+        for (const auto& i : irange(pair.first))
             game.handle_hard_drop();
 
         ASSERT_THAT(game.get_state(), Eq(state));
@@ -539,7 +539,7 @@ TEST(GameImpl, handle_hold)
         }},  
     };
 
-    for(const auto& pair : timeouts_before_and_after_to_expected)
+    for (const auto& pair : timeouts_before_and_after_to_expected)
     {
         const auto&[timeouts_before, timeouts_after]{pair.first};
         const auto&[
@@ -552,11 +552,11 @@ TEST(GameImpl, handle_hold)
         
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
-        for(const auto& i : irange(timeouts_before))
+        for (const auto& i : irange(timeouts_before))
             game.handle_timeout();
-        for(const auto& i : irange(2))
+        for (const auto& i : irange(2))
             game.handle_hold();
-        for(const auto& i : irange(timeouts_after))
+        for (const auto& i : irange(timeouts_after))
             game.handle_timeout();
 
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
