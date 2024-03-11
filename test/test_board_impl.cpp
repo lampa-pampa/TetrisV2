@@ -1,5 +1,6 @@
 #include "board_impl.h"
 
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -9,6 +10,7 @@
 #include "brick.h"
 #include "cube.h"
 
+using std::tuple;
 using std::pair;
 using std::vector;
 using testing::Eq;
@@ -19,12 +21,6 @@ using Tetris::Cube;
 namespace
 {
     using CubeMatrix = vector<vector<Cube>>;
-    
-    struct Range
-    {
-        int from_y;
-        int to_y;
-    };
 }
 
 TEST(BoardImpl, BoardImpl)
@@ -78,19 +74,18 @@ TEST(BoardImpl, put_cubes)
 
 TEST(BoardImpl, remove_lines_and_compress__return_value)
 {
-    const vector<pair<vector<Cube>, vector<int>>> initial_cubes_to_expected{
+    const vector<pair<vector<Cube>, vector<int>>> cubes_to_expected{
         { { {0, 0, 1}, {0, 1, 1} }, {} },
         { { {0, 0, 1}, {1, 0, 1} }, {0} },
         { { {0, 0, 1}, {1, 0, 1}, {0, 1, 1}, {1, 1, 1} }, {0, 1} },
     };
-    const Range range{0, 1};
 
-    for (const auto& pair : initial_cubes_to_expected)
+    for (const auto& pair : cubes_to_expected)
     {
         BoardImpl board{2, 2};
         board.put_cubes(pair.first);
         const vector actual{
-            board.remove_lines_and_compress(range.from_y, range.to_y)
+            board.remove_lines_and_compress(0, 1)
         };
 
         ASSERT_THAT(actual, Eq(pair.second));
@@ -102,7 +97,7 @@ TEST(BoardImpl, remove_lines_and_compress__range)
     const vector<Cube> initial_cubes{
         {0, 0, 1}, {1, 0, 1}, {0, 2, 1}, {1, 2, 1}
     };
-    const vector<pair<Range, vector<int>>> range_to_expected{
+    const vector<pair<tuple<int, int>, vector<int>>> range_to_expected{
         { {1, 1}, {} },
         { {0, 0}, {0} },
         { {0, 2}, {0, 2} },
@@ -112,8 +107,9 @@ TEST(BoardImpl, remove_lines_and_compress__range)
     {
         BoardImpl board{2, 3};
         board.put_cubes(initial_cubes);
+        const auto& [from_y, to_y]{pair.first};
         const vector actual{
-            board.remove_lines_and_compress(pair.first.from_y, pair.first.to_y)
+            board.remove_lines_and_compress(from_y, to_y)
         };
 
         ASSERT_THAT(actual, Eq(pair.second));
@@ -122,7 +118,7 @@ TEST(BoardImpl, remove_lines_and_compress__range)
 
 TEST(BoardImpl, remove_lines_and_compress__cubes)
 {
-    const vector<pair<vector<Cube>, CubeMatrix>> initial_cubes_to_expected{
+    const vector<pair<vector<Cube>, CubeMatrix>> cubes_to_expected{
         { { {0, 0, 1}, {0, 1, 1}, {1, 1, 1} }, {
             { {0, 0}, {1, 0} },
             { {0, 1, 1}, {1, 1} },
@@ -136,13 +132,12 @@ TEST(BoardImpl, remove_lines_and_compress__cubes)
             { {0, 1}, {1, 1} },
         }},
     };
-    const Range range{0, 1};
 
-    for (const auto& pair : initial_cubes_to_expected)
+    for (const auto& pair : cubes_to_expected)
     {
         BoardImpl board{2, 2};
         board.put_cubes(pair.first);
-        board.remove_lines_and_compress(range.from_y, range.to_y);
+        board.remove_lines_and_compress(0, 1);
 
         ASSERT_THAT(board.get_cubes(), Eq(pair.second));
     }    

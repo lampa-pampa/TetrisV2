@@ -1,5 +1,6 @@
 #include "brick.h"
 
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -11,19 +12,11 @@
 
 using boost::irange;
 using std::pair;
+using std::tuple;
 using std::vector;
 using testing::Eq;
 using Tetris::Brick;
 using Tetris::Vector2;
-
-namespace
-{
-    struct TransformArgs
-    {
-        int rotation;
-        Vector2 position;
-    };
-}
 
 TEST(Brick, compute_next_rotation)
 {
@@ -113,7 +106,7 @@ TEST(Brick, get_rotated)
 TEST(Brick, get_transformed)
 {
     const Brick initial_brick{{ {3, 2}, {4, 1} }};
-    const vector<pair<TransformArgs, Brick>> args_to_expected{
+    const vector<pair<tuple<int, Vector2>, Brick>> args_to_expected{
         { { 1, {2, 3} }, {{ {0, 6}, {1, 7} }} },
         { { 2, {6, 9} }, {{ {3, 7}, {2, 8} }} },
         { { 3, {5, 8} }, {{ {7, 5}, {6, 4} }} },
@@ -121,10 +114,9 @@ TEST(Brick, get_transformed)
 
     for(const auto& pair: args_to_expected)
     {
-        const TransformArgs args{pair.first};
+        const auto&[rotation, position]{pair.first};
         const Brick actual{
-            Brick::get_transformed(
-                initial_brick, args.rotation, args.position)
+            Brick::get_transformed(initial_brick, rotation, position)
         };
 
         ASSERT_THAT(actual, Eq(pair.second));
