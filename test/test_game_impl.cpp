@@ -1,108 +1,568 @@
-#include <algorithm>
-#include <functional>
+#include "game_impl.h"
+
+#include <tuple>
+#include <utility>
 #include <vector>
 
+#include <boost/range/irange.hpp>
+#include <gmock/gmock-matchers.h>
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "bag.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "brick.h"
 #include "config.h"
-#include "game_impl.h"
 #include "game_state.h"
 #include "game_ui_mock.h"
 #include "rng_mock.h"
-#include "score_counter_mock.h"
+#include "score_counter_impl.h"
 #include "vector_2.h"
 
-using std::find;
-using std::function;
+using boost::irange;
+using std::pair;
+using std::tuple;
 using std::vector;
 using testing::Eq;
-using Tetris::Bag;
 using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
-using Tetris::Cube;
 using Tetris::GameConfig;
 using Tetris::GameImpl;
 using Tetris::GameState;
 using Tetris::GameUiMock;
 using Tetris::RngMock;
-using Tetris::ScoreCounterMock;
+using Tetris::ScoreCounterImpl;
 using Tetris::Vector2;
 
-namespace {
-    using CubeMatrix = vector<vector<Cube>>;
-
-    void for_each_cube_assert_true(
-        const CubeMatrix& cubes,
-        function<bool(Cube cube)> compare
-    ){
-        for (const auto& row : cubes)
-        {
-            for (const auto& cube : row)
-                ASSERT_THAT(compare(cube), Eq(true));
-        }
-    }
-    bool is_in(Cube cube, vector<Cube> cubes)
+namespace
+{
+    struct GameImplTest
     {
-        return find(cubes.begin(), cubes.end(), cube) != cubes.end();
-    }
+        GameImplTest(GameConfig config)
+        :
+            ui{},
+            board{
+                config.board.width,
+                config.board.height,
+                config.board.offset
+            },
+            rng{},
+            brick_generator{
+                {config.bricks, rng},
+                {config.color_codes, rng}
+            },
+            score_counter{
+                config.score_counter.score_for_line,
+                config.score_counter.score_for_soft_drop,
+                config.score_counter.score_for_hard_drop,
+            },
+            game{
+                ui,
+                board,
+                brick_generator,
+                score_counter,
+                config.brick_spawn_position_y,
+                config.generate_ghost
+            }
+        {}
+        GameUiMock ui;
+        BoardImpl board;
+        RngMock rng;
+        BrickGeneratorImpl brick_generator;
+        ScoreCounterImpl score_counter;
+        GameImpl game;
+    };
 }
 
 TEST(GameImpl, GameImpl)
 {
-    const Brick brick{{ {0, 0}, {0, 1}, {1, 1} }};
-    GameUiMock ui{};
-    BoardImpl board{10, 20};
-    RngMock rng{};
-    BrickGeneratorImpl brick_generator{
-        Bag{{brick}, rng},
-        Bag{{3, 1}, rng}
+    const vector<pair<GameImplTest, tuple<
+        GameState,
+        unsigned long long,
+        unsigned long long,
+        Brick,
+        Vector2,
+        int,
+        Brick,
+        Brick,
+        bool,
+        bool>>> game_to_expected
+    {
+        {{{
+            {5, 10, 0},
+            {1, 2, 4},
+            { {{ {0, 0}, {0, 1} }} },
+            {2},
+            5,
+            false
+        }}, {
+            GameState::in_progress,
+            0,
+            0,
+            {{ {0, 0, 2}, {0, 1, 2} }},
+            {2, 5},
+            0,
+            {{ {0, 0, 2}, {0, 1, 2} }},
+            {{}},
+            true,
+            false
+        }},
+        {{{
+            {3, 3, 2},
+            {3, 12, 24},
+            { {{ {0, 0}, {1, 2} }}, {{ {0, 0}, {1, 3} }} },
+            {4, 6},
+            1,
+            true
+        }}, {
+            GameState::in_progress,
+            0,
+            0,
+            {{ {0, 0, 4}, {1, 2, 4} }},
+            {1, 2},
+            0,
+            {{ {0, 0, 6}, {1, 3, 6} }},
+            {{}},
+            true,
+            true
+        }},
+        {{{
+            {10, 20, 2},
+            {0, 0, 0},
+            { {{ {0, 0}, {1, 0} }}, {{ {-1, 0}, {0, 0} }} },
+            {3, 5},
+            1,
+            true
+        }}, {
+            GameState::in_progress,
+            0,
+            0,
+            {{ {0, 0, 3}, {1, 0, 3} }},
+            {4, 3},
+            0,
+            {{ {-1, 0, 5}, {0, 0, 5} }},
+            {{}},
+            true,
+            true
+        }},
     };
-    ScoreCounterMock score_counter{};
-    GameConfig config{0, false};
-    GameImpl game{
-        ui,
-        board,
-        brick_generator,
-        score_counter,
-        config.brick_start_position_y,
-        config.generate_ghost
-    };
-    const Brick expected_cur_brick{Brick::get_colored(brick, 3)};
-    const Brick expected_next_brick{Brick::get_colored(brick, 1)};
-    const Brick expected_hold_brick{};
-    const Vector2 expected_cur_brick_position{4, 0};
-    const int expected_cur_brick_rotation{0};
-    const Brick transformed_expected_cur_brick{Brick::get_transformed(
-        expected_cur_brick,
-        expected_cur_brick_rotation,
-        expected_cur_brick_position
-    )};
-    const CubeMatrix board_cubes{board.get_cubes()};
 
-    ASSERT_THAT(game.get_state(), Eq(GameState::in_progress));
-    ASSERT_THAT(game.get_score(), Eq(0));
-    ASSERT_THAT(game.get_tetrises(), Eq(0));
-    ASSERT_THAT(game.get_cur_brick(), Eq(expected_cur_brick));
-    ASSERT_THAT(game.get_next_brick(), Eq(expected_next_brick));
-    ASSERT_THAT(
-        game.get_cur_brick_rotation(),
-        Eq(expected_cur_brick_rotation)
-    );
-    ASSERT_THAT(
-        game.get_cur_brick_position(),
-        Eq(expected_cur_brick_position)
-    );
-    ASSERT_THAT(game.get_hold_brick(), Eq(expected_hold_brick));
-    for_each_cube_assert_true(
-        board_cubes,
-        [transformed_expected_cur_brick](Cube cube){
-            return cube.empty() != is_in(
-                cube,
-                transformed_expected_cur_brick.cubes);});
+    for(const auto& pair : game_to_expected)
+    {
+        const auto&[
+            state,
+            score,
+            tetrises,
+            cur_brick,
+            cur_brick_position,
+            cur_brick_rotation,
+            next_brick,
+            hold_brick,
+            can_hold,
+            generate_ghost
+        ]{pair.second};
+
+        const GameImpl& game{pair.first.game};
+
+        ASSERT_THAT(game.get_state(), Eq(state));
+        ASSERT_THAT(game.get_score(), Eq(score));
+        ASSERT_THAT(game.get_tetrises(), Eq(tetrises));
+        ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
+        ASSERT_THAT(
+            game.get_cur_brick_position(), Eq(cur_brick_position));
+        ASSERT_THAT(
+            game.get_cur_brick_rotation(), Eq(cur_brick_rotation));
+        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_hold_brick(), Eq(hold_brick));
+        ASSERT_THAT(game.get_can_hold(), Eq(can_hold));
+        ASSERT_THAT(game.get_generate_ghost(), Eq(generate_ghost));
+    }
+
+}
+
+TEST(GameImpl, handle_soft_drop)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {1, 2, 3},
+        { {{ {0, 0} }} },
+        {1, 2, 3},
+        0,
+        false
+    };
+    const vector<pair<int, tuple<
+        GameState,
+        int,
+        Brick,
+        Vector2,
+        Brick>>> soft_drops_to_expected
+    {
+        { 1, {
+            GameState::in_progress,
+            2,
+            {{ {0, 0, 1} }},
+            {1, 1},
+            {{ {0, 0, 2} }}
+        }},
+        { 4, {
+            GameState::in_progress,
+            8,
+            {{ {0, 0, 2} }},
+            {1, 1},
+            {{ {0, 0, 3} }}
+        }},
+        { 6, {
+            GameState::ended,
+            12,
+            {{ {0, 0, 1} }},
+            {1, 0},
+            {{ {0, 0, 2} }}
+        }},
+    };
+
+    for(const auto& pair : soft_drops_to_expected)
+    {
+        const auto&[
+            state,
+            score,
+            cur_brick,
+            cur_brick_position,
+            next_brick
+        ]{pair.second};
+        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(pair.first))
+            game.handle_soft_drop();
+
+        ASSERT_THAT(game.get_state(), Eq(state));
+        ASSERT_THAT(game.get_score(), Eq(score));
+        ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
+        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+    }
+}
+
+TEST(GameImpl, handle_timeout)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {1, 2, 3},
+        { {{ {0, 0} }} },
+        {1, 2, 3},
+        0,
+        false
+    };
+    const vector<pair<int, tuple<
+        GameState,
+        Brick,
+        Vector2,
+        Brick>>> timeouts_to_expected
+    {
+        { 1, {
+            GameState::in_progress,
+            {{ {0, 0, 1} }},
+            {1, 1},
+            {{ {0, 0, 2} }}
+        }},
+        { 4, {
+            GameState::in_progress,
+            {{ {0, 0, 2} }},
+            {1, 1},
+            {{ {0, 0, 3} }}
+        }},
+        { 6, {
+            GameState::ended,
+            {{ {0, 0, 1} }},
+            {1, 0},
+            {{ {0, 0, 2} }}
+        }},
+    };
+
+    for(const auto& pair : timeouts_to_expected)
+    {
+        const auto&[
+            state,
+            cur_brick,
+            cur_brick_position,
+            next_brick
+        ]{pair.second};
+        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(pair.first))
+            game.handle_timeout();
+
+        ASSERT_THAT(game.get_state(), Eq(state));
+        ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
+        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+    }
+}
+
+TEST(GameImpl, handle_move_left)
+{
+    const GameConfig initial_config{
+        {5, 3, 0},
+        {0, 0, 0},
+        { {{ {0, 0} }} },
+        {1},
+        0,
+        false
+    };
+    const vector<pair<int, Vector2>> moves_left_to_expected
+    {
+        { 1, {1, 0} },
+        { 2, {0, 0} },
+        { 3, {0, 0} },
+    };
+
+    for(const auto& pair : moves_left_to_expected)
+    {        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(pair.first))
+            game.handle_move_left();
+
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(pair.second));
+    }
+}
+
+TEST(GameImpl, handle_move_right)
+{
+    const GameConfig initial_config{
+        {5, 3, 0},
+        {0, 0, 0},
+        { {{ {0, 0} }} },
+        {1},
+        0,
+        false
+    };
+    const vector<pair<int, Vector2>> moves_right_to_expected
+    {
+        { 1, {3, 0} },
+        { 2, {4, 0} },
+        { 3, {4, 0} },
+    };
+
+    for(const auto& pair : moves_right_to_expected)
+    {        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(pair.first))
+            game.handle_move_right();
+
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(pair.second));
+    }
+}
+
+TEST(GameImpl, handle_rotate_clockwise)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {0, 0, 0},
+        { {{ {0, 0}, {1, 0} }} },
+        {1},
+        0,
+        false
+    };
+    const vector<pair<tuple<int, int, int>,
+        int>> timeouts_moves_left_and_rotations_to_expected
+    {
+        { {1, 0, 3}, 3 },
+        { {0, 1, 2}, 1 },
+        { {2, 0, 3}, 0 },
+    };
+
+    for(const auto& pair : timeouts_moves_left_and_rotations_to_expected)
+    {
+        const auto&[
+            timeouts,
+            moves_left,
+            rotations
+        ]{pair.first};
+        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(moves_left))
+            game.handle_move_left();
+        for(const auto& i : irange(timeouts))
+            game.handle_timeout();
+        for(const auto& i : irange(rotations))
+            game.handle_rotate_clockwise();
+
+        ASSERT_THAT(game.get_cur_brick_rotation(), Eq(pair.second));
+    }
+}
+
+TEST(GameImpl, handle_rotate_counter_clockwise)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {0, 0, 0},
+        { {{ {-1, 0}, {0, 0} }} },
+        {1},
+        0,
+        false
+    };
+    const vector<pair<tuple<int, int, int>,
+        int>> timeouts_moves_right_and_rotations_to_expected
+    {
+        { {1, 0, 3}, 1 },
+        { {0, 1, 2}, 3 },
+        { {2, 0, 3}, 0 },
+    };
+
+    for(const auto& pair : timeouts_moves_right_and_rotations_to_expected)
+    {
+        const auto&[
+            timeouts,
+            moves_right,
+            rotations
+        ]{pair.first};
+        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(timeouts))
+            game.handle_timeout();
+        for(const auto& i : irange(moves_right))
+            game.handle_move_right();
+        for(const auto& i : irange(rotations))
+            game.handle_rotate_counter_clockwise();
+
+        ASSERT_THAT(game.get_cur_brick_rotation(), Eq(pair.second));
+    }
+}
+
+TEST(GameImpl, handle_hard_drop)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {1, 2, 3},
+        { {{ {0, 0} }} },
+        {1, 2, 3},
+        0,
+        false
+    };
+    const vector<pair<int, tuple<
+        GameState,
+        int,
+        Brick,
+        Vector2,
+        Brick>>> hard_drops_to_expected
+    {
+        { 1, {
+            GameState::in_progress,
+            6,
+            {{ {0, 0, 2} }},
+            {1, 0},
+            {{ {0, 0, 3} }}
+        }},
+        { 2, {
+            GameState::in_progress,
+            9,
+            {{ {0, 0, 3} }},
+            {1, 0},
+            {{ {0, 0, 1} }}
+        }},
+        { 4, {
+            GameState::ended,
+            9,
+            {{ {0, 0, 1} }},
+            {1, 0},
+            {{ {0, 0, 2} }}
+        }},
+    };
+
+    for(const auto& pair : hard_drops_to_expected)
+    {
+        const auto&[
+            state,
+            score,
+            cur_brick,
+            cur_brick_position,
+            next_brick
+        ]{pair.second};
+        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(pair.first))
+            game.handle_hard_drop();
+
+        ASSERT_THAT(game.get_state(), Eq(state));
+        ASSERT_THAT(game.get_score(), Eq(score));
+        ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
+        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+    }
+}
+
+TEST(GameImpl, handle_hold)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {0, 0, 0},
+        { {{ {0, 0} }} },
+        {1, 2, 3},
+        0,
+        false
+    };
+    const vector<pair<tuple<int, int>, tuple<
+        Brick,
+        Vector2,
+        Brick,
+        Brick,
+        bool
+        >>> timeouts_before_and_after_to_expected
+    {
+        { {0, 0}, {
+            {{ {0, 0, 2} }},
+            {1, 0},
+            {{ {0, 0, 3} }},
+            {{ {0, 0, 1} }},
+            false
+        }},
+        { {1, 2}, {
+            {{ {0, 0, 2} }},
+            {1, 2},
+            {{ {0, 0, 3} }},
+            {{ {0, 0, 1} }},
+            false
+        }},
+        { {2, 3}, {
+            {{ {0, 0, 3} }},
+            {1, 0},
+            {{ {0, 0, 1} }},
+            {{ {0, 0, 1} }},
+            true
+        }},  
+    };
+
+    for(const auto& pair : timeouts_before_and_after_to_expected)
+    {
+        const auto&[timeouts_before, timeouts_after]{pair.first};
+        const auto&[
+            cur_brick,
+            cur_brick_position,
+            next_brick,
+            hold_brick,
+            can_hold
+        ]{pair.second};
+        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for(const auto& i : irange(timeouts_before))
+            game.handle_timeout();
+        for(const auto& i : irange(2))
+            game.handle_hold();
+        for(const auto& i : irange(timeouts_after))
+            game.handle_timeout();
+
+        ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
+        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_hold_brick(), Eq(hold_brick));
+        ASSERT_THAT(game.get_can_hold(), Eq(can_hold));
+    }
 }
