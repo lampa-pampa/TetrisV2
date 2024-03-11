@@ -72,74 +72,43 @@ TEST(BoardImpl, put_cubes)
     }    
 }
 
-TEST(BoardImpl, remove_lines_and_compress__return_value)
+TEST(BoardImpl, remove_lines_and_compress)
 {
-    const vector<pair<vector<Cube>, vector<int>>> cubes_to_expected{
-        { { {0, 0, 1}, {0, 1, 1} }, {} },
-        { { {0, 0, 1}, {1, 0, 1} }, {0} },
-        { { {0, 0, 1}, {1, 0, 1}, {0, 1, 1}, {1, 1, 1} }, {0, 1} },
-    };
-
-    for (const auto& pair : cubes_to_expected)
+    const BoardImpl initial_board{2, 2};
+    const vector<pair<
+        tuple<vector<Cube>, int, int>,
+        tuple<CubeMatrix, vector<int>>>>cubes_and_range_to_expected
     {
-        BoardImpl board{2, 2};
-        board.put_cubes(pair.first);
-        const vector actual{
-            board.remove_lines_and_compress(0, 1)
-        };
-
-        ASSERT_THAT(actual, Eq(pair.second));
-    }    
-}
-
-TEST(BoardImpl, remove_lines_and_compress__range)
-{
-    const vector<Cube> initial_cubes{
-        {0, 0, 1}, {1, 0, 1}, {0, 2, 1}, {1, 2, 1}
-    };
-    const vector<pair<tuple<int, int>, vector<int>>> range_to_expected{
-        { {1, 1}, {} },
-        { {0, 0}, {0} },
-        { {0, 2}, {0, 2} },
+        { {{ {0, 0, 1}, {0, 1, 1}, {1, 1, 1} }, 0, 1}, {
+            {{ {0, 0}, {1, 0} },
+            { {0, 1, 1}, {1, 1} }},
+            {1}
+        }},
+        { {{ {0, 0, 1}, {1, 0, 1}, {1, 1, 1} }, 1, 1}, {
+            {{ {0, 0, 1}, {1, 0, 1} },
+            { {0, 1}, {1, 1, 1} }},
+            {}
+        }},
+        { {{ {0, 0, 1}, {1, 0, 1}, {0, 1, 1}, {1, 1, 1} }, 0, 1}, {
+            {{ {0, 0}, {1, 0} },
+            { {0, 1}, {1, 1} }},
+            {0, 1}
+        }},
     };
 
-    for (const auto& pair : range_to_expected)
+    for (const auto& pair : cubes_and_range_to_expected)
     {
-        BoardImpl board{2, 3};
+        const auto&[initial_cubes, from_y, to_y]{pair.first};
+        const auto&[expected_cubes, expected_row_indexes]{pair.second};
+        BoardImpl board{initial_board};
         board.put_cubes(initial_cubes);
-        const auto& [from_y, to_y]{pair.first};
+        
         const vector actual{
             board.remove_lines_and_compress(from_y, to_y)
         };
 
-        ASSERT_THAT(actual, Eq(pair.second));
-    }    
-}
-
-TEST(BoardImpl, remove_lines_and_compress__cubes)
-{
-    const vector<pair<vector<Cube>, CubeMatrix>> cubes_to_expected{
-        { { {0, 0, 1}, {0, 1, 1}, {1, 1, 1} }, {
-            { {0, 0}, {1, 0} },
-            { {0, 1, 1}, {1, 1} },
-        }},
-        { { {0, 0, 1}, {1, 1, 1} }, {
-            { {0, 0, 1}, {1, 0} },
-            { {0, 1}, {1, 1, 1} },
-        }},
-        { { {0, 0, 1}, {1, 0, 1} }, {
-            { {0, 0}, {1, 0} },
-            { {0, 1}, {1, 1} },
-        }},
-    };
-
-    for (const auto& pair : cubes_to_expected)
-    {
-        BoardImpl board{2, 2};
-        board.put_cubes(pair.first);
-        board.remove_lines_and_compress(0, 1);
-
-        ASSERT_THAT(board.get_cubes(), Eq(pair.second));
+        ASSERT_THAT(actual, Eq(expected_row_indexes));
+        ASSERT_THAT(board.get_cubes(), Eq(expected_cubes));
     }    
 }
 
