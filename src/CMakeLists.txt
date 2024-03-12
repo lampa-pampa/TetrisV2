@@ -14,6 +14,7 @@ target_sources(TETRIS_V2
         brick.cpp
         console_matrix_display_impl.cpp
         game_impl.cpp
+        matrix_display_game_ui_impl.cpp
         ncurses_colors.cpp
         score_counter_impl.cpp
 )

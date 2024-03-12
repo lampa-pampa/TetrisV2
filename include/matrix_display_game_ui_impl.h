@@ -9,7 +9,6 @@
 #include <vector>
 
 #include <boost/signals2.hpp>
-#include <boost/range/irange.hpp>
 #include <ncurses.h>
 
 #include "brick.h"
@@ -24,15 +23,11 @@ namespace Tetris
 class MatrixDisplayGameUiImpl final: public GameUi
 {
 public:
-    MatrixDisplayGameUiImpl(MatrixDisplay& matrix)
-    :
-        matrix{matrix},
-        display_width{matrix.get_width()},
-        display_height{matrix.get_height()}
-    {
-        this->color_codes = this->create_color_codes();
-        this->draw_background();
-    }
+    MatrixDisplayGameUiImpl(MatrixDisplay& matrix);
+    
+    void draw_new_centered_brick(
+        Vector2 display_position, int display_width, int display_height,
+        const Brick& brick);
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
     {
@@ -44,21 +39,6 @@ public:
     {
         this->ghost_brick_cubes = cubes;
         this->draw_transparent_cubes(board_position, cubes);
-    }
-
-    void draw_new_centered_brick(
-        Vector2 display_position, int display_width, int display_height,
-        const Brick& brick)
-    {
-        this->draw_rectangle(display_position, display_width, display_height);
-        const Vector2 centered_position{
-            this->compute_brick_on_display_centered_position(
-                display_position,
-                display_width,
-                display_height,
-                brick)
-        };
-        this->draw_cubes(centered_position, brick.cubes);
     }
 
     void draw_next_brick(const Brick& brick) override
@@ -204,41 +184,23 @@ private:
     Signal hold_pressed;
     Signal handle_pause_pressed;
 
-    ColorCodeMatrix create_color_codes() const
+    ColorCodeMatrix create_color_codes() const;
+    Vector2 compute_brick_center(const Brick& brick) const;
+    Vector2 compute_brick_on_display_centered_position(
+        Vector2 display_position, int display_width, int display_height,
+        const Brick& brick) const;
+    void draw_rectangle(
+        Vector2 position, int width, int height,
+        int color_code = Cube::black_color_code);
+
+    void refresh() override
     {
-        ColorCodeMatrix color_codes{};
-        color_codes.resize(display_height, std::vector<int>(display_width));
-        return color_codes;
+        this->matrix.refresh(this->color_codes);
     }
 
-    Vector2 compute_display_center(
-        int display_width, int display_height) const
+    Vector2 compute_display_center(int display_width, int display_height) const
     {
         return Vector2{display_width, display_height} / 2;
-    }
-
-    Vector2 compute_brick_center(const Brick& brick) const
-    {
-        const Vector2 brick_position{
-            Vector2{brick.get_min_x(), brick.get_min_y()}.abs() * cube_size
-        };
-        const Vector2 brick_center_position{
-            Vector2{brick.get_width(), brick.get_height()} * cube_size / 2
-        };
-        return brick_position - brick_center_position;
-    }
-
-    Vector2 compute_brick_on_display_centered_position(
-        Vector2 display_position,
-        int display_width,
-        int display_height,
-        const Brick& brick) const
-    {
-        const Vector2 display_center{
-            this->compute_display_center(display_width, display_height)
-        };
-        const Vector2 brick_center{this->compute_brick_center(brick)};
-        return display_position + display_center + brick_center;
     }
 
     bool position_is_on_display(Vector2 position) const
@@ -252,17 +214,6 @@ private:
         this->draw_rectangle(
             {0, 0}, display_width, display_height,
             create_color(background_color));
-    }
-
-    void draw_rectangle(
-        Vector2 position, int width, int height,
-        int color_code = Cube::black_color_code)
-    {
-        for (const auto& y : boost::irange(height))
-        {
-            for (const auto& x : boost::irange(width))
-                this->draw_pixel(position + Vector2{x, y}, color_code);
-        }
     }
 
     void draw_board(Vector2 position, const CubeMatrix& board)
@@ -301,11 +252,6 @@ private:
     {
         assert(this->position_is_on_display(position));
         this->color_codes[position.y][position.x] = color_code;
-    }
-
-    void refresh() override
-    {
-        this->matrix.refresh(this->color_codes);
     }
 };
 
