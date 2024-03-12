@@ -11,6 +11,7 @@ target_include_directories(TETRIS_V2
 target_sources(TETRIS_V2
     PRIVATE
         board_impl.cpp
+        brick.cpp
         game_impl.cpp
 )
 
