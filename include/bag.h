@@ -24,7 +24,11 @@ private:
     Rng& rng;
     std::vector<T> items;
 
-    void shuffle_items(std::vector<T>& items, Rng& rng);
+    void shuffle_items(std::vector<T>& items, Rng& rng)
+    {
+        for (const auto& i : boost::irange<int>(items.size() - 1, 0, -1))
+            std::swap(items[i], items[rng.random(i + 1)]);
+    }
 };
 
 template<typename T>
@@ -46,13 +50,6 @@ T Bag<T>::get_next()
     const T item{this->items[this->current_index]};
     this->current_index = (this->current_index + 1) % this->items.size();
     return item;
-}
-
-template<typename T>
-void Bag<T>::shuffle_items(std::vector<T>& items, Rng& rng)
-{
-    for (const auto& i : boost::irange<int>(items.size() - 1, 0, -1))
-        std::swap(items[i], items[rng.random(i + 1)]);
 }
 
 }
