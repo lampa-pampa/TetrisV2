@@ -34,8 +34,7 @@ struct Vector2 final
 
     Vector2& operator+=(const Vector2& other)
     {
-        this->x += other.x;
-        this->y += other.y;
+        this->x += other.x, this->y += other.y;
         return *this;
     }
 
