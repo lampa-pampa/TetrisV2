@@ -16,7 +16,7 @@ class BoardImpl final: public Board
 {
 public:
     BoardImpl(int width, int height, int offset);
-    BoardImpl(int width, int height): BoardImpl(width, height, 0){}
+    BoardImpl(int width, int height): BoardImpl{width, height, 0}{}
     void put_cubes(const std::vector<Cube>& cubes) override;
     std::vector<int> remove_lines_and_compress(int from_y, int to_y) override;
     bool brick_is_valid(const Brick& brick) const override;
