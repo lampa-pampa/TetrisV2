@@ -12,6 +12,7 @@ target_sources(TETRIS_V2
     PRIVATE
         board_impl.cpp
         brick.cpp
+        console_matrix_display_impl.cpp
         game_impl.cpp
 )
 
