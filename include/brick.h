@@ -51,6 +51,7 @@ struct Brick final
         
     Brick(std::vector<Cube> cubes): Brick{cubes, {0, 0}}{}
     Brick(): Brick{{}}{};
+    
     int get_min_x() const;
     int get_max_x() const;
     int get_min_y() const;
