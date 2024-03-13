@@ -26,17 +26,25 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     this->draw_background();
 }
 
-void MatrixDisplayGameUiImpl::draw_new_centered_brick(
-    Vector2 display_position, int display_width, int display_height,
-    const Brick& brick, int offset)
+void MatrixDisplayGameUiImpl::handle_action_pressed(Action action)
 {
-    this->draw_rectangle(display_position, display_width, display_height);
-    const Vector2 centered_position{
-        this->compute_brick_on_display_centered_position(
-            display_position, display_width, display_height, brick)
-        + Vector2{offset, 0}
-    };
-    this->draw_cubes(centered_position, brick.cubes);
+    const auto it{this->action_to_signal.find(action)};
+    assert(it != this->action_to_signal.end());
+    it->second();
+}
+
+void MatrixDisplayGameUiImpl::draw_next_brick(const Brick& brick)
+{
+    this->next_brick_cubes = brick.cubes;
+    this->draw_new_centered_brick(
+        next_board_position, next_board_width, next_board_height, brick, false);
+}
+
+void MatrixDisplayGameUiImpl::draw_hold_brick(const Brick& brick)
+{
+    this->hold_brick_cubes = brick.cubes;
+    this->draw_new_centered_brick(
+        hold_board_position, next_board_width, next_board_height, brick, true);
 }
 
 //-------------------------------------------------------------------
@@ -49,27 +57,40 @@ MatrixDisplayGameUiImpl::ColorCodeMatrix
     return color_codes;
 }
 
-Vector2 MatrixDisplayGameUiImpl::compute_brick_center(const Brick& brick) const
+Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
+    int width, int height, bool align_to_left) const
 {
-    const Vector2 brick_position{
+    Vector2 brick_center_position{Vector2{width, height} * cube_size};
+    if(align_to_left)
+        brick_center_position.x += 1;
+    return brick_center_position / 2;
+}
+
+Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
+    const Brick& brick, bool align_to_left) const
+{
+    const Vector2 center_cube_position{
         Vector2{brick.get_min_x(), brick.get_min_y()}.abs() * cube_size
     };
     const Vector2 brick_center_position{
-        Vector2{brick.get_width(), brick.get_height()} * cube_size / 2
+        this->compute_brick_center(
+            brick.get_width(), brick.get_height(), align_to_left)
     };
-    return brick_position - brick_center_position;
+    return center_cube_position - brick_center_position;
 }
 
 Vector2 MatrixDisplayGameUiImpl::compute_brick_on_display_centered_position(
     Vector2 display_position,
     int display_width,
     int display_height,
-    const Brick& brick) const
+    const Brick& brick,
+    bool align_to_left) const
 {
     const Vector2 display_center{
         this->compute_display_center(display_width, display_height)
     };
-    const Vector2 brick_center{this->compute_brick_center(brick)};
+    const Vector2 brick_center{
+        this->compute_brick_centered_position(brick, align_to_left)};
     return display_position + display_center + brick_center;
 }
 
@@ -85,6 +106,25 @@ void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
     const Vector2 position_in_px{position + cube.position * cube_size};
     this->draw_rectangle(
         position_in_px, cube_size, cube_size, cube.color_code);
+}
+
+void MatrixDisplayGameUiImpl::draw_new_centered_brick(
+    Vector2 display_position,
+    int display_width,
+    int display_height,
+    const Brick& brick,
+    bool align_to_left)
+{
+    this->draw_rectangle(display_position, display_width, display_height);
+    const Vector2 centered_position{
+        this->compute_brick_on_display_centered_position(
+            display_position,
+            display_width,
+            display_height,
+            brick,
+            align_to_left)
+    };
+    this->draw_cubes(centered_position, brick.cubes);
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(

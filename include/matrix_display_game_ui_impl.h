@@ -25,9 +25,9 @@ class MatrixDisplayGameUiImpl final: public GameUi
 public:
     MatrixDisplayGameUiImpl(MatrixDisplay& matrix, int background_color_code);
     
-    void draw_new_centered_brick(
-        Vector2 display_position, int display_width, int display_height,
-        const Brick& brick, int offset = 0);
+    void handle_action_pressed(Action action) override;
+    void draw_next_brick(const Brick& brick) override;
+    void draw_hold_brick(const Brick& brick) override;
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
     {
@@ -41,33 +41,10 @@ public:
         this->draw_transparent_cubes(board_position, cubes);
     }
 
-    void draw_next_brick(const Brick& brick) override
-    {
-        this->next_brick_cubes = brick.cubes;
-        this->draw_new_centered_brick(
-            next_board_position, next_board_width, next_board_height,
-            brick);
-    }
-
-    void draw_hold_brick(const Brick& brick) override
-    {
-        this->hold_brick_cubes = brick.cubes;
-        this->draw_new_centered_brick(
-            hold_board_position, next_board_width, next_board_height,
-            brick, -1);
-    }
-
     void draw_board(const CubeMatrix& cubes) override
     {
         this->board_cubes = cubes;
         this->draw_board(board_position, cubes);
-    }
-
-    void handle_action_pressed(Action action) override
-    {
-        const auto it{this->action_to_signal.find(action)};
-        assert(it != this->action_to_signal.end());
-        it->second();
     }
 
     void draw_score(unsigned long long score) override
@@ -196,15 +173,26 @@ private:
     Signal pause_pressed;
 
     ColorCodeMatrix create_color_codes() const;
-    Vector2 compute_brick_center(const Brick& brick) const;
+    Vector2 compute_brick_center(
+        int width, int height, bool align_to_left) const;
+    Vector2 compute_brick_centered_position(
+        const Brick& brick, bool align_to_left) const;
     Vector2 compute_brick_on_display_centered_position(
-        Vector2 display_position, int display_width, int display_height,
-        const Brick& brick) const;
+        Vector2 display_position,
+        int display_width,
+        int display_height,
+        const Brick& brick,
+        bool align_to_left) const;
     void draw_background();
     void draw_cube(Vector2 position, const Cube& cube);
     void draw_rectangle(
-        Vector2 position, int width, int height,
+        Vector2 position,
+        int width,
+        int height,
         int color_code = Cube::black_color_code);
+    void draw_new_centered_brick(
+        Vector2 display_position, int display_width, int display_height,
+        const Brick& brick, bool align_to_left);
 
     void refresh() override
     {
