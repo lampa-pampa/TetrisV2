@@ -38,8 +38,7 @@ namespace
 
 inline int create_color(ColorName color_name)
 {
-    assert(color_name_to_code.find(color_name)
-        != color_name_to_code.end());
+    assert(color_name_to_code.find(color_name) != color_name_to_code.end());
     return color_name_to_code.at(color_name);
 }
 
