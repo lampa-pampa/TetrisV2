@@ -19,6 +19,7 @@ public:
 
     ~ConsoleMatrixDisplayImpl()
     {
+        delete this->window;
         ::endwin();
     }
 
