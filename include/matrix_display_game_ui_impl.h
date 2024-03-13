@@ -9,8 +9,8 @@
 #include <vector>
 
 #include <boost/signals2.hpp>
-#include <ncurses.h>
 
+#include "action.h"
 #include "brick.h"
 #include "color_name.h"
 #include "cube.h"
@@ -63,11 +63,11 @@ public:
         this->draw_board(board_position, cubes);
     }
 
-    void input_received(int input) override
+    void handle_action_pressed(Action action) override
     {
-        if (const auto it{this->input_to_signal.find(input)};
-                it != this->input_to_signal.end())
-            it->second();
+        const auto it{this->action_to_signal.find(action)};
+        assert(it != this->action_to_signal.end());
+        it->second();
     }
 
     void draw_score(unsigned long long score) override
@@ -163,17 +163,18 @@ private:
     const int display_width;
     const int display_height;
     const ColorName background_color_code;
-    const std::map<int, Signal&> input_to_signal
+    const std::map<Action, Signal&> action_to_signal
     {
-        {KEY_LEFT, this->move_left_pressed},
-        {KEY_RIGHT, this->move_right_pressed},
-        {KEY_UP, this->rotate_clockwise_pressed},
-        {KEY_DOWN, this->soft_drop_pressed},
-        {' ', this->locking_hard_drop_pressed},
-        {'z', this->rotate_counter_clockwise_pressed},
-        {'x', this->no_locking_hard_drop_pressed},
-        {'c', this->hold_pressed},
-        {'p', this->pause_pressed},
+        {Action::move_left, this->move_left_pressed},
+        {Action::move_right, this->move_right_pressed},
+        {Action::rotate_clockwise, this->rotate_clockwise_pressed},
+        {Action::soft_drop, this->soft_drop_pressed},
+        {Action::locking_hard_drop, this->locking_hard_drop_pressed},
+        {Action::no_locking_hard_drop, this->no_locking_hard_drop_pressed},
+        {Action::rotate_counter_clockwise,
+            this->rotate_counter_clockwise_pressed},
+        {Action::hold, this->hold_pressed},
+        {Action::pause, this->pause_pressed},
     };
     
     MatrixDisplay& matrix;

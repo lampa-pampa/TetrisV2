@@ -1,5 +1,7 @@
+#include <map>
 #include <ncurses.h>
 
+#include "action.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "color_name.h"
@@ -7,13 +9,14 @@
 #include "console_matrix_display_impl.h"
 #include "game_controller.h"
 #include "game_impl.h"
-#include "game_state.h"
 #include "matrix_display_game_ui_impl.h"
 #include "ncurses_colors.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_mock.h"
 
+using std::map;
+using Tetris::Action;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
 using Tetris::ColorName;
@@ -22,7 +25,6 @@ using Tetris::ConsoleMatrixDisplayImpl;
 using Tetris::create_color;
 using Tetris::GameController;
 using Tetris::GameImpl;
-using Tetris::GameState;
 using Tetris::MatrixDisplayGameUiImpl;
 using Tetris::NCursesColors;
 using Tetris::RngImpl;
@@ -96,7 +98,20 @@ int main()
         config.game.default_settings
     };
     GameController game_controller{timer, game};
-    
+    constexpr int quit_key_code{'q'};
+    constexpr int no_key_press_key_code{-1};
+    const map<int, Action> input_key_code_to_action{
+        {KEY_DOWN, Action::soft_drop},
+        {KEY_LEFT, Action::move_left},
+        {KEY_RIGHT, Action::move_right},
+        {KEY_UP, Action::rotate_clockwise},
+        {'z', Action::rotate_counter_clockwise},
+        {'x', Action::no_locking_hard_drop},
+        {'c', Action::hold},
+        {' ', Action::locking_hard_drop},
+        {'p', Action::pause},
+    };
+
     timer.connect_timeout([&game](){ game.handle_timeout(); });
     ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
     ui.connect_move_right_pressed([&game](){ game.handle_move_right(); });
@@ -113,14 +128,16 @@ int main()
     ui.connect_pause_pressed([&game_controller](){
         game_controller.handle_pause_pressed();});
 
-    int input;
+    int input_key_code;
     ::WINDOW * game_window{matrix.get_game_window()};
     
-    while ((input = ::wgetch(game_window)) != 'q')
+    while ((input_key_code = ::wgetch(game_window)) != quit_key_code)
     {
-        ui.input_received(input);
-        if (game.get_state() == GameState::ended)
-            game.game_over();
+        if(input_key_code == no_key_press_key_code)
+            continue;
+        const auto it{input_key_code_to_action.find(input_key_code)}; 
+        if(it != input_key_code_to_action.end())
+            ui.handle_action_pressed(it->second);
     }    
     return 0;
 }

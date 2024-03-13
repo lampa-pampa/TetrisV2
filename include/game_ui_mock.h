@@ -3,6 +3,7 @@
 
 #include <vector>
 
+#include "action.h"
 #include "brick.h"
 #include "cube.h"
 #include "game_ui.h"
@@ -24,7 +25,7 @@ public:
     void game_over() override {}
     void pause() override {}
     void resume() override {}
-    void input_received(int input) override {}
+    void handle_action_pressed(Action action) override {}
     void connect_move_left_pressed(
         const std::function<void()>& handler) override {}
     void connect_move_right_pressed(
