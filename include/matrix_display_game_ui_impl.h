@@ -146,7 +146,7 @@ public:
     void connect_pause_pressed(
         const std::function<void()>& handler) override
     {
-        this->handle_pause_pressed.connect(handler);
+        this->pause_pressed.connect(handler);
     }
 
 private:
@@ -173,7 +173,7 @@ private:
         {'z', this->rotate_counter_clockwise_pressed},
         {'x', this->no_locking_hard_drop_pressed},
         {'c', this->hold_pressed},
-        {'p', this->handle_pause_pressed},
+        {'p', this->pause_pressed},
     };
     
     MatrixDisplay& matrix;
@@ -192,7 +192,7 @@ private:
     Signal locking_hard_drop_pressed;
     Signal no_locking_hard_drop_pressed;
     Signal hold_pressed;
-    Signal handle_pause_pressed;
+    Signal pause_pressed;
 
     ColorCodeMatrix create_color_codes() const;
     Vector2 compute_brick_center(const Brick& brick) const;
