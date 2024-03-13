@@ -8,21 +8,21 @@
 namespace Tetris
 {
 
-struct BoardConfig
+struct BoardConfig final
 {
     int width;
     int height;
     int offset;
 };
 
-struct ScoreCounterConfig
+struct ScoreCounterConfig final
 {
     int score_for_line;
     int score_for_soft_drop;
     int score_for_hard_drop;
 };
 
-struct GameConfig
+struct GameConfig final
 {
     BoardConfig board;
     ScoreCounterConfig score_counter;
@@ -32,19 +32,19 @@ struct GameConfig
     bool generate_ghost;
 };
 
-struct DisplayConfig
+struct DisplayConfig final
 {
     int width;
     int height;
 };
 
-struct UiConfig
+struct UiConfig final
 {
     DisplayConfig display;
     int background_color_code;
 };
 
-struct Config
+struct Config final
 {
     GameConfig game;
     UiConfig ui;
