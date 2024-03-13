@@ -8,12 +8,6 @@
 namespace Tetris
 {
 
-struct DisplayConfig
-{
-    int width;
-    int height;
-};
-
 struct BoardConfig
 {
     int width;
@@ -38,10 +32,22 @@ struct GameConfig
     bool generate_ghost;
 };
 
+struct DisplayConfig
+{
+    int width;
+    int height;
+};
+
+struct UiConfig
+{
+    DisplayConfig display;
+    int background_color_code;
+};
+
 struct Config
 {
     GameConfig game;
-    DisplayConfig display;
+    UiConfig ui;
 };
 
 }
