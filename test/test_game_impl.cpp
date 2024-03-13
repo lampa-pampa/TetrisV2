@@ -499,6 +499,69 @@ TEST(GameImpl, handle_locking_hard_drop)
     }
 }
 
+TEST(GameImpl, handle_no_locking_hard_drop)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {1, 2, 3},
+        { {{ {0, 0} }} },
+        {1, 2, 3},
+        0,
+        {false}
+    };
+    const vector<pair<int, tuple<
+        GameState,
+        int,
+        Brick,
+        Vector2,
+        Brick>>> hard_drops_to_expected
+    {
+        { 1, {
+            GameState::in_progress,
+            6,
+            {{ {0, 0, 1} }},
+            {1, 2},
+            {{ {0, 0, 2} }}
+        }},
+        { 2, {
+            GameState::in_progress,
+            6,
+            {{ {0, 0, 2} }},
+            {1, 0},
+            {{ {0, 0, 3} }}
+        }},
+        { 6, {
+            GameState::ended,
+            9,
+            {{ {0, 0, 1} }},
+            {1, 0},
+            {{ {0, 0, 2} }}
+        }},
+    };
+
+    for (const auto& pair : hard_drops_to_expected)
+    {
+        const auto&[
+            state,
+            score,
+            cur_brick,
+            cur_brick_position,
+            next_brick
+        ]{pair.second};
+        
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for (const auto& i : irange(pair.first))
+            game.handle_no_locking_hard_drop();
+
+        ASSERT_THAT(game.get_state(), Eq(state));
+        ASSERT_THAT(game.get_score(), Eq(score));
+        ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
+        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+    }
+}
+
 TEST(GameImpl, handle_hold)
 {
     const GameConfig initial_config{
