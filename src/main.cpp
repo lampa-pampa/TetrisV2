@@ -99,7 +99,7 @@ int main()
     };
     GameController game_controller{timer, game};
     constexpr int quit_key_code{'q'};
-    constexpr int no_key_press_key_code{-1};
+    constexpr int no_key_press_code{-1};
     const map<int, Action> input_key_code_to_action{
         {KEY_DOWN, Action::soft_drop},
         {KEY_LEFT, Action::move_left},
@@ -133,7 +133,7 @@ int main()
     
     while ((input_key_code = ::wgetch(game_window)) != quit_key_code)
     {
-        if(input_key_code == no_key_press_key_code)
+        if(input_key_code == no_key_press_code)
             continue;
         const auto it{input_key_code_to_action.find(input_key_code)}; 
         if(it != input_key_code_to_action.end())
