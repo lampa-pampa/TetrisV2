@@ -10,6 +10,7 @@
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
+#include "settings.h"
 #include "game_state.h"
 #include "game_ui.h"
 #include "score_counter.h"
@@ -27,7 +28,7 @@ public:
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
         int brick_start_position_y,
-        bool generate_ghost);
+        Settings settings);
 
     Brick get_transformed_cur_brick() const;
 
@@ -84,9 +85,14 @@ public:
             this->rotate_counter_clockwise();});
     }
 
-    void handle_hard_drop() override
+    void handle_locking_hard_drop() override
     {
-        this->try_to_perform_action([this](){ this->hard_drop(); });
+        this->try_to_perform_action([this](){ this->locking_hard_drop(); });
+    }
+
+    void handle_no_locking_hard_drop() override
+    {
+        this->try_to_perform_action([this](){ this->no_locking_hard_drop(); });
     }
 
     void handle_hold() override
@@ -134,9 +140,9 @@ public:
         return this->can_hold;
     }
 
-    bool get_generate_ghost() const
+    Settings get_settings() const
     {
-        return this->generate_ghost;
+        return this->settings;
     }
     
 private:
@@ -145,12 +151,12 @@ private:
     static constexpr int tetris_lines_quantity{4};
 
     const Vector2 brick_start_position;
-    const bool generate_ghost;
 
     GameUi& ui;
     Board& board;
     BrickGenerator& brick_generator;
     ScoreCounter& score_counter;
+    Settings settings;
     GameState state;
     unsigned long long score;
     unsigned long long tetrises;
@@ -174,7 +180,8 @@ private:
     void tick();
     void rotate_clockwise();
     void rotate_counter_clockwise();
-    void hard_drop();
+    int hard_drop();
+    void no_locking_hard_drop();
     Vector2 compute_ghost_brick_position() const;
     Brick create_ghost_brick() const;
     void draw_ghost_brick();
@@ -202,6 +209,12 @@ private:
     {
         this->tick();
         this->add_score(this->score_counter.count_score_for_soft_drop());
+    }
+
+    void locking_hard_drop()
+    {
+        this->hard_drop();
+        this->place_and_generate_new_brick();
     }
 
     void move_left()

@@ -54,11 +54,11 @@ int main()
                 create_color(ColorName::pink),
             },
             1,
-            true
+            {true}
         },
         {
             {64, 64},
-            create_color(ColorName::white)
+            create_color(ColorName::white),
         },
     };
     TimerMock timer{};
@@ -93,7 +93,7 @@ int main()
         brick_generator,
         score_counter,
         config.game.brick_spawn_position_y,
-        config.game.generate_ghost
+        config.game.default_settings
     };
     GameController game_controller{timer, game};
     
@@ -105,7 +105,10 @@ int main()
     ui.connect_rotate_counter_clockwise_pressed(
         [&game](){ game.handle_rotate_counter_clockwise(); });
     ui.connect_soft_drop_pressed([&game](){ game.handle_soft_drop(); });
-    ui.connect_hard_drop_pressed([&game](){ game.handle_hard_drop(); });
+    ui.connect_locking_hard_drop_pressed(
+        [&game](){ game.handle_locking_hard_drop(); });
+    ui.connect_no_locking_hard_drop_pressed(
+        [&game](){ game.handle_no_locking_hard_drop(); });
     ui.connect_hold_pressed([&game](){ game.handle_hold(); });
     ui.connect_pause_pressed([&game_controller](){
         game_controller.handle_pause_pressed();});

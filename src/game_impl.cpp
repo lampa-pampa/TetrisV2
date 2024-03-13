@@ -7,6 +7,7 @@
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
+#include "settings.h"
 #include "game_state.h"
 #include "game_ui.h"
 #include "score_counter.h"
@@ -24,19 +25,19 @@ namespace Tetris
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
         int brick_start_position_y,
-        bool generate_ghost)
+        Settings settings)
     :
         ui{ui},
         board{board},
         brick_generator{brick_generator},
         score_counter{score_counter},
+        settings{settings},
         state{GameState::in_progress},
         score{0},
         tetrises{0},
         next_brick{this->brick_generator.generate()},
         hold_brick{},
         can_hold{true},
-        generate_ghost{generate_ghost},
         brick_start_position{this->compute_brick_start_position(
             board.get_width(), brick_start_position_y, board.get_offset())
         }
@@ -165,14 +166,21 @@ namespace Tetris
                 this->cur_brick_rotation, -1);
     }
 
-    void GameImpl::hard_drop()
+    int GameImpl::hard_drop()
     {
         const int distance{this->compute_lowest_position(
             this->get_transformed_cur_brick())};
         this->cur_brick_position.y += distance;
-        this->place_and_generate_new_brick();
         this->add_score(
             this->score_counter.count_score_for_hard_drop(distance));
+        return distance;
+    }
+
+    void GameImpl::no_locking_hard_drop()
+    {
+        const int distance{this->hard_drop()};
+        if(distance == 0)
+            this->place_and_generate_new_brick();
     }
 
     Vector2 GameImpl::compute_ghost_brick_position() const
@@ -194,7 +202,7 @@ namespace Tetris
 
     void GameImpl::draw_ghost_brick()
     {
-        if (this->generate_ghost)
+        if (this->settings.generate_ghost)
         {
             this->ui.draw_ghost_brick(this->board.get_visible_brick_cubes(
                 this->create_ghost_brick().cubes));

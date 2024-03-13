@@ -11,7 +11,8 @@ class Game
 public:
     virtual void handle_rotate_clockwise() = 0;
     virtual void handle_rotate_counter_clockwise() = 0;
-    virtual void handle_hard_drop() = 0;
+    virtual void handle_locking_hard_drop() = 0;
+    virtual void handle_no_locking_hard_drop() = 0;
     virtual void handle_hold() = 0;
     virtual void game_over() = 0;
     virtual void pause() = 0;

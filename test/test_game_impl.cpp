@@ -29,6 +29,7 @@ using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
 using Tetris::GameConfig;
 using Tetris::GameImpl;
+using Tetris::Settings;
 using Tetris::GameState;
 using Tetris::GameUiMock;
 using Tetris::RngMock;
@@ -63,7 +64,7 @@ namespace
                 brick_generator,
                 score_counter,
                 config.brick_spawn_position_y,
-                config.generate_ghost
+                config.default_settings
             }
         {}
         GameUiMock ui;
@@ -87,7 +88,7 @@ TEST(GameImpl, GameImpl)
         Brick,
         Brick,
         bool,
-        bool>>> game_to_expected
+        Settings>>> game_to_expected
     {
         {{{
             {5, 10, 0},
@@ -95,7 +96,7 @@ TEST(GameImpl, GameImpl)
             { {{ {0, 0}, {0, 1} }} },
             {2},
             5,
-            false
+            {false}
         }}, {
             GameState::in_progress,
             0,
@@ -106,7 +107,7 @@ TEST(GameImpl, GameImpl)
             {{ {0, 0, 2}, {0, 1, 2} }},
             {{}},
             true,
-            false
+            {false}
         }},
         {{{
             {3, 3, 2},
@@ -114,7 +115,7 @@ TEST(GameImpl, GameImpl)
             { {{ {0, 0}, {1, 2} }}, {{ {0, 0}, {1, 3} }} },
             {4, 6},
             1,
-            true
+            {false}
         }}, {
             GameState::in_progress,
             0,
@@ -125,7 +126,7 @@ TEST(GameImpl, GameImpl)
             {{ {0, 0, 6}, {1, 3, 6} }},
             {{}},
             true,
-            true
+            {false}
         }},
         {{{
             {10, 20, 2},
@@ -133,7 +134,7 @@ TEST(GameImpl, GameImpl)
             { {{ {0, 0}, {1, 0} }}, {{ {-1, 0}, {0, 0} }} },
             {3, 5},
             1,
-            true
+            {false}
         }}, {
             GameState::in_progress,
             0,
@@ -144,7 +145,7 @@ TEST(GameImpl, GameImpl)
             {{ {-1, 0, 5}, {0, 0, 5} }},
             {{}},
             true,
-            true
+            {false}
         }},
     };
 
@@ -160,7 +161,7 @@ TEST(GameImpl, GameImpl)
             next_brick,
             hold_brick,
             can_hold,
-            generate_ghost
+            settings
         ]{pair.second};
 
         const GameImpl& game{pair.first.game};
@@ -176,7 +177,7 @@ TEST(GameImpl, GameImpl)
         ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
         ASSERT_THAT(game.get_hold_brick(), Eq(hold_brick));
         ASSERT_THAT(game.get_can_hold(), Eq(can_hold));
-        ASSERT_THAT(game.get_generate_ghost(), Eq(generate_ghost));
+        ASSERT_THAT(game.get_settings(), Eq(settings));
     }
 
 }
@@ -189,7 +190,7 @@ TEST(GameImpl, handle_soft_drop)
         { {{ {0, 0} }} },
         {1, 2, 3},
         0,
-        false
+        {false}
     };
     const vector<pair<int, tuple<
         GameState,
@@ -252,7 +253,7 @@ TEST(GameImpl, handle_timeout)
         { {{ {0, 0} }} },
         {1, 2, 3},
         0,
-        false
+        {false}
     };
     const vector<pair<int, tuple<
         GameState,
@@ -337,7 +338,7 @@ TEST(GameImpl, handle_move_right)
         { {{ {0, 0} }} },
         {1},
         0,
-        false
+        {false}
     };
     const vector<pair<int, Vector2>> moves_right_to_expected
     {
@@ -365,7 +366,7 @@ TEST(GameImpl, handle_rotate_clockwise)
         { {{ {0, 0}, {1, 0} }} },
         {1},
         0,
-        false
+        {false}
     };
     const vector<pair<tuple<int, int, int>,
         int>> timeouts_moves_left_and_rotations_to_expected
@@ -435,7 +436,7 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
     }
 }
 
-TEST(GameImpl, handle_hard_drop)
+TEST(GameImpl, handle_locking_hard_drop)
 {
     const GameConfig initial_config{
         {3, 3, 0},
@@ -443,7 +444,7 @@ TEST(GameImpl, handle_hard_drop)
         { {{ {0, 0} }} },
         {1, 2, 3},
         0,
-        false
+        {false}
     };
     const vector<pair<int, tuple<
         GameState,
@@ -488,7 +489,7 @@ TEST(GameImpl, handle_hard_drop)
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
         for (const auto& i : irange(pair.first))
-            game.handle_hard_drop();
+            game.handle_locking_hard_drop();
 
         ASSERT_THAT(game.get_state(), Eq(state));
         ASSERT_THAT(game.get_score(), Eq(score));
@@ -506,7 +507,7 @@ TEST(GameImpl, handle_hold)
         { {{ {0, 0} }} },
         {1, 2, 3},
         0,
-        false
+        {false}
     };
     const vector<pair<tuple<int, int>, tuple<
         Brick,

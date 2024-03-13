@@ -125,10 +125,16 @@ public:
         this->soft_drop_pressed.connect(handler);
     }
 
-    void connect_hard_drop_pressed(
+    void connect_locking_hard_drop_pressed(
         const std::function<void()>& handler) override
     {
-        this->hard_drop_pressed.connect(handler);
+        this->locking_hard_drop_pressed.connect(handler);
+    }
+
+    void connect_no_locking_hard_drop_pressed(
+        const std::function<void()>& handler) override
+    {
+        this->no_locking_hard_drop_pressed.connect(handler);
     }
 
     void connect_hold_pressed(
@@ -163,9 +169,10 @@ private:
         {KEY_RIGHT, this->move_right_pressed},
         {KEY_UP, this->rotate_clockwise_pressed},
         {KEY_DOWN, this->soft_drop_pressed},
-        {' ', this->hard_drop_pressed},
-        {'c', this->hold_pressed},
+        {' ', this->locking_hard_drop_pressed},
         {'z', this->rotate_counter_clockwise_pressed},
+        {'x', this->no_locking_hard_drop_pressed},
+        {'c', this->hold_pressed},
         {'p', this->handle_pause_pressed},
     };
     
@@ -182,7 +189,8 @@ private:
     Signal rotate_clockwise_pressed;
     Signal rotate_counter_clockwise_pressed;
     Signal soft_drop_pressed;
-    Signal hard_drop_pressed;
+    Signal locking_hard_drop_pressed;
+    Signal no_locking_hard_drop_pressed;
     Signal hold_pressed;
     Signal handle_pause_pressed;
 

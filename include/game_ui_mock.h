@@ -35,7 +35,9 @@ public:
         const std::function<void()>& handler) override {}
     void connect_soft_drop_pressed(
         const std::function<void()>& handler) override {}
-    void connect_hard_drop_pressed(
+    void connect_locking_hard_drop_pressed(
+        const std::function<void()>& handler) override {}
+    void connect_no_locking_hard_drop_pressed(
         const std::function<void()>& handler) override {}
     void connect_hold_pressed(
         const std::function<void()>& handler) override {}

@@ -37,7 +37,9 @@ public:
         const std::function<void()>& handler) = 0;
     virtual void connect_soft_drop_pressed(
         const std::function<void()>& handler) = 0;
-    virtual void connect_hard_drop_pressed(
+    virtual void connect_locking_hard_drop_pressed(
+        const std::function<void()>& handler) = 0;
+    virtual void connect_no_locking_hard_drop_pressed(
         const std::function<void()>& handler) = 0;
     virtual void connect_hold_pressed(
         const std::function<void()>& handler) = 0;
