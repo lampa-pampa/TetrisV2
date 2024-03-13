@@ -12,7 +12,6 @@
 
 #include "action.h"
 #include "brick.h"
-#include "color_name.h"
 #include "cube.h"
 #include "matrix_display.h"
 #include "vector_2.h"
@@ -139,7 +138,7 @@ private:
 
     const int display_width;
     const int display_height;
-    const ColorName background_color_code;
+    const int background_color_code;
     const std::map<Action, Signal&> action_to_signal
     {
         {Action::move_left, this->move_left_pressed},

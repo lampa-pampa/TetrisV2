@@ -98,7 +98,7 @@ void MatrixDisplayGameUiImpl::draw_background()
 {
     this->draw_rectangle(
         {0, 0}, display_width, display_height,
-        create_color(background_color_code));
+        background_color_code);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)

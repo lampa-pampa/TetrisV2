@@ -22,7 +22,7 @@ using Tetris::BrickGeneratorImpl;
 using Tetris::ColorName;
 using Tetris::Config;
 using Tetris::ConsoleMatrixDisplayImpl;
-using Tetris::create_color;
+using Tetris::get_color_code;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::MatrixDisplayGameUiImpl;
@@ -47,20 +47,20 @@ int main()
                 {{ {1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
             },
             {
-                create_color(ColorName::red),
-                create_color(ColorName::green),
-                create_color(ColorName::blue),
-                create_color(ColorName::yellow),
-                create_color(ColorName::purple),
-                create_color(ColorName::orange),
-                create_color(ColorName::pink),
+                get_color_code(ColorName::red),
+                get_color_code(ColorName::green),
+                get_color_code(ColorName::blue),
+                get_color_code(ColorName::yellow),
+                get_color_code(ColorName::purple),
+                get_color_code(ColorName::orange),
+                get_color_code(ColorName::pink),
             },
             1,
             {true}
         },
         {
             {64, 64},
-            create_color(ColorName::white),
+            get_color_code(ColorName::white),
         },
     };
     TimerMock timer{};
