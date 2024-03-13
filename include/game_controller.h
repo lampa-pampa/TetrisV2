@@ -5,9 +5,6 @@
 #include "game.h"
 #include "timer.h"
 
-#include <functional>
-#include <map>
-
 namespace Tetris
 {
 
@@ -16,9 +13,11 @@ class GameController final
 public:
     void handle_pause_pressed()
     {
-        if (auto it{this->game_state_to_action.find(this->game.get_state())};
-                it != this->game_state_to_action.end())
-            it->second();
+        const GameState state{this->game.get_state()};
+        if(state == GameState::in_progress)
+            this->pause_game();
+        else if(state == GameState::paused)
+            this->start_game();
     }
 
     GameController(Timer& timer, Game& game)
@@ -30,12 +29,6 @@ public:
 private:
     Timer& timer;
     Game& game;
-
-    const std::map<GameState, std::function<void()>> game_state_to_action
-    {
-        {GameState::in_progress, [this](){ this->pause_game(); }},
-        {GameState::paused, [this](){ this->start_game(); }},
-    };
 
     void pause_game()
     {
