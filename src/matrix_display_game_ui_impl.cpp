@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "brick.h"
+#include "cube.h"
 #include "matrix_display.h"
 #include "vector_2.h"
 
@@ -67,6 +68,20 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_on_display_centered_position(
     };
     const Vector2 brick_center{this->compute_brick_center(brick)};
     return display_position + display_center + brick_center;
+}
+
+void MatrixDisplayGameUiImpl::draw_background()
+{
+    this->draw_rectangle(
+        {0, 0}, display_width, display_height,
+        create_color(background_color));
+}
+
+void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
+{
+    const Vector2 position_in_px{position + cube.position * cube_size};
+    this->draw_rectangle(
+        position_in_px, cube_size, cube_size, cube.color_code);
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(

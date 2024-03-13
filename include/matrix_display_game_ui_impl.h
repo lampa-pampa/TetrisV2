@@ -189,6 +189,8 @@ private:
     Vector2 compute_brick_on_display_centered_position(
         Vector2 display_position, int display_width, int display_height,
         const Brick& brick) const;
+    void draw_background();
+    void draw_cube(Vector2 position, const Cube& cube);
     void draw_rectangle(
         Vector2 position, int width, int height,
         int color_code = Cube::black_color_code);
@@ -209,13 +211,6 @@ private:
             and position.y >= 0 and position.y < display_height;
     }
 
-    void draw_background()
-    {
-        this->draw_rectangle(
-            {0, 0}, display_width, display_height,
-            create_color(background_color));
-    }
-
     void draw_board(Vector2 position, const CubeMatrix& board)
     {
         for (const auto& row : board)
@@ -233,13 +228,6 @@ private:
     {
         for (const auto& cube : cubes)
             this->draw_transparent_cube(position, cube);
-    }
-
-    void draw_cube(Vector2 position, const Cube& cube)
-    {
-        const Vector2 position_in_px{position + cube.position * cube_size};
-        this->draw_rectangle(
-            position_in_px, cube_size, cube_size, cube.color_code);
     }
 
     void draw_transparent_cube(Vector2 position, const Cube& cube)
