@@ -34,6 +34,7 @@ public:
 
     void game_over() override
     {
+        this->state = GameState::ended;
         this->ui.game_over();
     }
 
@@ -249,7 +250,7 @@ private:
     void check_if_game_ended()
     {
         if (not this->board.brick_is_valid(this->get_transformed_cur_brick()))
-            this->state = GameState::ended;
+            this->game_over();
     }
 };
 
