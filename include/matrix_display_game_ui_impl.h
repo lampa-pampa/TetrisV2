@@ -23,11 +23,11 @@ namespace Tetris
 class MatrixDisplayGameUiImpl final: public GameUi
 {
 public:
-    MatrixDisplayGameUiImpl(MatrixDisplay& matrix);
+    MatrixDisplayGameUiImpl(MatrixDisplay& matrix, int background_color_code);
     
     void draw_new_centered_brick(
         Vector2 display_position, int display_width, int display_height,
-        const Brick& brick);
+        const Brick& brick, int offset = 0);
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
     {
@@ -45,14 +45,16 @@ public:
     {
         this->next_brick_cubes = brick.cubes;
         this->draw_new_centered_brick(
-            next_board_position, next_board_width, next_board_height, brick);
+            next_board_position, next_board_width, next_board_height,
+            brick);
     }
 
     void draw_hold_brick(const Brick& brick) override
     {
         this->hold_brick_cubes = brick.cubes;
         this->draw_new_centered_brick(
-            hold_board_position, next_board_width, next_board_height, brick);
+            hold_board_position, next_board_width, next_board_height,
+            brick, -1);
     }
 
     void draw_board(const CubeMatrix& cubes) override
@@ -146,7 +148,6 @@ private:
     using Signal = boost::signals2::signal<void()>;
 
     static constexpr int cube_size{3};
-    static constexpr ColorName background_color{ColorName::white};
     static constexpr Vector2 board_position{17, -4};
     static constexpr int next_board_width{14};
     static constexpr int next_board_height{8};
@@ -155,6 +156,7 @@ private:
 
     const int display_width;
     const int display_height;
+    const ColorName background_color_code;
     const std::map<int, Signal&> input_to_signal
     {
         {KEY_LEFT, this->move_left_pressed},

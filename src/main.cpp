@@ -2,6 +2,7 @@
 
 #include "board_impl.h"
 #include "brick_generator_impl.h"
+#include "color_name.h"
 #include "config.h"
 #include "console_matrix_display_impl.h"
 #include "game_controller.h"
@@ -15,8 +16,10 @@
 
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
+using Tetris::ColorName;
 using Tetris::Config;
 using Tetris::ConsoleMatrixDisplayImpl;
+using Tetris::create_color;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::GameState;
@@ -41,20 +44,34 @@ int main()
                 {{ {-1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
                 {{ {1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
             },
-            {1, 2, 3, 4, 5, 6, 7},
+            {
+                create_color(ColorName::red),
+                create_color(ColorName::green),
+                create_color(ColorName::blue),
+                create_color(ColorName::yellow),
+                create_color(ColorName::purple),
+                create_color(ColorName::orange),
+                create_color(ColorName::pink),
+            },
             1,
             true
         },
-        {64, 64},
+        {
+            {64, 64},
+            create_color(ColorName::white)
+        },
     };
     TimerMock timer{};
     NCursesColors colors{};
     ConsoleMatrixDisplayImpl matrix{
-        config.display.width,
-        config.display.height,
+        config.ui.display.width,
+        config.ui.display.height,
         colors
     };
-    MatrixDisplayGameUiImpl ui{matrix};
+    MatrixDisplayGameUiImpl ui{
+        matrix,
+        config.ui.background_color_code
+    };
     BoardImpl board{
         config.game.board.width,
         config.game.board.height,

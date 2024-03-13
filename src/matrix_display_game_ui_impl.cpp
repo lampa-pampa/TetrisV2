@@ -14,11 +14,13 @@ using std::vector;
 namespace Tetris
 {
 
-MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(MatrixDisplay& matrix)
+MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
+    MatrixDisplay& matrix, int background_color_code)
 :
     matrix{matrix},
     display_width{matrix.get_width()},
-    display_height{matrix.get_height()}
+    display_height{matrix.get_height()},
+    background_color_code{background_color_code}
 {
     this->color_codes = this->create_color_codes();
     this->draw_background();
@@ -26,12 +28,13 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(MatrixDisplay& matrix)
 
 void MatrixDisplayGameUiImpl::draw_new_centered_brick(
     Vector2 display_position, int display_width, int display_height,
-    const Brick& brick)
+    const Brick& brick, int offset)
 {
     this->draw_rectangle(display_position, display_width, display_height);
     const Vector2 centered_position{
         this->compute_brick_on_display_centered_position(
             display_position, display_width, display_height, brick)
+        + Vector2{offset, 0}
     };
     this->draw_cubes(centered_position, brick.cubes);
 }
@@ -74,7 +77,7 @@ void MatrixDisplayGameUiImpl::draw_background()
 {
     this->draw_rectangle(
         {0, 0}, display_width, display_height,
-        create_color(background_color));
+        create_color(background_color_code));
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
