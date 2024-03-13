@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "brick.h"
+#include "settings.h"
 
 namespace Tetris
 {
@@ -29,7 +30,7 @@ struct GameConfig final
     std::vector<Brick> bricks;
     std::vector<int> color_codes;
     int brick_spawn_position_y;
-    bool generate_ghost;
+    Settings default_settings;
 };
 
 struct DisplayConfig final
