@@ -11,7 +11,6 @@
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
-#include "game_state.h"
 #include "game_ui.h"
 #include "score_counter.h"
 #include "settings.h"
@@ -32,12 +31,6 @@ public:
         Settings settings);
 
     Brick get_transformed_cur_brick() const;
-
-    void game_over() override
-    {
-        this->state = GameState::ended;
-        this->ui.game_over();
-    }
 
     void pause() override
     {
@@ -101,9 +94,15 @@ public:
         this->perform_action([this](){ this->hold(); });
     }
 
-    void connect_reset_timeout(const std::function<void ()> &handler) override
+    void connect_reset_timeout(const std::function<void()> &handler) override
     {
         this->reset_timeout.connect(handler);
+    }
+
+    void connect_set_timeout_delay(
+        const std::function<void(int)> &handler) override
+    {
+        this->set_timeout_delay.connect(handler);
     }
 
     unsigned long long get_score() const
@@ -150,12 +149,24 @@ public:
     {
         return this->settings;
     }
+
+    int get_lines() const
+    {
+        return this->lines;
+    }
+
+    int get_level() const
+    {
+        return this->level;
+    }
     
 private:
     using CubeMatrix = std::vector<std::vector<Cube>>;
     using Signal = boost::signals2::signal<void()>;
+    using SignalInt = boost::signals2::signal<void(int)>;
 
     static constexpr int tetris_lines_quantity{4};
+    static constexpr int next_level_lines_quantity{10};
 
     const Vector2 brick_start_position;
 
@@ -174,6 +185,9 @@ private:
     Brick hold_brick;
     bool can_hold;
     Signal reset_timeout;
+    SignalInt set_timeout_delay;
+    int lines;
+    int level;
 
     void generate_hold_brick();
     void hold();
@@ -188,18 +202,32 @@ private:
     void tick();
     void rotate_clockwise();
     void rotate_counter_clockwise();
+    void soft_drop();
     int hard_drop();
     void no_locking_hard_drop();
     Vector2 compute_ghost_brick_position() const;
     Brick create_ghost_brick() const;
     void draw_ghost_brick();
     void draw_bricks();
-    void add_score_for_lines(int amount);
     void remove_lines(int from_y, int to_y);
     void generate_new_brick();
     void set_start_position_and_rotation();
     void add_score(unsigned long long amount);
     void add_tetrises(unsigned long long amount);
+    void add_lines(int amount);
+    void update_level();
+
+    void add_score_for_lines(int amount)
+    {
+        this->add_score(this->score_counter.count_score_for_lines(amount));
+        this->add_tetrises(amount / tetris_lines_quantity);
+    }
+
+    void game_over()
+    {
+        this->state = GameState::ended;
+        this->ui.game_over();
+    }
 
     bool can_move(const Brick& brick, Vector2 vector) const
     {
@@ -211,13 +239,6 @@ private:
         int board_width, int brick_start_position_y, int board_offset) const
     {
         return {(board_width - 1) / 2, brick_start_position_y + board_offset};
-    }
-
-    void soft_drop()
-    {
-        this->tick();
-        this->add_score(this->score_counter.count_score_for_soft_drop());
-        this->reset_timeout();
     }
 
     void locking_hard_drop()

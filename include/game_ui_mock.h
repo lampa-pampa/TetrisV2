@@ -20,6 +20,8 @@ public:
     void draw_hold_brick(const Brick& brick) override {}
     void draw_score(unsigned long long score) override {}
     void draw_tetrises(unsigned long long tetrises) override {}
+    void draw_lines(int lines) override {}
+    void draw_level(int level) override {}
     void refresh() override {}
     void game_over() override {}
     void pause() override {}

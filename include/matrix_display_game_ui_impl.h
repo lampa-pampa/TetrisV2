@@ -59,6 +59,16 @@ public:
 
     }
 
+    void draw_lines(int lines) override
+    {
+
+    }
+    
+    void draw_level(int level) override
+    {
+
+    }
+
     void game_over() override
     {
         
