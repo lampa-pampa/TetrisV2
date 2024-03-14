@@ -467,7 +467,7 @@ TEST(GameImpl, handle_locking_hard_drop)
             {1, 0},
             {{ {0, 0, 1} }}
         }},
-        { 4, {
+        { 3, {
             GameState::ended,
             9,
             {{ {0, 0, 1} }},
@@ -530,7 +530,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
             {1, 0},
             {{ {0, 0, 3} }}
         }},
-        { 6, {
+        { 5, {
             GameState::ended,
             9,
             {{ {0, 0, 1} }},
