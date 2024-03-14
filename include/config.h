@@ -44,15 +44,20 @@ struct DisplayConfig final
 struct UiConfig final
 {
     DisplayConfig display;
+    std::map<int, Action> key_code_to_action;
     int background_color_code;
 };
 
 struct ControlsConfig final
 {
-    std::map<int, Action> key_code_to_action;
     int pause_key_code;
     int quit_key_code;
     int no_key_code;
+};
+
+struct TimerConfig final
+{
+    unsigned long long timeout_delay;
 };
 
 struct Config final
@@ -60,6 +65,7 @@ struct Config final
     GameConfig game;
     UiConfig ui;
     ControlsConfig controls;
+    TimerConfig timer;
 };
 
 }
