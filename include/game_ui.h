@@ -4,7 +4,6 @@
 #include <functional>
 #include <vector>
 
-#include "action.h"
 #include "brick.h"
 #include "cube.h"
 
@@ -27,7 +26,7 @@ public:
     virtual void game_over() = 0;
     virtual void pause() = 0;
     virtual void resume() = 0;
-    virtual void handle_action_pressed(Action action) = 0;
+    virtual void handle_key_press(int key_code) = 0;
     virtual void connect_move_left_pressed(
         const std::function<void()>& handler) = 0;
     virtual void connect_move_right_pressed(

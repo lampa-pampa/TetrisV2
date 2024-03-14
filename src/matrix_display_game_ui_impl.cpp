@@ -1,23 +1,29 @@
 #include "matrix_display_game_ui_impl.h"
 
 #include <boost/range/irange.hpp>
+#include <map>
 #include <vector>
 
+#include "action.h"
 #include "brick.h"
 #include "cube.h"
 #include "matrix_display.h"
 #include "vector_2.h"
 
 using boost::irange;
+using std::map;
 using std::vector;
 
 namespace Tetris
 {
 
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
-    MatrixDisplay& matrix, int background_color_code)
+    MatrixDisplay& matrix,
+    std::map<int, Action> key_code_to_action,
+    int background_color_code)
 :
     matrix{matrix},
+    key_code_to_action{key_code_to_action},
     display_width{matrix.get_width()},
     display_height{matrix.get_height()},
     background_color_code{background_color_code}
@@ -26,11 +32,12 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     this->draw_background();
 }
 
-void MatrixDisplayGameUiImpl::handle_action_pressed(Action action)
+void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 {
-    const auto it{this->action_to_signal.find(action)};
-    assert(it != this->action_to_signal.end());
-    it->second();
+    if(const auto it{this->key_code_to_action.find(key_code)};
+        it != this->key_code_to_action.end()
+    )
+        this->emit_action_signal(it->second);
 }
 
 void MatrixDisplayGameUiImpl::draw_next_brick(const Brick& brick)
@@ -135,6 +142,13 @@ void MatrixDisplayGameUiImpl::draw_rectangle(
         for (const auto& x : irange(width))
             this->draw_pixel(position + Vector2{x, y}, color_code);
     }
+}
+
+void MatrixDisplayGameUiImpl::emit_action_signal(Action action)
+{
+    const auto it{this->action_to_signal.find(action)};
+    assert(it != this->action_to_signal.end());
+    it->second();
 }
 
 }

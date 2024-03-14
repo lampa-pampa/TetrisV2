@@ -22,9 +22,12 @@ namespace Tetris
 class MatrixDisplayGameUiImpl final: public GameUi
 {
 public:
-    MatrixDisplayGameUiImpl(MatrixDisplay& matrix, int background_color_code);
+    MatrixDisplayGameUiImpl(
+        MatrixDisplay& matrix,
+        std::map<int, Action> key_code_to_action,
+        int background_color_code);
     
-    void handle_action_pressed(Action action) override;
+    void handle_key_press(int key_code) override;
     void draw_next_brick(const Brick& brick) override;
     void draw_hold_brick(const Brick& brick) override;
 
@@ -133,6 +136,7 @@ private:
     const int display_width;
     const int display_height;
     const int background_color_code;
+    const std::map<int, Action> key_code_to_action;
     const std::map<Action, Signal&> action_to_signal
     {
         {Action::move_left, this->move_left_pressed},
@@ -153,6 +157,7 @@ private:
     std::vector<Cube> ghost_brick_cubes;
     std::vector<Cube> next_brick_cubes;
     std::vector<Cube> hold_brick_cubes;
+    
 
     Signal move_left_pressed;
     Signal move_right_pressed;
@@ -184,6 +189,7 @@ private:
     void draw_new_centered_brick(
         Vector2 display_position, int display_width, int display_height,
         const Brick& brick, bool align_to_left);
+    void emit_action_signal(Action action);
 
     void refresh() override
     {

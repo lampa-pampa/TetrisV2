@@ -60,9 +60,6 @@ int main()
         },
         {
             {64, 64},
-            get_color_code(ColorName::white),
-        },
-        {
             {
                 {KEY_DOWN, Action::soft_drop},
                 {KEY_LEFT, Action::move_left},
@@ -73,12 +70,16 @@ int main()
                 {'c', Action::hold},
                 {' ', Action::locking_hard_drop},
             },
+            get_color_code(ColorName::white),
+        },
+        {
             'p',
             'q',
             -1, 
-        }
+        },
+        {500ULL}
     };
-    TimerImpl timer{};
+    TimerImpl timer{config.timer.timeout_delay};
     NCursesColors colors{};
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.width,
@@ -87,6 +88,7 @@ int main()
     };
     MatrixDisplayGameUiImpl ui{
         matrix,
+        config.ui.key_code_to_action,
         config.ui.background_color_code
     };
     BoardImpl board{
@@ -133,26 +135,22 @@ int main()
     
     while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)
     {
+        const GameState state{game.get_state()};
         if(timer.is_active())
-            timer.update_time();
+        {
+            if(state == GameState::ended)
+                timer.stop();
+            else
+                timer.update_time();
+        }
         if(key_code == config.controls.no_key_code)
             continue;
-        if(
-            const GameState state{game.get_state()};
-            state != GameState::ended)
+        if(state != GameState::ended)
         {
             if(key_code == config.controls.pause_key_code)
                 game_controller.handle_pause_pressed();
             else if(state == GameState::in_progress)
-            { 
-                if(
-                    const auto it{
-                        config.controls.key_code_to_action.find(key_code)
-                    };
-                    it != config.controls.key_code_to_action.end()
-                )
-                    ui.handle_action_pressed(it->second);
-            }
+                ui.handle_key_press(key_code);
         }
     }    
     return 0;
