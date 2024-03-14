@@ -57,48 +57,47 @@ public:
 
     void handle_soft_drop() override
     {
-        this->try_to_perform_action([this](){ this->soft_drop(); });
+        this->perform_action([this](){ this->soft_drop(); });
     }
 
     void handle_timeout() override
     {
-        this->try_to_perform_action([this](){ this->tick(); });
+        this->perform_action([this](){ this->tick(); });
     }
 
     void handle_move_left() override
     {
-        this->try_to_perform_action([this](){ this->move_left(); });
+        this->perform_action([this](){ this->move_left(); });
     }
 
     void handle_move_right() override
     {
-        this->try_to_perform_action([this](){ this->move_right(); });
+        this->perform_action([this](){ this->move_right(); });
     }
 
     void handle_rotate_clockwise() override
     {
-        this->try_to_perform_action([this](){ this->rotate_clockwise(); });
+        this->perform_action([this](){ this->rotate_clockwise(); });
     }
 
     void handle_rotate_counter_clockwise() override
     {
-        this->try_to_perform_action([this](){
-            this->rotate_counter_clockwise();});
+        this->perform_action([this](){this->rotate_counter_clockwise();});
     }
 
     void handle_locking_hard_drop() override
     {
-        this->try_to_perform_action([this](){ this->locking_hard_drop(); });
+        this->perform_action([this](){ this->locking_hard_drop(); });
     }
 
     void handle_no_locking_hard_drop() override
     {
-        this->try_to_perform_action([this](){ this->no_locking_hard_drop(); });
+        this->perform_action([this](){ this->no_locking_hard_drop(); });
     }
 
     void handle_hold() override
     {
-        this->try_to_perform_action([this](){ this->hold(); });
+        this->perform_action([this](){ this->hold(); });
     }
 
     unsigned long long get_score() const
@@ -177,7 +176,7 @@ private:
     int compute_lowest_position(const Brick& brick) const;
     bool can_rotate(
         const Brick& brick, Vector2 position, int rotation, int d_q) const;
-    void try_to_perform_action(const std::function<void()>& action);
+    void perform_action(const std::function<void()>& action);
     void tick();
     void rotate_clockwise();
     void rotate_counter_clockwise();

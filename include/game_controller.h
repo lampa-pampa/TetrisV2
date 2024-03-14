@@ -11,6 +11,12 @@ namespace Tetris
 class GameController final
 {
 public:
+    GameController(Timer& timer, Game& game)
+    :
+        timer{timer},
+        game{game}
+    {}
+    
     void handle_pause_pressed()
     {
         const GameState state{this->game.get_state()};
@@ -19,12 +25,6 @@ public:
         else if(state == GameState::paused)
             this->start_game();
     }
-
-    GameController(Timer& timer, Game& game)
-    :
-        timer{timer},
-        game{game}
-    {}
 
 private:
     Timer& timer;

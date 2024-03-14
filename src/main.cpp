@@ -1,4 +1,3 @@
-#include <map>
 #include <ncurses.h>
 
 #include "action.h"
@@ -9,22 +8,23 @@
 #include "console_matrix_display_impl.h"
 #include "game_controller.h"
 #include "game_impl.h"
+#include "game_state.h"
 #include "matrix_display_game_ui_impl.h"
 #include "ncurses_colors.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_mock.h"
 
-using std::map;
 using Tetris::Action;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
 using Tetris::ColorName;
 using Tetris::Config;
 using Tetris::ConsoleMatrixDisplayImpl;
-using Tetris::get_color_code;
 using Tetris::GameController;
 using Tetris::GameImpl;
+using Tetris::GameState;
+using Tetris::get_color_code;
 using Tetris::MatrixDisplayGameUiImpl;
 using Tetris::NCursesColors;
 using Tetris::RngImpl;
@@ -62,6 +62,21 @@ int main()
             {64, 64},
             get_color_code(ColorName::white),
         },
+        {
+            {
+                {KEY_DOWN, Action::soft_drop},
+                {KEY_LEFT, Action::move_left},
+                {KEY_RIGHT, Action::move_right},
+                {KEY_UP, Action::rotate_clockwise},
+                {'z', Action::rotate_counter_clockwise},
+                {'x', Action::no_locking_hard_drop},
+                {'c', Action::hold},
+                {' ', Action::locking_hard_drop},
+            },
+            'p',
+            'q',
+            -1, 
+        }
     };
     TimerMock timer{};
     NCursesColors colors{};
@@ -98,19 +113,6 @@ int main()
         config.game.default_settings
     };
     GameController game_controller{timer, game};
-    constexpr int quit_key_code{'q'};
-    constexpr int no_key_press_code{-1};
-    const map<int, Action> input_key_code_to_action{
-        {KEY_DOWN, Action::soft_drop},
-        {KEY_LEFT, Action::move_left},
-        {KEY_RIGHT, Action::move_right},
-        {KEY_UP, Action::rotate_clockwise},
-        {'z', Action::rotate_counter_clockwise},
-        {'x', Action::no_locking_hard_drop},
-        {'c', Action::hold},
-        {' ', Action::locking_hard_drop},
-        {'p', Action::pause},
-    };
 
     timer.connect_timeout([&game](){ game.handle_timeout(); });
     ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
@@ -125,19 +127,31 @@ int main()
     ui.connect_no_locking_hard_drop_pressed(
         [&game](){ game.handle_no_locking_hard_drop(); });
     ui.connect_hold_pressed([&game](){ game.handle_hold(); });
-    ui.connect_pause_pressed([&game_controller](){
-        game_controller.handle_pause_pressed();});
 
-    int input_key_code;
+    int key_code;
     ::WINDOW * game_window{matrix.get_game_window()};
     
-    while ((input_key_code = ::wgetch(game_window)) != quit_key_code)
+    while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)
     {
-        if(input_key_code == no_key_press_code)
+        if(key_code == config.controls.no_key_code)
             continue;
-        const auto it{input_key_code_to_action.find(input_key_code)}; 
-        if(it != input_key_code_to_action.end())
-            ui.handle_action_pressed(it->second);
+        if(
+            const GameState state{game.get_state()};
+            state != GameState::ended)
+        {
+            if(key_code == config.controls.pause_key_code)
+                game_controller.handle_pause_pressed();
+            else if(state == GameState::in_progress)
+            { 
+                if(
+                    const auto it{
+                        config.controls.key_code_to_action.find(key_code)
+                    };
+                    it != config.controls.key_code_to_action.end()
+                )
+                    ui.handle_action_pressed(it->second);
+            }
+        }
     }    
     return 0;
 }

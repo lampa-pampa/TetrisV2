@@ -126,14 +126,11 @@ namespace Tetris
             Brick::get_transformed(brick, next_rotation, position));
     }
 
-    void GameImpl::try_to_perform_action(const function<void()>& action)
+    void GameImpl::perform_action(const function<void()>& action)
     {
-        if (this->state == GameState::in_progress)
-        {
-            action();
-            this->ui.draw_board(this->board.get_visible_cubes());
-            this->draw_bricks();
-        }            
+        action();
+        this->ui.draw_board(this->board.get_visible_cubes());
+        this->draw_bricks();            
     };
 
     void GameImpl::tick()
