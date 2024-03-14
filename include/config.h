@@ -55,17 +55,11 @@ struct ControlsConfig final
     int no_key_code;
 };
 
-struct TimerConfig final
-{
-    unsigned long long timeout_delay;
-};
-
 struct Config final
 {
     GameConfig game;
     UiConfig ui;
     ControlsConfig controls;
-    TimerConfig timer;
 };
 
 }
