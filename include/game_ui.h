@@ -44,8 +44,6 @@ public:
         const std::function<void()>& handler) = 0;
     virtual void connect_hold_pressed(
         const std::function<void()>& handler) = 0;
-    virtual void connect_pause_pressed(
-        const std::function<void()>& handler) = 0;
     virtual ~GameUi() = default;
 };
 

@@ -42,8 +42,6 @@ public:
         const std::function<void()>& handler) override {}
     void connect_hold_pressed(
         const std::function<void()>& handler) override {}
-    void connect_pause_pressed(
-        const std::function<void()>& handler) override {}
 };
 
 }

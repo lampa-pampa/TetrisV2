@@ -119,12 +119,6 @@ public:
         this->hold_pressed.connect(handler);
     }
 
-    void connect_pause_pressed(
-        const std::function<void()>& handler) override
-    {
-        this->pause_pressed.connect(handler);
-    }
-
 private:
     using ColorCodeMatrix = std::vector<std::vector<int>>;
     using Signal = boost::signals2::signal<void()>;
@@ -150,7 +144,6 @@ private:
         {Action::rotate_counter_clockwise,
             this->rotate_counter_clockwise_pressed},
         {Action::hold, this->hold_pressed},
-        {Action::pause, this->pause_pressed},
     };
     
     MatrixDisplay& matrix;
@@ -169,7 +162,6 @@ private:
     Signal locking_hard_drop_pressed;
     Signal no_locking_hard_drop_pressed;
     Signal hold_pressed;
-    Signal pause_pressed;
 
     ColorCodeMatrix create_color_codes() const;
     Vector2 compute_brick_center(

@@ -14,7 +14,6 @@ enum class Action
     rotate_counter_clockwise,
     no_locking_hard_drop,
     hold,
-    pause,
 };
 
 }
