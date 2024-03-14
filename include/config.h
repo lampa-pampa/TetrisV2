@@ -2,7 +2,9 @@
 #define INCLUDE_CONFIG
 
 #include <vector>
+#include <map>
 
+#include "action.h"
 #include "brick.h"
 #include "settings.h"
 
@@ -45,10 +47,19 @@ struct UiConfig final
     int background_color_code;
 };
 
+struct ControlsConfig final
+{
+    std::map<int, Action> key_code_to_action;
+    int pause_key_code;
+    int quit_key_code;
+    int no_key_code;
+};
+
 struct Config final
 {
     GameConfig game;
     UiConfig ui;
+    ControlsConfig controls;
 };
 
 }
