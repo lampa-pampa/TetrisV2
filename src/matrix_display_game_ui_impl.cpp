@@ -1,8 +1,9 @@
 #include "matrix_display_game_ui_impl.h"
 
-#include <boost/range/irange.hpp>
 #include <map>
 #include <vector>
+
+#include <boost/range/irange.hpp>
 
 #include "action.h"
 #include "brick.h"

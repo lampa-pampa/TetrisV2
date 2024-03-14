@@ -1,8 +1,8 @@
 #ifndef INCLUDE_CONFIG
 #define INCLUDE_CONFIG
 
-#include <vector>
 #include <map>
+#include <vector>
 
 #include "action.h"
 #include "brick.h"

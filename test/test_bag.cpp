@@ -11,8 +11,8 @@
 #include "rng_mock.h"
 
 using boost::irange;
-using std::vector;
 using std::pair;
+using std::vector;
 using testing::Eq;
 using Tetris::Bag;
 using Tetris::RngMock;

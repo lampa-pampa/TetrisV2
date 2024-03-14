@@ -1,10 +1,11 @@
 #include "brick.h"
 
 #include <algorithm>
-#include <boost/range/irange.hpp>
 #include <cstdlib>
 #include <ostream>
 #include <vector>
+
+#include <boost/range/irange.hpp>
 
 #include "cube.h"
 #include "vector_2.h"

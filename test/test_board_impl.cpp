@@ -11,8 +11,8 @@
 #include "brick.h"
 #include "cube.h"
 
-using std::tuple;
 using std::pair;
+using std::tuple;
 using std::vector;
 using testing::Eq;
 using Tetris::BoardImpl;

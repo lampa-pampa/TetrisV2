@@ -1,6 +1,7 @@
 #include "ncurses_colors.h"
 
 #include <cassert>
+
 #include <ncurses.h>
 
 namespace Tetris

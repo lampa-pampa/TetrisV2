@@ -29,11 +29,11 @@ using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
 using Tetris::GameConfig;
 using Tetris::GameImpl;
-using Tetris::Settings;
 using Tetris::GameState;
 using Tetris::GameUiMock;
 using Tetris::RngMock;
 using Tetris::ScoreCounterImpl;
+using Tetris::Settings;
 using Tetris::Vector2;
 
 namespace

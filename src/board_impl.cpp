@@ -1,8 +1,9 @@
 #include "board_impl.h"
 
-#include <boost/range/irange.hpp>
 #include <cassert>
 #include <vector>
+
+#include <boost/range/irange.hpp>
 
 #include "brick.h"
 #include "cube.h"
