@@ -7,10 +7,10 @@
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
-#include "settings.h"
 #include "game_state.h"
 #include "game_ui.h"
 #include "score_counter.h"
+#include "settings.h"
 #include "vector_2.h"
 
 using std::function;
@@ -170,6 +170,7 @@ namespace Tetris
         this->cur_brick_position.y += distance;
         this->add_score(
             this->score_counter.count_score_for_hard_drop(distance));
+        this->reset_timeout();
         return distance;
     }
 

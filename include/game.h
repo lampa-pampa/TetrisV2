@@ -1,6 +1,8 @@
 #ifndef INCLUDE_GAME_H
 #define INCLUDE_GAME_H
 
+#include <functional>
+
 #include "game_state.h"
 
 namespace Tetris
@@ -22,6 +24,8 @@ public:
     virtual GameState get_state() const = 0;
     virtual void handle_move_left() = 0;
     virtual void handle_move_right() = 0;
+    virtual void connect_reset_timeout(
+        const std::function<void()>& handler) = 0;
     virtual ~Game() = default;
 };
 

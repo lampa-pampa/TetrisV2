@@ -4,8 +4,9 @@
 #include "game.h"
 
 #include <functional>
-#include <gtest/gtest.h>
 #include <vector>
+
+#include <boost/signals2.hpp>
 
 #include "board.h"
 #include "brick_generator.h"
@@ -100,6 +101,11 @@ public:
         this->perform_action([this](){ this->hold(); });
     }
 
+    void connect_reset_timeout(const std::function<void ()> &handler) override
+    {
+        this->reset_timeout.connect(handler);
+    }
+
     unsigned long long get_score() const
     {
         return this->score;
@@ -147,6 +153,7 @@ public:
     
 private:
     using CubeMatrix = std::vector<std::vector<Cube>>;
+    using Signal = boost::signals2::signal<void()>;
 
     static constexpr int tetris_lines_quantity{4};
 
@@ -166,6 +173,7 @@ private:
     Brick next_brick;
     Brick hold_brick;
     bool can_hold;
+    Signal reset_timeout;
 
     void generate_hold_brick();
     void hold();
@@ -209,6 +217,7 @@ private:
     {
         this->tick();
         this->add_score(this->score_counter.count_score_for_soft_drop());
+        this->reset_timeout();
     }
 
     void locking_hard_drop()

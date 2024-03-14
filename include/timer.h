@@ -11,6 +11,7 @@ class Timer
 public:
     virtual void start() = 0;
     virtual void stop() = 0;
+    virtual void reset_timeout() = 0;
     virtual void connect_timeout(const std::function<void()>& handler) = 0;
     virtual void update_time() = 0;
     virtual bool is_active() const = 0;

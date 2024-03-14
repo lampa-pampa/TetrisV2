@@ -75,9 +75,9 @@ int main()
         {
             'p',
             'q',
-            -1, 
+            -1,
         },
-        {500ULL}
+        {1'000'000'000ULL}
     };
     TimerImpl timer{config.timer.timeout_delay};
     NCursesColors colors{};
@@ -129,6 +129,7 @@ int main()
     ui.connect_no_locking_hard_drop_pressed(
         [&game](){ game.handle_no_locking_hard_drop(); });
     ui.connect_hold_pressed([&game](){ game.handle_hold(); });
+    game.connect_reset_timeout([&timer](){ timer.reset_timeout(); });
 
     int key_code;
     ::WINDOW * game_window{matrix.get_game_window()};
@@ -136,21 +137,23 @@ int main()
     while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)
     {
         const GameState state{game.get_state()};
+        if(state == GameState::ended)
+            continue;
+        
+        if(key_code != config.controls.no_key_code)
+        {
+            if(key_code == config.controls.pause_key_code)
+                game_controller.handle_pause_pressed();
+            else if(state == GameState::in_progress)
+                ui.handle_key_press(key_code);
+        }
+        
         if(timer.is_active())
         {
             if(state == GameState::ended)
                 timer.stop();
             else
                 timer.update_time();
-        }
-        if(key_code == config.controls.no_key_code)
-            continue;
-        if(state != GameState::ended)
-        {
-            if(key_code == config.controls.pause_key_code)
-                game_controller.handle_pause_pressed();
-            else if(state == GameState::in_progress)
-                ui.handle_key_press(key_code);
         }
     }    
     return 0;

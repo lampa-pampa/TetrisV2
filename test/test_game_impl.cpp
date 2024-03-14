@@ -78,7 +78,7 @@ namespace
 
 TEST(GameImpl, GameImpl)
 {
-    const vector<pair<GameImplTest, tuple<
+    const vector<pair<GameConfig, tuple<
         GameState,
         unsigned long long,
         unsigned long long,
@@ -90,14 +90,14 @@ TEST(GameImpl, GameImpl)
         bool,
         Settings>>> game_to_expected
     {
-        {{{
+        {{
             {5, 10, 0},
             {1, 2, 4},
             { {{ {0, 0}, {0, 1} }} },
             {2},
             5,
             {false}
-        }}, {
+        }, {
             GameState::in_progress,
             0,
             0,
@@ -109,14 +109,14 @@ TEST(GameImpl, GameImpl)
             true,
             {false}
         }},
-        {{{
+        {{
             {3, 3, 2},
             {3, 12, 24},
             { {{ {0, 0}, {1, 2} }}, {{ {0, 0}, {1, 3} }} },
             {4, 6},
             1,
             {false}
-        }}, {
+        }, {
             GameState::in_progress,
             0,
             0,
@@ -128,14 +128,14 @@ TEST(GameImpl, GameImpl)
             true,
             {false}
         }},
-        {{{
+        {{
             {10, 20, 2},
             {0, 0, 0},
             { {{ {0, 0}, {1, 0} }}, {{ {-1, 0}, {0, 0} }} },
             {3, 5},
             1,
             {false}
-        }}, {
+        }, {
             GameState::in_progress,
             0,
             0,
@@ -164,7 +164,8 @@ TEST(GameImpl, GameImpl)
             settings
         ]{pair.second};
 
-        const GameImpl& game{pair.first.game};
+        GameImplTest game_test{pair.first};
+        const GameImpl& game{game_test.game};
 
         ASSERT_THAT(game.get_state(), Eq(state));
         ASSERT_THAT(game.get_score(), Eq(score));
