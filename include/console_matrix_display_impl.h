@@ -56,16 +56,11 @@ private:
     void print_colored(Vector2 position, int ncurses_color);
     void refresh_pixel(Vector2 position, int color_code);
     void setup_ncurses_window();
+    void setup_ncurses_keyboard();
 
     Vector2 compute_window_size() const
     {
         return {this->width * pixel_width, this->height * pixel_height};
-    }
-
-    void setup_ncurses_keyboard()
-    {
-        ::keypad(this->window, true);
-        ::noecho();
     }
 };
 

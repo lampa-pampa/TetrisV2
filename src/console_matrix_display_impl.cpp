@@ -83,4 +83,11 @@ void ConsoleMatrixDisplayImpl::setup_ncurses_window()
     this->create_window();
 }
 
+void ConsoleMatrixDisplayImpl::setup_ncurses_keyboard()
+{
+    ::keypad(this->window, true);
+    ::nodelay(this->window, true);
+    ::noecho();
+}
+
 }
