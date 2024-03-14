@@ -5,7 +5,6 @@
 
 #include <boost/signals2.hpp>
 #include <chrono>
-#include <cmath>
 #include <functional>
 
 namespace Tetris
@@ -14,18 +13,14 @@ namespace Tetris
 class TimerImpl final: public Timer
 {  
 public:
-    TimerImpl()
-    :
-        timeout_time{Nanoseconds::zero()}
-    {
-        this->set_timeout_delay(1);
-        this->start();
-    }
+    TimerImpl();
+
+    void update_time() override;
 
     void start() override
     {
-        this->active = true;
         this->update_start_time();
+        this->active = true;
     }
 
     void stop() override
@@ -48,13 +43,6 @@ public:
         this->timeout_signal.connect(handler);
     }
 
-    void update_time() override
-    {
-        const auto cur_time{std::chrono::system_clock::now()};
-        const auto duration{cur_time - this->start_time};
-        this->time_elapsed(duration);
-    };
-
     bool is_active() const override
     {
         return this->active;
@@ -72,30 +60,12 @@ private:
     Signal timeout_signal;
     TimePoint start_time;
 
-    void time_elapsed(Nanoseconds time)
-    {
-        this->timeout_time += time;
-        if(timeout_time >= this->timeout_delay)
-        {
-            timeout_time -= timeout_delay;
-            this->timeout_signal();
-        }
-        this->update_start_time();
-    }
+    Nanoseconds compute_timeout_delay(int level) const;
+    void time_elapsed(Nanoseconds time);
 
     void update_start_time()
     {
         this->start_time = std::chrono::system_clock::now();
-    }
-
-    Nanoseconds compute_timeout_delay(int level)
-    {
-        return Nanoseconds{
-            static_cast<unsigned long long>(
-                std::pow((0.8 - (level - 1) * 0.007), level - 1)
-                    * 1'000'000'000
-            )
-        };
     }
 };
 

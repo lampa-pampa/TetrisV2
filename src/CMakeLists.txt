@@ -17,6 +17,7 @@ target_sources(TETRIS_V2
         matrix_display_game_ui_impl.cpp
         ncurses_colors.cpp
         score_counter_impl.cpp
+        timer_impl.cpp
 )
 
 add_executable(tetris_v2
