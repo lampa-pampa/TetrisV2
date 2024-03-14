@@ -13,7 +13,7 @@
 #include "ncurses_colors.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
-#include "timer_mock.h"
+#include "timer_impl.h"
 
 using Tetris::Action;
 using Tetris::BoardImpl;
@@ -29,7 +29,7 @@ using Tetris::MatrixDisplayGameUiImpl;
 using Tetris::NCursesColors;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
-using Tetris::TimerMock;
+using Tetris::TimerImpl;
 
 int main()
 {
@@ -78,7 +78,7 @@ int main()
             -1, 
         }
     };
-    TimerMock timer{};
+    TimerImpl timer{};
     NCursesColors colors{};
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.width,
@@ -133,6 +133,8 @@ int main()
     
     while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)
     {
+        if(timer.is_active())
+            timer.update_time();
         if(key_code == config.controls.no_key_code)
             continue;
         if(
