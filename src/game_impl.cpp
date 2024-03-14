@@ -35,6 +35,8 @@ namespace Tetris
         state{GameState::in_progress},
         score{0},
         tetrises{0},
+        level{1},
+        lines{0},
         next_brick{this->brick_generator.generate()},
         hold_brick{},
         can_hold{true},
@@ -173,6 +175,13 @@ namespace Tetris
         this->reset_timeout();
         return distance;
     }
+    
+    void GameImpl::soft_drop()
+    {
+        this->tick();
+        this->add_score(this->score_counter.count_score_for_soft_drop());
+        this->reset_timeout();
+    }
 
     void GameImpl::no_locking_hard_drop()
     {
@@ -214,21 +223,12 @@ namespace Tetris
         this->ui.refresh();
     }
 
-    void GameImpl::add_score_for_lines(int amount)
-    {
-        if (amount > 0)
-        {
-            this->add_score(this->score_counter.count_score_for_lines(amount));
-            this->add_tetrises(amount / tetris_lines_quantity);
-        }
-    }
-
     void GameImpl::remove_lines(int from_y, int to_y)
     {
         const vector rows_with_line{
             this->board.remove_lines_and_compress(from_y, to_y)
         };
-        this->add_score_for_lines(rows_with_line.size());
+        this->add_lines(rows_with_line.size());
     }
 
     void GameImpl::generate_new_brick()
@@ -260,6 +260,28 @@ namespace Tetris
         {
             this->tetrises += amount;
             this->ui.draw_tetrises(this->tetrises);
+        }
+    }
+
+    void GameImpl::add_lines(int amount)
+    {
+        if(amount > 0)
+        {
+            this->lines += amount;
+            this->ui.draw_lines(this->lines);
+            this->add_score_for_lines(amount);
+            this->update_level();
+        }
+    }
+
+    void GameImpl::update_level()
+    {
+        if(this->lines >= next_level_lines_quantity)
+        {
+            this->lines -= next_level_lines_quantity;
+            ++this->level;
+            this->ui.draw_level(this->level);
+            this->set_timeout_delay(this->level);
         }
     }
 }

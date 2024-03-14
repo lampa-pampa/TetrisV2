@@ -77,9 +77,8 @@ int main()
             'q',
             -1,
         },
-        {1'000'000'000ULL}
     };
-    TimerImpl timer{config.timer.timeout_delay};
+    TimerImpl timer{};
     NCursesColors colors{};
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.width,
@@ -130,6 +129,8 @@ int main()
         [&game](){ game.handle_no_locking_hard_drop(); });
     ui.connect_hold_pressed([&game](){ game.handle_hold(); });
     game.connect_reset_timeout([&timer](){ timer.reset_timeout(); });
+    game.connect_set_timeout_delay(
+        [&timer](int level){ timer.set_timeout_delay(level); });
 
     int key_code;
     ::WINDOW * game_window{matrix.get_game_window()};

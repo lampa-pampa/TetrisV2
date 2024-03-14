@@ -631,3 +631,32 @@ TEST(GameImpl, handle_hold)
         ASSERT_THAT(game.get_can_hold(), Eq(can_hold));
     }
 }
+
+TEST(GameImpl, update_level)
+{
+    const GameConfig initial_config{
+        {3, 3, 0},
+        {1, 2, 3},
+        { {{ {-1, 0}, {0, 0}, {1, 0} }} },
+        {1},
+        2,
+        {false}
+    };
+    const vector<pair<int, int>> timeouts_to_expected
+    {
+        {1, 1},
+        {10, 2},
+        {25, 3},
+    };
+
+    for (const auto& pair : timeouts_to_expected)
+    {
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for (const auto& i : irange(pair.first))
+            game.handle_timeout();
+
+        ASSERT_THAT(game.get_lines(), Eq(pair.first % 10));
+        ASSERT_THAT(game.get_level(), Eq(pair.second));
+    }
+}
