@@ -3,10 +3,10 @@
 
 #include "timer.h"
 
-#include <chrono>
-#include <iostream>
-#include <functional>
 #include <boost/signals2.hpp>
+#include <chrono>
+#include <functional>
+#include <ratio>
 
 namespace Tetris
 {
@@ -14,7 +14,9 @@ namespace Tetris
 class TimerImpl final: public Timer
 {  
 public:
-    TimerImpl()
+    TimerImpl(unsigned long long timeout_delay)
+    :
+        timeout_delay{timeout_delay}
     {
         this->start();
     }
@@ -32,14 +34,18 @@ public:
 
     void connect_timeout(const std::function<void()>& handler) override
     {
-        this->timeout.connect(handler);
+        this->timeout_signal.connect(handler);
     }
 
     void update_time() override
     {
         const auto cur_time{std::chrono::system_clock::now()};
         const auto duration{cur_time - this->start_time};
-        std::cerr << duration.count();
+        if(duration >= this->timeout_delay)
+        {
+            this->timeout_signal();
+            this->start_time += timeout_delay;
+        }
     };
 
     bool is_active() const override
@@ -53,8 +59,9 @@ private:
         std::chrono::system_clock, std::chrono::duration<
             long, std::ratio<1, 1000000000>>>;
 
-    Signal timeout;
+    const std::chrono::milliseconds timeout_delay;
     bool active;
+    Signal timeout_signal;
     TimePoint start_time;
 };
 
