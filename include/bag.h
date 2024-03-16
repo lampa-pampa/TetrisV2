@@ -17,6 +17,7 @@ class Bag final
 {
 public:
     Bag(const std::vector<T>& items, Rng& rng);
+    
     T get_next();
     
 private:
