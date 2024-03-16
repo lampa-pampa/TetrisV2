@@ -46,6 +46,8 @@ struct UiConfig final
     DisplayConfig display;
     std::map<int, Action> key_code_to_action;
     int background_color_code;
+    int border_color_code;
+    int font_color_code;
 };
 
 struct ControlsConfig final
