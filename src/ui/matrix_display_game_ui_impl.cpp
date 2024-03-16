@@ -1,4 +1,4 @@
-#include "matrix_display_game_ui_impl.h"
+#include "ui/matrix_display_game_ui_impl.h"
 
 #include <map>
 #include <vector>
@@ -8,7 +8,8 @@
 #include "action.h"
 #include "brick.h"
 #include "cube.h"
-#include "matrix_display.h"
+#include "ui/matrix_display.h"
+#include "ui/ui_rectangle.h"
 #include "vector_2.h"
 
 using boost::irange;
@@ -21,13 +22,25 @@ namespace Tetris
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     MatrixDisplay& matrix,
     std::map<int, Action> key_code_to_action,
-    int background_color_code)
+    int background_color_code,
+    int border_color_code,
+    int font_color_code)
 :
     matrix{matrix},
     key_code_to_action{key_code_to_action},
     display_width{matrix.get_width()},
     display_height{matrix.get_height()},
-    background_color_code{background_color_code}
+    background_color_code{background_color_code},
+    border_color_code{border_color_code},
+    font_color_code{font_color_code},
+    board_cubes{ {{}} },
+    cur_brick_cubes{},
+    ghost_brick_cubes{},
+    next_brick_cubes{},
+    next_brick_position{0, 0},
+    hold_brick_cubes{},
+    hold_brick_position{0, 0}
+
 {
     this->color_codes = this->create_color_codes();
     this->draw_background();
@@ -44,15 +57,11 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 void MatrixDisplayGameUiImpl::draw_next_brick(const Brick& brick)
 {
     this->next_brick_cubes = brick.cubes;
-    this->draw_new_centered_brick(
-        next_board_position, next_board_width, next_board_height, brick, false);
 }
 
 void MatrixDisplayGameUiImpl::draw_hold_brick(const Brick& brick)
 {
     this->hold_brick_cubes = brick.cubes;
-    this->draw_new_centered_brick(
-        hold_board_position, next_board_width, next_board_height, brick, true);
 }
 
 //-------------------------------------------------------------------
@@ -87,61 +96,29 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
     return center_cube_position - brick_center_position;
 }
 
-Vector2 MatrixDisplayGameUiImpl::compute_brick_on_display_centered_position(
-    Vector2 display_position,
-    int display_width,
-    int display_height,
-    const Brick& brick,
-    bool align_to_left) const
-{
-    const Vector2 display_center{
-        this->compute_display_center(display_width, display_height)
-    };
-    const Vector2 brick_center{
-        this->compute_brick_centered_position(brick, align_to_left)};
-    return display_position + display_center + brick_center;
-}
-
 void MatrixDisplayGameUiImpl::draw_background()
 {
     this->draw_rectangle(
-        {0, 0}, display_width, display_height,
-        background_color_code);
+        {{0, 0}, display_width, display_height, border_color_code});
+    for(const auto& rectangle : this->background_rectangles)
+        draw_rectangle(rectangle);
+    this->draw_on_text_area("LEVEL", level_text_area);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
 {
     const Vector2 position_in_px{position + cube.position * cube_size};
     this->draw_rectangle(
-        position_in_px, cube_size, cube_size, cube.color_code);
+        {position_in_px, cube_size, cube_size, cube.color_code});
 }
 
-void MatrixDisplayGameUiImpl::draw_new_centered_brick(
-    Vector2 display_position,
-    int display_width,
-    int display_height,
-    const Brick& brick,
-    bool align_to_left)
+void MatrixDisplayGameUiImpl::draw_rectangle(const UiRectangle& rectangle)
 {
-    this->draw_rectangle(display_position, display_width, display_height);
-    const Vector2 centered_position{
-        this->compute_brick_on_display_centered_position(
-            display_position,
-            display_width,
-            display_height,
-            brick,
-            align_to_left)
-    };
-    this->draw_cubes(centered_position, brick.cubes);
-}
-
-void MatrixDisplayGameUiImpl::draw_rectangle(
-    Vector2 position, int width, int height, int color_code)
-{
-    for (const auto& y : irange(height))
+    for (const auto& y : irange(rectangle.height))
     {
-        for (const auto& x : irange(width))
-            this->draw_pixel(position + Vector2{x, y}, color_code);
+        for (const auto& x : irange(rectangle.width))
+            this->draw_pixel(
+                rectangle.position + Vector2{x, y}, rectangle.color_code);
     }
 }
 

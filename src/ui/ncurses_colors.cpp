@@ -1,4 +1,4 @@
-#include "ncurses_colors.h"
+#include "ui/ncurses_colors.h"
 
 #include <cassert>
 

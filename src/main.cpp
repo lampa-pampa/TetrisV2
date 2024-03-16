@@ -5,15 +5,15 @@
 #include "brick_generator_impl.h"
 #include "color_name.h"
 #include "config.h"
-#include "console_matrix_display_impl.h"
 #include "game_controller.h"
 #include "game_impl.h"
 #include "game_state.h"
-#include "matrix_display_game_ui_impl.h"
-#include "ncurses_colors.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_impl.h"
+#include "ui/console_matrix_display_impl.h"
+#include "ui/matrix_display_game_ui_impl.h"
+#include "ui/ncurses_colors.h"
 
 using Tetris::Action;
 using Tetris::BoardImpl;
@@ -70,7 +70,9 @@ int main()
                 {'c', Action::hold},
                 {' ', Action::locking_hard_drop},
             },
+            get_color_code(ColorName::black),
             get_color_code(ColorName::white),
+            get_color_code(ColorName::red),
         },
         {
             'p',
@@ -88,7 +90,9 @@ int main()
     MatrixDisplayGameUiImpl ui{
         matrix,
         config.ui.key_code_to_action,
-        config.ui.background_color_code
+        config.ui.background_color_code,
+        config.ui.border_color_code,
+        config.ui.font_color_code
     };
     BoardImpl board{
         config.game.board.width,

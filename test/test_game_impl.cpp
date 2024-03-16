@@ -14,7 +14,7 @@
 #include "brick.h"
 #include "config.h"
 #include "game_state.h"
-#include "game_ui_mock.h"
+#include "ui/game_ui_mock.h"
 #include "rng_mock.h"
 #include "score_counter_impl.h"
 #include "vector_2.h"

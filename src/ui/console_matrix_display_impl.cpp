@@ -1,9 +1,9 @@
-#include "console_matrix_display_impl.h"
+#include "ui/console_matrix_display_impl.h"
 
 #include <boost/range/irange.hpp>
 #include <ncurses.h>
 
-#include "ncurses_colors.h"
+#include "ui/ncurses_colors.h"
 #include "vector_2.h"
 
 using boost::irange;

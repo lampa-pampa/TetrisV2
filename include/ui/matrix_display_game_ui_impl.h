@@ -6,6 +6,7 @@
 #include <cassert>
 #include <functional>
 #include <map>
+#include <string>
 #include <vector>
 
 #include <boost/signals2.hpp>
@@ -14,6 +15,9 @@
 #include "brick.h"
 #include "cube.h"
 #include "matrix_display.h"
+#include "ui_char.h"
+#include "ui_text_area.h"
+#include "ui_rectangle.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -25,7 +29,9 @@ public:
     MatrixDisplayGameUiImpl(
         MatrixDisplay& matrix,
         std::map<int, Action> key_code_to_action,
-        int background_color_code);
+        int background_color_code,
+        int border_color_code,
+        int font_color_code);
     
     void handle_key_press(int key_code) override;
     void draw_next_brick(const Brick& brick) override;
@@ -51,17 +57,12 @@ public:
 
     void draw_score(unsigned long long score) override
     {
-
-    }
-
-    void draw_tetrises(unsigned long long tetrises) override
-    {
-
+        
     }
 
     void draw_lines(int lines) override
     {
-
+        
     }
     
     void draw_level(int level) override
@@ -76,12 +77,16 @@ public:
 
     void pause() override
     {
-        
+        this->draw_on_text_area("PAUSED", this->game_state_text_area);
+        this->refresh();
     }
 
     void resume() override
     {
         this->draw_board(this->board_cubes);
+        this->draw_ghost_brick(this->ghost_brick_cubes);
+        this->draw_cur_brick(this->cur_brick_cubes);
+        this->refresh();
     }
 
     void connect_move_left_pressed(
@@ -136,16 +141,11 @@ private:
     using ColorCodeMatrix = std::vector<std::vector<int>>;
     using Signal = boost::signals2::signal<void()>;
 
-    static constexpr int cube_size{3};
-    static constexpr Vector2 board_position{17, -4};
-    static constexpr int next_board_width{14};
-    static constexpr int next_board_height{8};
-    static constexpr Vector2 next_board_position{48, 2};
-    static constexpr Vector2 hold_board_position{2, 2};
-
     const int display_width;
     const int display_height;
     const int background_color_code;
+    const int border_color_code;
+    const int font_color_code;
     const std::map<int, Action> key_code_to_action;
     const std::map<Action, Signal&> action_to_signal
     {
@@ -159,16 +159,32 @@ private:
             this->rotate_counter_clockwise_pressed},
         {Action::hold, this->hold_pressed},
     };
+
+    static constexpr int cube_size{3};
+    static constexpr Vector2 board_position{17, -4};
+    static constexpr UiRectangle next_rectangle{{48, 2}, 14, 8};
+    static constexpr UiRectangle hold_rectangle{{2, 2}, 14, 8};
+    const inline static std::vector background_rectangles{
+        next_rectangle,
+        hold_rectangle,
+        {{2, 12}, 13, 50},
+        {{49, 12}, 13, 50},
+    };
+    const UiTextArea game_state_text_area{
+        {17, 29}, 30, this->font_color_code, 1, Align::center
+    };
+    const UiTextArea level_text_area{{3, 13}, 3, this->font_color_code};
     
     MatrixDisplay& matrix;
     ColorCodeMatrix color_codes;
     CubeMatrix board_cubes;
     std::vector<Cube> cur_brick_cubes;
     std::vector<Cube> ghost_brick_cubes;
+    Vector2 next_brick_position;
     std::vector<Cube> next_brick_cubes;
+    Vector2 hold_brick_position;
     std::vector<Cube> hold_brick_cubes;
     
-
     Signal move_left_pressed;
     Signal move_right_pressed;
     Signal rotate_clockwise_pressed;
@@ -183,22 +199,9 @@ private:
         int width, int height, bool align_to_left) const;
     Vector2 compute_brick_centered_position(
         const Brick& brick, bool align_to_left) const;
-    Vector2 compute_brick_on_display_centered_position(
-        Vector2 display_position,
-        int display_width,
-        int display_height,
-        const Brick& brick,
-        bool align_to_left) const;
     void draw_background();
     void draw_cube(Vector2 position, const Cube& cube);
-    void draw_rectangle(
-        Vector2 position,
-        int width,
-        int height,
-        int color_code = Cube::black_color_code);
-    void draw_new_centered_brick(
-        Vector2 display_position, int display_width, int display_height,
-        const Brick& brick, bool align_to_left);
+    void draw_rectangle(const UiRectangle& rectangle);
     void emit_action_signal(Action action);
 
     void refresh() override
@@ -206,15 +209,39 @@ private:
         this->matrix.refresh(this->color_codes);
     }
 
-    Vector2 compute_display_center(int display_width, int display_height) const
-    {
-        return Vector2{display_width, display_height} / 2;
-    }
-
     bool position_is_on_display(Vector2 position) const
     {
         return position.x >= 0 and position.x < display_width
             and position.y >= 0 and position.y < display_height;
+    }
+
+    void draw_on_text_area(std::string text, const UiTextArea& area)
+    {
+        this->draw_text_lines(area.create_lines(text));
+    }
+
+    void draw_text_lines(const std::vector<UiTextLine>& text_lines)
+    { 
+        for(const auto& line : text_lines)
+            this->draw_text_line(line);
+    }
+
+    void draw_text_line(const UiTextLine& line)
+    {
+        this->draw_rectangle(line.background);
+        Vector2 position{line.position};
+        for(const auto& c : line.chars)
+        {
+            this->draw_char(position, c, line.color_code);
+            position.x += UiChar::width + UiChar::separator;
+        }
+    }
+
+    void draw_char(Vector2 position, UiChar c, int color_code)
+    {
+        this->draw_rectangle({position, UiChar::width, UiChar::height});
+        for(const auto& vector : c.pixels)
+            this->draw_pixel(position + vector, color_code);
     }
 
     void draw_board(Vector2 position, const CubeMatrix& board)
