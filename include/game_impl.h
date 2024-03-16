@@ -30,6 +30,9 @@ public:
         int brick_start_position_y,
         Settings settings);
 
+        GameImpl(const GameImpl&) = delete;
+        GameImpl(const GameImpl&&) = delete;
+
     Brick get_transformed_cur_brick() const;
 
     void pause() override
