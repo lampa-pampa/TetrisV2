@@ -10,8 +10,6 @@ namespace Tetris
 
 struct Cube final
 {
-    static constexpr int black_color_code{0};
-
     Vector2 position;
     int color_code;
 
@@ -29,7 +27,7 @@ struct Cube final
 
     Cube(int x, int y)
     :
-        Cube{x, y, black_color_code}
+        Cube{x, y, 0}
     {}
 
     bool operator==(const Cube& other) const
@@ -40,12 +38,12 @@ struct Cube final
 
     void clear()
     {
-        this->color_code = black_color_code;
+        this->color_code = 0;
     }
 
     bool empty() const
     {
-        return this->color_code == black_color_code;
+        return this->color_code == 0;
     }
 };
 
