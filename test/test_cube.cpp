@@ -16,7 +16,7 @@ TEST(Cube, empty)
 {
     const vector<pair<Cube, bool>> cube_to_expected{
         { {1, 2}, true },
-        { {4, 3, Cube::black_color_code}, true },
+        { {4, 3, 0}, true },
         { {6, 7, 1}, false },
         { {8, 0, 2}, false },
     };
@@ -29,7 +29,7 @@ TEST(Cube, clear)
 {
     const vector<pair<Cube, Cube>> cube_to_expected{
         { {1, 2}, {1, 2} },
-        { {4, 3, Cube::black_color_code}, {4, 3, Cube::black_color_code} },
+        { {4, 3, 0}, {4, 3, 0} },
         { {6, 7, 1}, {6, 7} },
         { {8, 0, 2}, {8, 0} },
     };
