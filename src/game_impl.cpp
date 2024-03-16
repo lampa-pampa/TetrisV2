@@ -1,19 +1,17 @@
 #include "game_impl.h"
 
 #include <algorithm>
-#include <functional>
 #include <vector>
 
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
 #include "game_state.h"
-#include "game_ui.h"
+#include "ui/game_ui.h"
 #include "score_counter.h"
 #include "settings.h"
 #include "vector_2.h"
 
-using std::function;
 using std::swap;
 using std::vector;
 
@@ -44,13 +42,13 @@ namespace Tetris
             board.get_width(), brick_start_position_y, board.get_offset())
         }
     {
-        this->ui.draw_hold_brick(this->hold_brick);
-        this->ui.draw_score(this->score);
-        this->ui.draw_tetrises(this->tetrises);
-        this->ui.draw_board(this->board.get_visible_cubes());
         this->generate_new_brick();
         this->set_start_position_and_rotation();
-        this->draw_bricks();
+        this->ui.draw_hold_brick(this->hold_brick);
+        this->ui.draw_score(this->score);
+        this->ui.draw_level(this->level);
+        this->ui.draw_lines(this->lines);
+        this->draw_board_and_bricks();
     }
 
     Brick GameImpl::get_transformed_cur_brick() const
@@ -127,13 +125,6 @@ namespace Tetris
         return this->board.brick_is_valid(
             Brick::get_transformed(brick, next_rotation, position));
     }
-
-    void GameImpl::perform_action(const function<void()>& action)
-    {
-        action();
-        this->ui.draw_board(this->board.get_visible_cubes());
-        this->draw_bricks();            
-    };
 
     void GameImpl::tick()
     {
@@ -214,6 +205,8 @@ namespace Tetris
             this->ui.draw_ghost_brick(this->board.get_visible_brick_cubes(
                 this->create_ghost_brick().cubes));
         }
+        else
+            this->ui.draw_ghost_brick({});
     }
 
     void GameImpl::draw_bricks()
@@ -257,10 +250,7 @@ namespace Tetris
     void GameImpl::add_tetrises(unsigned long long amount)
     {
         if (amount > 0)
-        {
             this->tetrises += amount;
-            this->ui.draw_tetrises(this->tetrises);
-        }
     }
 
     void GameImpl::add_lines(int amount)

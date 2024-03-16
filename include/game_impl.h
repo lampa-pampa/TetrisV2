@@ -11,9 +11,9 @@
 #include "board.h"
 #include "brick_generator.h"
 #include "brick.h"
-#include "game_ui.h"
 #include "score_counter.h"
 #include "settings.h"
+#include "ui/game_ui.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -198,7 +198,6 @@ private:
     int compute_lowest_position(const Brick& brick) const;
     bool can_rotate(
         const Brick& brick, Vector2 position, int rotation, int d_q) const;
-    void perform_action(const std::function<void()>& action);
     void tick();
     void rotate_clockwise();
     void rotate_counter_clockwise();
@@ -216,6 +215,18 @@ private:
     void add_tetrises(unsigned long long amount);
     void add_lines(int amount);
     void update_level();
+
+    void perform_action(const std::function<void()>& action)
+    {
+        action();
+        this->draw_board_and_bricks();            
+    };
+
+    void draw_board_and_bricks()
+    {
+        this->ui.draw_board(this->board.get_visible_cubes());
+        this->draw_bricks();
+    }
 
     void add_score_for_lines(int amount)
     {
