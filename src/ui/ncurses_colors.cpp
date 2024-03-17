@@ -4,7 +4,7 @@
 
 #include <ncurses.h>
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 int NCursesColors::get_ncurses_color(int color_code)

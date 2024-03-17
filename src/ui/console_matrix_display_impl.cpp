@@ -8,7 +8,7 @@
 
 using boost::irange;
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(

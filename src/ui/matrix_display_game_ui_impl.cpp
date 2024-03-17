@@ -9,14 +9,14 @@
 #include "brick.h"
 #include "cube.h"
 #include "ui/matrix_display.h"
-#include "ui/ui_rectangle.h"
+#include "ui/rectangle.h"
 #include "vector_2.h"
 
 using boost::irange;
 using std::map;
 using std::vector;
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
@@ -112,7 +112,7 @@ void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
         {position_in_px, cube_size, cube_size, cube.color_code});
 }
 
-void MatrixDisplayGameUiImpl::draw_rectangle(const UiRectangle& rectangle)
+void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
 {
     for (const auto& y : irange(rectangle.height))
     {

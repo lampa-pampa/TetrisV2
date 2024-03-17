@@ -8,12 +8,12 @@
 
 #include <boost/range/irange.hpp>
 
-#include "ui_char.h"
-#include "ui_rectangle.h"
-#include "ui_text_line.h"
+#include "char.h"
+#include "rectangle.h"
+#include "text_line.h"
 #include "vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 enum class Align
@@ -23,10 +23,10 @@ enum class Align
     right,
 };
 
-class UiTextArea final
+class TextArea final
 {
 public:
-    UiTextArea(
+    TextArea(
         Vector2 position, 
         int width,
         int color_code,
@@ -40,24 +40,24 @@ public:
         align{align}
     {}
 
-    UiTextArea(
+    TextArea(
         Vector2 position, 
         int width,
         int color_code,
         int char_background_margin)
     :
-        UiTextArea(
+        TextArea(
             position, width, color_code, char_background_margin, Align::left)
     {}
 
-    UiTextArea(Vector2 position, int width, int color_code)
+    TextArea(Vector2 position, int width, int color_code)
     :
-        UiTextArea(position, width, color_code, 0, Align::left)
+        TextArea(position, width, color_code, 0, Align::left)
     {}
 
-    std::vector<UiTextLine> create_lines(std::string text) const
+    std::vector<TextLine> create_lines(std::string text) const
     {
-        std::vector<UiTextLine> lines{};
+        std::vector<TextLine> lines{};
         int i{0};
         for(int row{0}; i < text.size(); ++row)
         {
@@ -94,35 +94,35 @@ private:
 
     int compute_max_substr_length(int index, int text_length) const
     {
-        const int max_line_length{UiChar::get_max_text_length(this->width)};
+        const int max_line_length{Char::get_max_text_length(this->width)};
         return (text_length - index >= max_line_length) ?
             max_line_length : text_length - index;
     }
 
-    UiRectangle create_line_background(Vector2 position, int length) const
+    Rectangle create_line_background(Vector2 position, int length) const
     {
         return {
             position - this->char_background_margin,
-            UiChar::get_text_width(length) + 2 * this->char_background_margin,
-            UiChar::height + 2 * this->char_background_margin
+            Char::get_text_width(length) + 2 * this->char_background_margin,
+            Char::height + 2 * this->char_background_margin
         };
     }
 
     int compute_line_position_x(int length) const
     {
         return (align_to_compute.at(this->align)(
-            this->width, UiChar::get_text_width(length)));
+            this->width, Char::get_text_width(length)));
     }
 
     Vector2 compute_line_position(int length, int row) const
     {
         return this->position + Vector2{
             this->compute_line_position_x(length),
-            row * (UiChar::height + UiChar::separator)
+            row * (Char::height + Char::separator)
         };
     }
 
-    UiTextLine create_line(std::string text, int row) const
+    TextLine create_line(std::string text, int row) const
     {
         const Vector2 text_position{
             this->compute_line_position(text.size(), row)

@@ -1,9 +1,9 @@
-#ifndef INCLUDE_NCURSES_COLORS_H
-#define INCLUDE_NCURSES_COLORS_H
+#ifndef INCLUDE_UI_NCURSES_COLORS_H
+#define INCLUDE_UI_NCURSES_COLORS_H
 
 #include <map>
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 class NCursesColors final

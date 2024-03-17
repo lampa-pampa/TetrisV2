@@ -1,5 +1,5 @@
-#ifndef INCLUDE_MATRIX_DISPLAY_GAME_UI_IMPL_H
-#define INCLUDE_MATRIX_DISPLAY_GAME_UI_IMPL_H
+#ifndef INCLUDE_UI_MATRIX_DISPLAY_GAME_UI_IMPL_H
+#define INCLUDE_UI_MATRIX_DISPLAY_GAME_UI_IMPL_H
 
 #include "game_ui.h"
 
@@ -15,12 +15,12 @@
 #include "brick.h"
 #include "cube.h"
 #include "matrix_display.h"
-#include "ui_char.h"
-#include "ui_text_area.h"
-#include "ui_rectangle.h"
+#include "char.h"
+#include "text_area.h"
+#include "rectangle.h"
 #include "vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 class MatrixDisplayGameUiImpl final: public GameUi
@@ -162,18 +162,18 @@ private:
 
     static constexpr int cube_size{3};
     static constexpr Vector2 board_position{17, -4};
-    static constexpr UiRectangle next_rectangle{{48, 2}, 14, 8};
-    static constexpr UiRectangle hold_rectangle{{2, 2}, 14, 8};
+    static constexpr Rectangle next_rectangle{{48, 2}, 14, 8};
+    static constexpr Rectangle hold_rectangle{{2, 2}, 14, 8};
     const inline static std::vector background_rectangles{
         next_rectangle,
         hold_rectangle,
         {{2, 12}, 13, 50},
         {{49, 12}, 13, 50},
     };
-    const UiTextArea game_state_text_area{
+    const TextArea game_state_text_area{
         {17, 29}, 30, this->font_color_code, 1, Align::center
     };
-    const UiTextArea level_text_area{{3, 13}, 3, this->font_color_code};
+    const TextArea level_text_area{{3, 13}, 3, this->font_color_code};
     
     MatrixDisplay& matrix;
     ColorCodeMatrix color_codes;
@@ -201,7 +201,7 @@ private:
         const Brick& brick, bool align_to_left) const;
     void draw_background();
     void draw_cube(Vector2 position, const Cube& cube);
-    void draw_rectangle(const UiRectangle& rectangle);
+    void draw_rectangle(const Rectangle& rectangle);
     void emit_action_signal(Action action);
 
     void refresh() override
@@ -215,31 +215,31 @@ private:
             and position.y >= 0 and position.y < display_height;
     }
 
-    void draw_on_text_area(std::string text, const UiTextArea& area)
+    void draw_on_text_area(std::string text, const TextArea& area)
     {
         this->draw_text_lines(area.create_lines(text));
     }
 
-    void draw_text_lines(const std::vector<UiTextLine>& text_lines)
+    void draw_text_lines(const std::vector<TextLine>& text_lines)
     { 
         for(const auto& line : text_lines)
             this->draw_text_line(line);
     }
 
-    void draw_text_line(const UiTextLine& line)
+    void draw_text_line(const TextLine& line)
     {
         this->draw_rectangle(line.background);
         Vector2 position{line.position};
         for(const auto& c : line.chars)
         {
             this->draw_char(position, c, line.color_code);
-            position.x += UiChar::width + UiChar::separator;
+            position.x += Char::width + Char::separator;
         }
     }
 
-    void draw_char(Vector2 position, UiChar c, int color_code)
+    void draw_char(Vector2 position, Char c, int color_code)
     {
-        this->draw_rectangle({position, UiChar::width, UiChar::height});
+        this->draw_rectangle({position, Char::width, Char::height});
         for(const auto& vector : c.pixels)
             this->draw_pixel(position + vector, color_code);
     }

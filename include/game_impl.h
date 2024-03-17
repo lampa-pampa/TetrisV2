@@ -23,7 +23,7 @@ class GameImpl final: public Game
 {
 public:
     GameImpl(
-        GameUi& ui,
+        Ui::GameUi& ui,
         Board& board,
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
@@ -173,7 +173,7 @@ private:
 
     const Vector2 brick_start_position;
 
-    GameUi& ui;
+    Ui::GameUi& ui;
     Board& board;
     BrickGenerator& brick_generator;
     ScoreCounter& score_counter;

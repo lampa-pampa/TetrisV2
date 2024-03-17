@@ -1,9 +1,9 @@
-#ifndef INCLUDE_MATRIX_DISPLAY
-#define INCLUDE_MATRIX_DISPLAY
+#ifndef INCLUDE_UI_MATRIX_DISPLAY
+#define INCLUDE_UI_MATRIX_DISPLAY
 
 #include <vector>
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 class MatrixDisplay

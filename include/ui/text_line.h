@@ -3,22 +3,22 @@
 
 #include <vector>
 
-#include "ui_char.h"
-#include "ui_rectangle.h"
+#include "char.h"
+#include "rectangle.h"
 #include "vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
-struct UiTextLine final
+struct TextLine final
 {
-    UiRectangle background;
+    Rectangle background;
     Vector2 position;
-    std::vector<UiChar> chars;
+    std::vector<Char> chars;
     int color_code;
 
-    UiTextLine(
-        UiRectangle background, 
+    TextLine(
+        Rectangle background, 
         Vector2 position,
         std::string chars,
         int color_code)

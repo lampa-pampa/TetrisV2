@@ -1,5 +1,5 @@
-#ifndef INCLUDE_GAME_UI_MOCK_H
-#define INCLUDE_GAME_UI_MOCK_H
+#ifndef INCLUDE_UI_GAME_UI_MOCK_H
+#define INCLUDE_UI_GAME_UI_MOCK_H
 
 #include <vector>
 
@@ -7,7 +7,7 @@
 #include "cube.h"
 #include "game_ui.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 class GameUiMock final: public GameUi

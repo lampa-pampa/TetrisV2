@@ -1,5 +1,5 @@
-#ifndef INCLUDE_GAME_UI_H
-#define INCLUDE_GAME_UI_H
+#ifndef INCLUDE_UI_GAME_UI_H
+#define INCLUDE_UI_GAME_UI_H
 
 #include <functional>
 #include <vector>
@@ -7,7 +7,7 @@
 #include "brick.h"
 #include "cube.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 class GameUi

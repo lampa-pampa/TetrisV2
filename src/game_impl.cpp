@@ -18,7 +18,7 @@ using std::vector;
 namespace Tetris
 {
     GameImpl::GameImpl(
-        GameUi& ui,
+        Ui::GameUi& ui,
         Board& board,
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,

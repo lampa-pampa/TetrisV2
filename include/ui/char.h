@@ -7,10 +7,10 @@
 
 #include "vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
-struct UiChar final
+struct Char final
 {
     static constexpr int width{3};
     static constexpr int height{5};
@@ -31,7 +31,7 @@ struct UiChar final
 
 namespace
 {
-    const std::map<char, UiChar> char_to_ui_char
+    const std::map<char, Char> char_to_ui_char
     {
         {'0', {{
             {0, 0}, {1, 0}, {2, 0},
@@ -162,7 +162,7 @@ namespace
     };
 }
 
-inline UiChar get_ui_char(char c)
+inline Char get_ui_char(char c)
 {
     const auto it{char_to_ui_char.find(c)};
     assert(it != char_to_ui_char.end());

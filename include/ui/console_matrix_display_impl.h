@@ -1,5 +1,5 @@
-#ifndef INCLUDE_CONSOLE_MATRIX_DISPLAY_IMPL
-#define INCLUDE_CONSOLE_MATRIX_DISPLAY_IMPL
+#ifndef INCLUDE_UI_CONSOLE_MATRIX_DISPLAY_IMPL
+#define INCLUDE_UI_CONSOLE_MATRIX_DISPLAY_IMPL
 
 #include "matrix_display.h"
 
@@ -8,7 +8,7 @@
 #include "ncurses_colors.h"
 #include "vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 class ConsoleMatrixDisplayImpl final: public MatrixDisplay

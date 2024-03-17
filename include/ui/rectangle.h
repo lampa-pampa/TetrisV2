@@ -3,17 +3,17 @@
 
 #include "vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
-struct UiRectangle final
+struct Rectangle final
 {
     Vector2 position;
     int width;
     int height;
     int color_code;
 
-    constexpr UiRectangle(
+    constexpr Rectangle(
         Vector2 position, int width, int height, int color_code)
     :
         position{position},
@@ -22,9 +22,9 @@ struct UiRectangle final
         color_code{color_code}
     {}
 
-    constexpr UiRectangle(Vector2 position, int width, int height)
+    constexpr Rectangle(Vector2 position, int width, int height)
     :
-        UiRectangle(position, width, height, 0)
+        Rectangle(position, width, height, 0)
     {}
 
     Vector2 get_center()

@@ -30,7 +30,7 @@ using Tetris::BrickGeneratorImpl;
 using Tetris::GameConfig;
 using Tetris::GameImpl;
 using Tetris::GameState;
-using Tetris::GameUiMock;
+using Tetris::Ui::GameUiMock;
 using Tetris::RngMock;
 using Tetris::ScoreCounterImpl;
 using Tetris::Settings;
