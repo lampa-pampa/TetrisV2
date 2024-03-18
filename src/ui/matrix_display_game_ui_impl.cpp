@@ -33,14 +33,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     background_color_code{background_color_code},
     border_color_code{border_color_code},
     font_color_code{font_color_code},
-    board_cubes{ {{}} },
-    cur_brick_cubes{},
-    ghost_brick_cubes{},
-    next_brick_cubes{},
-    next_brick_position{0, 0},
-    hold_brick_cubes{},
-    hold_brick_position{0, 0}
-
+    cur_brick_cubes{}
 {
     this->color_codes = this->create_color_codes();
     this->draw_background();
@@ -52,16 +45,6 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
         it != this->key_code_to_action.end()
     )
         this->emit_action_signal(it->second);
-}
-
-void MatrixDisplayGameUiImpl::draw_next_brick(const Brick& brick)
-{
-    this->next_brick_cubes = brick.cubes;
-}
-
-void MatrixDisplayGameUiImpl::draw_hold_brick(const Brick& brick)
-{
-    this->hold_brick_cubes = brick.cubes;
 }
 
 //-------------------------------------------------------------------

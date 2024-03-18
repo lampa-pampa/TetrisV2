@@ -21,12 +21,11 @@ public:
     virtual void draw_next_brick(const Brick& brick) = 0;
     virtual void draw_hold_brick(const Brick& brick) = 0;
     virtual void draw_score(unsigned long long score) = 0;
-    virtual void draw_lines(int lines) = 0;
+    virtual void draw_lines_quantity(int quantity) = 0;
     virtual void draw_level(int level) = 0;
     virtual void refresh() = 0;
     virtual void game_over() = 0;
     virtual void pause() = 0;
-    virtual void resume() = 0;
     virtual void handle_key_press(int key_code) = 0;
     virtual void connect_move_left_pressed(
         const std::function<void()>& handler) = 0;

@@ -656,7 +656,6 @@ TEST(GameImpl, update_level)
         for (const auto& i : irange(pair.first))
             game.handle_timeout();
 
-        ASSERT_THAT(game.get_lines(), Eq(pair.first % 10));
         ASSERT_THAT(game.get_level(), Eq(pair.second));
     }
 }

@@ -43,7 +43,7 @@ public:
 
     void resume() override
     {
-        this->ui.resume();
+        this->draw_board_and_bricks();
         this->state = GameState::in_progress;
     }
 
@@ -153,9 +153,9 @@ public:
         return this->settings;
     }
 
-    int get_lines() const
+    int get_lines_quantity() const
     {
-        return this->lines;
+        return this->lines_quantity;
     }
 
     int get_level() const
@@ -189,7 +189,7 @@ private:
     bool can_hold;
     Signal reset_timeout;
     SignalInt set_timeout_delay;
-    int lines;
+    int lines_quantity;
     int level;
 
     void generate_hold_brick();

@@ -34,7 +34,7 @@ namespace Tetris
         score{0},
         tetrises{0},
         level{1},
-        lines{0},
+        lines_quantity{0},
         next_brick{this->brick_generator.generate()},
         hold_brick{},
         can_hold{true},
@@ -47,7 +47,7 @@ namespace Tetris
         this->ui.draw_hold_brick(this->hold_brick);
         this->ui.draw_score(this->score);
         this->ui.draw_level(this->level);
-        this->ui.draw_lines(this->lines);
+        this->ui.draw_lines_quantity(this->lines_quantity);
         this->draw_board_and_bricks();
     }
 
@@ -257,8 +257,8 @@ namespace Tetris
     {
         if(amount > 0)
         {
-            this->lines += amount;
-            this->ui.draw_lines(this->lines);
+            this->lines_quantity += amount;
+            this->ui.draw_lines_quantity(this->lines_quantity);
             this->add_score_for_lines(amount);
             this->update_level();
         }
@@ -266,10 +266,10 @@ namespace Tetris
 
     void GameImpl::update_level()
     {
-        if(this->lines >= next_level_lines_quantity)
+        if(this->lines_quantity >= next_level_lines_quantity)
         {
-            this->lines -= next_level_lines_quantity;
             ++this->level;
+            this->lines_quantity -= next_level_lines_quantity;
             this->ui.draw_level(this->level);
             this->set_timeout_delay(this->level);
         }

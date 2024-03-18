@@ -34,8 +34,15 @@ public:
         int font_color_code);
     
     void handle_key_press(int key_code) override;
-    void draw_next_brick(const Brick& brick) override;
-    void draw_hold_brick(const Brick& brick) override;
+    void draw_next_brick(const Brick& brick) override
+    {
+
+    }
+
+    void draw_hold_brick(const Brick& brick) override
+    {
+
+    }
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
     {
@@ -45,13 +52,11 @@ public:
 
     void draw_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        this->ghost_brick_cubes = cubes;
         this->draw_transparent_cubes(board_position, cubes);
     }
 
     void draw_board(const CubeMatrix& cubes) override
     {
-        this->board_cubes = cubes;
         this->draw_board(board_position, cubes);
     }
 
@@ -60,7 +65,7 @@ public:
         
     }
 
-    void draw_lines(int lines) override
+    void draw_lines_quantity(int quantity) override
     {
         
     }
@@ -72,20 +77,12 @@ public:
 
     void game_over() override
     {
-        
+        this->draw_on_text_area("GAME\nOVER", this->game_state_text_area);
     }
 
     void pause() override
     {
         this->draw_on_text_area("LEVEL\nPAUSED", this->game_state_text_area);
-        this->refresh();
-    }
-
-    void resume() override
-    {
-        this->draw_board(this->board_cubes);
-        this->draw_ghost_brick(this->ghost_brick_cubes);
-        this->draw_cur_brick(this->cur_brick_cubes);
         this->refresh();
     }
 
@@ -177,13 +174,7 @@ private:
     
     MatrixDisplay& matrix;
     ColorCodeMatrix color_codes;
-    CubeMatrix board_cubes;
     std::vector<Cube> cur_brick_cubes;
-    std::vector<Cube> ghost_brick_cubes;
-    Vector2 next_brick_position;
-    std::vector<Cube> next_brick_cubes;
-    Vector2 hold_brick_position;
-    std::vector<Cube> hold_brick_cubes;
     
     Signal move_left_pressed;
     Signal move_right_pressed;
