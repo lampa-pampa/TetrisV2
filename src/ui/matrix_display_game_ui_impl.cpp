@@ -9,6 +9,7 @@
 #include "action.h"
 #include "brick.h"
 #include "cube.h"
+#include "ui/iv_color.h"
 #include "ui/matrix_display.h"
 #include "ui/rectangle.h"
 #include "vector_2.h"
@@ -36,7 +37,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     font_color_id{font_color_id},
     cur_brick_cubes{}
 {
-    this->color_ids = this->create_color_ids();
+    this->iv_colors = this->create_iv_colors();
     this->draw_background();
 }
 
@@ -50,12 +51,10 @@ void MatrixDisplayGameUiImpl::handle_key_press(int_fast8_t key_code)
 
 //-------------------------------------------------------------------
 
-MatrixDisplayGameUiImpl::ColorCodeMatrix
-    MatrixDisplayGameUiImpl::create_color_ids() const
+MatrixDisplayGameUiImpl::IvColorMatrix
+    MatrixDisplayGameUiImpl::create_iv_colors() const
 {
-    ColorCodeMatrix color_ids{};
-    color_ids.resize(display_height, vector<int>(display_width));
-    return color_ids;
+    return IvColorMatrix(display_height, vector<IvColor>(display_width));
 }
 
 Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
@@ -102,7 +101,7 @@ void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
     {
         for (const auto& x : irange(rectangle.width))
             this->draw_pixel(
-                rectangle.position + Vector2{x, y}, rectangle.color_id);
+                rectangle.position + Vector2{x, y}, rectangle.iv_color);
     }
 }
 
@@ -112,7 +111,7 @@ void MatrixDisplayGameUiImpl::draw_text_line(const TextLine& line)
     Vector2 position{line.position};
     for(const auto& chr : line.chars)
     {
-        this->draw_char(position, chr, line.color_id);
+        this->draw_char(position, chr, line.iv_color);
         position.x += chr.width + Char::separator;
     }
 }

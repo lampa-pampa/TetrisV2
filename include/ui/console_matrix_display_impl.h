@@ -3,11 +3,12 @@
 
 #include "matrix_display.h"
 
-#include <cstdint>
+#include <vector>
 
 #include <ncurses.h>
 
 #include "ncurses_colors.h"
+#include "ui/iv_color.h"
 #include "vector_2.h"
 
 namespace Tetris::Ui
@@ -24,7 +25,7 @@ public:
         ::endwin();
     }
 
-    void refresh(const ColorCodeMatrix& color_ids) override;
+    void refresh(const IvColorMatrix& iv_colors) override;
 
     int get_width() const override
     {
@@ -42,7 +43,18 @@ public:
     }
 
 private:
-    static constexpr wchar_t pixel_char{L'◼'};
+    static inline const std::vector<wchar_t> pixel_chars
+    {   
+        L'·',
+        L'◦',
+        L'◌',
+        L'○',
+        L'◎',
+        L'◍',
+        L'◉',
+        L'●',
+    };
+    static constexpr int max_color_value{256};
     static constexpr int pixel_width{2};
     static constexpr int pixel_height{1};
 
@@ -55,10 +67,11 @@ private:
     Vector2 get_console_size() const;
     Vector2 compute_window_position() const;
     void create_window();
-    void print_colored(Vector2 position, int ncurses_color);
-    void refresh_pixel(Vector2 position, uint_fast8_t color_id);
     void setup_ncurses_window();
     void setup_ncurses_keyboard();
+    void print_colored(Vector2 position, int color, wchar_t pixel_char);
+    void refresh_pixel(Vector2 position, IvColor iv_color);
+    wchar_t get_pixel_char(int color_value);
 
     Vector2 compute_window_size() const
     {

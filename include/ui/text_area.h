@@ -1,7 +1,6 @@
 #ifndef INCLUDE_UI_TEXT_AREA_H
 #define INCLUDE_UI_TEXT_AREA_H
 
-#include <cstdint>
 #include <functional>
 #include <map>
 #include <string>
@@ -30,7 +29,7 @@ public:
         Vector2 position, 
         int width,
         int height,
-        uint_fast8_t color_id,
+        IvColor iv_color,
         bool draw_outline = false,
         Align horizontal_align = Align::start,
         Align vertical_align = Align::start);
@@ -47,7 +46,7 @@ private:
     Vector2 position;
     int width;
     int height;
-    uint_fast8_t color_id;
+    IvColor iv_color;
     bool draw_outline;
     Align horizontal_align;
     Align vertical_align;

@@ -3,15 +3,17 @@
 
 #include <vector>
 
+#include "iv_color.h"
+
 namespace Tetris::Ui
 {
 
 class MatrixDisplay
 {
 public:   
-    using ColorCodeMatrix = std::vector<std::vector<int>>;
+    using IvColorMatrix = std::vector<std::vector<IvColor>>;
 
-    virtual void refresh(const ColorCodeMatrix& color_ids) = 0;
+    virtual void refresh(const IvColorMatrix& iv_colors) = 0;
     virtual int get_width() const = 0;
     virtual int get_height() const = 0;
     virtual ~MatrixDisplay() = default;

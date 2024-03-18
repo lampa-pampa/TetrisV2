@@ -19,6 +19,7 @@
 #include "char.h"
 #include "text_area.h"
 #include "rectangle.h"
+#include "ui/iv_color.h"
 #include "vector_2.h"
 
 namespace Tetris::Ui
@@ -140,7 +141,7 @@ public:
     }
 
 private:
-    using ColorCodeMatrix = std::vector<std::vector<int>>;
+    using IvColorMatrix = std::vector<std::vector<IvColor>>;
     using Signal = boost::signals2::signal<void()>;
 
     const int display_width;
@@ -178,7 +179,7 @@ private:
     const TextArea level_text_area{{2, 12}, 0, 0, this->font_color_id};
     
     MatrixDisplay& matrix;
-    ColorCodeMatrix color_ids;
+    IvColorMatrix iv_colors;
     std::vector<Cube> cur_brick_cubes;
     
     Signal move_left_pressed;
@@ -190,7 +191,7 @@ private:
     Signal no_locking_hard_drop_pressed;
     Signal hold_pressed;
 
-    ColorCodeMatrix create_color_ids() const;
+    IvColorMatrix create_iv_colors() const;
     Vector2 compute_brick_center(
         int width, int height, bool align_to_left) const;
     Vector2 compute_brick_centered_position(
@@ -205,7 +206,7 @@ private:
 
     void refresh() override
     {
-        this->matrix.refresh(this->color_ids);
+        this->matrix.refresh(this->iv_colors);
     }
 
     bool position_is_on_display(Vector2 position) const
@@ -225,10 +226,10 @@ private:
             this->draw_text_line(line);
     }
 
-    void draw_char(Vector2 position, Char c, uint_fast8_t color_id)
+    void draw_char(Vector2 position, Char c, IvColor iv_color)
     {
         for(const auto& pixel_position : c.pixels)
-            this->draw_pixel(position + pixel_position, color_id);
+            this->draw_pixel(position + pixel_position, iv_color);
     }
 
     void draw_board(Vector2 position, const CubeMatrix& board)
@@ -253,13 +254,13 @@ private:
     void draw_transparent_cube(Vector2 position, const Cube& cube)
     {
         const Vector2 position_in_px{position + cube.position * cube_size};
-        this->draw_pixel(position_in_px + cube_size / 2, cube.color_id);
+        this->draw_pixel(position_in_px + cube_size / 2, {cube.color_id, 100});
     }
 
-    void draw_pixel(Vector2 position, uint_fast8_t color_id)
+    void draw_pixel(Vector2 position, IvColor iv_color)
     {
         assert(this->position_is_on_display(position));
-        this->color_ids[position.y][position.x] = color_id;
+        this->iv_colors[position.y][position.x] = iv_color;
     }
 };
 
