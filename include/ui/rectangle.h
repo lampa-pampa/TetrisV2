@@ -1,6 +1,8 @@
 #ifndef INCLUDE_UI_RECTANGLE_H
 #define INCLUDE_UI_RECTANGLE_H
 
+#include <cstdint>
+
 #include "vector_2.h"
 
 namespace Tetris::Ui
@@ -11,15 +13,15 @@ struct Rectangle final
     Vector2 position;
     int width;
     int height;
-    int color_code;
+    uint_fast8_t color_id;
 
     constexpr Rectangle(
-        Vector2 position, int width, int height, int color_code)
+        Vector2 position, int width, int height, uint_fast8_t color_id)
     :
         position{position},
         width{width},
         height{height},
-        color_code{color_code}
+        color_id{color_id}
     {}
 
     constexpr Rectangle(Vector2 position, int width, int height)

@@ -59,7 +59,7 @@ private:
     void copy_cube_above(Vector2 position)
     {
         const Cube& above{this->cubes[position.y - 1][position.x]};
-        this->cubes[position.y][position.x].color_code = above.color_code;
+        this->cubes[position.y][position.x].color_id = above.color_id;
     }
 
     bool position_is_valid(Vector2 position) const

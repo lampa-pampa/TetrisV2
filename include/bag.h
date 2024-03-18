@@ -1,6 +1,7 @@
 #ifndef INCLUDE_BAG_H
 #define INCLUDE_BAG_H
 
+#include <cstdint>
 #include <initializer_list>
 #include <vector>
 
@@ -41,7 +42,8 @@ Bag<T>::Bag(const std::vector<T>& items, Rng& rng)
 {}
 
 explicit Bag(std::initializer_list<Brick>, Rng& rng) -> Bag<Brick>;
-explicit Bag(std::initializer_list<int>, Rng& rng) -> Bag<int>;
+explicit Bag(std::initializer_list<uint_fast8_t>, Rng& rng)
+    -> Bag<uint_fast8_t>;
 
 template<typename T>
 T Bag<T>::get_next()

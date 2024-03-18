@@ -44,13 +44,13 @@ TEST(Brick, compute_next_rotation)
 TEST(Brick, get_colored)
 {
     const Brick initial_brick{{ {2, 8}, {1, 2} }};
-    const vector<pair<int, Brick>> color_code_to_expected{
+    const vector<pair<int, Brick>> color_id_to_expected{
         { 1, {{ {2, 8, 1}, {1, 2, 1} }} },
         { 3, {{ {2, 8, 3}, {1, 2, 3} }} },
         { 6, {{ {2, 8, 6}, {1, 2, 6} }} },
     };
 
-    for (const auto& pair: color_code_to_expected)
+    for (const auto& pair: color_id_to_expected)
     {
         const Brick actual{Brick::get_colored(initial_brick, pair.first)};
 

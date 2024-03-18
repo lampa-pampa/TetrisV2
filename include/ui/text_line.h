@@ -1,6 +1,7 @@
 #ifndef INCLUDE_UI_TEXT_LINE_H
 #define INCLUDE_UI_TEXT_LINE_H
 
+#include <cstdint>
 #include <vector>
 
 #include "char.h"
@@ -15,7 +16,7 @@ struct TextLine final
     Rectangle background;
     Vector2 position;
     std::vector<Char> chars;
-    int color_code;
+    uint_fast8_t color_id;
 };
 
 }

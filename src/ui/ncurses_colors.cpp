@@ -1,28 +1,30 @@
 #include "ui/ncurses_colors.h"
 
 #include <cassert>
+#include <cstdint>
 
 #include <ncurses.h>
 
 namespace Tetris::Ui
 {
 
-int NCursesColors::get_ncurses_color(int color_code)
+int NCursesColors::get_ncurses_color(uint_fast8_t color_id)
 {
-    auto it{this->color_to_pair.find(color_code)};
+    auto it{this->color_to_pair.find(color_id)};
     if (it == this->color_to_pair.end())
-        it = this->create_color_pair(color_code);
+        it = this->create_color_pair(color_id);
     return it->second;
 }
 
 //----------------------------------------------------
 
-NCursesColors::ColorPair NCursesColors::create_color_pair(int color_code)
+NCursesColors::ColorPair NCursesColors::create_color_pair(
+    uint_fast8_t color_id)
 {
-    auto it{color_code_to_ncurses_color.find(color_code)};
-    assert(it != this->color_code_to_ncurses_color.end());
+    auto it{color_id_to_ncurses_color.find(color_id)};
+    assert(it != this->color_id_to_ncurses_color.end());
     ::init_pair(it->second, it->second, COLOR_BLACK);
-    return this->color_to_pair.insert({color_code, it->second}).first;
+    return this->color_to_pair.insert({color_id, it->second}).first;
 }
 
 }

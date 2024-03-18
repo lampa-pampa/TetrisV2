@@ -1,6 +1,7 @@
 #ifndef INCLUDE_CONFIG
 #define INCLUDE_CONFIG
 
+#include <cstdint>
 #include <map>
 #include <vector>
 
@@ -30,7 +31,7 @@ struct GameConfig final
     BoardConfig board;
     ScoreCounterConfig score_counter;
     std::vector<Brick> bricks;
-    std::vector<int> color_codes;
+    std::vector<uint_fast8_t> color_ids;
     int brick_spawn_position_y;
     Settings default_settings;
 };
@@ -44,17 +45,17 @@ struct DisplayConfig final
 struct UiConfig final
 {
     DisplayConfig display;
-    std::map<int, Action> key_code_to_action;
-    int background_color_code;
-    int border_color_code;
-    int font_color_code;
+    std::map<int_fast8_t, Action> key_code_to_action;
+    uint_fast8_t background_color_id;
+    uint_fast8_t border_color_id;
+    uint_fast8_t font_color_id;
 };
 
 struct ControlsConfig final
 {
-    int pause_key_code;
-    int quit_key_code;
-    int no_key_code;
+    int_fast8_t pause_key_code;
+    int_fast8_t quit_key_code;
+    int_fast8_t no_key_code;
 };
 
 struct Config final

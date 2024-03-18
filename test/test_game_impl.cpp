@@ -51,7 +51,7 @@ namespace
             rng{},
             brick_generator{
                 {config.bricks, rng},
-                {config.color_codes, rng}
+                {config.color_ids, rng}
             },
             score_counter{
                 config.score_counter.score_for_line,

@@ -12,21 +12,22 @@ namespace Tetris
 class BrickGeneratorImpl final: public BrickGenerator
 {
 public:
-    BrickGeneratorImpl(const Bag<Brick>& bricks, const Bag<int>& color_codes)
+    BrickGeneratorImpl(
+        const Bag<Brick>& bricks, const Bag<uint_fast8_t>& color_ids)
     :
         bricks_bag{bricks},
-        color_codes_bag{color_codes}
+        color_ids_bag{color_ids}
     {}
     
     Brick generate() override
     {
         return Brick::get_colored(
-            this->bricks_bag.get_next(), this->color_codes_bag.get_next());
+            this->bricks_bag.get_next(), this->color_ids_bag.get_next());
     }
 
 private:
     Bag<Brick> bricks_bag;
-    Bag<int> color_codes_bag;
+    Bag<uint_fast8_t> color_ids_bag;
 };
 
 }

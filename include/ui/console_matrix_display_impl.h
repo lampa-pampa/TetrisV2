@@ -3,6 +3,8 @@
 
 #include "matrix_display.h"
 
+#include <cstdint>
+
 #include <ncurses.h>
 
 #include "ncurses_colors.h"
@@ -22,7 +24,7 @@ public:
         ::endwin();
     }
 
-    void refresh(const ColorCodeMatrix& color_codes) override;
+    void refresh(const ColorCodeMatrix& color_ids) override;
 
     int get_width() const override
     {
@@ -54,7 +56,7 @@ private:
     Vector2 compute_window_position() const;
     void create_window();
     void print_colored(Vector2 position, int ncurses_color);
-    void refresh_pixel(Vector2 position, int color_code);
+    void refresh_pixel(Vector2 position, uint_fast8_t color_id);
     void setup_ncurses_window();
     void setup_ncurses_keyboard();
 

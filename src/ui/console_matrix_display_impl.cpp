@@ -1,5 +1,7 @@
 #include "ui/console_matrix_display_impl.h"
 
+#include <cstdint>
+
 #include <boost/range/irange.hpp>
 #include <ncurses.h>
 
@@ -22,12 +24,12 @@ ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
     this->setup_ncurses_keyboard();
 }
 
-void ConsoleMatrixDisplayImpl::refresh(const ColorCodeMatrix& color_codes)
+void ConsoleMatrixDisplayImpl::refresh(const ColorCodeMatrix& color_ids)
 {
     for (const auto& y : irange(this->height))
     {
         for (const auto& x : irange(this->width))
-            this->refresh_pixel({x, y}, color_codes[y][x]);
+            this->refresh_pixel({x, y}, color_ids[y][x]);
     }
     ::wrefresh(this->window);
 }
@@ -66,10 +68,11 @@ void ConsoleMatrixDisplayImpl::print_colored(
     ::wattroff(this->window, COLOR_PAIR(ncurses_color));
 }
 
-void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, int color_code)
+void ConsoleMatrixDisplayImpl::refresh_pixel(
+    Vector2 position, uint_fast8_t color_id)
 {
     const int ncurses_color{
-        this->ncurses_colors.get_ncurses_color(color_code)
+        this->ncurses_colors.get_ncurses_color(color_id)
     };
     this->print_colored(
         position * Vector2{pixel_width, pixel_height}, ncurses_color);

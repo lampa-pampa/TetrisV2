@@ -1,5 +1,6 @@
 #include "ui/matrix_display_game_ui_impl.h"
 
+#include <cstdint>
 #include <map>
 #include <vector>
 
@@ -21,25 +22,25 @@ namespace Tetris::Ui
 
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     MatrixDisplay& matrix,
-    std::map<int, Action> key_code_to_action,
-    int background_color_code,
-    int border_color_code,
-    int font_color_code)
+    std::map<int_fast8_t, Action> key_code_to_action,
+    uint_fast8_t background_color_id,
+    uint_fast8_t border_color_id,
+    uint_fast8_t font_color_id)
 :
     matrix{matrix},
     key_code_to_action{key_code_to_action},
     display_width{matrix.get_width()},
     display_height{matrix.get_height()},
-    background_color_code{background_color_code},
-    border_color_code{border_color_code},
-    font_color_code{font_color_code},
+    background_color_id{background_color_id},
+    border_color_id{border_color_id},
+    font_color_id{font_color_id},
     cur_brick_cubes{}
 {
-    this->color_codes = this->create_color_codes();
+    this->color_ids = this->create_color_ids();
     this->draw_background();
 }
 
-void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
+void MatrixDisplayGameUiImpl::handle_key_press(int_fast8_t key_code)
 {
     if(const auto it{this->key_code_to_action.find(key_code)};
         it != this->key_code_to_action.end()
@@ -50,11 +51,11 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 //-------------------------------------------------------------------
 
 MatrixDisplayGameUiImpl::ColorCodeMatrix
-    MatrixDisplayGameUiImpl::create_color_codes() const
+    MatrixDisplayGameUiImpl::create_color_ids() const
 {
-    ColorCodeMatrix color_codes{};
-    color_codes.resize(display_height, vector<int>(display_width));
-    return color_codes;
+    ColorCodeMatrix color_ids{};
+    color_ids.resize(display_height, vector<int>(display_width));
+    return color_ids;
 }
 
 Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
@@ -82,7 +83,7 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
 void MatrixDisplayGameUiImpl::draw_background()
 {
     this->draw_rectangle(
-        {{0, 0}, display_width, display_height, border_color_code});
+        {{0, 0}, display_width, display_height, border_color_id});
     for(const auto& rectangle : this->background_rectangles)
         draw_rectangle(rectangle);
     this->draw_on_text_area("LEVEL", level_text_area);
@@ -92,7 +93,7 @@ void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
 {
     const Vector2 position_in_px{position + cube.position * cube_size};
     this->draw_rectangle(
-        {position_in_px, cube_size, cube_size, cube.color_code});
+        {position_in_px, cube_size, cube_size, cube.color_id});
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
@@ -101,7 +102,7 @@ void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
     {
         for (const auto& x : irange(rectangle.width))
             this->draw_pixel(
-                rectangle.position + Vector2{x, y}, rectangle.color_code);
+                rectangle.position + Vector2{x, y}, rectangle.color_id);
     }
 }
 
@@ -111,7 +112,7 @@ void MatrixDisplayGameUiImpl::draw_text_line(const TextLine& line)
     Vector2 position{line.position};
     for(const auto& chr : line.chars)
     {
-        this->draw_char(position, chr, line.color_code);
+        this->draw_char(position, chr, line.color_id);
         position.x += chr.width + Char::separator;
     }
 }

@@ -1,6 +1,7 @@
 #include "brick.h"
 
 #include <algorithm>
+#include <cstdint>
 #include <cstdlib>
 #include <ostream>
 #include <vector>
@@ -20,11 +21,11 @@ using std::vector;
 namespace Tetris
 {
 
-Brick Brick::get_colored(const Brick& brick, int color_code)
+Brick Brick::get_colored(const Brick& brick, uint_fast8_t color_id)
 {
     Brick colored_brick{brick};
     for (auto& cube : colored_brick.cubes)
-        cube.color_code = color_code;
+        cube.color_id = color_id;
     return colored_brick;
 }
 
@@ -111,14 +112,14 @@ int Brick::get_width() const
 {
     if (this->empty())
         return 0;
-    return abs(this->get_max_x() - this->get_min_x()) + 1;
+    return ::abs(this->get_max_x() - this->get_min_x()) + 1;
 }
 
 int Brick::get_height() const
 {
     if (this->empty())
         return 0;
-    return abs(this->get_max_y() - this->get_min_y()) + 1;
+    return ::abs(this->get_max_y() - this->get_min_y()) + 1;
 }
 
 ostream& operator<<(ostream& os, const vector<Cube>& cubes)

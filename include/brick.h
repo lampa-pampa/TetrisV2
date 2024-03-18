@@ -1,6 +1,7 @@
 #ifndef INCLUDE_BRICK_H
 #define INCLUDE_BRICK_H
 
+#include <cstdint>
 #include <ostream>
 #include <vector>
 
@@ -23,7 +24,7 @@ struct Brick final
     static Vector2 get_rotated_position(
         Vector2 position, Vector2 rotation_offset, int quarters_rotation);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
-    static Brick get_colored(const Brick& brick, int color_code);
+    static Brick get_colored(const Brick& brick, uint_fast8_t color_id);
 
     friend inline std::ostream& operator<<(
         std::ostream& os, const Brick& brick)

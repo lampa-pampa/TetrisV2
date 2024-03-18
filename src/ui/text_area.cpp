@@ -1,5 +1,6 @@
 #include "ui/text_area.h"
 
+#include <cstdint>
 #include <string>
 #include <vector>
 
@@ -22,7 +23,7 @@ TextArea::TextArea(
     Vector2 position, 
     int width,
     int height,
-    int color_code,
+    uint_fast8_t color_id,
     bool draw_outline,
     Align horizontal_align,
     Align vertical_align)
@@ -30,7 +31,7 @@ TextArea::TextArea(
     position{position},
     width{width},
     height{height},
-    color_code{color_code},
+    color_id{color_id},
     draw_outline{draw_outline},
     horizontal_align{horizontal_align},
     vertical_align{vertical_align}
@@ -135,7 +136,7 @@ TextLine TextArea::create_line(const vector<Char>& chars, int width, int y) cons
         this->create_line_background(line_position, width),
         line_position,
         chars,
-        this->color_code
+        this->color_id
     };        
 }
 

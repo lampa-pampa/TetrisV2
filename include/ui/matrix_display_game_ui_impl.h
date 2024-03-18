@@ -4,6 +4,7 @@
 #include "game_ui.h"
 
 #include <cassert>
+#include <cstdint>
 #include <functional>
 #include <map>
 #include <string>
@@ -28,12 +29,12 @@ class MatrixDisplayGameUiImpl final: public GameUi
 public:
     MatrixDisplayGameUiImpl(
         MatrixDisplay& matrix,
-        std::map<int, Action> key_code_to_action,
-        int background_color_code,
-        int border_color_code,
-        int font_color_code);
+        std::map<int_fast8_t, Action> key_code_to_action,
+        uint_fast8_t background_color_id,
+        uint_fast8_t border_color_id,
+        uint_fast8_t font_color_id);
     
-    void handle_key_press(int key_code) override;
+    void handle_key_press(int_fast8_t key_code) override;
 
     void draw_next_brick(const Brick& brick) override
     {
@@ -144,10 +145,10 @@ private:
 
     const int display_width;
     const int display_height;
-    const int background_color_code;
-    const int border_color_code;
-    const int font_color_code;
-    const std::map<int, Action> key_code_to_action;
+    const uint_fast8_t background_color_id;
+    const uint_fast8_t border_color_id;
+    const uint_fast8_t font_color_id;
+    const std::map<int_fast8_t, Action> key_code_to_action;
     const std::map<Action, Signal&> action_to_signal
     {
         {Action::move_left, this->move_left_pressed},
@@ -172,12 +173,12 @@ private:
         {{49, 12}, 13, 50},
     };
     const TextArea game_state_text_area{
-        {17, 2}, 30, 60, this->font_color_code, true, Align::center, Align::center
+        {17, 2}, 30, 60, this->font_color_id, true, Align::center, Align::center
     };
-    const TextArea level_text_area{{2, 12}, 0, 0, this->font_color_code};
+    const TextArea level_text_area{{2, 12}, 0, 0, this->font_color_id};
     
     MatrixDisplay& matrix;
-    ColorCodeMatrix color_codes;
+    ColorCodeMatrix color_ids;
     std::vector<Cube> cur_brick_cubes;
     
     Signal move_left_pressed;
@@ -189,7 +190,7 @@ private:
     Signal no_locking_hard_drop_pressed;
     Signal hold_pressed;
 
-    ColorCodeMatrix create_color_codes() const;
+    ColorCodeMatrix create_color_ids() const;
     Vector2 compute_brick_center(
         int width, int height, bool align_to_left) const;
     Vector2 compute_brick_centered_position(
@@ -204,7 +205,7 @@ private:
 
     void refresh() override
     {
-        this->matrix.refresh(this->color_codes);
+        this->matrix.refresh(this->color_ids);
     }
 
     bool position_is_on_display(Vector2 position) const
@@ -224,10 +225,10 @@ private:
             this->draw_text_line(line);
     }
 
-    void draw_char(Vector2 position, Char c, int color_code)
+    void draw_char(Vector2 position, Char c, uint_fast8_t color_id)
     {
         for(const auto& pixel_position : c.pixels)
-            this->draw_pixel(position + pixel_position, color_code);
+            this->draw_pixel(position + pixel_position, color_id);
     }
 
     void draw_board(Vector2 position, const CubeMatrix& board)
@@ -252,13 +253,13 @@ private:
     void draw_transparent_cube(Vector2 position, const Cube& cube)
     {
         const Vector2 position_in_px{position + cube.position * cube_size};
-        this->draw_pixel(position_in_px + cube_size / 2, cube.color_code);
+        this->draw_pixel(position_in_px + cube_size / 2, cube.color_id);
     }
 
-    void draw_pixel(Vector2 position, int color_code)
+    void draw_pixel(Vector2 position, uint_fast8_t color_id)
     {
         assert(this->position_is_on_display(position));
-        this->color_codes[position.y][position.x] = color_code;
+        this->color_ids[position.y][position.x] = color_id;
     }
 };
 

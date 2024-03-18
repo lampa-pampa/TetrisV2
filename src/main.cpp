@@ -1,9 +1,11 @@
+#include <cstdint>
+
 #include <ncurses.h>
 
 #include "action.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
-#include "color_name.h"
+#include "color_id_name.h"
 #include "config.h"
 #include "game_controller.h"
 #include "game_impl.h"
@@ -18,18 +20,18 @@
 using Tetris::Action;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
-using Tetris::ColorName;
+using Tetris::ColorIdName;
 using Tetris::Config;
-using Tetris::Ui::ConsoleMatrixDisplayImpl;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::GameState;
-using Tetris::get_color_code;
-using Tetris::Ui::MatrixDisplayGameUiImpl;
-using Tetris::Ui::NCursesColors;
+using Tetris::get_color_id;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
 using Tetris::TimerImpl;
+using Tetris::Ui::ConsoleMatrixDisplayImpl;
+using Tetris::Ui::MatrixDisplayGameUiImpl;
+using Tetris::Ui::NCursesColors;
 
 int main()
 {
@@ -47,13 +49,20 @@ int main()
                 {{ {1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
             },
             {
-                get_color_code(ColorName::red),
-                get_color_code(ColorName::green),
-                get_color_code(ColorName::blue),
-                get_color_code(ColorName::yellow),
-                get_color_code(ColorName::purple),
-                get_color_code(ColorName::orange),
-                get_color_code(ColorName::pink),
+                get_color_id(ColorIdName::dark_candy_apple_red),
+                get_color_id(ColorIdName::islamic_green),
+                get_color_id(ColorIdName::windsor_tan),
+                get_color_id(ColorIdName::duke_blue),
+                get_color_id(ColorIdName::heliotrope_magenta),
+                get_color_id(ColorIdName::tiffany_blue),
+                get_color_id(ColorIdName::dark_gray),
+                get_color_id(ColorIdName::davy_s_grey),
+                get_color_id(ColorIdName::sunset_orange),
+                get_color_id(ColorIdName::screamin_green),
+                get_color_id(ColorIdName::dodie_yellow),
+                get_color_id(ColorIdName::very_light_blue),
+                get_color_id(ColorIdName::shocking_pink),
+                get_color_id(ColorIdName::electric_blue),
             },
             1,
             {true}
@@ -70,9 +79,9 @@ int main()
                 {'c', Action::hold},
                 {' ', Action::locking_hard_drop},
             },
-            get_color_code(ColorName::black),
-            get_color_code(ColorName::white),
-            get_color_code(ColorName::red),
+            get_color_id(ColorIdName::black),
+            get_color_id(ColorIdName::white),
+            get_color_id(ColorIdName::sunset_orange),
         },
         {
             'p',
@@ -90,9 +99,9 @@ int main()
     MatrixDisplayGameUiImpl ui{
         matrix,
         config.ui.key_code_to_action,
-        config.ui.background_color_code,
-        config.ui.border_color_code,
-        config.ui.font_color_code
+        config.ui.background_color_id,
+        config.ui.border_color_id,
+        config.ui.font_color_id
     };
     BoardImpl board{
         config.game.board.width,
@@ -102,7 +111,7 @@ int main()
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{
         {config.game.bricks, rng},
-        {config.game.color_codes, rng}
+        {config.game.color_ids, rng}
     };
     ScoreCounterImpl score_counter{
         config.game.score_counter.score_for_line,    
@@ -118,7 +127,7 @@ int main()
         config.game.default_settings
     };
     GameController game_controller{timer, game};
-
+  
     timer.connect_timeout([&game](){ game.handle_timeout(); });
     ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
     ui.connect_move_right_pressed([&game](){ game.handle_move_right(); });
@@ -136,7 +145,7 @@ int main()
     game.connect_set_timeout_delay(
         [&timer](int level){ timer.set_timeout_delay(level); });
 
-    int key_code;
+    int_fast8_t key_code;
     ::WINDOW * game_window{matrix.get_game_window()};
     
     while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)
