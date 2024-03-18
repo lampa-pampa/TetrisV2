@@ -45,6 +45,7 @@ public:
 private:
     static inline const std::vector<wchar_t> pixel_chars
     {   
+        L' ',
         L'·',
         L'◦',
         L'◌',
