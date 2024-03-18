@@ -27,7 +27,7 @@ struct Rectangle final
         Rectangle(position, width, height, 0)
     {}
 
-    Vector2 get_center()
+    Vector2 get_center() const
     {
         return this->position + Vector2{this->width, this->height} / 2;
     }

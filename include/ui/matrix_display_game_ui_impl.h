@@ -34,14 +34,17 @@ public:
         int font_color_code);
     
     void handle_key_press(int key_code) override;
+
     void draw_next_brick(const Brick& brick) override
     {
-
+        this->draw_centered_brick_in_rectangle(
+            brick, next_rectangle, false);
     }
 
     void draw_hold_brick(const Brick& brick) override
     {
-
+        this->draw_centered_brick_in_rectangle(
+            brick, hold_rectangle, true);
     }
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
@@ -72,7 +75,7 @@ public:
     
     void draw_level(int level) override
     {
-
+        
     }
 
     void game_over() override
@@ -194,6 +197,9 @@ private:
     void draw_background();
     void draw_cube(Vector2 position, const Cube& cube);
     void draw_rectangle(const Rectangle& rectangle);
+    void draw_text_line(const TextLine& line);
+    void draw_centered_brick_in_rectangle(
+        const Brick& brick, const Rectangle& rect, bool align_to_left);
     void emit_action_signal(Action action);
 
     void refresh() override
@@ -216,17 +222,6 @@ private:
     { 
         for(const auto& line : text_lines)
             this->draw_text_line(line);
-    }
-
-    void draw_text_line(const TextLine& line)
-    {
-        this->draw_rectangle(line.background);
-        Vector2 position{line.position};
-        for(const auto& chr : line.chars)
-        {
-            this->draw_char(position, chr, line.color_code);
-            position.x += chr.width + Char::separator;
-        }
     }
 
     void draw_char(Vector2 position, Char c, int color_code)

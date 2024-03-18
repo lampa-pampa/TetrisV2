@@ -105,6 +105,28 @@ void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
     }
 }
 
+void MatrixDisplayGameUiImpl::draw_text_line(const TextLine& line)
+{
+    this->draw_rectangle(line.background);
+    Vector2 position{line.position};
+    for(const auto& chr : line.chars)
+    {
+        this->draw_char(position, chr, line.color_code);
+        position.x += chr.width + Char::separator;
+    }
+}
+
+void MatrixDisplayGameUiImpl::draw_centered_brick_in_rectangle(
+    const Brick& brick, const Rectangle& rect, bool align_to_left)
+{
+    this->draw_rectangle(rect);
+    const Vector2 cubes_position{
+        rect.get_center()
+            + this->compute_brick_centered_position(brick, align_to_left)
+    };
+    this->draw_cubes(cubes_position, brick.cubes);
+}
+
 void MatrixDisplayGameUiImpl::emit_action_signal(Action action)
 {
     const auto it{this->action_to_signal.find(action)};
