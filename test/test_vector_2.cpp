@@ -127,6 +127,25 @@ TEST(Vector2, operator_division_vector_2)
         ASSERT_THAT(initial_vector / pair.first, Eq(pair.second));
 }
 
+TEST(Vector2, operator_subtraction_assignment_int)
+{
+    const Vector2 initial_vector{2, 5};
+    const vector<pair<int, Vector2>> number_to_expected{
+        { 1, {1, 4} },
+        { 6, {-4, -1} },
+        { -4, {6, 9} },
+        { -7, {9, 12} },
+    };
+
+    for (const auto& pair : number_to_expected)
+    {
+        Vector2 vector_2{initial_vector};
+        vector_2 -= pair.first;
+
+        ASSERT_THAT(vector_2, Eq(pair.second));
+    }
+}
+
 TEST(Vector2, operator_addition_int)
 {
     const Vector2 initial_vector{6, 2};

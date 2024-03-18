@@ -53,6 +53,12 @@ struct Vector2 final
         return {this->x * other.x, this->y * other.y};
     }
 
+    Vector2 operator-=(const int& other)
+    {
+        this->x -= other, this->y -= other;
+        return *this;
+    }
+
     Vector2 operator/(const Vector2& other) const
     {
         return {this->x / other.x, this->y / other.y};
