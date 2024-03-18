@@ -55,6 +55,14 @@ namespace Tetris
             this->cur_brick_position);
     }
 
+    void GameImpl::resume()
+    {
+        this->ui.draw_board(this->board.get_visible_cubes());
+        this->draw_bricks();
+        this->ui.refresh();
+        this->state = GameState::in_progress;
+    }
+
     //-----------------------------------------------------------------
 
     void GameImpl::generate_hold_brick()

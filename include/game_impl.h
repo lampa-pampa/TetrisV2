@@ -34,17 +34,12 @@ public:
         GameImpl(const GameImpl&&) = delete;
 
     Brick get_transformed_cur_brick() const;
+    void resume() override;
 
     void pause() override
     {
         this->ui.pause();
         this->state = GameState::paused;
-    }
-
-    void resume() override
-    {
-        this->draw_board_and_bricks();
-        this->state = GameState::in_progress;
     }
 
     void game_over() override
@@ -222,7 +217,6 @@ private:
     void add_score(unsigned long long amount);
     void add_lines(int amount);
     void update_level();
-    void draw_board_and_bricks();
 
     void perform_action(const std::function<void()>& action)
     {
