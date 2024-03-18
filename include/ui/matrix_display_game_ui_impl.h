@@ -77,7 +77,7 @@ public:
 
     void pause() override
     {
-        this->draw_on_text_area("PAUSED", this->game_state_text_area);
+        this->draw_on_text_area("LEVEL\nPAUSED", this->game_state_text_area);
         this->refresh();
     }
 
@@ -171,9 +171,9 @@ private:
         {{49, 12}, 13, 50},
     };
     const TextArea game_state_text_area{
-        {17, 29}, 30, this->font_color_code, 1, Align::center
+        {17, 2}, 30, 60, this->font_color_code, true, Align::center, Align::center
     };
-    const TextArea level_text_area{{3, 13}, 3, this->font_color_code};
+    const TextArea level_text_area{{2, 12}, 0, 0, this->font_color_code};
     
     MatrixDisplay& matrix;
     ColorCodeMatrix color_codes;
@@ -230,18 +230,17 @@ private:
     {
         this->draw_rectangle(line.background);
         Vector2 position{line.position};
-        for(const auto& c : line.chars)
+        for(const auto& chr : line.chars)
         {
-            this->draw_char(position, c, line.color_code);
-            position.x += Char::width + Char::separator;
+            this->draw_char(position, chr, line.color_code);
+            position.x += chr.width + Char::separator;
         }
     }
 
     void draw_char(Vector2 position, Char c, int color_code)
     {
-        this->draw_rectangle({position, Char::width, Char::height});
-        for(const auto& vector : c.pixels)
-            this->draw_pixel(position + vector, color_code);
+        for(const auto& pixel_position : c.pixels)
+            this->draw_pixel(position + pixel_position, color_code);
     }
 
     void draw_board(Vector2 position, const CubeMatrix& board)

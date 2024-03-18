@@ -16,20 +16,6 @@ struct TextLine final
     Vector2 position;
     std::vector<Char> chars;
     int color_code;
-
-    TextLine(
-        Rectangle background, 
-        Vector2 position,
-        std::string chars,
-        int color_code)
-    :
-        background{background},
-        position{position},
-        color_code{color_code}
-    {
-        for(const auto& c : chars)
-            this->chars.emplace_back(get_ui_char(c));
-    }
 };
 
 }
