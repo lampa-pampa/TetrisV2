@@ -44,11 +44,7 @@ namespace Tetris
     {
         this->generate_new_brick();
         this->set_start_position_and_rotation();
-        this->ui.draw_hold_brick(this->hold_brick);
-        this->ui.draw_score(this->score);
-        this->ui.draw_level(this->level);
-        this->ui.draw_lines_quantity(this->lines_quantity);
-        this->draw_board_and_bricks();
+        this->draw_all();
     }
 
     Brick GameImpl::get_transformed_cur_brick() const
@@ -83,6 +79,7 @@ namespace Tetris
     {
         this->board.put_cubes(brick.cubes);
         this->remove_lines(brick.get_min_y(), brick.get_max_y());
+        this->ui.draw_board(this->board.get_visible_cubes());
         this->can_hold = true;
     }
 
@@ -198,6 +195,17 @@ namespace Tetris
             this->compute_ghost_brick_position());
     }
 
+    void GameImpl::draw_all()
+    {
+        this->ui.draw_hold_brick(this->hold_brick);
+        this->ui.draw_score(this->score);
+        this->ui.draw_level(this->level);
+        this->ui.draw_lines_quantity(this->lines_quantity);
+        this->ui.draw_board(this->board.get_visible_cubes());
+        this->draw_bricks();
+        this->ui.refresh();
+    }
+
     void GameImpl::draw_ghost_brick()
     {
         if (this->settings.generate_ghost)
@@ -207,12 +215,6 @@ namespace Tetris
         }
         else
             this->ui.draw_ghost_brick({});
-    }
-
-    void GameImpl::draw_bricks()
-    {
-        this->draw_ghost_brick();
-        this->draw_cur_brick();
     }
 
     void GameImpl::remove_lines(int from_y, int to_y)
@@ -244,13 +246,7 @@ namespace Tetris
             this->score += amount;
             this->ui.draw_score(this->score);
         }
-    }
-
-    void GameImpl::add_tetrises(unsigned long long amount)
-    {
-        if (amount > 0)
-            this->tetrises += amount;
-    }
+    }  
 
     void GameImpl::add_lines(int amount)
     {
@@ -272,12 +268,5 @@ namespace Tetris
             this->ui.draw_level(this->level);
             this->set_timeout_delay(this->level);
         }
-    }
-
-    void GameImpl::draw_board_and_bricks()
-    {
-        this->ui.draw_board(this->board.get_visible_cubes());
-        this->draw_bricks();
-        this->ui.refresh();
     }
 }
