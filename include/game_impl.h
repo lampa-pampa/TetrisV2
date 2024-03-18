@@ -47,6 +47,11 @@ public:
         this->state = GameState::in_progress;
     }
 
+    void game_over() override
+    {
+        this->ui.game_over();
+    }
+
     GameState get_state() const override
     {
         return this->state;
@@ -218,6 +223,7 @@ private:
     void add_tetrises(unsigned long long amount);
     void add_lines(int amount);
     void update_level();
+    void draw_board_and_bricks();
 
     void perform_action(const std::function<void()>& action)
     {
@@ -225,22 +231,10 @@ private:
         this->draw_board_and_bricks();            
     };
 
-    void draw_board_and_bricks()
-    {
-        this->ui.draw_board(this->board.get_visible_cubes());
-        this->draw_bricks();
-    }
-
     void add_score_for_lines(int amount)
     {
         this->add_score(this->score_counter.count_score_for_lines(amount));
         this->add_tetrises(amount / tetris_lines_quantity);
-    }
-
-    void game_over()
-    {
-        this->state = GameState::ended;
-        this->ui.game_over();
     }
 
     bool can_move(const Brick& brick, Vector2 vector) const
@@ -293,7 +287,7 @@ private:
     void check_if_game_ended()
     {
         if (not this->board.brick_is_valid(this->get_transformed_cur_brick()))
-            this->game_over();
+            this->state = GameState::ended;
     }
 };
 

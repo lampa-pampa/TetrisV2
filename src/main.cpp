@@ -143,7 +143,10 @@ int main()
     {
         const GameState state{game.get_state()};
         if(state == GameState::ended)
+        {
+            game.game_over();   
             continue;
+        }
         
         if(key_code != config.controls.no_key_code)
         {

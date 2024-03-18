@@ -18,6 +18,7 @@ public:
     virtual void handle_hold() = 0;
     virtual void pause() = 0;
     virtual void resume() = 0;
+    virtual void game_over() = 0;
     virtual void handle_timeout() = 0;
     virtual void handle_soft_drop() = 0;
     virtual GameState get_state() const = 0;

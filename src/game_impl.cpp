@@ -213,7 +213,6 @@ namespace Tetris
     {
         this->draw_ghost_brick();
         this->draw_cur_brick();
-        this->ui.refresh();
     }
 
     void GameImpl::remove_lines(int from_y, int to_y)
@@ -273,5 +272,12 @@ namespace Tetris
             this->ui.draw_level(this->level);
             this->set_timeout_delay(this->level);
         }
+    }
+
+    void GameImpl::draw_board_and_bricks()
+    {
+        this->ui.draw_board(this->board.get_visible_cubes());
+        this->draw_bricks();
+        this->ui.refresh();
     }
 }
