@@ -77,12 +77,13 @@ public:
 
     void game_over() override
     {
-        this->draw_on_text_area("GAME\nOVER", this->game_state_text_area);
+        this->draw_on_text_area("GAME\nOVER!", this->game_state_text_area);
+        this->refresh();
     }
 
     void pause() override
     {
-        this->draw_on_text_area("LEVEL\nPAUSED", this->game_state_text_area);
+        this->draw_on_text_area("GAME\nPAUSED", this->game_state_text_area);
         this->refresh();
     }
 
