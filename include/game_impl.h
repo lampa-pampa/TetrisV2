@@ -210,20 +210,15 @@ private:
     Vector2 compute_ghost_brick_position() const;
     Brick create_ghost_brick() const;
     void draw_all();
-    void draw_ghost_brick();
+    void draw_ghost_brick(bool use_colors);
+    void draw_cur_brick(bool use_colors);
     void remove_lines(int from_y, int to_y);
     void generate_new_brick();
     void set_start_position_and_rotation();
     void add_score(unsigned long long amount);
     void add_lines(int amount);
     void update_level();
-
-    void perform_action(const std::function<void()>& action)
-    {
-        action();
-        this->draw_bricks();
-        this->ui.refresh();       
-    };
+    void perform_action(const std::function<void()>& action);
 
     void add_score_for_lines(int amount)
     {
@@ -261,16 +256,10 @@ private:
             ++this->cur_brick_position.x;
     }
 
-    void draw_bricks()
+    void draw_bricks(bool use_colors = true)
     {
-        this->draw_ghost_brick();
-        this->draw_cur_brick();
-    }
-
-    void draw_cur_brick()
-    {
-        this->ui.draw_cur_brick(this->board.get_visible_brick_cubes(
-            this->get_transformed_cur_brick().cubes));
+        this->draw_ghost_brick(use_colors);
+        this->draw_cur_brick(use_colors);
     }
 
     void add_tetrises(unsigned long long amount)

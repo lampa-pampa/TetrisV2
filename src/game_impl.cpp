@@ -214,15 +214,25 @@ namespace Tetris
         this->ui.refresh();
     }
 
-    void GameImpl::draw_ghost_brick()
+    void GameImpl::draw_ghost_brick(bool use_colors)
     {
         if (this->settings.generate_ghost)
         {
+            Brick brick = this->create_ghost_brick();
+            if(not use_colors)
+                brick = Brick::get_colored(brick, 0);
             this->ui.draw_ghost_brick(this->board.get_visible_brick_cubes(
-                this->create_ghost_brick().cubes));
+                brick.cubes));
         }
-        else
-            this->ui.draw_ghost_brick({});
+    }
+
+    void GameImpl::draw_cur_brick(bool use_colors)
+    {
+        Brick brick = this->get_transformed_cur_brick();
+        if(not use_colors)
+            brick = Brick::get_colored(brick, 0);
+        this->ui.draw_cur_brick(this->board.get_visible_brick_cubes(
+            brick.cubes));
     }
 
     void GameImpl::remove_lines(int from_y, int to_y)
@@ -277,4 +287,12 @@ namespace Tetris
             this->set_timeout_delay(this->level);
         }
     }
+
+    void GameImpl::perform_action(const std::function<void()>& action)
+    {
+        this->draw_bricks(false);
+        action();
+        this->draw_bricks();
+        this->ui.refresh();       
+    };
 }
