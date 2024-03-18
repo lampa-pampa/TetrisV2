@@ -5,7 +5,6 @@
 #include "action.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
-#include "color_id_name.h"
 #include "config.h"
 #include "game_controller.h"
 #include "game_impl.h"
@@ -13,6 +12,7 @@
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_impl.h"
+#include "ui/color_id_name.h"
 #include "ui/console_matrix_display_impl.h"
 #include "ui/matrix_display_game_ui_impl.h"
 #include "ui/ncurses_colors.h"
@@ -20,16 +20,16 @@
 using Tetris::Action;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
-using Tetris::ColorIdName;
 using Tetris::Config;
 using Tetris::GameController;
 using Tetris::GameImpl;
 using Tetris::GameState;
-using Tetris::get_color_id;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
 using Tetris::TimerImpl;
+using Tetris::Ui::ColorIdName;
 using Tetris::Ui::ConsoleMatrixDisplayImpl;
+using Tetris::Ui::get_color_id;
 using Tetris::Ui::MatrixDisplayGameUiImpl;
 using Tetris::Ui::NCursesColors;
 

@@ -1,11 +1,11 @@
-#ifndef INCLUDE_COLOR_ID_NAME_H
-#define INCLUDE_COLOR_ID_NAME_H
+#ifndef INCLUDE_UI_COLOR_ID_NAME_H
+#define INCLUDE_UI_COLOR_ID_NAME_H
 
 #include <cassert>
 #include <cstdint>
 #include <map>
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 enum class ColorIdName: uint_fast8_t
