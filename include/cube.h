@@ -19,15 +19,10 @@ struct Cube final
             << ", " << cube.color_code << "}";
     }
 
-    Cube(int x, int y, int color_code)
+    Cube(int x, int y, int color_code = 0)
     :
         position{x, y},
         color_code{color_code}
-    {}
-
-    Cube(int x, int y)
-    :
-        Cube{x, y, 0}
     {}
 
     bool operator==(const Cube& other) const

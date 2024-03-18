@@ -43,14 +43,11 @@ struct Brick final
         return get_translated(get_rotated(brick, quarters_rotation), position);
     }
     
-    Brick(std::vector<Cube> cubes, Vector2 rotation_offset)
+    Brick(std::vector<Cube> cubes = {}, Vector2 rotation_offset = {0, 0})
     :
         cubes{cubes},
         rotation_offset{rotation_offset}
     {}
-        
-    Brick(std::vector<Cube> cubes): Brick{cubes, {0, 0}}{}
-    Brick(): Brick{{}}{};
     
     int get_min_x() const;
     int get_max_x() const;
