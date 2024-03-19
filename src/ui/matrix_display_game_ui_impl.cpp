@@ -1,7 +1,10 @@
 #include "ui/matrix_display_game_ui_impl.h"
 
 #include <cstdint>
+#include <iomanip>
 #include <map>
+#include <sstream>
+#include <string>
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -25,18 +28,20 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     MatrixDisplay& matrix,
     std::map<int, Action> key_code_to_action,
     uint_fast8_t ghost_color_value,
-    uint_fast8_t background_color_id,
     uint_fast8_t border_color_id,
-    uint_fast8_t font_color_id)
+    uint_fast8_t font_color_id,
+    uint_fast8_t empty_level_progress_bar_color_id,
+    uint_fast8_t level_progress_bar_color_id)
 :
     matrix{matrix},
     key_code_to_action{key_code_to_action},
     display_width{matrix.get_width()},
     display_height{matrix.get_height()},
     ghost_color_value{ghost_color_value},
-    background_color_id{background_color_id},
     border_color_id{border_color_id},
     font_color_id{font_color_id},
+    empty_level_progress_bar_color_id{empty_level_progress_bar_color_id},
+    level_progress_bar_color_id{level_progress_bar_color_id},
     cur_brick_cubes{}
 {
     this->iv_colors = this->create_iv_colors();
@@ -68,6 +73,14 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
     return brick_center_position / 2;
 }
 
+std::string MatrixDisplayGameUiImpl::get_number_as_string(
+    int number, int width) const
+{
+    std::ostringstream oss;
+    oss << std::setfill('0') << std::setw(width) << number;
+    return oss.str();
+}
+
 Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
     const Brick& brick, bool align_to_left) const
 {
@@ -79,15 +92,6 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
             brick.get_width(), brick.get_height(), align_to_left)
     };
     return center_cube_position - brick_center_position;
-}
-
-void MatrixDisplayGameUiImpl::draw_background()
-{
-    this->draw_rectangle(
-        {{0, 0}, display_width, display_height, border_color_id});
-    for(const auto& rectangle : this->background_rectangles)
-        draw_rectangle(rectangle);
-    this->draw_on_text_area("LEVEL", level_text_area);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
