@@ -11,7 +11,13 @@ struct IvColor
     uint_fast8_t id;
     uint_fast8_t value;
 
-    constexpr IvColor(uint_fast8_t id = 0, uint_fast8_t value = 0xff)
+    constexpr IvColor()
+    :
+        id{0},
+        value{0}
+    {}
+
+    constexpr IvColor(uint_fast8_t id, uint_fast8_t value = 0xff)
     :
         id{id},
         value{value}
