@@ -78,9 +78,10 @@ int main()
                 {' ', Action::locking_hard_drop},
             },
             100,
-            get_color_id(ColorIdName::black),
             get_color_id(ColorIdName::white),
             get_color_id(ColorIdName::sunset_orange),
+            get_color_id(ColorIdName::davy_s_grey),
+            get_color_id(ColorIdName::islamic_green),
         },
         {
             'p',
@@ -110,25 +111,26 @@ int main()
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.width,
         config.ui.display.height,
-        colors
+        colors,
     };
     MatrixDisplayGameUiImpl ui{
         matrix,
         config.ui.key_code_to_action,
         config.ui.ghost_color_value,
-        config.ui.background_color_id,
         config.ui.border_color_id,
-        config.ui.font_color_id
+        config.ui.font_color_id,
+        config.ui.empty_level_progress_bar_color_id,
+        config.ui.level_progress_bar_color_id,
     };
     BoardImpl board{
         config.game.board.width,
         config.game.board.height,
-        config.game.board.offset
+        config.game.board.offset,
     };
     RngImpl rng{};
     BrickGeneratorImpl brick_generator{
         {config.game.bricks, rng},
-        {config.game.color_ids, rng}
+        {config.game.color_ids, rng},
     };
     ScoreCounterImpl score_counter{
         config.game.score_counter.score_for_line,    
@@ -141,7 +143,7 @@ int main()
         brick_generator,
         score_counter,
         config.game.brick_spawn_position_y,
-        config.game.default_settings
+        config.game.default_settings,
     };
     GameController game_controller{timer, game};
   
