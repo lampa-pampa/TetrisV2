@@ -30,9 +30,9 @@ public:
         int width,
         int height,
         IvColor iv_color,
-        bool draw_outline = false,
-        Align horizontal_align = Align::start,
-        Align vertical_align = Align::start);
+        bool draw_outline = true,
+        Align horizontal_align = Align::center,
+        Align vertical_align = Align::center);
 
     std::vector<TextLine> create_lines(std::string text) const
     {
