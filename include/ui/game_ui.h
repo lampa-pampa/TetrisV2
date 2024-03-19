@@ -21,7 +21,7 @@ public:
     virtual void draw_next_brick(const Brick& brick) = 0;
     virtual void draw_hold_brick(const Brick& brick) = 0;
     virtual void draw_score(unsigned long long score) = 0;
-    virtual void draw_lines_quantity(int quantity) = 0;
+    virtual void draw_level_progress_bar(int quantity) = 0;
     virtual void draw_level(int level) = 0;
     virtual void refresh() = 0;
     virtual void game_over() = 0;

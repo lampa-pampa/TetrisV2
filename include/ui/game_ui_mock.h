@@ -19,7 +19,7 @@ public:
     void draw_next_brick(const Brick& brick) override {}
     void draw_hold_brick(const Brick& brick) override {}
     void draw_score(unsigned long long score) override {}
-    void draw_lines_quantity(int quantity) override {}
+    void draw_level_progress_bar(int quantity) override {}
     void draw_level(int level) override {}
     void refresh() override {}
     void game_over() override {}

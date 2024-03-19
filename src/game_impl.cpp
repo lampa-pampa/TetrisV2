@@ -208,7 +208,7 @@ namespace Tetris
         this->ui.draw_hold_brick(this->hold_brick);
         this->ui.draw_score(this->score);
         this->ui.draw_level(this->level);
-        this->ui.draw_lines_quantity(this->lines_quantity);
+        this->ui.draw_level_progress_bar(this->lines_quantity);
         this->ui.draw_board(this->board.get_visible_cubes());
         this->draw_bricks();
         this->ui.refresh();
@@ -271,7 +271,7 @@ namespace Tetris
         if(amount > 0)
         {
             this->lines_quantity += amount;
-            this->ui.draw_lines_quantity(this->lines_quantity);
+            this->ui.draw_level_progress_bar(this->lines_quantity);
             this->add_score_for_lines(amount);
             this->update_level();
         }
