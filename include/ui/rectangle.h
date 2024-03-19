@@ -15,17 +15,12 @@ struct Rectangle final
     IvColor iv_color;
 
     constexpr Rectangle(
-        Vector2 position, int width, int height, IvColor iv_color)
+        Vector2 position, int width, int height, IvColor iv_color = {0, 0})
     :
         position{position},
         width{width},
         height{height},
         iv_color{iv_color}
-    {}
-
-    constexpr Rectangle(Vector2 position, int width, int height)
-    :
-        Rectangle(position, width, height, 0)
     {}
 
     Vector2 get_center() const
