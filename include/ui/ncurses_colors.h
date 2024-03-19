@@ -10,31 +10,19 @@ namespace Tetris::Ui
 class NCursesColors final
 {
 public:
+    NCursesColors(
+        std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_color)
+    :
+        color_id_to_ncurses_color{color_id_to_ncurses_color}
+    {}
+
     int get_ncurses_color(uint_fast8_t color_id);
 
 private:
     using ColorPair = std::_Rb_tree_iterator<
         std::pair<const uint_fast8_t, uint_fast8_t>>;
     
-    const std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_color
-    {
-        {0, 16},
-        {1, 1},
-        {2, 2},
-        {3, 3},
-        {4, 4},
-        {5, 5},
-        {6, 6},
-        {7, 7},
-        {8, 8},
-        {9, 9},
-        {10, 10},
-        {11, 11},
-        {12, 12},
-        {13, 13},
-        {14, 14},
-        {15, 15},
-    };
+    const std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_color;
     
     std::map<uint_fast8_t, uint_fast8_t> color_to_pair;
 

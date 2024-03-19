@@ -1,7 +1,6 @@
 #ifndef INCLUDE_UI_GAME_UI_H
 #define INCLUDE_UI_GAME_UI_H
 
-#include <cstdint>
 #include <functional>
 #include <vector>
 
@@ -27,7 +26,7 @@ public:
     virtual void refresh() = 0;
     virtual void game_over() = 0;
     virtual void pause() = 0;
-    virtual void handle_key_press(int_fast8_t key_code) = 0;
+    virtual void handle_key_press(int key_code) = 0;
     virtual void connect_move_left_pressed(
         const std::function<void()>& handler) = 0;
     virtual void connect_move_right_pressed(

@@ -45,7 +45,8 @@ struct DisplayConfig final
 struct UiConfig final
 {
     DisplayConfig display;
-    std::map<int_fast8_t, Action> key_code_to_action;
+    std::map<int, Action> key_code_to_action;
+    uint_fast8_t ghost_color_value;
     uint_fast8_t background_color_id;
     uint_fast8_t border_color_id;
     uint_fast8_t font_color_id;
@@ -53,9 +54,9 @@ struct UiConfig final
 
 struct ControlsConfig final
 {
-    int_fast8_t pause_key_code;
-    int_fast8_t quit_key_code;
-    int_fast8_t no_key_code;
+    int pause_key_code;
+    int quit_key_code;
+    int no_key_code;
 };
 
 struct Config final

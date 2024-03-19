@@ -1,5 +1,3 @@
-#include <cstdint>
-
 #include <ncurses.h>
 
 #include "action.h"
@@ -79,6 +77,7 @@ int main()
                 {'c', Action::hold},
                 {' ', Action::locking_hard_drop},
             },
+            96,
             get_color_id(ColorIdName::black),
             get_color_id(ColorIdName::white),
             get_color_id(ColorIdName::sunset_orange),
@@ -89,8 +88,25 @@ int main()
             -1,
         },
     };
+    NCursesColors colors{{
+        {0, 16},
+        {1, 1},
+        {2, 2},
+        {3, 3},
+        {4, 4},
+        {5, 5},
+        {6, 6},
+        {7, 7},
+        {8, 8},
+        {9, 9},
+        {10, 10},
+        {11, 11},
+        {12, 12},
+        {13, 13},
+        {14, 14},
+        {15, 15},
+    }};
     TimerImpl timer{};
-    NCursesColors colors{};
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.width,
         config.ui.display.height,
@@ -99,6 +115,7 @@ int main()
     MatrixDisplayGameUiImpl ui{
         matrix,
         config.ui.key_code_to_action,
+        config.ui.ghost_color_value,
         config.ui.background_color_id,
         config.ui.border_color_id,
         config.ui.font_color_id
@@ -145,7 +162,7 @@ int main()
     game.connect_set_timeout_delay(
         [&timer](int level){ timer.set_timeout_delay(level); });
 
-    int_fast8_t key_code;
+    int key_code;
     ::WINDOW * game_window{matrix.get_game_window()};
     
     while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)

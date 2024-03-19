@@ -23,7 +23,8 @@ namespace Tetris::Ui
 
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     MatrixDisplay& matrix,
-    std::map<int_fast8_t, Action> key_code_to_action,
+    std::map<int, Action> key_code_to_action,
+    uint_fast8_t ghost_color_value,
     uint_fast8_t background_color_id,
     uint_fast8_t border_color_id,
     uint_fast8_t font_color_id)
@@ -32,6 +33,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     key_code_to_action{key_code_to_action},
     display_width{matrix.get_width()},
     display_height{matrix.get_height()},
+    ghost_color_value{ghost_color_value},
     background_color_id{background_color_id},
     border_color_id{border_color_id},
     font_color_id{font_color_id},
@@ -41,7 +43,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     this->draw_background();
 }
 
-void MatrixDisplayGameUiImpl::handle_key_press(int_fast8_t key_code)
+void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 {
     if(const auto it{this->key_code_to_action.find(key_code)};
         it != this->key_code_to_action.end()
@@ -93,6 +95,14 @@ void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
     const Vector2 position_in_px{position + cube.position * cube_size};
     this->draw_rectangle(
         {position_in_px, cube_size, cube_size, cube.color_id});
+}
+
+void MatrixDisplayGameUiImpl::draw_cube(
+    Vector2 position, const Cube& cube, uint_fast8_t color_value)
+{
+    const Vector2 position_in_px{position + cube.position * cube_size};
+    this->draw_rectangle(
+        {position_in_px, cube_size, cube_size, {cube.color_id, color_value}});
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)

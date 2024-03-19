@@ -1,7 +1,6 @@
 #ifndef INCLUDE_UI_GAME_UI_MOCK_H
 #define INCLUDE_UI_GAME_UI_MOCK_H
 
-#include <cstdint>
 #include <vector>
 
 #include "brick.h"
@@ -25,7 +24,7 @@ public:
     void refresh() override {}
     void game_over() override {}
     void pause() override {}
-    void handle_key_press(int_fast8_t key_code) override {}
+    void handle_key_press(int key_code) override {}
     void connect_move_left_pressed(
         const std::function<void()>& handler) override {}
     void connect_move_right_pressed(

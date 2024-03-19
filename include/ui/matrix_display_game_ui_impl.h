@@ -30,12 +30,13 @@ class MatrixDisplayGameUiImpl final: public GameUi
 public:
     MatrixDisplayGameUiImpl(
         MatrixDisplay& matrix,
-        std::map<int_fast8_t, Action> key_code_to_action,
+        std::map<int, Action> key_code_to_action,
+        uint_fast8_t ghost_color_value,
         uint_fast8_t background_color_id,
         uint_fast8_t border_color_id,
         uint_fast8_t font_color_id);
     
-    void handle_key_press(int_fast8_t key_code) override;
+    void handle_key_press(int key_code) override;
 
     void draw_next_brick(const Brick& brick) override
     {
@@ -57,7 +58,7 @@ public:
 
     void draw_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        this->draw_transparent_cubes(board_position, cubes);
+        this->draw_cubes(board_position, cubes, this->ghost_color_value);
     }
 
     void draw_board(const CubeMatrix& cubes) override
@@ -146,10 +147,11 @@ private:
 
     const int display_width;
     const int display_height;
+    const uint_fast8_t ghost_color_value;
     const uint_fast8_t background_color_id;
     const uint_fast8_t border_color_id;
     const uint_fast8_t font_color_id;
-    const std::map<int_fast8_t, Action> key_code_to_action;
+    const std::map<int, Action> key_code_to_action;
     const std::map<Action, Signal&> action_to_signal
     {
         {Action::move_left, this->move_left_pressed},
@@ -198,6 +200,8 @@ private:
         const Brick& brick, bool align_to_left) const;
     void draw_background();
     void draw_cube(Vector2 position, const Cube& cube);
+    void draw_cube(
+        Vector2 position, const Cube& cube, uint_fast8_t color_value);
     void draw_rectangle(const Rectangle& rectangle);
     void draw_text_line(const TextLine& line);
     void draw_centered_brick_in_rectangle(
@@ -244,17 +248,13 @@ private:
             this->draw_cube(position, cube);
     }
 
-    void draw_transparent_cubes(
-        Vector2 position, const std::vector<Cube>& cubes)
+    void draw_cubes(
+        Vector2 position,
+        const std::vector<Cube>& cubes,
+        uint_fast8_t color_value)
     {
         for (const auto& cube : cubes)
-            this->draw_transparent_cube(position, cube);
-    }
-
-    void draw_transparent_cube(Vector2 position, const Cube& cube)
-    {
-        const Vector2 position_in_px{position + cube.position * cube_size};
-        this->draw_pixel(position_in_px + cube_size / 2, {cube.color_id, 100});
+            this->draw_cube(position, cube, color_value);
     }
 
     void draw_pixel(Vector2 position, IvColor iv_color)
