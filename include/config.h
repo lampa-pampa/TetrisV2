@@ -47,9 +47,10 @@ struct UiConfig final
     DisplayConfig display;
     std::map<int, Action> key_code_to_action;
     uint_fast8_t ghost_color_value;
-    uint_fast8_t background_color_id;
     uint_fast8_t border_color_id;
     uint_fast8_t font_color_id;
+    uint_fast8_t empty_level_progress_bar_color_id;
+    uint_fast8_t level_progress_bar_color_id;
 };
 
 struct ControlsConfig final
