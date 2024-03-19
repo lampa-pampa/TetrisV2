@@ -34,6 +34,13 @@ public:
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center);
 
+    TextArea(
+        const Rectangle& background,
+        IvColor iv_color,
+        bool draw_outline = true,
+        Align horizontal_align = Align::center,
+        Align vertical_align = Align::center);
+
     std::vector<TextLine> create_lines(std::string text) const
     {
         return this->create_lines(this->slice_text_into_lines(text));

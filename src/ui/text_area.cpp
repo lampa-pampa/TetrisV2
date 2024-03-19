@@ -37,6 +37,24 @@ TextArea::TextArea(
     vertical_align{vertical_align}
 {}
 
+TextArea::TextArea(
+    const Rectangle& background,
+    IvColor iv_color,
+    bool draw_outline,
+    Align horizontal_align,
+    Align vertical_align)
+:
+    TextArea{
+        background.position,
+        background.width,
+        background.height,
+        iv_color,
+        draw_outline,
+        horizontal_align,
+        vertical_align,
+    }
+{}
+
 vector<TextLine> TextArea::create_lines(
     const vector<CharsAndWidth>& lines_chars) const
 {
