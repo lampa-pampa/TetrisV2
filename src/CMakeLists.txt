@@ -18,6 +18,7 @@ target_sources(TETRIS_V2
         ui/console_matrix_display_impl.cpp
         ui/matrix_display_game_ui_impl.cpp
         ui/ncurses_colors.cpp
+        ui/progress_bar.cpp
         ui/text_area.cpp
 )
 
