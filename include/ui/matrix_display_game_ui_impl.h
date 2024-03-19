@@ -89,7 +89,7 @@ public:
 
     void pause() override
     {
-        this->draw_on_text_area("GAME\nPAUSED", this->game_state_text_area);
+        this->draw_on_text_area("PAUSED", this->game_state_text_area);
         this->refresh();
     }
 
@@ -176,7 +176,8 @@ private:
         {{49, 12}, 13, 50},
     };
     const TextArea game_state_text_area{
-        {17, 2}, 30, 60, this->font_color_id, true, Align::center, Align::center
+        {18, 3}, 28, 58, this->font_color_id,
+        true, Align::center, Align::center
     };
     const TextArea level_text_area{{2, 12}, 0, 0, this->font_color_id};
     

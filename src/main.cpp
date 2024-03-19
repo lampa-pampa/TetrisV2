@@ -77,7 +77,7 @@ int main()
                 {'c', Action::hold},
                 {' ', Action::locking_hard_drop},
             },
-            96,
+            100,
             get_color_id(ColorIdName::black),
             get_color_id(ColorIdName::white),
             get_color_id(ColorIdName::sunset_orange),
