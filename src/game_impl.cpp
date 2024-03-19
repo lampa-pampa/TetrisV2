@@ -284,6 +284,7 @@ namespace Tetris
             ++this->level;
             this->lines_quantity -= next_level_lines_quantity;
             this->ui.draw_level(this->level);
+            this->ui.draw_level_progress_bar(this->lines_quantity);
             this->set_timeout_delay(this->level);
         }
     }
