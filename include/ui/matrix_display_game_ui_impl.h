@@ -155,6 +155,8 @@ private:
     static constexpr Vector2 board_position{17, -4};
     static constexpr Rectangle next_rectangle{{48, 2}, 14, 8};
     static constexpr Rectangle hold_rectangle{{2, 2}, 14, 8};
+    static constexpr Rectangle level_text_rectangle{{2, 12}, 13, 41};
+    static constexpr Rectangle level_value_rectangle{{2, 55}, 13, 7};
 
     const int display_width;
     const int display_height;
@@ -187,8 +189,8 @@ private:
         },
         this->next_rectangle,
         this->hold_rectangle,
-        {{2, 12}, 13, 41},
-        {{2, 55}, 13, 7},
+        this->level_text_rectangle,
+        this->level_value_rectangle,
         {{49, 12}, 13, 50},
     };
     const ProgressBar level_progress_bar{
@@ -199,8 +201,8 @@ private:
         this->empty_level_progress_bar_color_id,
     };
     const TextArea game_state_text_area{{18, 3}, 28, 58, this->font_color_id};
-    const TextArea level_text_area{{2, 12}, 13, 41, this->font_color_id};
-    const TextArea level_value_area{{2, 55}, 13, 7, this->font_color_id};
+    const TextArea level_text_area{level_text_rectangle, this->font_color_id};
+    const TextArea level_value_area{level_value_rectangle, this->font_color_id};
     
     MatrixDisplay& matrix;
     IvColorMatrix iv_colors;
