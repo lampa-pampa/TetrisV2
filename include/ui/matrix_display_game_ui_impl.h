@@ -43,14 +43,12 @@ public:
 
     void draw_next_brick(const Brick& brick) override
     {
-        this->draw_centered_brick_in_rectangle(
-            brick, next_rectangle, false);
+        this->draw_centered_brick_in_rectangle(brick, next_rectangle, false);
     }
 
     void draw_hold_brick(const Brick& brick) override
     {
-        this->draw_centered_brick_in_rectangle(
-            brick, hold_rectangle, true);
+        this->draw_centered_brick_in_rectangle(brick, hold_rectangle, true);
     }
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
@@ -256,7 +254,10 @@ private:
             this->draw_pixel(position + pixel_position, color);
     }
 
-    void draw_board(Vector2 position, const CubeMatrix& board, uint_fast8_t color_value = 0xff)
+    void draw_board(
+        Vector2 position,
+        const CubeMatrix& board,
+        uint_fast8_t color_value = 0xff)
     {
         for (const auto& row : board)
             this->draw_cubes(position, row, color_value);

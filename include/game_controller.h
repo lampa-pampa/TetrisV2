@@ -34,12 +34,13 @@ public:
 private:
     using Signal = boost::signals2::signal<void(int)>;
 
-    Timer& timer;
-    Game& game;
-    ::WINDOW * window;
     const int pause_key_code;
     const int quit_key_code;
     const int no_key_code;
+    
+    Timer& timer;
+    Game& game;
+    ::WINDOW * window;
     Signal key_press;
     
     void handle_pause_pressed();
