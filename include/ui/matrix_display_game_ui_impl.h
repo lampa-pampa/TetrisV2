@@ -144,7 +144,7 @@ private:
 
     static constexpr int cube_size{3};
     static constexpr int level_value_digits_quantity{2};
-    static constexpr Vector2 board_position{17, -4};
+    static constexpr Vector2 board_position{17, 2};
    
     static constexpr Rectangle next_rectangle{{48, 2}, 14, 8};
     static constexpr Rectangle hold_rectangle{{2, 2}, 14, 8};
