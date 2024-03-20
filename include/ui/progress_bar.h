@@ -1,9 +1,9 @@
 #ifndef INCLUDE_UI_PROGRESS_BAR
 #define INCLUDE_UI_PROGRESS_BAR
 
+#include <tuple>
 #include <vector>
 
-#include "ui/iv_color.h"
 #include "ui/rectangle.h"
 #include "vector_2.h"
 
@@ -13,21 +13,31 @@ namespace Tetris::Ui
 class ProgressBar final
 {
 public:
-    ProgressBar(
-        Vector2 position,
-        int range,
-        int separator,
-        const Rectangle& segment,
-        IvColor empty_segment_iv_color);
+    using Segments = std::tuple<
+        std::vector<Rectangle>, std::vector<Rectangle>>;
 
-    std::vector<Rectangle> create_segments(int value) const;
+    constexpr ProgressBar(
+    Vector2 position,
+    int segment_width,
+    int segment_height,
+    int height,
+    int separator)
+:
+    position{position},
+    segment_width{segment_width},
+    segment_height{segment_height},
+    height{height},
+    separator{separator}
+{}
+
+    Segments create_segments(int value) const;
 
 private:
     Vector2 position;
     int height;
     int separator;
-    Rectangle segment;
-    IvColor empty_segment_iv_color;
+    int segment_width;
+    int segment_height;
 };
 
 }

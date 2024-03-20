@@ -25,21 +25,19 @@ enum class Align
 class TextArea final
 {
 public:
-    TextArea(
-        Vector2 position, 
-        int width,
-        int height,
-        IvColor iv_color,
+    constexpr TextArea(
+        const Rectangle& background, 
         bool draw_outline = true,
         Align horizontal_align = Align::center,
-        Align vertical_align = Align::center);
-
-    TextArea(
-        const Rectangle& background,
-        IvColor iv_color,
-        bool draw_outline = true,
-        Align horizontal_align = Align::center,
-        Align vertical_align = Align::center);
+        Align vertical_align = Align::center)
+    :
+        position{background.position},
+        width{background.width},
+        height{background.height},
+        draw_outline{draw_outline},
+        horizontal_align{horizontal_align},
+        vertical_align{vertical_align}
+    {}
 
     std::vector<TextLine> create_lines(std::string text) const
     {
@@ -53,7 +51,6 @@ private:
     Vector2 position;
     int width;
     int height;
-    IvColor iv_color;
     bool draw_outline;
     Align horizontal_align;
     Align vertical_align;

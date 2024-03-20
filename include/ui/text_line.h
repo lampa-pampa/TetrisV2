@@ -15,7 +15,6 @@ struct TextLine final
     Rectangle background;
     Vector2 position;
     std::vector<Char> chars;
-    IvColor iv_color;
 };
 
 }
