@@ -7,6 +7,7 @@
 #include <tuple>
 #include <vector>
 
+#include "align.h"
 #include "char.h"
 #include "rectangle.h"
 #include "text_line.h"
@@ -14,13 +15,6 @@
 
 namespace Tetris::Ui
 {
-
-enum class Align
-{
-    start,
-    center,
-    end,
-};
 
 class TextArea final
 {

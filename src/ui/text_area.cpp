@@ -5,6 +5,7 @@
 
 #include <boost/range/irange.hpp>
 
+#include "ui/align.h"
 #include "ui/char.h"
 #include "ui/rectangle.h"
 #include "ui/text_line.h"
