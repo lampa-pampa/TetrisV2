@@ -233,12 +233,6 @@ private:
             Brick::get_translated(brick, vector));
     }
 
-    Vector2 compute_brick_start_position(
-        int board_width, int brick_start_position_y, int board_offset) const
-    {
-        return {(board_width - 1) / 2, brick_start_position_y + board_offset};
-    }
-
     void locking_hard_drop()
     {
         this->hard_drop();
