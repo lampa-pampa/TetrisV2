@@ -23,7 +23,7 @@ namespace Tetris
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
         const Settings& settings,
-        int brick_start_position_y,
+        Vector2 brick_start_position,
         int next_level_lines_quantity)
     :
         ui{ui},
@@ -31,9 +31,7 @@ namespace Tetris
         brick_generator{brick_generator},
         score_counter{score_counter},
         settings{settings},
-        brick_start_position{this->compute_brick_start_position(
-            board.get_width(), brick_start_position_y, board.get_offset())
-        },
+        brick_start_position{brick_start_position},
         next_level_lines_quantity{next_level_lines_quantity},
         state{GameState::in_progress},
         score{0},
@@ -103,8 +101,8 @@ namespace Tetris
     bool GameImpl::brick_should_be_moved_up(const Brick& brick) const
     {
         return not this->board.brick_is_valid(brick)
-            and brick.get_max_y() > this->board.get_offset()
-            and brick.get_min_y() > 0;
+            and brick.get_max_y() > 0
+            and brick.get_min_y() > this->board.get_offset();
     }
     
     Vector2 GameImpl::compute_spawn_position(const Brick& brick) const

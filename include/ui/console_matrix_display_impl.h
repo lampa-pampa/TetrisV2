@@ -17,8 +17,7 @@ namespace Tetris::Ui
 class ConsoleMatrixDisplayImpl final: public MatrixDisplay
 {  
 public:
-    ConsoleMatrixDisplayImpl(
-        int width, int height, NCursesColors color_id_to_color);
+    ConsoleMatrixDisplayImpl(Vector2 size, NCursesColors color_id_to_color);
 
     ~ConsoleMatrixDisplayImpl()
     {
@@ -27,14 +26,9 @@ public:
 
     void refresh(const IvColorMatrix& colors) override;
 
-    int get_width() const override
+    Vector2 get_size() const override
     {
-        return this->width;
-    }
-
-    int get_height() const override
-    {
-        return this->height;
+        return this->size;
     }
 
     WINDOW * get_game_window() const
@@ -56,11 +50,9 @@ private:
         L'●',
     };
     static constexpr int max_color_value{256};
-    static constexpr int pixel_width{2};
-    static constexpr int pixel_height{1};
+    static constexpr Vector2 pixel_size{2, 1};
 
-    const int width;
-    const int height;
+    const Vector2 size;
 
     ::WINDOW* window;
     NCursesColors color_id_to_color;
@@ -76,7 +68,7 @@ private:
 
     Vector2 compute_window_size() const
     {
-        return {this->width * pixel_width, this->height * pixel_height};
+        return this->size.scale(pixel_size);
     }
 };
 

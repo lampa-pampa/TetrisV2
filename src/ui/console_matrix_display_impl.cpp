@@ -15,10 +15,9 @@ namespace Tetris::Ui
 {
 
 ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
-    int width, int height, NCursesColors color_id_to_color)
+    Vector2 size, NCursesColors color_id_to_color)
 :
-    width{width},
-    height{height},
+    size{size},
     color_id_to_color{color_id_to_color}
 {
     this->setup_ncurses_window();
@@ -27,9 +26,9 @@ ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
 
 void ConsoleMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 {
-    for (const auto& y : irange(this->height))
+    for (const auto& y : irange(this->size.y))
     {
-        for (const auto& x : irange(this->width))
+        for (const auto& x : irange(this->size.x))
             this->refresh_pixel({x, y}, colors[y][x]);
     }
     ::wrefresh(this->window);
@@ -91,7 +90,7 @@ void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
     };
     const wchar_t pixel_char{this->get_pixel_char(color.value)};
     this->print_colored(
-        position.scale({pixel_width, pixel_height}),
+        position.scale(pixel_size),
         pixel_color,
         pixel_char);
 }

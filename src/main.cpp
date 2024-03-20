@@ -33,7 +33,7 @@ int main()
 {
     Config config{
         {
-            {64, 64},
+            {{64, 64}},
             {
                 {KEY_DOWN, Action::soft_drop},
                 {KEY_LEFT, Action::move_left},
@@ -82,7 +82,7 @@ int main()
                 1,
                 true,
             },
-            1,
+            {4, 1},
             10,
         },
         {
@@ -111,8 +111,7 @@ int main()
     }};
     TimerImpl timer{config.game.default_settings.start_level};
     ConsoleMatrixDisplayImpl matrix{
-        config.ui.display.width,
-        config.ui.display.height,
+        config.ui.display.size,
         color_id_to_color,
     };
     MatrixDisplayGameUiImpl ui{
@@ -144,7 +143,7 @@ int main()
         brick_generator,
         score_counter,
         config.game.default_settings,
-        config.game.brick_spawn_position_y,
+        config.game.brick_spawn_position,
         config.game.next_level_lines_quantity,
     };
     ConsoleGameControllerImpl game_controller{

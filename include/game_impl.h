@@ -28,7 +28,7 @@ public:
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
         const Settings& settings,
-        int brick_start_position_y,
+        Vector2 brick_start_position,
         int next_level_lines_quantity);
 
         GameImpl(const GameImpl&) = delete;

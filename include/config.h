@@ -33,14 +33,13 @@ struct GameConfig final
     std::vector<Brick> bricks;
     std::vector<uint_fast8_t> color_ids;
     Settings default_settings;
-    int brick_spawn_position_y;
+    Vector2 brick_spawn_position;
     int next_level_lines_quantity;
 };
 
 struct DisplayConfig final
 {
-    int width;
-    int height;
+    Vector2 size;
 };
 
 struct UiConfig final
