@@ -17,7 +17,7 @@ namespace Tetris
 
 BoardImpl::BoardImpl(Vector2 size, int offset)
 :
-    size{size.x, size.y + offset},
+    size{size},
     offset{offset}
 {
     this->cubes = this->create_cubes();
@@ -28,7 +28,7 @@ void BoardImpl::put_cubes(const vector<Cube>& cubes)
     for (const auto& cube : cubes)
     {
         assert(this->position_is_in_range(cube.position));
-        this->cubes[cube.position.y][cube.position.x] = cube;
+        this->get_cube(cube.position) = cube;
     }
 }
 
@@ -58,7 +58,7 @@ vector<Cube> BoardImpl::get_visible_brick_cubes(
     vector<Cube> visible_cubes{};
     for (const auto& cube : cubes)
     {
-        if (cube.position.y >= this->offset)
+        if (cube.position.y >= 0)
             visible_cubes.push_back(cube);
     }
     return visible_cubes;
@@ -69,7 +69,7 @@ vector<Cube> BoardImpl::get_visible_brick_cubes(
 BoardImpl::CubeMatrix BoardImpl::create_cubes() const
 {
     CubeMatrix cubes;
-    for (const auto& y : irange(this->size.y))
+    for (const auto& y : irange(-this->offset, this->size.y))
     {
         std::vector<Cube> row{};
         for (const auto& x : irange(this->size.x))
@@ -92,7 +92,7 @@ vector<int> BoardImpl::find_rows_with_line(int from_y, int to_y) const
 
 bool BoardImpl::is_row_with_line(int y) const
 {
-    for (const auto& cube : this->cubes[y])
+    for (const auto& cube : this->get_row(y))
     {
         if (cube.empty())
             return false;
@@ -103,7 +103,7 @@ bool BoardImpl::is_row_with_line(int y) const
 Brick BoardImpl::try_to_create_line(int y) const
 {
     Brick line{};
-    for (const auto& cube : this->cubes[y])
+    for (const auto& cube : this->get_row(y))
     {
         if (cube.empty())
             return {};
@@ -114,10 +114,10 @@ Brick BoardImpl::try_to_create_line(int y) const
 
 void BoardImpl::compress(int start_y)
 {
-    for (const auto& y : irange(start_y, 0, -1))
+    for (const auto& y : irange(start_y, -this->offset, -1))
     {
-        for (const auto& cube : this->cubes[y])
-            this->copy_cube_above(cube.position);
+        for (const auto& x : irange(this->size.x))
+            this->copy_cube_above({x, y});
     }
     this->clear_top_row();
 }

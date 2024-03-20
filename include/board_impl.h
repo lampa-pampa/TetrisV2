@@ -23,11 +23,6 @@ public:
     std::vector<Cube> get_visible_brick_cubes(
         const std::vector<Cube>& cubes) const override;
 
-    int get_width() const override
-    {
-        return this->size.x;
-    }
-
     int get_offset() const override
     {
         return this->offset;
@@ -54,27 +49,47 @@ private:
     Brick try_to_create_line(int y) const;
     void compress(int start_y);
 
+    std::vector<Cube>& get_row(int y)
+    {
+        return this->cubes[y + this->offset];
+    }
+
+    const std::vector<Cube>& get_row(int y) const
+    {
+        return this->cubes[y + this->offset];
+    }
+    
+    Cube& get_cube(Vector2 position)
+    {
+        return this->get_row(position.y)[position.x];
+    }
+
+    const Cube& get_cube(Vector2 position) const
+    {
+        return this->get_row(position.y)[position.x];
+    }
+
     void copy_cube_above(Vector2 position)
     {
-        const Cube& above{this->cubes[position.y - 1][position.x]};
-        this->cubes[position.y][position.x].color_id = above.color_id;
+        const Cube& above{this->get_cube(position - Vector2{0, 1})};
+        this->get_cube(position).color_id = above.color_id;
     }
 
     bool position_is_valid(Vector2 position) const
     {
         return this->position_is_in_range(position)
-            and this->cubes[position.y][position.x].empty();
+            and this->get_cube(position).empty();
     }
 
     bool position_is_in_range(Vector2 position) const
     {
         return position.x >= 0 and position.x < this->size.x
-            and position.y >= 0 and position.y < this->size.y;
+            and position.y >= -this->offset and position.y < this->size.y;
     }
 
     void clear_top_row()
     {
-        for (auto& cube : this->cubes[0])
+        for (auto& cube : this->get_row(-this->offset))
             cube.clear();
     }
 

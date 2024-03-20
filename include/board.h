@@ -18,7 +18,6 @@ public:
     virtual std::vector<int> remove_lines_and_compress(
         int from_y, int to_y) = 0;
     virtual bool brick_is_valid(const Brick& brick) const = 0;
-    virtual int get_width() const = 0;
     virtual int get_offset() const = 0;
     virtual CubeMatrix get_visible_cubes() const = 0;
     virtual std::vector<Cube> get_visible_brick_cubes(
