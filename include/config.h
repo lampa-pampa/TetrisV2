@@ -1,5 +1,5 @@
-#ifndef INCLUDE_CONFIG
-#define INCLUDE_CONFIG
+#ifndef INCLUDE_CONFIG_H
+#define INCLUDE_CONFIG_H
 
 #include <cstdint>
 #include <map>

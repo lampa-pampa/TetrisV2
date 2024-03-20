@@ -1,5 +1,5 @@
-#ifndef INCLUDE_UI_PROGRESS_BAR
-#define INCLUDE_UI_PROGRESS_BAR
+#ifndef INCLUDE_UI_PROGRESS_BAR_H
+#define INCLUDE_UI_PROGRESS_BAR_H
 
 #include <tuple>
 #include <vector>
