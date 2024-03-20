@@ -101,8 +101,8 @@ namespace Tetris
     bool GameImpl::brick_should_be_moved_up(const Brick& brick) const
     {
         return not this->board.brick_is_valid(brick)
-            and brick.get_max_y() > 0
-            and brick.get_min_y() > this->board.get_offset();
+            and brick.get_min_y() > -this->board.get_offset()
+            and brick.get_max_y() > 0;
     }
     
     Vector2 GameImpl::compute_spawn_position(const Brick& brick) const
