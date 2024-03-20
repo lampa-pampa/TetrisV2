@@ -38,7 +38,7 @@ namespace Tetris
         state{GameState::in_progress},
         score{0},
         tetrises{0},
-        level{1},
+        level{settings.start_level},
         lines_quantity{0},
         next_brick{this->brick_generator.generate()},
         hold_brick{},

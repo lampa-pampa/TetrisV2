@@ -78,7 +78,10 @@ int main()
                 get_color_id(ColorIdName::shocking_pink),
                 get_color_id(ColorIdName::electric_blue),
             },
-            {true},
+            {
+                1,
+                true,
+            },
             1,
             10,
         },
@@ -106,7 +109,7 @@ int main()
         {14, 14},
         {15, 15},
     }};
-    TimerImpl timer{};
+    TimerImpl timer{config.game.default_settings.start_level};
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.width,
         config.ui.display.height,

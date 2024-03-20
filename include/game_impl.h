@@ -171,6 +171,7 @@ private:
 
     static constexpr int tetris_lines_quantity{4};
 
+    const Settings settings;
     const Vector2 brick_start_position;
     const int next_level_lines_quantity;
 
@@ -178,7 +179,6 @@ private:
     Board& board;
     BrickGenerator& brick_generator;
     ScoreCounter& score_counter;
-    Settings settings;
     GameState state;
     unsigned long long score;
     unsigned long long tetrises;

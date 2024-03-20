@@ -28,6 +28,7 @@ GameController::GameController(
 void GameController::run()
 {
     int key_code;
+    this->timer.start();
     while ((key_code = ::wgetch(this->window)) != this->quit_key_code)
     {
         const GameState state{this->game.get_state()};

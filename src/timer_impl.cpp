@@ -9,12 +9,11 @@ using std::chrono::system_clock;
 namespace Tetris
 {
 
-TimerImpl::TimerImpl()
+TimerImpl::TimerImpl(int start_level)
 :
     timeout_time{Nanoseconds::zero()}
 {
-    this->set_timeout_delay(1);
-    this->start();
+    this->set_timeout_delay(start_level);
 }
 
 void TimerImpl::update_time()

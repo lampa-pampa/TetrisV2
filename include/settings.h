@@ -9,17 +9,20 @@ namespace Tetris
 
 struct Settings final
 {
+    int start_level;
     bool generate_ghost;
 
     bool operator==(const Settings& other) const
     {
-        return this->generate_ghost == other.generate_ghost;
+        return this->generate_ghost == other.generate_ghost 
+            and this->generate_ghost == other.generate_ghost;
     }
 
     friend inline std::ostream& operator<<(std::ostream& os,
         const Settings& settings)
     {
-        return os << "{" << std::boolalpha << settings.generate_ghost << "}";
+        return os << "{" << settings.generate_ghost << ", "
+            << std::boolalpha << settings.generate_ghost << "}";
     }
 };
 

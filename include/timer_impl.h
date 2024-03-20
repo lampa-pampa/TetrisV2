@@ -13,7 +13,7 @@ namespace Tetris
 class TimerImpl final: public Timer
 {  
 public:
-    TimerImpl();
+    TimerImpl(int start_level);
 
     void update_time() override;
 
