@@ -75,8 +75,11 @@ public:
 
     void draw_level_progress_bar(int quantity) override
     {
-        this->draw_rectangles(
-            this->level_progress_bar.create_segments(quantity));
+        const auto&[on_segments, off_segments]{
+            this->level_progress_bar.create_segments(quantity)
+        };
+        this->draw_rectangles(on_segments, level_progress_bar_color_id);
+        this->draw_rectangles(off_segments, empty_level_progress_bar_color_id);
         this->draw_on_text_area("L\nE\nV\nE\nL", level_text_area);
     }
     
@@ -153,10 +156,17 @@ private:
     static constexpr int cube_size{3};
     static constexpr int level_value_digits_quantity{2};
     static constexpr Vector2 board_position{17, -4};
+   
     static constexpr Rectangle next_rectangle{{48, 2}, 14, 8};
     static constexpr Rectangle hold_rectangle{{2, 2}, 14, 8};
     static constexpr Rectangle level_text_rectangle{{2, 12}, 13, 41};
     static constexpr Rectangle level_value_rectangle{{2, 55}, 13, 7};
+   
+    static constexpr ProgressBar level_progress_bar{{3, 13}, 11, 3, 10, 1};
+   
+    static constexpr TextArea game_state_text_area{ {{18, 3}, 28, 58} };
+    static constexpr TextArea level_text_area{level_text_rectangle};
+    static constexpr TextArea level_value_area{level_value_rectangle};
 
     const int display_width;
     const int display_height;
@@ -166,6 +176,14 @@ private:
     const uint_fast8_t empty_level_progress_bar_color_id;
     const uint_fast8_t level_progress_bar_color_id;
     const std::map<int, Action> key_code_to_action;
+    const std::vector<Rectangle> background_rectangles
+    {
+        next_rectangle,
+        hold_rectangle,
+        level_text_rectangle,
+        level_value_rectangle,
+        {{49, 12}, 13, 50},
+    };
     const std::map<Action, Signal&> action_to_signal
     {
         {Action::move_left, this->move_left_pressed},
@@ -178,34 +196,9 @@ private:
             this->rotate_counter_clockwise_pressed},
         {Action::hold, this->hold_pressed},
     };
-
-    const std::vector<Rectangle> background_rectangles
-    {
-        {
-            {0, 0},
-            this->display_width,
-            this->display_height,
-            this->border_color_id,
-        },
-        this->next_rectangle,
-        this->hold_rectangle,
-        this->level_text_rectangle,
-        this->level_value_rectangle,
-        {{49, 12}, 13, 50},
-    };
-    const ProgressBar level_progress_bar{
-        {3, 13},
-        10,
-        1,
-        {{0, 0}, 11, 3, this->level_progress_bar_color_id},
-        this->empty_level_progress_bar_color_id,
-    };
-    const TextArea game_state_text_area{{18, 3}, 28, 58, this->font_color_id};
-    const TextArea level_text_area{level_text_rectangle, this->font_color_id};
-    const TextArea level_value_area{level_value_rectangle, this->font_color_id};
     
     MatrixDisplay& matrix;
-    IvColorMatrix iv_colors;
+    IvColorMatrix main_layer;
     std::vector<Cube> cur_brick_cubes;
     
     Signal move_left_pressed;
@@ -217,24 +210,23 @@ private:
     Signal no_locking_hard_drop_pressed;
     Signal hold_pressed;
 
-    IvColorMatrix create_iv_colors() const;
+    IvColorMatrix create_layer(IvColor color) const;
     Vector2 compute_brick_center(
         int width, int height, bool align_to_left) const;
     Vector2 compute_brick_centered_position(
         const Brick& brick, bool align_to_left) const;
     std::string get_number_as_string(int number, int width = 0) const;
-    void draw_cube(Vector2 position, const Cube& cube);
     void draw_cube(
         Vector2 position, const Cube& cube, uint_fast8_t color_value);
-    void draw_rectangle(const Rectangle& rectangle);
-    void draw_text_line(const TextLine& line);
+    void draw_rectangle(const Rectangle& rectangle, IvColor color = {});
+    void draw_text_line(const TextLine& line, IvColor color);
     void draw_centered_brick_in_rectangle(
         const Brick& brick, const Rectangle& rect, bool align_to_left);
     void emit_action_signal(Action action);
 
     void refresh() override
     {
-        this->matrix.refresh(this->iv_colors);
+        this->matrix.refresh(this->main_layer);
     }
 
     bool position_is_on_display(Vector2 position) const
@@ -245,13 +237,14 @@ private:
 
     void draw_on_text_area(std::string text, const TextArea& area)
     {
-        this->draw_text_lines(area.create_lines(text));
+        this->draw_text_lines(area.create_lines(text), this->font_color_id);
     }
 
-    void draw_text_lines(const std::vector<TextLine>& text_lines)
+    void draw_text_lines(
+        const std::vector<TextLine>& text_lines, IvColor color)
     { 
         for(const auto& line : text_lines)
-            this->draw_text_line(line);
+            this->draw_text_line(line, color);
     }
 
     void draw_background()
@@ -259,43 +252,38 @@ private:
         this->draw_rectangles(this->background_rectangles);
     }
 
-    void draw_rectangles(const std::vector<Rectangle>& rectangles)
+    void draw_rectangles(
+        const std::vector<Rectangle>& rectangles, IvColor color = {})
     { 
         for(const auto& rectangle : rectangles)
-            this->draw_rectangle(rectangle);
+            this->draw_rectangle(rectangle, color);
     }
 
-    void draw_char(Vector2 position, Char c, IvColor iv_color)
+    void draw_char(Vector2 position, Char c, IvColor color)
     {
         for(const auto& pixel_position : c.pixels)
-            this->draw_pixel(position + pixel_position, iv_color);
+            this->draw_pixel(position + pixel_position, color);
     }
 
-    void draw_board(Vector2 position, const CubeMatrix& board)
+    void draw_board(Vector2 position, const CubeMatrix& board, uint_fast8_t color_value = 0xff)
     {
         for (const auto& row : board)
-            this->draw_cubes(position, row);
-    }
-
-    void draw_cubes(Vector2 position, const std::vector<Cube>& cubes)
-    {
-        for (const auto& cube : cubes)
-            this->draw_cube(position, cube);
+            this->draw_cubes(position, row, color_value);
     }
 
     void draw_cubes(
         Vector2 position,
         const std::vector<Cube>& cubes,
-        uint_fast8_t color_value)
+        uint_fast8_t color_value = 0xff)
     {
         for (const auto& cube : cubes)
             this->draw_cube(position, cube, color_value);
     }
 
-    void draw_pixel(Vector2 position, IvColor iv_color)
+    void draw_pixel(Vector2 position, IvColor color)
     {
         assert(this->position_is_on_display(position));
-        this->iv_colors[position.y][position.x] = iv_color;
+        this->main_layer[position.y][position.x] = color;
     }
 };
 

@@ -13,7 +13,7 @@ class MatrixDisplay
 public:   
     using IvColorMatrix = std::vector<std::vector<IvColor>>;
 
-    virtual void refresh(const IvColorMatrix& iv_colors) = 0;
+    virtual void refresh(const IvColorMatrix& colors) = 0;
     virtual int get_width() const = 0;
     virtual int get_height() const = 0;
     virtual ~MatrixDisplay() = default;

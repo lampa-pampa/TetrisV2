@@ -44,7 +44,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     level_progress_bar_color_id{level_progress_bar_color_id},
     cur_brick_cubes{}
 {
-    this->iv_colors = this->create_iv_colors();
+    this->main_layer = this->create_layer(this->border_color_id);
     this->draw_background();
 }
 
@@ -59,9 +59,10 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 //-------------------------------------------------------------------
 
 MatrixDisplayGameUiImpl::IvColorMatrix
-    MatrixDisplayGameUiImpl::create_iv_colors() const
+    MatrixDisplayGameUiImpl::create_layer(IvColor color) const
 {
-    return IvColorMatrix(display_height, vector<IvColor>(display_width));
+    return IvColorMatrix(
+        this->display_height, vector<IvColor>(this->display_width, color));
 }
 
 Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
@@ -94,38 +95,32 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
     return center_cube_position - brick_center_position;
 }
 
-void MatrixDisplayGameUiImpl::draw_cube(Vector2 position, const Cube& cube)
-{
-    const Vector2 position_in_px{position + cube.position * cube_size};
-    this->draw_rectangle(
-        {position_in_px, cube_size, cube_size, cube.color_id});
-}
-
 void MatrixDisplayGameUiImpl::draw_cube(
     Vector2 position, const Cube& cube, uint_fast8_t color_value)
 {
     const Vector2 position_in_px{position + cube.position * cube_size};
     this->draw_rectangle(
-        {position_in_px, cube_size, cube_size, {cube.color_id, color_value}});
+        {position_in_px, cube_size, cube_size}, {cube.color_id, color_value});
 }
 
-void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
+void MatrixDisplayGameUiImpl::draw_rectangle(
+    const Rectangle& rectangle, IvColor color)
 {
     for (const auto& y : irange(rectangle.height))
     {
         for (const auto& x : irange(rectangle.width))
-            this->draw_pixel(
-                rectangle.position + Vector2{x, y}, rectangle.iv_color);
+            this->draw_pixel(rectangle.position + Vector2{x, y}, color);
     }
 }
 
-void MatrixDisplayGameUiImpl::draw_text_line(const TextLine& line)
+void MatrixDisplayGameUiImpl::draw_text_line(
+    const TextLine& line, IvColor color)
 {
     this->draw_rectangle(line.background);
     Vector2 position{line.position};
     for(const auto& chr : line.chars)
     {
-        this->draw_char(position, chr, line.iv_color);
+        this->draw_char(position, chr, color);
         position.x += chr.width + Char::separator;
     }
 }
