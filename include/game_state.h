@@ -15,12 +15,17 @@ enum class GameState
     ended,
 };
 
+namespace
+{
+
 const std::map<GameState, std::string> game_state_to_name
 {
     {GameState::in_progress, "in_progress"},
     {GameState::paused, "paused"},
     {GameState::ended, "ended"},
 };
+
+}
 
 inline std::ostream& operator<<(std::ostream& os, GameState state)
 {
