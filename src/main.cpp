@@ -170,23 +170,23 @@ int main()
     while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)
     {
         const GameState state{game.get_state()};
-        if(state == GameState::ended)
+        if (state == GameState::ended)
         {
             game.game_over();   
             continue;
         }
         
-        if(key_code != config.controls.no_key_code)
+        if (key_code != config.controls.no_key_code)
         {
-            if(key_code == config.controls.pause_key_code)
+            if (key_code == config.controls.pause_key_code)
                 game_controller.handle_pause_pressed();
-            else if(state == GameState::in_progress)
+            else if (state == GameState::in_progress)
                 ui.handle_key_press(key_code);
         }
         
-        if(timer.is_active())
+        if (timer.is_active())
         {
-            if(state == GameState::ended)
+            if (state == GameState::ended)
                 timer.stop();
             else
                 timer.update_time();

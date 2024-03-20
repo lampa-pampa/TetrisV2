@@ -25,7 +25,7 @@ vector<TextLine> TextArea::create_lines(
         this->compute_lines_position_y(lines_chars.size())
     };
     vector<TextLine> lines{};
-    for(const auto& i : irange(lines_chars.size()))
+    for (const auto& i : irange(lines_chars.size()))
     {
         const auto&[line_chars, line_width]{lines_chars[i]};
         const int y = start_y + i * (Char::height + Char::separator);
@@ -52,17 +52,17 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
     vector<CharsAndWidth> lines{};
     vector<Char> line_chars{};
     int line_width{};
-    for(const auto& i : irange(text.size()))
+    for (const auto& i : irange(text.size()))
     {
-        if(text[i] != '\n')
+        if (text[i] != '\n')
         {
             const Char chr{get_char(text[i])};
             line_width += chr.width;
             line_chars.emplace_back(std::move(chr));
-            if(line_chars.size() > 1)
+            if (line_chars.size() > 1)
                 line_width += Char::separator;
         }
-        if(this->line_should_be_ended(line_width, i, text))
+        if (this->line_should_be_ended(line_width, i, text))
         {
             lines.push_back(tuple<vector<Char>, int>{line_chars, line_width});
             line_chars.clear();
@@ -75,7 +75,7 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
 Rectangle TextArea::create_line_background(Vector2 position, int width) const
 {
     Rectangle background{position, width, Char::height};
-    if(this->draw_outline)
+    if (this->draw_outline)
     {
         background.position -= Char::separator;
         background.width += 2 * Char::separator;
@@ -95,7 +95,7 @@ int TextArea::compute_aligned_position(
 int TextArea::compute_lines_position_y(int lines_quantity) const
 {
     const int lines_height{this->compute_lines_height(lines_quantity)};
-    if(lines_height > this->height)
+    if (lines_height > this->height)
         return 0;
     return this->compute_aligned_position(
         this->vertical_align, this->height, lines_height);
@@ -103,7 +103,7 @@ int TextArea::compute_lines_position_y(int lines_quantity) const
 
 int TextArea::compute_line_position_x(int line_width) const
 {
-    if(line_width > this->width)
+    if (line_width > this->width)
         return 0;
     return this->compute_aligned_position(
         this->horizontal_align, this->width, line_width);

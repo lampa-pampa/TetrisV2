@@ -20,9 +20,9 @@ public:
     void handle_pause_pressed()
     {
         const GameState state{this->game.get_state()};
-        if(state == GameState::in_progress)
+        if (state == GameState::in_progress)
             this->pause_game();
-        else if(state == GameState::paused)
+        else if (state == GameState::paused)
             this->start_game();
     }
 

@@ -37,7 +37,7 @@ TimerImpl::Nanoseconds TimerImpl::compute_timeout_delay(int level) const
 void TimerImpl::time_elapsed(Nanoseconds time)
 {
     this->timeout_time += time;
-    if(timeout_time >= this->timeout_delay)
+    if (timeout_time >= this->timeout_delay)
     {
         timeout_time -= timeout_delay;
         this->timeout_signal();

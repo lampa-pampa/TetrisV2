@@ -50,7 +50,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
 
 void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 {
-    if(const auto it{this->key_code_to_action.find(key_code)};
+    if (const auto it{this->key_code_to_action.find(key_code)};
         it != this->key_code_to_action.end()
     )
         this->emit_action_signal(it->second);
@@ -69,7 +69,7 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
     int width, int height, bool align_to_left) const
 {
     Vector2 brick_center_position{Vector2{width, height} * cube_size};
-    if(align_to_left)
+    if (align_to_left)
         brick_center_position.x += 1;
     return brick_center_position / 2;
 }
@@ -118,7 +118,7 @@ void MatrixDisplayGameUiImpl::draw_text_line(
 {
     this->draw_rectangle(line.background);
     Vector2 position{line.position};
-    for(const auto& chr : line.chars)
+    for (const auto& chr : line.chars)
     {
         this->draw_char(position, chr, color);
         position.x += chr.width + Char::separator;

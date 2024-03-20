@@ -182,7 +182,7 @@ namespace Tetris
     void GameImpl::no_locking_hard_drop()
     {
         const int distance{this->hard_drop()};
-        if(distance == 0)
+        if (distance == 0)
             this->place_and_generate_new_brick();
     }
 
@@ -219,7 +219,7 @@ namespace Tetris
         if (this->settings.generate_ghost)
         {
             Brick brick = this->create_ghost_brick();
-            if(not use_colors)
+            if (not use_colors)
                 brick = Brick::get_colored(brick, 0);
             this->ui.draw_ghost_brick(this->board.get_visible_brick_cubes(
                 brick.cubes));
@@ -229,7 +229,7 @@ namespace Tetris
     void GameImpl::draw_cur_brick(bool use_colors)
     {
         Brick brick = this->get_transformed_cur_brick();
-        if(not use_colors)
+        if (not use_colors)
             brick = Brick::get_colored(brick, 0);
         this->ui.draw_cur_brick(this->board.get_visible_brick_cubes(
             brick.cubes));
@@ -268,7 +268,7 @@ namespace Tetris
 
     void GameImpl::add_lines(int amount)
     {
-        if(amount > 0)
+        if (amount > 0)
         {
             this->lines_quantity += amount;
             this->ui.draw_level_progress_bar(this->lines_quantity);
@@ -279,7 +279,7 @@ namespace Tetris
 
     void GameImpl::update_level()
     {
-        if(this->lines_quantity >= next_level_lines_quantity)
+        if (this->lines_quantity >= next_level_lines_quantity)
         {
             ++this->level;
             this->lines_quantity -= next_level_lines_quantity;

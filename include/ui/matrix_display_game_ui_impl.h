@@ -243,7 +243,7 @@ private:
     void draw_text_lines(
         const std::vector<TextLine>& text_lines, IvColor color)
     { 
-        for(const auto& line : text_lines)
+        for (const auto& line : text_lines)
             this->draw_text_line(line, color);
     }
 
@@ -255,13 +255,13 @@ private:
     void draw_rectangles(
         const std::vector<Rectangle>& rectangles, IvColor color = {})
     { 
-        for(const auto& rectangle : rectangles)
+        for (const auto& rectangle : rectangles)
             this->draw_rectangle(rectangle, color);
     }
 
     void draw_char(Vector2 position, Char c, IvColor color)
     {
-        for(const auto& pixel_position : c.pixels)
+        for (const auto& pixel_position : c.pixels)
             this->draw_pixel(position + pixel_position, color);
     }
 
