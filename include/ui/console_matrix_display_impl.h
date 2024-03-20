@@ -18,14 +18,14 @@ class ConsoleMatrixDisplayImpl final: public MatrixDisplay
 {  
 public:
     ConsoleMatrixDisplayImpl(
-        int width, int height, NCursesColors ncurses_colors);
+        int width, int height, NCursesColors color_id_to_color);
 
     ~ConsoleMatrixDisplayImpl()
     {
         ::endwin();
     }
 
-    void refresh(const IvColorMatrix& iv_colors) override;
+    void refresh(const IvColorMatrix& colors) override;
 
     int get_width() const override
     {
@@ -63,7 +63,7 @@ private:
     const int height;
 
     ::WINDOW* window;
-    NCursesColors ncurses_colors;
+    NCursesColors color_id_to_color;
 
     Vector2 get_console_size() const;
     Vector2 compute_window_position() const;
@@ -71,7 +71,7 @@ private:
     void setup_ncurses_window();
     void setup_ncurses_keyboard();
     void print_colored(Vector2 position, int color, wchar_t pixel_char);
-    void refresh_pixel(Vector2 position, IvColor iv_color);
+    void refresh_pixel(Vector2 position, IvColor color);
     wchar_t get_pixel_char(int color_value);
 
     Vector2 compute_window_size() const

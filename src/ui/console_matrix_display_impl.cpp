@@ -15,22 +15,22 @@ namespace Tetris::Ui
 {
 
 ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
-    int width, int height, NCursesColors ncurses_colors)
+    int width, int height, NCursesColors color_id_to_color)
 :
     width{width},
     height{height},
-    ncurses_colors{ncurses_colors}
+    color_id_to_color{color_id_to_color}
 {
     this->setup_ncurses_window();
     this->setup_ncurses_keyboard();
 }
 
-void ConsoleMatrixDisplayImpl::refresh(const IvColorMatrix& iv_colors)
+void ConsoleMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 {
     for (const auto& y : irange(this->height))
     {
         for (const auto& x : irange(this->width))
-            this->refresh_pixel({x, y}, iv_colors[y][x]);
+            this->refresh_pixel({x, y}, colors[y][x]);
     }
     ::wrefresh(this->window);
 }
@@ -85,15 +85,15 @@ void ConsoleMatrixDisplayImpl::print_colored(
 }
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(
-    Vector2 position, IvColor iv_color)
+    Vector2 position, IvColor color)
 {
-    const int ncurses_color{
-        this->ncurses_colors.get_ncurses_color(iv_color.id)
+    const int pixel_color{
+        this->color_id_to_color.get_ncurses_color(color.id)
     };
-    const wchar_t pixel_char{this->get_pixel_char(iv_color.value)};
+    const wchar_t pixel_char{this->get_pixel_char(color.value)};
     this->print_colored(
         position * Vector2{pixel_width, pixel_height},
-        ncurses_color,
+        pixel_color,
         pixel_char);
 }
 
