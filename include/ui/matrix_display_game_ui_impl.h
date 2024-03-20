@@ -43,33 +43,36 @@ public:
 
     void draw_next_brick(const Brick& brick) override
     {
-        this->draw_centered_brick_in_rectangle(brick, next_rectangle, false);
+        this->draw_centered_brick_in_container(brick, next_container, false);
     }
 
     void draw_hold_brick(const Brick& brick) override
     {
-        this->draw_centered_brick_in_rectangle(brick, hold_rectangle, true);
+        this->draw_centered_brick_in_container(brick, hold_container, true);
     }
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
     {
         this->cur_brick_cubes = cubes;
-        this->draw_cubes(board_position, cubes);
+        this->draw_cubes(board_container.position, cubes);
     }
 
     void draw_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        this->draw_cubes(board_position, cubes, this->ghost_color_value);
+        this->draw_cubes(
+            board_container.position, cubes, this->ghost_color_value);
     }
 
     void draw_board(const CubeMatrix& cubes) override
     {
-        this->draw_board(board_position, cubes);
+        this->draw_board(board_container.position, cubes);
     }
 
     void draw_score(unsigned long long score) override
     {
-        
+        this->draw_on_text_area(this->get_number_as_string(
+            score, score_value_digits_quantity), score_value_area);
+        this->refresh();
     }
     
     void draw_level(int level) override
@@ -144,18 +147,21 @@ private:
 
     static constexpr int cube_size{3};
     static constexpr int level_value_digits_quantity{2};
-    static constexpr Vector2 board_position{17, 2};
+    static constexpr int score_value_digits_quantity{18};
    
-    static constexpr Rectangle next_rectangle{{48, 2}, {14, 8}};
-    static constexpr Rectangle hold_rectangle{{2, 2}, {14, 8}};
-    static constexpr Rectangle level_text_rectangle{{2, 12}, {13, 41}};
-    static constexpr Rectangle level_value_rectangle{{2, 55}, {13, 7}};
+    static constexpr Rectangle board_container{{17, 2}, {30, 60}};
+    static constexpr Rectangle hold_container{{2, 2}, {14, 8}};
+    static constexpr Rectangle next_container{{48, 2}, {14, 8}};
+    static constexpr Rectangle level_text_container{{2, 12}, {13, 41}};
+    static constexpr Rectangle level_value_container{{2, 55}, {13, 7}};
+    static constexpr Rectangle score_value_container{{49, 12}, {13, 41}};
    
     static constexpr ProgressBar level_progress_bar{{3, 13}, {11, 3}, 10, 1};
    
-    static constexpr TextArea game_state_text_area{ {{18, 3}, {28, 58}} };
-    static constexpr TextArea level_text_area{level_text_rectangle};
-    static constexpr TextArea level_value_area{level_value_rectangle};
+    static constexpr TextArea game_state_text_area{board_container};
+    static constexpr TextArea level_text_area{level_text_container};
+    static constexpr TextArea level_value_area{level_value_container};
+    static constexpr TextArea score_value_area{score_value_container};
 
     const uint_fast8_t ghost_color_value;
     const uint_fast8_t border_color_id;
@@ -163,13 +169,13 @@ private:
     const uint_fast8_t empty_level_progress_bar_color_id;
     const uint_fast8_t level_progress_bar_color_id;
     const std::map<int, Action> key_code_to_action;
-    const std::vector<Rectangle> background_rectangles
+    const std::vector<Rectangle> containers
     {
-        next_rectangle,
-        hold_rectangle,
-        level_text_rectangle,
-        level_value_rectangle,
-        {{49, 12}, {13, 50}},
+        next_container,
+        hold_container,
+        level_text_container,
+        level_value_container,
+        score_value_container,
     };
     const std::map<Action, Signal&> action_to_signal
     {
@@ -207,7 +213,7 @@ private:
         Vector2 position, const Cube& cube, uint_fast8_t color_value);
     void draw_rectangle(const Rectangle& rectangle, IvColor color = {});
     void draw_text_line(const TextLine& line, IvColor color);
-    void draw_centered_brick_in_rectangle(
+    void draw_centered_brick_in_container(
         const Brick& brick, const Rectangle& rect, bool align_to_left);
     void emit_action_signal(Action action);
 
@@ -235,7 +241,7 @@ private:
 
     void draw_background()
     {
-        this->draw_rectangles(this->background_rectangles);
+        this->draw_rectangles(this->containers);
     }
 
     void draw_rectangles(

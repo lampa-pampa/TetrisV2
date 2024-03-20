@@ -134,7 +134,7 @@ void MatrixDisplayGameUiImpl::draw_text_line(
     }
 }
 
-void MatrixDisplayGameUiImpl::draw_centered_brick_in_rectangle(
+void MatrixDisplayGameUiImpl::draw_centered_brick_in_container(
     const Brick& brick, const Rectangle& rectangle, bool align_to_left)
 {
     this->draw_rectangle(rectangle);
