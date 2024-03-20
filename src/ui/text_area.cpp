@@ -44,7 +44,7 @@ bool TextArea::line_should_be_ended(
         or i == text.size() - 1
         or text[i + 1] != '\n'
             and line_width + get_char(text[i + 1]).width + Char::separator
-                > this->width;
+                > this->container.size.x;
 }
 
 vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
@@ -75,12 +75,11 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
 
 Rectangle TextArea::create_line_background(Vector2 position, int width) const
 {
-    Rectangle background{position, width, Char::height};
+    Rectangle background{position, {width, Char::height}};
     if (this->draw_outline)
     {
         background.position -= Char::separator;
-        background.width += 2 * Char::separator;
-        background.height += 2 * Char::separator;
+        background.size += 2 * Char::separator;
     }
     return background;
 }
@@ -96,24 +95,26 @@ int TextArea::compute_aligned_position(
 int TextArea::compute_lines_position_y(int lines_quantity) const
 {
     const int lines_height{this->compute_lines_height(lines_quantity)};
-    if (lines_height > this->height)
+    if (lines_height > this->container.size.y)
         return 0;
     return this->compute_aligned_position(
-        this->vertical_align, this->height, lines_height);
+        this->vertical_align, this->container.size.y, lines_height);
 }
 
 int TextArea::compute_line_position_x(int line_width) const
 {
-    if (line_width > this->width)
+    if (line_width > this->container.size.x)
         return 0;
     return this->compute_aligned_position(
-        this->horizontal_align, this->width, line_width);
+        this->horizontal_align, this->container.size.x, line_width);
 }
 
 TextLine TextArea::create_line(const vector<Char>& chars, int width, int y) const
 {
     const Vector2 line_position{
-        this->position + Vector2{this->compute_line_position_x(width), y}};
+        this->container.position
+            + Vector2{this->compute_line_position_x(width), y}
+    };
     return {
         this->create_line_background(line_position, width),
         line_position,

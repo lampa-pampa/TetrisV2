@@ -17,15 +17,13 @@ ProgressBar::Segments ProgressBar::create_segments(int value) const
     Vector2 segment_position = this->position; 
     for (const auto& i : boost::irange(this->height))
     {
-        const Rectangle segment{
-            segment_position, this->segment_width, this->segment_height
-        };      
+        const Rectangle segment{segment_position, segment_size};      
         if (value >= this->height - i)
             on_segments.emplace_back(std::move(segment));
         else
             off_segments.emplace_back(std::move(segment));
         
-        segment_position.y += this->segment_height + this->separator;
+        segment_position.y += this->segment_size.y + this->separator;
     }
     return {std::move(on_segments), std::move(off_segments)};
 }

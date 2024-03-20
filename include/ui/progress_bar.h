@@ -18,14 +18,12 @@ public:
 
     constexpr ProgressBar(
         Vector2 position,
-        int segment_width,
-        int segment_height,
+        Vector2 segment_size,
         int height,
         int separator)
     :
         position{position},
-        segment_width{segment_width},
-        segment_height{segment_height},
+        segment_size{segment_size},
         height{height},
         separator{separator}
     {}
@@ -34,10 +32,9 @@ public:
 
 private:
     Vector2 position;
+    Vector2 segment_size;
     int height;
     int separator;
-    int segment_width;
-    int segment_height;
 };
 
 }

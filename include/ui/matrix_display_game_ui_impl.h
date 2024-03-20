@@ -146,19 +146,17 @@ private:
     static constexpr int level_value_digits_quantity{2};
     static constexpr Vector2 board_position{17, 2};
    
-    static constexpr Rectangle next_rectangle{{48, 2}, 14, 8};
-    static constexpr Rectangle hold_rectangle{{2, 2}, 14, 8};
-    static constexpr Rectangle level_text_rectangle{{2, 12}, 13, 41};
-    static constexpr Rectangle level_value_rectangle{{2, 55}, 13, 7};
+    static constexpr Rectangle next_rectangle{{48, 2}, {14, 8}};
+    static constexpr Rectangle hold_rectangle{{2, 2}, {14, 8}};
+    static constexpr Rectangle level_text_rectangle{{2, 12}, {13, 41}};
+    static constexpr Rectangle level_value_rectangle{{2, 55}, {13, 7}};
    
-    static constexpr ProgressBar level_progress_bar{{3, 13}, 11, 3, 10, 1};
+    static constexpr ProgressBar level_progress_bar{{3, 13}, {11, 3}, 10, 1};
    
-    static constexpr TextArea game_state_text_area{ {{18, 3}, 28, 58} };
+    static constexpr TextArea game_state_text_area{ {{18, 3}, {28, 58}} };
     static constexpr TextArea level_text_area{level_text_rectangle};
     static constexpr TextArea level_value_area{level_value_rectangle};
 
-    const int display_width;
-    const int display_height;
     const uint_fast8_t ghost_color_value;
     const uint_fast8_t border_color_id;
     const uint_fast8_t font_color_id;
@@ -171,7 +169,7 @@ private:
         hold_rectangle,
         level_text_rectangle,
         level_value_rectangle,
-        {{49, 12}, 13, 50},
+        {{49, 12}, {13, 50}},
     };
     const std::map<Action, Signal&> action_to_signal
     {
@@ -199,9 +197,9 @@ private:
     Signal no_locking_hard_drop_pressed;
     Signal hold_pressed;
 
-    IvColorMatrix create_layer(IvColor color) const;
+    IvColorMatrix create_layer(Vector2 size, IvColor color) const;
     Vector2 compute_brick_center(
-        int width, int height, bool align_to_left) const;
+        Vector2 brick_position, bool align_to_left) const;
     Vector2 compute_brick_centered_position(
         const Brick& brick, bool align_to_left) const;
     std::string get_number_as_string(int number, int width = 0) const;
@@ -220,8 +218,7 @@ private:
 
     bool position_is_on_display(Vector2 position) const
     {
-        return position.x >= 0 and position.x < display_width
-            and position.y >= 0 and position.y < display_height;
+        return position >= 0 and position < this->matrix.get_size();
     }
 
     void draw_on_text_area(std::string text, const TextArea& area)

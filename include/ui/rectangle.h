@@ -9,39 +9,13 @@ namespace Tetris::Ui
 struct Rectangle final
 {
     Vector2 position;
-    int width;
-    int height;
+    Vector2 size;
 
-    constexpr Rectangle(Vector2 position, int width, int height)
+    constexpr Rectangle(Vector2 position, Vector2 size)
     :
         position{position},
-        width{width},
-        height{height}
+        size{size}
     {}
-
-    Vector2 get_center() const
-    {
-        return this->position + Vector2{this->width, this->height}.center();
-    }
-};
-
-struct Rectangle2 final
-{
-    Vector2 position;
-    int width;
-    int height;
-
-    constexpr Rectangle2(Vector2 position, int width, int height, int, int)
-    :
-        position{position},
-        width{width},
-        height{height}
-    {}
-
-    Vector2 get_center() const
-    {
-        return this->position + Vector2{this->width, this->height}.center();
-    }
 };
 
 }

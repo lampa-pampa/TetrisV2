@@ -20,14 +20,12 @@ class TextArea final
 {
 public:
     constexpr TextArea(
-        const Rectangle& background, 
+        const Rectangle& container, 
         bool draw_outline = true,
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center)
     :
-        position{background.position},
-        width{background.width},
-        height{background.height},
+        container{container},
         draw_outline{draw_outline},
         horizontal_align{horizontal_align},
         vertical_align{vertical_align}
@@ -42,9 +40,7 @@ private:
     using AlignToFuncion = std::map<Align, std::function<int(int, int)>>;
     using CharsAndWidth = std::tuple<std::vector<Char>, int>;
 
-    Vector2 position;
-    int width;
-    int height;
+    Rectangle container;
     bool draw_outline;
     Align horizontal_align;
     Align vertical_align;
