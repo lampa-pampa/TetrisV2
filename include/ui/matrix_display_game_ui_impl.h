@@ -39,6 +39,7 @@ public:
         uint_fast8_t level_progress_bar_color_id);
     
     void handle_key_press(int key_code) override;
+    void draw_level_progress_bar(int quantity) override;
 
     void draw_next_brick(const Brick& brick) override
     {
@@ -71,16 +72,6 @@ public:
     void draw_score(unsigned long long score) override
     {
         
-    }
-
-    void draw_level_progress_bar(int quantity) override
-    {
-        const auto&[on_segments, off_segments]{
-            this->level_progress_bar.create_segments(quantity)
-        };
-        this->draw_rectangles(on_segments, level_progress_bar_color_id);
-        this->draw_rectangles(off_segments, empty_level_progress_bar_color_id);
-        this->draw_on_text_area("L\nE\nV\nE\nL", level_text_area);
     }
     
     void draw_level(int level) override
