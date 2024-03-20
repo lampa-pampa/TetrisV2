@@ -4,7 +4,7 @@
 #include <tuple>
 #include <vector>
 
-#include "ui/rectangle.h"
+#include "rectangle.h"
 #include "vector_2.h"
 
 namespace Tetris::Ui

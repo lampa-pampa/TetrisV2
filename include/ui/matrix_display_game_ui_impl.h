@@ -14,13 +14,13 @@
 
 #include "action.h"
 #include "brick.h"
-#include "cube.h"
-#include "matrix_display.h"
 #include "char.h"
-#include "text_area.h"
+#include "cube.h"
+#include "iv_color.h"
+#include "matrix_display.h"
+#include "progress_bar.h"
 #include "rectangle.h"
-#include "ui/iv_color.h"
-#include "ui/progress_bar.h"
+#include "text_area.h"
 #include "vector_2.h"
 
 namespace Tetris::Ui

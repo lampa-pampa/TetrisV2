@@ -8,7 +8,7 @@
 #include <ncurses.h>
 
 #include "ncurses_colors.h"
-#include "ui/iv_color.h"
+#include "iv_color.h"
 #include "vector_2.h"
 
 namespace Tetris::Ui
