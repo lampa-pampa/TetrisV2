@@ -53,7 +53,7 @@ struct UiConfig final
     uint_fast8_t level_progress_bar_color_id;
 };
 
-struct ControlsConfig final
+struct GameControllerConfig final
 {
     int pause_key_code;
     int quit_key_code;
@@ -64,7 +64,7 @@ struct Config final
 {
     GameConfig game;
     UiConfig ui;
-    ControlsConfig controls;
+    GameControllerConfig controller;
 };
 
 }
