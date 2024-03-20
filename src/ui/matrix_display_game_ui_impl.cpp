@@ -78,10 +78,10 @@ MatrixDisplayGameUiImpl::IvColorMatrix
 Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
     int width, int height, bool align_to_left) const
 {
-    Vector2 brick_center_position{Vector2{width, height} * cube_size};
+    Vector2 brick_center_position{Vector2{width, height}.scale(cube_size)};
     if (align_to_left)
         brick_center_position.x += 1;
-    return brick_center_position / 2;
+    return brick_center_position.center();
 }
 
 std::string MatrixDisplayGameUiImpl::get_number_as_string(
@@ -96,7 +96,7 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
     const Brick& brick, bool align_to_left) const
 {
     const Vector2 center_cube_position{
-        Vector2{brick.get_min_x(), brick.get_min_y()}.abs() * cube_size
+        Vector2{brick.get_min_x(), brick.get_min_y()}.abs().scale(cube_size)
     };
     const Vector2 brick_center_position{
         this->compute_brick_center(
@@ -108,7 +108,7 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
 void MatrixDisplayGameUiImpl::draw_cube(
     Vector2 position, const Cube& cube, uint_fast8_t color_value)
 {
-    const Vector2 position_in_px{position + cube.position * cube_size};
+    const Vector2 position_in_px{(position + cube.position.scale(cube_size))};
     this->draw_rectangle(
         {position_in_px, cube_size, cube_size}, {cube.color_id, color_value});
 }

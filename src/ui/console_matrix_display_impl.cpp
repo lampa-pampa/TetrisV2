@@ -49,7 +49,7 @@ Vector2 ConsoleMatrixDisplayImpl::compute_window_position() const
     const Vector2 console_size{this->get_console_size()};
     const Vector2 window_size{this->compute_window_size()};
     assert(console_size >= window_size);
-    return {console_size / 2 - window_size / 2};
+    return console_size.center() - window_size.center();
 }
 
 void ConsoleMatrixDisplayImpl::create_window()
@@ -84,15 +84,14 @@ void ConsoleMatrixDisplayImpl::print_colored(
     ::wattroff(this->window, COLOR_PAIR(color));
 }
 
-void ConsoleMatrixDisplayImpl::refresh_pixel(
-    Vector2 position, IvColor color)
+void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
     const int pixel_color{
         this->color_id_to_color.get_ncurses_color(color.id)
     };
     const wchar_t pixel_char{this->get_pixel_char(color.value)};
     this->print_colored(
-        position * Vector2{pixel_width, pixel_height},
+        position.scale({pixel_width, pixel_height}),
         pixel_color,
         pixel_char);
 }
