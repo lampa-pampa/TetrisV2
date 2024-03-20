@@ -6,7 +6,6 @@
 #include "config.h"
 #include "game_controller.h"
 #include "game_impl.h"
-#include "game_state.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_impl.h"
@@ -21,7 +20,6 @@ using Tetris::BrickGeneratorImpl;
 using Tetris::Config;
 using Tetris::GameController;
 using Tetris::GameImpl;
-using Tetris::GameState;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
 using Tetris::TimerImpl;
@@ -145,7 +143,14 @@ int main()
         config.game.brick_spawn_position_y,
         config.game.default_settings,
     };
-    GameController game_controller{timer, game};
+    GameController game_controller{
+        timer,
+        game,
+        matrix.get_game_window(),
+        config.controller.pause_key_code,
+        config.controller.quit_key_code,
+        config.controller.no_key_code,
+    };
   
     timer.connect_timeout([&game](){ game.handle_timeout(); });
     ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
@@ -163,34 +168,10 @@ int main()
     game.connect_reset_timeout([&timer](){ timer.reset_timeout(); });
     game.connect_set_timeout_delay(
         [&timer](int level){ timer.set_timeout_delay(level); });
-
-    int key_code;
-    ::WINDOW * game_window{matrix.get_game_window()};
+    game_controller.connect_key_press(
+        [&ui](int key_code){ui.handle_key_press(key_code);});
     
-    while ((key_code = ::wgetch(game_window)) != config.controls.quit_key_code)
-    {
-        const GameState state{game.get_state()};
-        if (state == GameState::ended)
-        {
-            game.game_over();   
-            continue;
-        }
-        
-        if (key_code != config.controls.no_key_code)
-        {
-            if (key_code == config.controls.pause_key_code)
-                game_controller.handle_pause_pressed();
-            else if (state == GameState::in_progress)
-                ui.handle_key_press(key_code);
-        }
-        
-        if (timer.is_active())
-        {
-            if (state == GameState::ended)
-                timer.stop();
-            else
-                timer.update_time();
-        }
-    }    
+    game_controller.run();
+
     return 0;
 }
