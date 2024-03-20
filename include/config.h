@@ -32,8 +32,9 @@ struct GameConfig final
     ScoreCounterConfig score_counter;
     std::vector<Brick> bricks;
     std::vector<uint_fast8_t> color_ids;
-    int brick_spawn_position_y;
     Settings default_settings;
+    int brick_spawn_position_y;
+    int next_level_lines_quantity;
 };
 
 struct DisplayConfig final
@@ -62,8 +63,8 @@ struct GameControllerConfig final
 
 struct Config final
 {
-    GameConfig game;
     UiConfig ui;
+    GameConfig game;
     GameControllerConfig controller;
 };
 

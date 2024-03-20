@@ -27,8 +27,9 @@ public:
         Board& board,
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
+        const Settings& settings,
         int brick_start_position_y,
-        Settings settings);
+        int next_level_lines_quantity);
 
         GameImpl(const GameImpl&) = delete;
         GameImpl(const GameImpl&&) = delete;
@@ -169,9 +170,9 @@ private:
     using SignalInt = boost::signals2::signal<void(int)>;
 
     static constexpr int tetris_lines_quantity{4};
-    static constexpr int next_level_lines_quantity{10};
 
     const Vector2 brick_start_position;
+    const int next_level_lines_quantity;
 
     Ui::GameUi& ui;
     Board& board;

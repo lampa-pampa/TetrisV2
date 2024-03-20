@@ -33,6 +33,24 @@ int main()
 {
     Config config{
         {
+            {64, 64},
+            {
+                {KEY_DOWN, Action::soft_drop},
+                {KEY_LEFT, Action::move_left},
+                {KEY_RIGHT, Action::move_right},
+                {KEY_UP, Action::rotate_clockwise},
+                {'z', Action::rotate_counter_clockwise},
+                {'x', Action::no_locking_hard_drop},
+                {'c', Action::hold},
+                {' ', Action::locking_hard_drop},
+            },
+            80,
+            get_color_id(ColorIdName::white),
+            get_color_id(ColorIdName::sunset_orange),
+            get_color_id(ColorIdName::davy_s_grey),
+            get_color_id(ColorIdName::islamic_green),
+        },
+        {
             {10, 20, 2},
             {10, 1, 2},
             {
@@ -60,26 +78,9 @@ int main()
                 get_color_id(ColorIdName::shocking_pink),
                 get_color_id(ColorIdName::electric_blue),
             },
+            {true},
             1,
-            {true}
-        },
-        {
-            {64, 64},
-            {
-                {KEY_DOWN, Action::soft_drop},
-                {KEY_LEFT, Action::move_left},
-                {KEY_RIGHT, Action::move_right},
-                {KEY_UP, Action::rotate_clockwise},
-                {'z', Action::rotate_counter_clockwise},
-                {'x', Action::no_locking_hard_drop},
-                {'c', Action::hold},
-                {' ', Action::locking_hard_drop},
-            },
-            80,
-            get_color_id(ColorIdName::white),
-            get_color_id(ColorIdName::sunset_orange),
-            get_color_id(ColorIdName::davy_s_grey),
-            get_color_id(ColorIdName::islamic_green),
+            10,
         },
         {
             'p',
@@ -140,8 +141,9 @@ int main()
         board,
         brick_generator,
         score_counter,
-        config.game.brick_spawn_position_y,
         config.game.default_settings,
+        config.game.brick_spawn_position_y,
+        config.game.next_level_lines_quantity,
     };
     GameController game_controller{
         timer,

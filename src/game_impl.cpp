@@ -22,14 +22,19 @@ namespace Tetris
         Board& board,
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
+        const Settings& settings,
         int brick_start_position_y,
-        Settings settings)
+        int next_level_lines_quantity)
     :
         ui{ui},
         board{board},
         brick_generator{brick_generator},
         score_counter{score_counter},
         settings{settings},
+        brick_start_position{this->compute_brick_start_position(
+            board.get_width(), brick_start_position_y, board.get_offset())
+        },
+        next_level_lines_quantity{next_level_lines_quantity},
         state{GameState::in_progress},
         score{0},
         tetrises{0},
@@ -37,10 +42,7 @@ namespace Tetris
         lines_quantity{0},
         next_brick{this->brick_generator.generate()},
         hold_brick{},
-        can_hold{true},
-        brick_start_position{this->compute_brick_start_position(
-            board.get_width(), brick_start_position_y, board.get_offset())
-        }
+        can_hold{true}
     {
         this->generate_new_brick();
         this->set_start_position_and_rotation();
@@ -279,10 +281,10 @@ namespace Tetris
 
     void GameImpl::update_level()
     {
-        if (this->lines_quantity >= next_level_lines_quantity)
+        if (this->lines_quantity >= this->next_level_lines_quantity)
         {
             ++this->level;
-            this->lines_quantity -= next_level_lines_quantity;
+            this->lines_quantity -= this->next_level_lines_quantity;
             this->ui.draw_level(this->level);
             this->ui.draw_level_progress_bar(this->lines_quantity);
             this->set_timeout_delay(this->level);
