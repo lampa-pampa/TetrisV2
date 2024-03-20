@@ -46,12 +46,12 @@ namespace
             board{
                 config.board.width,
                 config.board.height,
-                config.board.offset
+                config.board.offset,
             },
             rng{},
             brick_generator{
                 {config.bricks, rng},
-                {config.color_ids, rng}
+                {config.color_ids, rng},
             },
             score_counter{
                 config.score_counter.score_for_line,
@@ -63,8 +63,9 @@ namespace
                 board,
                 brick_generator,
                 score_counter,
+                config.default_settings,
                 config.brick_spawn_position_y,
-                config.default_settings
+                config.next_level_lines_quantity,
             }
         {}
         GameUiMock ui;
@@ -88,15 +89,16 @@ TEST(GameImpl, GameImpl)
         Brick,
         Brick,
         bool,
-        Settings>>> game_to_expected
+        Settings>>> config_to_expected
     {
         {{
             {5, 10, 0},
             {1, 2, 4},
             { {{ {0, 0}, {0, 1} }} },
             {2},
+            {1, false},
             5,
-            {false}
+            10,
         }, {
             GameState::in_progress,
             0,
@@ -107,15 +109,16 @@ TEST(GameImpl, GameImpl)
             {{ {0, 0, 2}, {0, 1, 2} }},
             {{}},
             true,
-            {false}
+            {1, false},
         }},
         {{
             {3, 3, 2},
             {3, 12, 24},
             { {{ {0, 0}, {1, 2} }}, {{ {0, 0}, {1, 3} }} },
             {4, 6},
+            {1, false},
             1,
-            {false}
+            10,
         }, {
             GameState::in_progress,
             0,
@@ -126,15 +129,16 @@ TEST(GameImpl, GameImpl)
             {{ {0, 0, 6}, {1, 3, 6} }},
             {{}},
             true,
-            {false}
+            {1, false},
         }},
         {{
             {10, 20, 2},
             {0, 0, 0},
             { {{ {0, 0}, {1, 0} }}, {{ {-1, 0}, {0, 0} }} },
             {3, 5},
+            {1, false},
             1,
-            {false}
+            10,
         }, {
             GameState::in_progress,
             0,
@@ -145,11 +149,11 @@ TEST(GameImpl, GameImpl)
             {{ {-1, 0, 5}, {0, 0, 5} }},
             {{}},
             true,
-            {false}
+            {1, false},
         }},
     };
 
-    for (const auto& pair : game_to_expected)
+    for (const auto& pair : config_to_expected)
     {
         const auto&[
             state,
@@ -190,8 +194,7 @@ TEST(GameImpl, handle_soft_drop)
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
-        0,
-        {false}
+        1,
     };
     const vector<pair<int, tuple<
         GameState,
@@ -205,21 +208,21 @@ TEST(GameImpl, handle_soft_drop)
             2,
             {{ {0, 0, 1} }},
             {1, 1},
-            {{ {0, 0, 2} }}
+            {{ {0, 0, 2} }},
         }},
         { 4, {
             GameState::in_progress,
             8,
             {{ {0, 0, 2} }},
             {1, 1},
-            {{ {0, 0, 3} }}
+            {{ {0, 0, 3} }},
         }},
         { 6, {
             GameState::ended,
             12,
             {{ {0, 0, 1} }},
             {1, 0},
-            {{ {0, 0, 2} }}
+            {{ {0, 0, 2} }},
         }},
     };
 
@@ -253,8 +256,7 @@ TEST(GameImpl, handle_timeout)
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
-        0,
-        {false}
+        1,
     };
     const vector<pair<int, tuple<
         GameState,
@@ -266,19 +268,19 @@ TEST(GameImpl, handle_timeout)
             GameState::in_progress,
             {{ {0, 0, 1} }},
             {1, 1},
-            {{ {0, 0, 2} }}
+            {{ {0, 0, 2} }},
         }},
         { 4, {
             GameState::in_progress,
             {{ {0, 0, 2} }},
             {1, 1},
-            {{ {0, 0, 3} }}
+            {{ {0, 0, 3} }},
         }},
         { 6, {
             GameState::ended,
             {{ {0, 0, 1} }},
             {1, 0},
-            {{ {0, 0, 2} }}
+            {{ {0, 0, 2} }},
         }},
     };
 
@@ -310,8 +312,7 @@ TEST(GameImpl, handle_move_left)
         {0, 0, 0},
         { {{ {0, 0} }} },
         {1},
-        0,
-        false
+        1,
     };
     const vector<pair<int, Vector2>> moves_left_to_expected
     {
@@ -338,8 +339,7 @@ TEST(GameImpl, handle_move_right)
         {0, 0, 0},
         { {{ {0, 0} }} },
         {1},
-        0,
-        {false}
+        1,
     };
     const vector<pair<int, Vector2>> moves_right_to_expected
     {
@@ -367,7 +367,7 @@ TEST(GameImpl, handle_rotate_clockwise)
         { {{ {0, 0}, {1, 0} }} },
         {1},
         0,
-        {false}
+        1,
     };
     const vector<pair<tuple<int, int, int>,
         int>> timeouts_moves_left_and_rotations_to_expected
@@ -405,8 +405,7 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
         {0, 0, 0},
         { {{ {-1, 0}, {0, 0} }} },
         {1},
-        0,
-        false
+        1,
     };
     const vector<pair<tuple<int, int, int>,
         int>> timeouts_moves_right_and_rotations_to_expected
@@ -444,8 +443,7 @@ TEST(GameImpl, handle_locking_hard_drop)
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
-        0,
-        {false}
+        1,
     };
     const vector<pair<int, tuple<
         GameState,
@@ -459,21 +457,21 @@ TEST(GameImpl, handle_locking_hard_drop)
             6,
             {{ {0, 0, 2} }},
             {1, 0},
-            {{ {0, 0, 3} }}
+            {{ {0, 0, 3} }},
         }},
         { 2, {
             GameState::in_progress,
             9,
             {{ {0, 0, 3} }},
             {1, 0},
-            {{ {0, 0, 1} }}
+            {{ {0, 0, 1} }},
         }},
         { 3, {
             GameState::ended,
             9,
             {{ {0, 0, 1} }},
             {1, 0},
-            {{ {0, 0, 2} }}
+            {{ {0, 0, 2} }},
         }},
     };
 
@@ -507,8 +505,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
-        0,
-        {false}
+        1,
     };
     const vector<pair<int, tuple<
         GameState,
@@ -522,21 +519,21 @@ TEST(GameImpl, handle_no_locking_hard_drop)
             6,
             {{ {0, 0, 1} }},
             {1, 2},
-            {{ {0, 0, 2} }}
+            {{ {0, 0, 2} }},
         }},
         { 2, {
             GameState::in_progress,
             6,
             {{ {0, 0, 2} }},
             {1, 0},
-            {{ {0, 0, 3} }}
+            {{ {0, 0, 3} }},
         }},
         { 5, {
             GameState::ended,
             9,
             {{ {0, 0, 1} }},
             {1, 0},
-            {{ {0, 0, 2} }}
+            {{ {0, 0, 2} }},
         }},
     };
 
@@ -570,8 +567,7 @@ TEST(GameImpl, handle_hold)
         {0, 0, 0},
         { {{ {0, 0} }} },
         {1, 2, 3},
-        0,
-        {false}
+        1,
     };
     const vector<pair<tuple<int, int>, tuple<
         Brick,
@@ -586,21 +582,21 @@ TEST(GameImpl, handle_hold)
             {1, 0},
             {{ {0, 0, 3} }},
             {{ {0, 0, 1} }},
-            false
+            false,
         }},
         { {1, 2}, {
             {{ {0, 0, 2} }},
             {1, 2},
             {{ {0, 0, 3} }},
             {{ {0, 0, 1} }},
-            false
+            false,
         }},
         { {2, 3}, {
             {{ {0, 0, 3} }},
             {1, 0},
             {{ {0, 0, 1} }},
             {{ {0, 0, 1} }},
-            true
+            true,
         }},  
     };
 
@@ -639,8 +635,9 @@ TEST(GameImpl, update_level)
         {1, 2, 3},
         { {{ {-1, 0}, {0, 0}, {1, 0} }} },
         {1},
+        {1},
         2,
-        {false}
+        10,
     };
     const vector<pair<int, int>> timeouts_to_expected
     {
