@@ -4,7 +4,7 @@
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "config.h"
-#include "game_controller.h"
+#include "console_game_controller_impl.h"
 #include "game_impl.h"
 #include "rng_impl.h"
 #include "score_counter_impl.h"
@@ -18,7 +18,7 @@ using Tetris::Action;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
 using Tetris::Config;
-using Tetris::GameController;
+using Tetris::ConsoleGameControllerImpl;
 using Tetris::GameImpl;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
@@ -148,7 +148,7 @@ int main()
         config.game.brick_spawn_position_y,
         config.game.next_level_lines_quantity,
     };
-    GameController game_controller{
+    ConsoleGameControllerImpl game_controller{
         timer,
         game,
         matrix.get_game_window(),
