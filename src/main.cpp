@@ -77,7 +77,7 @@ int main()
                 {'c', Action::hold},
                 {' ', Action::locking_hard_drop},
             },
-            100,
+            80,
             get_color_id(ColorIdName::white),
             get_color_id(ColorIdName::sunset_orange),
             get_color_id(ColorIdName::davy_s_grey),
@@ -89,7 +89,7 @@ int main()
             -1,
         },
     };
-    NCursesColors colors{{
+    NCursesColors color_id_to_color{{
         {0, 16},
         {1, 1},
         {2, 2},
@@ -111,7 +111,7 @@ int main()
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.width,
         config.ui.display.height,
-        colors,
+        color_id_to_color,
     };
     MatrixDisplayGameUiImpl ui{
         matrix,
