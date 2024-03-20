@@ -6,7 +6,6 @@
 #include <boost/range/irange.hpp>
 
 #include "ui/char.h"
-#include "ui/iv_color.h"
 #include "ui/rectangle.h"
 #include "ui/text_line.h"
 #include "vector_2.h"
@@ -18,42 +17,6 @@ using std::vector;
 
 namespace Tetris::Ui
 {
-
-TextArea::TextArea(
-    Vector2 position, 
-    int width,
-    int height,
-    IvColor iv_color,
-    bool draw_outline,
-    Align horizontal_align,
-    Align vertical_align)
-:
-    position{position},
-    width{width},
-    height{height},
-    iv_color{iv_color},
-    draw_outline{draw_outline},
-    horizontal_align{horizontal_align},
-    vertical_align{vertical_align}
-{}
-
-TextArea::TextArea(
-    const Rectangle& background,
-    IvColor iv_color,
-    bool draw_outline,
-    Align horizontal_align,
-    Align vertical_align)
-:
-    TextArea{
-        background.position,
-        background.width,
-        background.height,
-        iv_color,
-        draw_outline,
-        horizontal_align,
-        vertical_align,
-    }
-{}
 
 vector<TextLine> TextArea::create_lines(
     const vector<CharsAndWidth>& lines_chars) const
@@ -154,7 +117,6 @@ TextLine TextArea::create_line(const vector<Char>& chars, int width, int y) cons
         this->create_line_background(line_position, width),
         line_position,
         chars,
-        this->iv_color
     };        
 }
 
