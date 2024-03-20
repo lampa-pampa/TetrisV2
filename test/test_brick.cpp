@@ -176,28 +176,15 @@ TEST(Brick, get_max_y)
         ASSERT_THAT(pair.first.get_max_y(), Eq(pair.second));
 }
 
-TEST(Brick, get_width)
+TEST(Brick, get_size)
 {
-    const vector<pair<Brick, int>> brick_to_expected{
-        { {{ {-4, 2}, {1, 5} }}, 6 },
-        { {{ {3, 8}, {-7, 3} }}, 11 },
-        { {{ {2, -6}, {2, 0} }}, 1 },
-        { {{}}, 0 },
+    const vector<pair<Brick, Vector2>> brick_to_expected{
+        { {{ {-4, 2}, {1, 5} }}, {6, 4} },
+        { {{ {3, 8}, {-7, 3} }}, {11, 6} },
+        { {{ {2, -6}, {2, 0} }}, {1, 7} },
+        { {{}}, {0, 0} },
     };
 
     for (const auto& pair: brick_to_expected)
-        ASSERT_THAT(pair.first.get_width(), Eq(pair.second));
-}
-
-TEST(Brick, get_height)
-{
-    const vector<pair<Brick, int>> brick_to_expected{
-        { {{ {1, 3}, {2, -6} }}, 10 },
-        { {{ {-7, 7}, {3, 4} }}, 4 },
-        { {{ {9, -5}, {-2, -5} }}, 1 },
-        { {{}}, 0 },
-    };
-
-    for (const auto& pair: brick_to_expected)
-        ASSERT_THAT(pair.first.get_height(), Eq(pair.second));
+        ASSERT_THAT(pair.first.get_size(), Eq(pair.second));
 }

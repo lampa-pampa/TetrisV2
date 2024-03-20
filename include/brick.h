@@ -54,8 +54,7 @@ struct Brick final
     int get_max_x() const;
     int get_min_y() const;
     int get_max_y() const;
-    int get_width() const;
-    int get_height() const;
+    Vector2 get_size() const;
 
     bool operator==(const Brick& other) const
     {

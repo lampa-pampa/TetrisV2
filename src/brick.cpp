@@ -2,7 +2,6 @@
 
 #include <algorithm>
 #include <cstdint>
-#include <cstdlib>
 #include <ostream>
 #include <vector>
 
@@ -108,18 +107,14 @@ int Brick::get_max_y() const
     )->position.y;
 }
 
-int Brick::get_width() const
+Vector2 Brick::get_size() const
 {
     if (this->empty())
-        return 0;
-    return ::abs(this->get_max_x() - this->get_min_x()) + 1;
-}
-
-int Brick::get_height() const
-{
-    if (this->empty())
-        return 0;
-    return ::abs(this->get_max_y() - this->get_min_y()) + 1;
+        return {};
+    return {
+        this->get_max_x() - this->get_min_x() + 1,
+        this->get_max_y() - this->get_min_y() + 1,
+    };
 }
 
 ostream& operator<<(ostream& os, const vector<Cube>& cubes)
