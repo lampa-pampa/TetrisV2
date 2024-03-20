@@ -44,8 +44,7 @@ namespace
         :
             ui{},
             board{
-                config.board.width,
-                config.board.height,
+                config.board.size,
                 config.board.offset,
             },
             rng{},
@@ -92,7 +91,7 @@ TEST(GameImpl, GameImpl)
         Settings>>> config_to_expected
     {
         {{
-            {5, 10, 0},
+            {{5, 10}, 0},
             {1, 2, 4},
             { {{ {0, 0}, {0, 1} }} },
             {2},
@@ -112,7 +111,7 @@ TEST(GameImpl, GameImpl)
             {1, false},
         }},
         {{
-            {3, 3, 2},
+            {{3}, 2},
             {3, 12, 24},
             { {{ {0, 0}, {1, 2} }}, {{ {0, 0}, {1, 3} }} },
             {4, 6},
@@ -132,7 +131,7 @@ TEST(GameImpl, GameImpl)
             {1, false},
         }},
         {{
-            {10, 20, 2},
+        {{10, 20}, 2},
             {0, 0, 0},
             { {{ {0, 0}, {1, 0} }}, {{ {-1, 0}, {0, 0} }} },
             {3, 5},
@@ -186,11 +185,10 @@ TEST(GameImpl, GameImpl)
     }
 
 }
-
 TEST(GameImpl, handle_soft_drop)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
@@ -252,7 +250,7 @@ TEST(GameImpl, handle_soft_drop)
 TEST(GameImpl, handle_timeout)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
@@ -308,7 +306,7 @@ TEST(GameImpl, handle_timeout)
 TEST(GameImpl, handle_move_left)
 {
     const GameConfig initial_config{
-        {5, 3, 0},
+        {{5, 3}, 0},
         {0, 0, 0},
         { {{ {0, 0} }} },
         {1},
@@ -335,7 +333,7 @@ TEST(GameImpl, handle_move_left)
 TEST(GameImpl, handle_move_right)
 {
     const GameConfig initial_config{
-        {5, 3, 0},
+        {{5, 3}, 0},
         {0, 0, 0},
         { {{ {0, 0} }} },
         {1},
@@ -362,7 +360,7 @@ TEST(GameImpl, handle_move_right)
 TEST(GameImpl, handle_rotate_clockwise)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {0, 0, 0},
         { {{ {0, 0}, {1, 0} }} },
         {1},
@@ -401,7 +399,7 @@ TEST(GameImpl, handle_rotate_clockwise)
 TEST(GameImpl, handle_rotate_counter_clockwise)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {0, 0, 0},
         { {{ {-1, 0}, {0, 0} }} },
         {1},
@@ -439,7 +437,7 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
 TEST(GameImpl, handle_locking_hard_drop)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
@@ -501,7 +499,7 @@ TEST(GameImpl, handle_locking_hard_drop)
 TEST(GameImpl, handle_no_locking_hard_drop)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {1, 2, 3},
         { {{ {0, 0} }} },
         {1, 2, 3},
@@ -563,7 +561,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
 TEST(GameImpl, handle_hold)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {0, 0, 0},
         { {{ {0, 0} }} },
         {1, 2, 3},
@@ -631,7 +629,7 @@ TEST(GameImpl, handle_hold)
 TEST(GameImpl, update_level)
 {
     const GameConfig initial_config{
-        {3, 3, 0},
+        {{3}, 0},
         {1, 2, 3},
         { {{ {-1, 0}, {0, 0}, {1, 0} }} },
         {1},

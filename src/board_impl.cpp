@@ -7,6 +7,7 @@
 
 #include "brick.h"
 #include "cube.h"
+#include "vector_2.h"
 
 using boost::irange;
 using std::vector;
@@ -14,10 +15,9 @@ using std::vector;
 namespace Tetris
 {
 
-BoardImpl::BoardImpl(int width, int height, int offset)
+BoardImpl::BoardImpl(Vector2 size, int offset)
 :
-    width{width},
-    height{height + offset},
+    size{size.x, size.y + offset},
     offset{offset}
 {
     this->cubes = this->create_cubes();
@@ -69,10 +69,10 @@ vector<Cube> BoardImpl::get_visible_brick_cubes(
 BoardImpl::CubeMatrix BoardImpl::create_cubes() const
 {
     CubeMatrix cubes;
-    for (const auto& y : irange(this->height))
+    for (const auto& y : irange(this->size.y))
     {
         std::vector<Cube> row{};
-        for (const auto& x : irange(this->width))
+        for (const auto& x : irange(this->size.x))
             row.emplace_back(Cube{x, y});
         cubes.emplace_back(std::move(row));
     }

@@ -15,8 +15,7 @@ namespace Tetris
 class BoardImpl final: public Board
 {
 public:
-    BoardImpl(int width, int height, int offset);
-    BoardImpl(int width, int height): BoardImpl{width, height, 0}{}
+    BoardImpl(Vector2 size, int offset = 0);
     
     void put_cubes(const std::vector<Cube>& cubes) override;
     std::vector<int> remove_lines_and_compress(int from_y, int to_y) override;
@@ -26,7 +25,7 @@ public:
 
     int get_width() const override
     {
-        return this->width;
+        return this->size.x;
     }
 
     int get_offset() const override
@@ -45,8 +44,7 @@ public:
     }
 
 private:
-    const int width;
-    const int height;
+    const Vector2 size;
     const int offset;
     CubeMatrix cubes;
     
@@ -70,8 +68,8 @@ private:
 
     bool position_is_in_range(Vector2 position) const
     {
-        return position.x >= 0 and position.x < this->width
-            and position.y >= 0 and position.y < this->height;
+        return position.x >= 0 and position.x < this->size.x
+            and position.y >= 0 and position.y < this->size.y;
     }
 
     void clear_top_row()

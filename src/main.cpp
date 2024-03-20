@@ -51,7 +51,7 @@ int main()
             get_color_id(ColorIdName::islamic_green),
         },
         {
-            {10, 20, 2},
+            {{10, 20}, 2},
             {10, 1, 2},
             {
                 {{ {-1, 0}, {0, 0}, {1, 0}, {2, 0} }, {1, 0} },
@@ -125,8 +125,7 @@ int main()
         config.ui.level_progress_bar_color_id,
     };
     BoardImpl board{
-        config.game.board.width,
-        config.game.board.height,
+        config.game.board.size,
         config.game.board.offset,
     };
     RngImpl rng{};

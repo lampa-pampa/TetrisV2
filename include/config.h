@@ -8,14 +8,14 @@
 #include "action.h"
 #include "brick.h"
 #include "settings.h"
+#include "vector_2.h"
 
 namespace Tetris
 {
 
 struct BoardConfig final
 {
-    int width;
-    int height;
+    Vector2 size;
     int offset;
 };
 

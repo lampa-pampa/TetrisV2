@@ -27,16 +27,16 @@ namespace
 TEST(BoardImpl, BoardImpl)
 {
     const vector<pair<BoardImpl, CubeMatrix>> board_to_expected{
-        { {1, 3}, {
+        { {{1, 3}}, {
             { {0, 0} },
             { {0, 1} },
             { {0, 2} },
         }},
-        { {2, 2}, {
+        { {2}, {
             { {0, 0}, {1, 0} },
             { {0, 1}, {1, 1} },
         }},
-        { {3, 2}, {
+        { {{3, 2}}, {
             { {0, 0}, {1, 0}, {2, 0} },
             { {0, 1}, {1, 1}, {2, 1} },
         }},
@@ -48,7 +48,7 @@ TEST(BoardImpl, BoardImpl)
 
 TEST(BoardImpl, put_cubes)
 {
-    BoardImpl initial_board{2, 2};
+    BoardImpl initial_board{2};
     const vector<pair<vector<Cube>, CubeMatrix>> cubes_to_expected{
         { { {0, 0, 1}, {0, 1, 1} }, {
             { {0, 0, 1}, {1, 0} },
@@ -75,7 +75,7 @@ TEST(BoardImpl, put_cubes)
 
 TEST(BoardImpl, remove_lines_and_compress)
 {
-    const BoardImpl initial_board{2, 2};
+    const BoardImpl initial_board{2};
     const vector<pair<
         tuple<vector<Cube>, int, int>,
         tuple<CubeMatrix, vector<int>>>>cubes_and_range_to_expected
@@ -125,7 +125,7 @@ TEST(BoardImpl, brick_is_valid)
         { {{ {0, -1, 1}, {0, 0, 1} }}, false },
     };
 
-    BoardImpl board{2, 2};
+    BoardImpl board{2};
     board.put_cubes(initial_cubes);
     
     for (const auto& pair : brick_to_expected)
@@ -135,9 +135,9 @@ TEST(BoardImpl, brick_is_valid)
 TEST(BoardImpl, get_width)
 {
     const vector<pair<BoardImpl, int>> board_to_expected{
-        { {10, 20}, 10 },
-        { {2, 10}, 2 },
-        { {20, 20}, 20 },
+        { {{10, 20}}, 10 },
+        { {{2, 10}}, 2 },
+        { {{20, 20}}, 20 },
     };
 
     for (const auto& pair : board_to_expected)
@@ -147,9 +147,9 @@ TEST(BoardImpl, get_width)
 TEST(BoardImpl, get_offset)
 {
     const vector<pair<BoardImpl, int>> board_to_expected{
-        { {10, 20}, 0 },
-        { {10, 20, 2}, 2 },
-        { {10, 20, 5}, 5 },
+        { {{10, 20}}, 0 },
+        { {{10, 20}, 2}, 2 },
+        { {{10, 20}, 5}, 5 },
     };
 
     for (const auto& pair : board_to_expected)
@@ -176,7 +176,7 @@ TEST(BoardImpl, get_visible_cubes)
 
     for (const auto& pair : offset_to_expected)
     {
-        BoardImpl board{2, 2, pair.first};
+        BoardImpl board{2, pair.first};
         board.put_cubes(initial_cubes);
 
         ASSERT_THAT(board.get_visible_cubes(), Eq(pair.second));
@@ -194,7 +194,7 @@ TEST(BoardImpl, get_visible_brick_cubes)
 
     for (const auto& pair : offset_to_expected)
     {
-        BoardImpl board{2, 2, pair.first};
+        BoardImpl board{2, pair.first};
         board.put_cubes(brick_cubes);
         const vector<Cube>& actual{board.get_visible_brick_cubes(brick_cubes)};
 
