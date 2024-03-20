@@ -14,10 +14,17 @@ using boost::irange;
 namespace Tetris::Ui
 {
 
-ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
-    Vector2 size, NCursesColors color_id_to_color)
+    ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
+        Vector2 size,
+        Vector2 pixel_size,
+        const std::vector<wchar_t>& pixel_chars,
+        int max_color_value,
+        NCursesColors color_id_to_color)
 :
     size{size},
+    pixel_size{pixel_size},
+    pixel_chars{pixel_chars},
+    max_color_value{max_color_value},
     color_id_to_color{color_id_to_color}
 {
     this->setup_ncurses_window();

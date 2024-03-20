@@ -40,6 +40,9 @@ struct GameConfig final
 struct DisplayConfig final
 {
     Vector2 size;
+    Vector2 pixel_size;
+    std::vector<wchar_t> pixel_chars;
+    int max_color_value;
 };
 
 struct UiConfig final

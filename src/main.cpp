@@ -33,7 +33,21 @@ int main()
 {
     Config config{
         {
-            {{64, 64}},
+            {
+                {64, 64},
+                {2, 1},
+                {   
+                    L' ',
+                    L'·',
+                    L'◦',
+                    L'◌',
+                    L'○',
+                    L'◎',
+                    L'◉',
+                    L'●',
+                },
+                256,
+            },
             {
                 {KEY_DOWN, Action::soft_drop},
                 {KEY_LEFT, Action::move_left},
@@ -109,9 +123,14 @@ int main()
         {14, 14},
         {15, 15},
     }};
-    TimerImpl timer{config.game.default_settings.start_level};
+    TimerImpl timer{
+        config.game.default_settings.start_level,
+    };
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.size,
+        config.ui.display.pixel_size,
+        config.ui.display.pixel_chars,
+        config.ui.display.max_color_value,
         color_id_to_color,
     };
     MatrixDisplayGameUiImpl ui{

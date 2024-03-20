@@ -17,7 +17,12 @@ namespace Tetris::Ui
 class ConsoleMatrixDisplayImpl final: public MatrixDisplay
 {  
 public:
-    ConsoleMatrixDisplayImpl(Vector2 size, NCursesColors color_id_to_color);
+    ConsoleMatrixDisplayImpl(
+        Vector2 size,
+        Vector2 pixel_size,
+        const std::vector<wchar_t>& pixel_chars,
+        int max_color_value,
+        NCursesColors color_id_to_color);
 
     ~ConsoleMatrixDisplayImpl()
     {
@@ -37,21 +42,10 @@ public:
     }
 
 private:
-    static inline const std::vector<wchar_t> pixel_chars
-    {   
-        L' ',
-        L'·',
-        L'◦',
-        L'◌',
-        L'○',
-        L'◎',
-        L'◉',
-        L'●',
-    };
-    static constexpr int max_color_value{256};
-    static constexpr Vector2 pixel_size{2, 1};
-
     const Vector2 size;
+    const Vector2 pixel_size;
+    const std::vector<wchar_t> pixel_chars;
+    const int max_color_value;
 
     ::WINDOW* window;
     NCursesColors color_id_to_color;
