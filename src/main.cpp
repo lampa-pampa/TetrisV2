@@ -63,6 +63,38 @@ int main()
             get_color_id(ColorIdName::sunset_orange),
             get_color_id(ColorIdName::davy_s_grey),
             get_color_id(ColorIdName::islamic_green),
+            {
+                {
+                    {{2, 2}, {14, 8}},
+                    {{48, 2}, {14, 8}},
+                    {{2, 12}, {13, 41}},
+                    {{2, 55}, {13, 7}},
+                    {{17, 2}, {30, 60}},
+                    {{49, 12}, {13, 7}},
+                    {{49, 20}, {13, 19}},
+                    {{49, 41}, {13, 7}},
+                    {{49, 49}, {13, 13}},
+                },
+                {
+                    {{{2, 12}, {13, 41}}},
+                    {{{2, 55}, {13, 7}}, 3},
+                    {{{17, 2}, {30, 60}}},
+                    {{{49, 12}, {13, 7}}},
+                    {{{49, 20}, {13, 19}}, 9},
+                    {{{49, 41}, {13, 7}}},
+                    {{{49, 49}, {13, 13}}, 6},
+                },
+                {
+                    "PAUSED",
+                    "GAME\nOVER",
+                    "L\nV\nL",
+                    "SCO",
+                    "TET",
+                },
+                {
+                    {{3, 13}, {11, 3}, 10, 1},
+                },
+            }
         },
         {
             {{10, 20}, 2},
@@ -141,6 +173,7 @@ int main()
         config.ui.font_color_id,
         config.ui.empty_level_progress_bar_color_id,
         config.ui.level_progress_bar_color_id,
+        config.ui.components,
     };
     BoardImpl board{
         config.game.board.size,

@@ -1,9 +1,7 @@
 #include "ui/matrix_display_game_ui_impl.h"
 
 #include <cstdint>
-#include <iomanip>
 #include <map>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -31,7 +29,8 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     uint_fast8_t border_color_id,
     uint_fast8_t font_color_id,
     uint_fast8_t empty_level_progress_bar_color_id,
-    uint_fast8_t level_progress_bar_color_id)
+    uint_fast8_t level_progress_bar_color_id,
+    GameUiComponents components)
 :
     matrix{matrix},
     key_code_to_action{key_code_to_action},
@@ -40,6 +39,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     font_color_id{font_color_id},
     empty_level_progress_bar_color_id{empty_level_progress_bar_color_id},
     level_progress_bar_color_id{level_progress_bar_color_id},
+    components{components},
     cur_brick_cubes{}
 {
     this->main_layer = this->create_layer(
@@ -59,11 +59,21 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 void MatrixDisplayGameUiImpl::draw_level_progress_bar(int quantity)
 {
     const auto&[on_segments, off_segments]{
-        this->level_progress_bar.create_segments(quantity)
+        this->components.progress_bar.level.create_segments(quantity)
     };
     this->draw_rectangles(on_segments, level_progress_bar_color_id);
     this->draw_rectangles(off_segments, empty_level_progress_bar_color_id);
-    this->draw_on_text_area(this->level_text, level_text_area);
+    this->draw_on_text_area(
+        this->components.text.level,
+        this->components.container.level_text);
+}
+
+void MatrixDisplayGameUiImpl::pause()
+{
+    this->draw_on_text_area(
+        this->components.text.paused,
+        this->components.text_area.game_state);
+    this->refresh();
 }
 
 //-------------------------------------------------------------------
@@ -83,14 +93,6 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
     return brick_center_position.center();
 }
 
-std::string MatrixDisplayGameUiImpl::get_number_as_string(
-    int number, int width) const
-{
-    std::ostringstream oss;
-    oss << std::setfill('0') << std::setw(width) << number;
-    return oss.str();
-}
-
 Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
     const Brick& brick, bool align_to_left) const
 {
@@ -105,9 +107,23 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
 
 void MatrixDisplayGameUiImpl::draw_background()
 {
-    this->draw_rectangles(this->containers);
-    this->draw_on_text_area(score_text, score_text_area);
-    this->draw_on_text_area(tetrises_text, tetrises_text_area);
+    this->draw_rectangles({
+        this->components.container.next,
+        this->components.container.hold,
+        this->components.container.board,
+        this->components.container.level_text,
+        this->components.container.level_value,
+        this->components.container.score_text,
+        this->components.container.score_value,
+        this->components.container.tetrises_text,
+        this->components.container.tetrises_value,
+    });
+    this->draw_on_text_area(
+        this->components.text.score,
+        this->components.container.score_text);
+    this->draw_on_text_area(
+        this->components.text.tetrises,
+        this->components.container.tetrises_text);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(

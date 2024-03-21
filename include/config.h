@@ -8,6 +8,7 @@
 #include "action.h"
 #include "brick.h"
 #include "settings.h"
+#include "ui/game_ui_components.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -54,6 +55,7 @@ struct UiConfig final
     uint_fast8_t font_color_id;
     uint_fast8_t empty_level_progress_bar_color_id;
     uint_fast8_t level_progress_bar_color_id;
+    Ui::GameUiComponents components;
 };
 
 struct GameControllerConfig final

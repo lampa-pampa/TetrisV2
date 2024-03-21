@@ -18,9 +18,9 @@
 #include "cube.h"
 #include "iv_color.h"
 #include "matrix_display.h"
-#include "progress_bar.h"
 #include "rectangle.h"
 #include "text_area.h"
+#include "game_ui_components.h"
 #include "vector_2.h"
 
 namespace Tetris::Ui
@@ -36,66 +36,62 @@ public:
         uint_fast8_t border_color_id,
         uint_fast8_t font_color_id,
         uint_fast8_t empty_level_progress_bar_color_id,
-        uint_fast8_t level_progress_bar_color_id);
+        uint_fast8_t level_progress_bar_color_id,
+        GameUiComponents components);
     
     void handle_key_press(int key_code) override;
     void draw_level_progress_bar(int quantity) override;
+    void pause() override;
 
     void draw_next_brick(const Brick& brick) override
     {
-        this->draw_centered_brick_in_container(brick, next_container, false);
+        this->draw_centered_brick_in_container(
+            brick, this->components.container.next, false);
     }
 
     void draw_hold_brick(const Brick& brick) override
     {
-        this->draw_centered_brick_in_container(brick, hold_container, true);
+        this->draw_centered_brick_in_container(
+            brick, this->components.container.hold, true);
     }
 
     void draw_cur_brick(const std::vector<Cube>& cubes) override
     {
         this->cur_brick_cubes = cubes;
-        this->draw_cubes(board_container.position, cubes);
+        this->draw_cubes(components.container.board.position, cubes);
     }
 
     void draw_ghost_brick(const std::vector<Cube>& cubes) override
     {
         this->draw_cubes(
-            board_container.position, cubes, this->ghost_color_value);
+            this->components.container.board.position,
+            cubes, this->ghost_color_value);
     }
 
     void draw_board(const CubeMatrix& cubes) override
     {
-        this->draw_board(board_container.position, cubes);
+        this->draw_board(components.container.board.position, cubes);
     }
 
     void draw_score(unsigned long long score) override
     {
-        this->draw_on_text_area(this->get_number_as_string(
-            score, score_value_digits_quantity), score_value_area);
+        this->draw_on_text_area(score, components.text_area.score_value);
     }
 
     void draw_tetrises(unsigned long long tetrises) override
     {
-        this->draw_on_text_area(this->get_number_as_string(
-            tetrises, tetrises_value_digits_quantity), tetrises_value_area);
+        this->draw_on_text_area(tetrises, components.text_area.tetrises_value);
     }
     
     void draw_level(int level) override
     {
-        this->draw_on_text_area(this->get_number_as_string(
-            level, level_value_digits_quantity), level_value_area);
+        this->draw_on_text_area(level, components.text_area.level_value);
     }
 
     void game_over() override
     {
         this->draw_on_text_area(
-            this->game_over_text, this->game_state_text_area);
-        this->refresh();
-    }
-
-    void pause() override
-    {
-        this->draw_on_text_area(this->paused_text, this->game_state_text_area);
+            this->components.text.game_over, components.text_area.game_state);
         this->refresh();
     }
 
@@ -151,55 +147,16 @@ private:
     using IvColorMatrix = std::vector<std::vector<IvColor>>;
     using Signal = boost::signals2::signal<void()>;
 
+    const GameUiComponents components;
     static constexpr int cube_size{3};
-    static constexpr int level_value_digits_quantity{3};
-    static constexpr int score_value_digits_quantity{9};
-    static constexpr int tetrises_value_digits_quantity{6};
-
-    const std::string level_text{"L\nE\nV\nE\nL"};
-    const std::string paused_text{"PAUSED"};
-    const std::string game_over_text{"GAME\nOVER"};
-    const std::string score_text{"PTS"};
-    const std::string tetrises_text{"TET"};
-   
-    static constexpr Rectangle board_container{{17, 2}, {30, 60}};
-    static constexpr Rectangle hold_container{{2, 2}, {14, 8}};
-    static constexpr Rectangle next_container{{48, 2}, {14, 8}};
-    static constexpr Rectangle level_text_container{{2, 12}, {13, 41}};
-    static constexpr Rectangle level_value_container{{2, 55}, {13, 7}};
-    static constexpr Rectangle score_text_container{{49, 12}, {13, 7}};
-    static constexpr Rectangle score_value_container{{49, 20}, {13, 19}};
-    static constexpr Rectangle tetrises_text_container{{49, 41}, {13, 7}};
-    static constexpr Rectangle tetrises_value_container{{49, 49}, {13, 13}};
-   
-    static constexpr ProgressBar level_progress_bar{{3, 13}, {11, 3}, 10, 1};
-   
-    static constexpr TextArea game_state_text_area{board_container};
-    static constexpr TextArea level_text_area{level_text_container};
-    static constexpr TextArea level_value_area{level_value_container};
-    static constexpr TextArea score_text_area{score_text_container};
-    static constexpr TextArea score_value_area{score_value_container};
-    static constexpr TextArea tetrises_text_area{tetrises_text_container};
-    static constexpr TextArea tetrises_value_area{tetrises_value_container};
 
     const uint_fast8_t ghost_color_value;
+
     const uint_fast8_t border_color_id;
     const uint_fast8_t font_color_id;
     const uint_fast8_t empty_level_progress_bar_color_id;
     const uint_fast8_t level_progress_bar_color_id;
     const std::map<int, Action> key_code_to_action;
-    const std::vector<Rectangle> containers
-    {
-        next_container,
-        hold_container,
-        level_text_container,
-        level_value_container,
-        board_container,
-        score_text_container,
-        score_value_container,
-        tetrises_text_container,
-        tetrises_value_container,
-    };
     const std::map<Action, Signal&> action_to_signal
     {
         {Action::move_left, this->move_left_pressed},
@@ -231,7 +188,6 @@ private:
         Vector2 brick_position, bool align_to_left) const;
     Vector2 compute_brick_centered_position(
         const Brick& brick, bool align_to_left) const;
-    std::string get_number_as_string(int number, int width = 0) const;
     void draw_background();
     void draw_cube(
         Vector2 position, const Cube& cube, uint_fast8_t color_value);
@@ -254,6 +210,12 @@ private:
     void draw_on_text_area(std::string text, const TextArea& area)
     {
         this->draw_text_lines(area.create_lines(text), this->font_color_id);
+    }
+
+    void draw_on_text_area(unsigned long long number, const TextArea& area)
+    {
+        this->draw_text_lines(
+            area.create_lines(std::to_string(number)), this->font_color_id);
     }
 
     void draw_text_lines(
