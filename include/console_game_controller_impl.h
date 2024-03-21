@@ -28,7 +28,7 @@ public:
 
     void run() override;
 
-    void connect_key_press(const std::function<void(int)> &handler)
+    void connect_key_press(const std::function<void(int)> &handler) override
     {
         this->key_press.connect(handler);
     }
