@@ -21,12 +21,10 @@ class TextArea final
 public:
     constexpr TextArea(
         const Rectangle& container, 
-        bool draw_outline = true,
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center)
     :
         container{container},
-        draw_outline{draw_outline},
         horizontal_align{horizontal_align},
         vertical_align{vertical_align}
     {}
@@ -41,7 +39,6 @@ private:
     using CharsAndWidth = std::tuple<std::vector<Char>, int>;
 
     Rectangle container;
-    bool draw_outline;
     Align horizontal_align;
     Align vertical_align;
 

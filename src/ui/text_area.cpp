@@ -75,13 +75,10 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
 
 Rectangle TextArea::create_line_background(Vector2 position, int width) const
 {
-    Rectangle background{position, {width, Char::height}};
-    if (this->draw_outline)
-    {
-        background.position -= Char::separator;
-        background.size += 2 * Char::separator;
-    }
-    return background;
+    return {
+        position - Char::separator,
+        Vector2{width, Char::height} + 2 * Char::separator
+    };
 }
 
 int TextArea::compute_aligned_position(
