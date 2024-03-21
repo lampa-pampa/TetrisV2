@@ -662,3 +662,31 @@ TEST(GameImpl, update_level)
         ASSERT_THAT(game.get_level(), Eq(pair.second));
     }
 }
+
+TEST(GameImpl, set_start_position)
+{
+    const GameConfig initial_config{
+        {{2, 5}, 2},
+        {0, 0, 0},
+        { {{ {0, 0}, {0, 1} }} },
+        {1},
+        {1, false},
+        {0, 3},
+    };
+    const vector<pair<int, Vector2>> hard_drops_to_expected
+    {
+        {0, {0, 3}},
+        {1, {0, 1}},
+        {2, {0, -1}},
+    };
+
+    for (const auto& pair : hard_drops_to_expected)
+    {
+        GameImplTest game_test{initial_config};
+        GameImpl& game{game_test.game};
+        for (const auto& i : irange(pair.first))
+            game.handle_locking_hard_drop();
+
+        ASSERT_THAT(game.get_cur_brick_position(), Eq(pair.second));
+    }
+}
