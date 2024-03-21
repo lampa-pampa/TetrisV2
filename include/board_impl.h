@@ -92,7 +92,6 @@ private:
         for (auto& cube : this->get_row(-this->offset))
             cube.clear();
     }
-
 };
 
 }
