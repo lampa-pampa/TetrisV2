@@ -17,10 +17,7 @@ struct IvColor
         value{value}
     {}
 
-    constexpr IvColor()
-    :
-        IvColor{0, 0}
-    {}
+    IvColor() = default;
 };
 
 }
