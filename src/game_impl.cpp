@@ -80,6 +80,7 @@ namespace Tetris
             this->generate_hold_brick();
             this->set_start_position_and_rotation();
             this->can_hold = false;
+            this->reset_timeout();
         }
     }
 
