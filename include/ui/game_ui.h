@@ -24,7 +24,7 @@ public:
     virtual void draw_tetrises(unsigned long long tetrises) = 0;
     virtual void draw_level_progress_bar(int quantity) = 0;
     virtual void draw_level(int level) = 0;
-    virtual void refresh() = 0;
+    virtual void refresh_matrix() = 0;
     virtual void game_over() = 0;
     virtual void pause() = 0;
     virtual void handle_key_press(int key_code) = 0;

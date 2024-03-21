@@ -74,14 +74,14 @@ void MatrixDisplayGameUiImpl::pause()
     this->draw_on_text_area(
         this->components.text.paused,
         this->components.text_area.game_state);
-    this->refresh();
+    this->refresh_matrix();
 }
 
 void MatrixDisplayGameUiImpl::game_over()
 {
     this->draw_on_text_area(
         this->components.text.game_over, components.text_area.game_state);
-    this->refresh();
+    this->refresh_matrix();
 }
 
 //-------------------------------------------------------------------

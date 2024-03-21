@@ -22,7 +22,7 @@ public:
     void draw_tetrises(unsigned long long tetrises) override {}
     void draw_level_progress_bar(int quantity) override {}
     void draw_level(int level) override {}
-    void refresh() override {}
+    void refresh_matrix() override {}
     void game_over() override {}
     void pause() override {}
     void handle_key_press(int key_code) override {}

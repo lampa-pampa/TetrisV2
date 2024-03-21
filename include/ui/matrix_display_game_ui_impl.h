@@ -168,7 +168,7 @@ private:
     void draw_centered_brick_in_container(
         const Brick& brick, const Rectangle& rect, bool align_to_left);
 
-    void refresh() override
+    void refresh_matrix() override
     {
         this->matrix.refresh(this->main_layer);
     }

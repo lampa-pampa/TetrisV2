@@ -60,7 +60,7 @@ namespace Tetris
     {
         this->ui.draw_board(this->board.get_visible_cubes());
         this->draw_bricks();
-        this->ui.refresh();
+        this->ui.refresh_matrix();
         this->state = GameState::in_progress;
     }
 
@@ -214,7 +214,7 @@ namespace Tetris
         this->ui.draw_score(this->score);
         this->ui.draw_tetrises(this->tetrises);
         this->draw_bricks();
-        this->ui.refresh();
+        this->ui.refresh_matrix();
     }
 
     void GameImpl::draw_ghost_brick(bool use_colors)
@@ -306,6 +306,6 @@ namespace Tetris
         this->draw_bricks(false);
         action();
         this->draw_bricks();
-        this->ui.refresh();       
+        this->ui.refresh_matrix();       
     };
 }
