@@ -36,7 +36,7 @@ vector<int> BoardImpl::remove_lines_and_compress(int from_y, int to_y)
 {
     assert(this->position_is_in_range({0, from_y})
         and this->position_is_in_range({0, to_y}));
-    const std::vector rows{this->find_rows_with_line(from_y, to_y)};
+    const vector rows{this->find_rows_with_line(from_y, to_y)};
     for (const auto& y : rows)
         this->compress(y);
     return rows;
@@ -71,7 +71,7 @@ BoardImpl::CubeMatrix BoardImpl::create_cubes() const
     CubeMatrix cubes;
     for (const auto& y : irange(-this->offset, this->size.y))
     {
-        std::vector<Cube> row{};
+        vector<Cube> row{};
         for (const auto& x : irange(this->size.x))
             row.emplace_back(Cube{x, y});
         cubes.emplace_back(std::move(row));

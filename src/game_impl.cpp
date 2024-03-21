@@ -12,6 +12,7 @@
 #include "settings.h"
 #include "vector_2.h"
 
+using std::function;
 using std::swap;
 using std::vector;
 
@@ -300,7 +301,7 @@ namespace Tetris
         }
     }
 
-    void GameImpl::perform_action(const std::function<void()>& action)
+    void GameImpl::perform_action(const function<void()>& action)
     {
         this->draw_bricks(false);
         action();

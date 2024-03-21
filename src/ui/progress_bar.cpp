@@ -7,15 +7,18 @@
 #include "ui/rectangle.h"
 #include "vector_2.h"
 
+using boost::irange;
+using std::vector;
+
 namespace Tetris::Ui
 {
 
 ProgressBar::Segments ProgressBar::create_segments(int value) const
 {
-    std::vector<Rectangle> on_segments;
-    std::vector<Rectangle> off_segments;
+    vector<Rectangle> on_segments;
+    vector<Rectangle> off_segments;
     Vector2 segment_position = this->position; 
-    for (const auto& i : boost::irange(this->height))
+    for (const auto& i : irange(this->height))
     {
         const Rectangle segment{segment_position, segment_size};      
         if (value >= this->height - i)
