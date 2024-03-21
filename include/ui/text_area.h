@@ -22,7 +22,7 @@ public:
     constexpr TextArea(
         const Rectangle& container, 
         int max_text_length = -1,
-        char fill_char = '0',
+        char fill_char = ' ',
         char overflow_char = '9',
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center)
