@@ -10,6 +10,7 @@
 #include "vector_2.h"
 
 using boost::irange;
+using std::vector;
 
 namespace Tetris::Ui
 {
@@ -17,8 +18,8 @@ namespace Tetris::Ui
     ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
         Vector2 size,
         Vector2 pixel_size,
-        const std::vector<wchar_t>& pixel_chars,
         int max_color_value,
+        const vector<wchar_t>& pixel_chars,
         NCursesColors color_id_to_color)
 :
     size{size},

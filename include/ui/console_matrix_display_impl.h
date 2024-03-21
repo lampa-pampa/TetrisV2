@@ -20,8 +20,8 @@ public:
     ConsoleMatrixDisplayImpl(
         Vector2 size,
         Vector2 pixel_size,
-        const std::vector<wchar_t>& pixel_chars,
         int max_color_value,
+        const std::vector<wchar_t>& pixel_chars,
         NCursesColors color_id_to_color);
 
     ~ConsoleMatrixDisplayImpl()
