@@ -8,6 +8,7 @@
 #include "action.h"
 #include "brick.h"
 #include "settings.h"
+#include "ui/game_ui_colors.h"
 #include "ui/game_ui_components.h"
 #include "vector_2.h"
 
@@ -42,7 +43,6 @@ struct DisplayConfig final
 {
     Vector2 size;
     Vector2 pixel_size;
-    std::vector<wchar_t> pixel_chars;
     int max_color_value;
 };
 
@@ -50,12 +50,9 @@ struct UiConfig final
 {
     DisplayConfig display;
     std::map<int, Action> key_code_to_action;
-    uint_fast8_t ghost_color_value;
-    uint_fast8_t border_color_id;
-    uint_fast8_t font_color_id;
-    uint_fast8_t empty_level_progress_bar_color_id;
-    uint_fast8_t level_progress_bar_color_id;
     Ui::GameUiComponents components;
+    Ui::GameUiColors colors;
+    int cube_size;
 };
 
 struct GameControllerConfig final

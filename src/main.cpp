@@ -27,7 +27,6 @@ using Tetris::Ui::ColorIdName;
 using Tetris::Ui::ConsoleMatrixDisplayImpl;
 using Tetris::Ui::get_color_id;
 using Tetris::Ui::MatrixDisplayGameUiImpl;
-using Tetris::Ui::NCursesColors;
 
 int main()
 {
@@ -36,16 +35,6 @@ int main()
             {
                 {64, 64},
                 {2, 1},
-                {   
-                    L' ',
-                    L'·',
-                    L'◦',
-                    L'◌',
-                    L'○',
-                    L'◎',
-                    L'◉',
-                    L'●',
-                },
                 256,
             },
             {
@@ -58,11 +47,6 @@ int main()
                 {'c', Action::hold},
                 {' ', Action::locking_hard_drop},
             },
-            80,
-            get_color_id(ColorIdName::white),
-            get_color_id(ColorIdName::sunset_orange),
-            get_color_id(ColorIdName::davy_s_grey),
-            get_color_id(ColorIdName::islamic_green),
             {
                 {
                     {{2, 2}, {14, 8}},
@@ -94,7 +78,21 @@ int main()
                 {
                     {{3, 13}, {11, 3}, 10, 1},
                 },
-            }
+            },
+            {
+                {
+                    get_color_id(ColorIdName::white),
+                    get_color_id(ColorIdName::sunset_orange),
+                    {
+                        get_color_id(ColorIdName::islamic_green),
+                        get_color_id(ColorIdName::davy_s_grey),
+                    },
+                },
+                {
+                    80,
+                },
+            },
+            3
         },
         {
             {{10, 20}, 2},
@@ -137,43 +135,48 @@ int main()
             -1,
         },
     };
-    NCursesColors color_id_to_color{{
-        {0, 16},
-        {1, 1},
-        {2, 2},
-        {3, 3},
-        {4, 4},
-        {5, 5},
-        {6, 6},
-        {7, 7},
-        {8, 8},
-        {9, 9},
-        {10, 10},
-        {11, 11},
-        {12, 12},
-        {13, 13},
-        {14, 14},
-        {15, 15},
-    }};
     TimerImpl timer{
         config.game.default_settings.start_level,
     };
     ConsoleMatrixDisplayImpl matrix{
         config.ui.display.size,
         config.ui.display.pixel_size,
-        config.ui.display.pixel_chars,
         config.ui.display.max_color_value,
-        color_id_to_color,
+        {   
+            L' ',
+            L'·',
+            L'◦',
+            L'◌',
+            L'○',
+            L'◎',
+            L'◉',
+            L'●',
+        },
+        {{
+            {0, 16},
+            {1, 1},
+            {2, 2},
+            {3, 3},
+            {4, 4},
+            {5, 5},
+            {6, 6},
+            {7, 7},
+            {8, 8},
+            {9, 9},
+            {10, 10},
+            {11, 11},
+            {12, 12},
+            {13, 13},
+            {14, 14},
+            {15, 15},
+        }},
     };
     MatrixDisplayGameUiImpl ui{
         matrix,
         config.ui.key_code_to_action,
-        config.ui.ghost_color_value,
-        config.ui.border_color_id,
-        config.ui.font_color_id,
-        config.ui.empty_level_progress_bar_color_id,
-        config.ui.level_progress_bar_color_id,
         config.ui.components,
+        config.ui.colors,
+        config.ui.cube_size,
     };
     BoardImpl board{
         config.game.board.size,

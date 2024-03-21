@@ -16,11 +16,12 @@
 #include "brick.h"
 #include "char.h"
 #include "cube.h"
+#include "game_ui_colors.h"
+#include "game_ui_components.h"
 #include "iv_color.h"
 #include "matrix_display.h"
 #include "rectangle.h"
 #include "text_area.h"
-#include "game_ui_components.h"
 #include "vector_2.h"
 
 namespace Tetris::Ui
@@ -32,12 +33,9 @@ public:
     MatrixDisplayGameUiImpl(
         MatrixDisplay& matrix,
         std::map<int, Action> key_code_to_action,
-        uint_fast8_t ghost_color_value,
-        uint_fast8_t border_color_id,
-        uint_fast8_t font_color_id,
-        uint_fast8_t empty_level_progress_bar_color_id,
-        uint_fast8_t level_progress_bar_color_id,
-        GameUiComponents components);
+        GameUiComponents components,
+        GameUiColors colors,
+        int cube_size);
     
     void handle_key_press(int key_code) override;
     void draw_level_progress_bar(int quantity) override;
@@ -65,7 +63,7 @@ public:
     {
         this->draw_cubes(
             this->components.container.board.position,
-            cubes, this->ghost_color_value);
+            cubes, this->colors.value.ghost_brick);
     }
 
     void draw_board(const CubeMatrix& cubes) override
@@ -148,14 +146,9 @@ private:
     using Signal = boost::signals2::signal<void()>;
 
     const GameUiComponents components;
-    static constexpr int cube_size{3};
+    const GameUiColors colors;
+    const int cube_size;
 
-    const uint_fast8_t ghost_color_value;
-
-    const uint_fast8_t border_color_id;
-    const uint_fast8_t font_color_id;
-    const uint_fast8_t empty_level_progress_bar_color_id;
-    const uint_fast8_t level_progress_bar_color_id;
     const std::map<int, Action> key_code_to_action;
     const std::map<Action, Signal&> action_to_signal
     {
@@ -209,13 +202,13 @@ private:
 
     void draw_on_text_area(std::string text, const TextArea& area)
     {
-        this->draw_text_lines(area.create_lines(text), this->font_color_id);
+        this->draw_text_lines(area.create_lines(text), this->colors.id.font);
     }
 
     void draw_on_text_area(unsigned long long number, const TextArea& area)
     {
         this->draw_text_lines(
-            area.create_lines(std::to_string(number)), this->font_color_id);
+            area.create_lines(std::to_string(number)), this->colors.id.font);
     }
 
     void draw_text_lines(

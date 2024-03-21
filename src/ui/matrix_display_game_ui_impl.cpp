@@ -10,6 +10,7 @@
 #include "action.h"
 #include "brick.h"
 #include "cube.h"
+#include "ui/game_ui_colors.h"
 #include "ui/iv_color.h"
 #include "ui/matrix_display.h"
 #include "ui/rectangle.h"
@@ -25,26 +26,20 @@ namespace Tetris::Ui
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     MatrixDisplay& matrix,
     std::map<int, Action> key_code_to_action,
-    uint_fast8_t ghost_color_value,
-    uint_fast8_t border_color_id,
-    uint_fast8_t font_color_id,
-    uint_fast8_t empty_level_progress_bar_color_id,
-    uint_fast8_t level_progress_bar_color_id,
-    GameUiComponents components)
+    GameUiComponents components,
+    GameUiColors colors,
+    int cube_size)
 :
     matrix{matrix},
     key_code_to_action{key_code_to_action},
-    ghost_color_value{ghost_color_value},
-    border_color_id{border_color_id},
-    font_color_id{font_color_id},
-    empty_level_progress_bar_color_id{empty_level_progress_bar_color_id},
-    level_progress_bar_color_id{level_progress_bar_color_id},
     components{components},
+    colors{colors},
+    cube_size{cube_size},
     cur_brick_cubes{}
 {
     this->main_layer = this->create_layer(
         matrix.get_size(),
-        this->border_color_id);
+        this->colors.id.border);
     this->draw_background();
 }
 
@@ -61,8 +56,8 @@ void MatrixDisplayGameUiImpl::draw_level_progress_bar(int quantity)
     const auto&[on_segments, off_segments]{
         this->components.progress_bar.level.create_segments(quantity)
     };
-    this->draw_rectangles(on_segments, level_progress_bar_color_id);
-    this->draw_rectangles(off_segments, empty_level_progress_bar_color_id);
+    this->draw_rectangles(on_segments, this->colors.id.progress_bar.on);
+    this->draw_rectangles(off_segments, this->colors.id.progress_bar.off);
     this->draw_on_text_area(
         this->components.text.level,
         this->components.container.level_text);
