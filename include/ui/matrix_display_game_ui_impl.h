@@ -12,12 +12,12 @@
 
 #include <boost/signals2.hpp>
 
-#include "action.h"
 #include "brick.h"
 #include "char.h"
 #include "cube.h"
 #include "game_ui_colors.h"
 #include "game_ui_components.h"
+#include "game_ui_controls.h"
 #include "iv_color.h"
 #include "matrix_display.h"
 #include "rectangle.h"
@@ -32,7 +32,7 @@ class MatrixDisplayGameUiImpl final: public GameUi
 public:
     MatrixDisplayGameUiImpl(
         MatrixDisplay& matrix,
-        std::map<int, Action> key_code_to_action,
+        GameUiControls controls,
         GameUiComponents components,
         GameUiColors colors,
         int cube_size);
@@ -145,24 +145,11 @@ private:
     using IvColorMatrix = std::vector<std::vector<IvColor>>;
     using Signal = boost::signals2::signal<void()>;
 
+    const std::map<int, Signal&> key_code_to_signal;
     const GameUiComponents components;
     const GameUiColors colors;
     const int cube_size;
 
-    const std::map<int, Action> key_code_to_action;
-    const std::map<Action, Signal&> action_to_signal
-    {
-        {Action::move_left, this->move_left_pressed},
-        {Action::move_right, this->move_right_pressed},
-        {Action::rotate_clockwise, this->rotate_clockwise_pressed},
-        {Action::soft_drop, this->soft_drop_pressed},
-        {Action::locking_hard_drop, this->locking_hard_drop_pressed},
-        {Action::no_locking_hard_drop, this->no_locking_hard_drop_pressed},
-        {Action::rotate_counter_clockwise,
-            this->rotate_counter_clockwise_pressed},
-        {Action::hold, this->hold_pressed},
-    };
-    
     MatrixDisplay& matrix;
     IvColorMatrix main_layer;
     std::vector<Cube> cur_brick_cubes;
@@ -188,7 +175,6 @@ private:
     void draw_text_line(const TextLine& line, IvColor color);
     void draw_centered_brick_in_container(
         const Brick& brick, const Rectangle& rect, bool align_to_left);
-    void emit_action_signal(Action action);
 
     void refresh() override
     {

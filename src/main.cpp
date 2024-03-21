@@ -1,6 +1,5 @@
 #include <ncurses.h>
 
-#include "action.h"
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "config.h"
@@ -12,9 +11,7 @@
 #include "ui/color_id_name.h"
 #include "ui/console_matrix_display_impl.h"
 #include "ui/matrix_display_game_ui_impl.h"
-#include "ui/ncurses_colors.h"
 
-using Tetris::Action;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
 using Tetris::Config;
@@ -38,14 +35,14 @@ int main()
                 256,
             },
             {
-                {KEY_DOWN, Action::soft_drop},
-                {KEY_LEFT, Action::move_left},
-                {KEY_RIGHT, Action::move_right},
-                {KEY_UP, Action::rotate_clockwise},
-                {'z', Action::rotate_counter_clockwise},
-                {'x', Action::no_locking_hard_drop},
-                {'c', Action::hold},
-                {' ', Action::locking_hard_drop},
+                KEY_LEFT,
+                KEY_RIGHT,
+                KEY_UP,
+                KEY_DOWN,
+                ' ',
+                'z',
+                'x',
+                'c',
             },
             {
                 {
@@ -173,7 +170,7 @@ int main()
     };
     MatrixDisplayGameUiImpl ui{
         matrix,
-        config.ui.key_code_to_action,
+        config.ui.controls,
         config.ui.components,
         config.ui.colors,
         config.ui.cube_size,

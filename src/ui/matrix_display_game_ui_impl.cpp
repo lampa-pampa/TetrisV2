@@ -1,23 +1,21 @@
 #include "ui/matrix_display_game_ui_impl.h"
 
 #include <cstdint>
-#include <map>
 #include <string>
 #include <vector>
 
 #include <boost/range/irange.hpp>
 
-#include "action.h"
 #include "brick.h"
 #include "cube.h"
 #include "ui/game_ui_colors.h"
+#include "ui/game_ui_controls.h"
 #include "ui/iv_color.h"
 #include "ui/matrix_display.h"
 #include "ui/rectangle.h"
 #include "vector_2.h"
 
 using boost::irange;
-using std::map;
 using std::vector;
 
 namespace Tetris::Ui
@@ -25,30 +23,38 @@ namespace Tetris::Ui
 
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     MatrixDisplay& matrix,
-    std::map<int, Action> key_code_to_action,
+    GameUiControls controls,
     GameUiComponents components,
     GameUiColors colors,
     int cube_size)
 :
     matrix{matrix},
-    key_code_to_action{key_code_to_action},
+    key_code_to_signal{
+        {controls.left, this->move_left_pressed},
+        {controls.right, this->move_right_pressed},
+        {controls.rotate_clockwise, this->rotate_clockwise_pressed},
+        {controls.soft_drop, this->soft_drop_pressed},
+        {controls.locking_hard_drop, this->locking_hard_drop_pressed},
+        {controls.no_locking_hard_drop, this->no_locking_hard_drop_pressed},
+        {controls.rotate_counter_clockwise,
+            this->rotate_counter_clockwise_pressed},
+        {controls.hold, this->hold_pressed},
+    },
     components{components},
     colors{colors},
     cube_size{cube_size},
+    main_layer{this->create_layer(matrix.get_size(), colors.id.border)},
     cur_brick_cubes{}
 {
-    this->main_layer = this->create_layer(
-        matrix.get_size(),
-        this->colors.id.border);
     this->draw_background();
 }
 
 void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 {
-    if (const auto it{this->key_code_to_action.find(key_code)};
-        it != this->key_code_to_action.end()
+    if (const auto it{this->key_code_to_signal.find(key_code)};
+        it != this->key_code_to_signal.end()
     )
-        this->emit_action_signal(it->second);
+        it->second();
 }
 
 void MatrixDisplayGameUiImpl::draw_level_progress_bar(int quantity)
@@ -160,13 +166,6 @@ void MatrixDisplayGameUiImpl::draw_centered_brick_in_container(
             + this->compute_brick_centered_position(brick, align_to_left)
     };
     this->draw_cubes(cubes_position, brick.cubes);
-}
-
-void MatrixDisplayGameUiImpl::emit_action_signal(Action action)
-{
-    const auto it{this->action_to_signal.find(action)};
-    assert(it != this->action_to_signal.end());
-    it->second();
 }
 
 }

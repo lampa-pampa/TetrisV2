@@ -2,14 +2,13 @@
 #define INCLUDE_CONFIG_H
 
 #include <cstdint>
-#include <map>
 #include <vector>
 
-#include "action.h"
 #include "brick.h"
 #include "settings.h"
 #include "ui/game_ui_colors.h"
 #include "ui/game_ui_components.h"
+#include "ui/game_ui_controls.h"
 #include "vector_2.h"
 
 namespace Tetris
@@ -49,7 +48,7 @@ struct DisplayConfig final
 struct UiConfig final
 {
     DisplayConfig display;
-    std::map<int, Action> key_code_to_action;
+    Ui::GameUiControls controls;
     Ui::GameUiComponents components;
     Ui::GameUiColors colors;
     int cube_size;
