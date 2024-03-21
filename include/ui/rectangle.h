@@ -10,12 +10,6 @@ struct Rectangle final
 {
     Vector2 position;
     Vector2 size;
-
-    constexpr Rectangle(Vector2 position, Vector2 size)
-    :
-        position{position},
-        size{size}
-    {}
 };
 
 }
