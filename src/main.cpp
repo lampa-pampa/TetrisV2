@@ -32,7 +32,7 @@ int main()
             {
                 {64, 64},
                 {2, 1},
-                256,
+                0xff,
             },
             {
                 KEY_LEFT,
@@ -40,8 +40,8 @@ int main()
                 KEY_UP,
                 KEY_DOWN,
                 ' ',
-                'z',
                 'x',
+                'z',
                 'c',
             },
             {
@@ -68,7 +68,7 @@ int main()
                 {
                     "PAUSED",
                     "GAME\nOVER",
-                    "L\nV\nL",
+                    "L\nE\nV\nE\nL",
                     "SCO",
                     "TET",
                 },

@@ -105,7 +105,8 @@ void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 
 wchar_t ConsoleMatrixDisplayImpl::get_pixel_char(int color_value)
 {
-    return pixel_chars.at(color_value * pixel_chars.size() / max_color_value);
+    return pixel_chars.at(
+        color_value * pixel_chars.size() / (max_color_value + 1));
 }
 
 }
