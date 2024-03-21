@@ -218,6 +218,7 @@ private:
     void set_start_position_and_rotation();
     void add_score(unsigned long long amount);
     void add_lines(int amount);
+    void add_tetrises(unsigned long long amount);
     void update_level();
     void perform_action(const std::function<void()>& action);
 
@@ -255,12 +256,6 @@ private:
     {
         this->draw_ghost_brick(use_colors);
         this->draw_cur_brick(use_colors);
-    }
-
-    void add_tetrises(unsigned long long amount)
-    {
-        if (amount > 0)
-            this->tetrises += amount;
     }
 
     void set_start_position()

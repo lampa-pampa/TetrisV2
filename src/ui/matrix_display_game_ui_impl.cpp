@@ -63,7 +63,7 @@ void MatrixDisplayGameUiImpl::draw_level_progress_bar(int quantity)
     };
     this->draw_rectangles(on_segments, level_progress_bar_color_id);
     this->draw_rectangles(off_segments, empty_level_progress_bar_color_id);
-    this->draw_on_text_area("L\nE\nV\nE\nL", level_text_area);
+    this->draw_on_text_area(this->level_text, level_text_area);
 }
 
 //-------------------------------------------------------------------

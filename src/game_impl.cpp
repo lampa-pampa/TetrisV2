@@ -207,10 +207,11 @@ namespace Tetris
     void GameImpl::draw_all()
     {
         this->ui.draw_hold_brick(this->hold_brick);
-        this->ui.draw_score(this->score);
-        this->ui.draw_level(this->level);
         this->ui.draw_level_progress_bar(this->lines_quantity);
+        this->ui.draw_level(this->level);
         this->ui.draw_board(this->board.get_visible_cubes());
+        this->ui.draw_score(this->score);
+        this->ui.draw_tetrises(this->tetrises);
         this->draw_bricks();
         this->ui.refresh();
     }
@@ -275,6 +276,15 @@ namespace Tetris
             this->ui.draw_level_progress_bar(this->lines_quantity);
             this->add_score_for_lines(amount);
             this->update_level();
+        }
+    }
+
+    void GameImpl::add_tetrises(unsigned long long amount)
+    {
+        if (amount > 0)
+        {
+            this->tetrises += amount;
+            this->ui.draw_tetrises(this->tetrises);
         }
     }
 

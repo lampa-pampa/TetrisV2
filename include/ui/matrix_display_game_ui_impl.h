@@ -73,6 +73,12 @@ public:
         this->draw_on_text_area(this->get_number_as_string(
             score, score_value_digits_quantity), score_value_area);
     }
+
+    void draw_tetrises(unsigned long long tetrises) override
+    {
+        this->draw_on_text_area(this->get_number_as_string(
+            tetrises, tetrises_value_digits_quantity), tetrises_value_area);
+    }
     
     void draw_level(int level) override
     {
@@ -82,13 +88,14 @@ public:
 
     void game_over() override
     {
-        this->draw_on_text_area("GAME\nOVER", this->game_state_text_area);
+        this->draw_on_text_area(
+            this->game_over_text, this->game_state_text_area);
         this->refresh();
     }
 
     void pause() override
     {
-        this->draw_on_text_area("PAUSED", this->game_state_text_area);
+        this->draw_on_text_area(this->paused_text, this->game_state_text_area);
         this->refresh();
     }
 
@@ -147,6 +154,11 @@ private:
     static constexpr int cube_size{3};
     static constexpr int level_value_digits_quantity{2};
     static constexpr int score_value_digits_quantity{18};
+    static constexpr int tetrises_value_digits_quantity{3};
+
+    const std::string level_text{"L\nE\nV\nE\nL"};
+    const std::string paused_text{"PAUSED"};
+    const std::string game_over_text{"GAME\nOVER"};
    
     static constexpr Rectangle board_container{{17, 2}, {30, 60}};
     static constexpr Rectangle hold_container{{2, 2}, {14, 8}};
@@ -154,6 +166,7 @@ private:
     static constexpr Rectangle level_text_container{{2, 12}, {13, 41}};
     static constexpr Rectangle level_value_container{{2, 55}, {13, 7}};
     static constexpr Rectangle score_value_container{{49, 12}, {13, 41}};
+    static constexpr Rectangle tetrises_value_container{{49, 55}, {13, 7}};
    
     static constexpr ProgressBar level_progress_bar{{3, 13}, {11, 3}, 10, 1};
    
@@ -161,6 +174,7 @@ private:
     static constexpr TextArea level_text_area{level_text_container};
     static constexpr TextArea level_value_area{level_value_container};
     static constexpr TextArea score_value_area{score_value_container};
+    static constexpr TextArea tetrises_value_area{tetrises_value_container};
 
     const uint_fast8_t ghost_color_value;
     const uint_fast8_t border_color_id;
@@ -174,7 +188,9 @@ private:
         hold_container,
         level_text_container,
         level_value_container,
+        board_container,
         score_value_container,
+        tetrises_value_container,
     };
     const std::map<Action, Signal&> action_to_signal
     {

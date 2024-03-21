@@ -21,6 +21,7 @@ public:
     virtual void draw_next_brick(const Brick& brick) = 0;
     virtual void draw_hold_brick(const Brick& brick) = 0;
     virtual void draw_score(unsigned long long score) = 0;
+    virtual void draw_tetrises(unsigned long long tetrises) = 0;
     virtual void draw_level_progress_bar(int quantity) = 0;
     virtual void draw_level(int level) = 0;
     virtual void refresh() = 0;
