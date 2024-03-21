@@ -40,6 +40,7 @@ public:
     void handle_key_press(int key_code) override;
     void draw_level_progress_bar(int quantity) override;
     void pause() override;
+    void game_over() override;
 
     void draw_next_brick(const Brick& brick) override
     {
@@ -56,19 +57,17 @@ public:
     void draw_cur_brick(const std::vector<Cube>& cubes) override
     {
         this->cur_brick_cubes = cubes;
-        this->draw_cubes(components.container.board.position, cubes);
+        this->draw_on_board(cubes);
     }
 
     void draw_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        this->draw_cubes(
-            this->components.container.board.position,
-            cubes, this->colors.value.ghost_brick);
+        this->draw_on_board(cubes, this->colors.value.ghost_brick);
     }
 
     void draw_board(const CubeMatrix& cubes) override
     {
-        this->draw_board(components.container.board.position, cubes);
+        this->draw_on_board(cubes);
     }
 
     void draw_score(unsigned long long score) override
@@ -84,13 +83,6 @@ public:
     void draw_level(int level) override
     {
         this->draw_on_text_area(level, components.text_area.level_value);
-    }
-
-    void game_over() override
-    {
-        this->draw_on_text_area(
-            this->components.text.game_over, components.text_area.game_state);
-        this->refresh();
     }
 
     void connect_move_left_pressed(
@@ -217,13 +209,18 @@ private:
             this->draw_pixel(position + pixel_position, color);
     }
 
-    void draw_board(
-        Vector2 position,
-        const CubeMatrix& board,
-        uint_fast8_t color_value = 0xff)
+    void draw_on_board(
+        const std::vector<Cube>& cubes, uint_fast8_t color_value = 0xff)
+    {
+        this->draw_cubes(
+            this->components.container.board.position, cubes, color_value);
+    }
+
+    void draw_on_board(
+        const CubeMatrix& board, uint_fast8_t color_value = 0xff)
     {
         for (const auto& row : board)
-            this->draw_cubes(position, row, color_value);
+            this->draw_on_board(row, color_value);
     }
 
     void draw_cubes(

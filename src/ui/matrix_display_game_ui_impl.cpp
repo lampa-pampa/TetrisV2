@@ -77,6 +77,13 @@ void MatrixDisplayGameUiImpl::pause()
     this->refresh();
 }
 
+void MatrixDisplayGameUiImpl::game_over()
+{
+    this->draw_on_text_area(
+        this->components.text.game_over, components.text_area.game_state);
+    this->refresh();
+}
+
 //-------------------------------------------------------------------
 
 MatrixDisplayGameUiImpl::IvColorMatrix
