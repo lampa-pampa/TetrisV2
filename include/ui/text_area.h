@@ -21,26 +21,36 @@ class TextArea final
 public:
     constexpr TextArea(
         const Rectangle& container, 
+        int max_text_length = -1,
+        char fill_char = '0',
+        char overflow_char = '9',
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center)
     :
         container{container},
         horizontal_align{horizontal_align},
-        vertical_align{vertical_align}
+        vertical_align{vertical_align},
+        max_text_length{max_text_length},
+        fill_char{fill_char},
+        overflow_char{overflow_char}
     {}
 
     std::vector<TextLine> create_lines(std::string text) const
     {
-        return this->create_lines(this->slice_text_into_lines(text));
+        return this->create_lines(
+            this->slice_text_into_lines(this->get_fixed_length_text(text)));
     }
 
 private:
     using AlignToFuncion = std::map<Align, std::function<int(int, int)>>;
     using CharsAndWidth = std::tuple<std::vector<Char>, int>;
 
-    Rectangle container;
-    Align horizontal_align;
-    Align vertical_align;
+    const Rectangle container;
+    const Align horizontal_align;
+    const Align vertical_align;
+    const int max_text_length;
+    const char fill_char;
+    const char overflow_char;
 
     const inline static AlignToFuncion horizontal_align_to_compute
     {
@@ -55,6 +65,7 @@ private:
         }},
     };
 
+    std::string get_fixed_length_text(std::string text) const;
     std::vector<TextLine> create_lines(
         const std::vector<CharsAndWidth>& lines_chars) const;
     bool line_should_be_ended(int line_width, int i, std::string text) const;

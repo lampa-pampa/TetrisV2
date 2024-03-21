@@ -37,6 +37,17 @@ vector<TextLine> TextArea::create_lines(
 
 //-------------------------------------------------------------------------
 
+std::string TextArea::get_fixed_length_text(std::string text) const
+{
+    if(this->max_text_length < 0)
+        return text;
+    if(text.size() > this->max_text_length)
+        return std::string(this->max_text_length, this->overflow_char);
+    return std::string(
+        this->max_text_length - text.size(), this->fill_char
+    ) + text;
+}
+
 bool TextArea::line_should_be_ended(
     int line_width, int i, std::string text) const
 {
