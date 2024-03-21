@@ -22,9 +22,7 @@ namespace Tetris::Ui
 vector<TextLine> TextArea::create_lines(
     const vector<CharsAndWidth>& lines_chars) const
 {
-    const int start_y{
-        this->compute_lines_position_y(lines_chars.size())
-    };
+    const int start_y{this->compute_lines_position_y(lines_chars.size())};
     vector<TextLine> lines{};
     for (const auto& i : irange(lines_chars.size()))
     {
