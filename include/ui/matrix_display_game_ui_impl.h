@@ -38,49 +38,49 @@ public:
         int cube_size);
     
     void handle_key_press(int key_code) override;
-    void draw_level_progress_bar(int quantity) override;
+    void refresh_level_progress_bar(int quantity) override;
     void pause() override;
     void game_over() override;
 
-    void draw_next_brick(const Brick& brick) override
+    void refresh_next_brick(const Brick& brick) override
     {
         this->draw_centered_brick_in_container(
             brick, this->components.container.next, false);
     }
 
-    void draw_hold_brick(const Brick& brick) override
+    void refresh_hold_brick(const Brick& brick) override
     {
         this->draw_centered_brick_in_container(
             brick, this->components.container.hold, true);
     }
 
-    void draw_cur_brick(const std::vector<Cube>& cubes) override
+    void refresh_cur_brick(const std::vector<Cube>& cubes) override
     {
         this->cur_brick_cubes = cubes;
         this->draw_on_board(cubes);
     }
 
-    void draw_ghost_brick(const std::vector<Cube>& cubes) override
+    void refresh_ghost_brick(const std::vector<Cube>& cubes) override
     {
         this->draw_on_board(cubes, this->colors.value.ghost_brick);
     }
 
-    void draw_board(const CubeMatrix& cubes) override
+    void refresh_board(const CubeMatrix& cubes) override
     {
         this->draw_on_board(cubes);
     }
 
-    void draw_score(unsigned long long score) override
+    void refresh_score(unsigned long long score) override
     {
         this->draw_on_text_area(score, components.text_area.score_value);
     }
 
-    void draw_tetrises(unsigned long long tetrises) override
+    void refresh_tetrises(unsigned long long tetrises) override
     {
         this->draw_on_text_area(tetrises, components.text_area.tetrises_value);
     }
     
-    void draw_level(int level) override
+    void refresh_level(int level) override
     {
         this->draw_on_text_area(level, components.text_area.level_value);
     }
@@ -168,7 +168,7 @@ private:
     void draw_centered_brick_in_container(
         const Brick& brick, const Rectangle& rect, bool align_to_left);
 
-    void refresh_matrix() override
+    void flush_matrix() override
     {
         this->matrix.refresh(this->main_layer);
     }

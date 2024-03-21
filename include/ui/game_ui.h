@@ -15,16 +15,16 @@ class GameUi
 public:
     using CubeMatrix = std::vector<std::vector<Cube>>;
 
-    virtual void draw_board(const CubeMatrix& cubes) = 0;
-    virtual void draw_cur_brick(const std::vector<Cube>& cubes) = 0;
-    virtual void draw_ghost_brick(const std::vector<Cube>& cubes) = 0;
-    virtual void draw_next_brick(const Brick& brick) = 0;
-    virtual void draw_hold_brick(const Brick& brick) = 0;
-    virtual void draw_score(unsigned long long score) = 0;
-    virtual void draw_tetrises(unsigned long long tetrises) = 0;
-    virtual void draw_level_progress_bar(int quantity) = 0;
-    virtual void draw_level(int level) = 0;
-    virtual void refresh_matrix() = 0;
+    virtual void refresh_board(const CubeMatrix& cubes) = 0;
+    virtual void refresh_cur_brick(const std::vector<Cube>& cubes) = 0;
+    virtual void refresh_ghost_brick(const std::vector<Cube>& cubes) = 0;
+    virtual void refresh_next_brick(const Brick& brick) = 0;
+    virtual void refresh_hold_brick(const Brick& brick) = 0;
+    virtual void refresh_score(unsigned long long score) = 0;
+    virtual void refresh_tetrises(unsigned long long tetrises) = 0;
+    virtual void refresh_level_progress_bar(int quantity) = 0;
+    virtual void refresh_level(int level) = 0;
+    virtual void flush_matrix() = 0;
     virtual void game_over() = 0;
     virtual void pause() = 0;
     virtual void handle_key_press(int key_code) = 0;

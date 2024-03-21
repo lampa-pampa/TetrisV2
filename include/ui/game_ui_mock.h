@@ -13,16 +13,16 @@ namespace Tetris::Ui
 class GameUiMock final: public GameUi
 {
 public:
-    void draw_board(const CubeMatrix& cubes) override {}
-    void draw_cur_brick(const std::vector<Cube>& cubes) override {}
-    void draw_ghost_brick(const std::vector<Cube>& cubes) override {}
-    void draw_next_brick(const Brick& brick) override {}
-    void draw_hold_brick(const Brick& brick) override {}
-    void draw_score(unsigned long long score) override {}
-    void draw_tetrises(unsigned long long tetrises) override {}
-    void draw_level_progress_bar(int quantity) override {}
-    void draw_level(int level) override {}
-    void refresh_matrix() override {}
+    void refresh_board(const CubeMatrix& cubes) override {}
+    void refresh_cur_brick(const std::vector<Cube>& cubes) override {}
+    void refresh_ghost_brick(const std::vector<Cube>& cubes) override {}
+    void refresh_next_brick(const Brick& brick) override {}
+    void refresh_hold_brick(const Brick& brick) override {}
+    void refresh_score(unsigned long long score) override {}
+    void refresh_tetrises(unsigned long long tetrises) override {}
+    void refresh_level_progress_bar(int quantity) override {}
+    void refresh_level(int level) override {}
+    void flush_matrix() override {}
     void game_over() override {}
     void pause() override {}
     void handle_key_press(int key_code) override {}

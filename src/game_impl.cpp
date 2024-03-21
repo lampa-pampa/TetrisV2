@@ -58,9 +58,9 @@ namespace Tetris
 
     void GameImpl::resume()
     {
-        this->ui.draw_board(this->board.get_visible_cubes());
+        this->ui.refresh_board(this->board.get_visible_cubes());
         this->draw_bricks();
-        this->ui.refresh_matrix();
+        this->ui.flush_matrix();
         this->state = GameState::in_progress;
     }
 
@@ -69,7 +69,7 @@ namespace Tetris
     void GameImpl::generate_hold_brick()
     {
         swap(this->hold_brick, this->cur_brick);
-        this->ui.draw_hold_brick(this->hold_brick);
+        this->ui.refresh_hold_brick(this->hold_brick);
         if (this->cur_brick.empty())
             this->generate_new_brick();
     }
@@ -89,7 +89,7 @@ namespace Tetris
     {
         this->board.put_cubes(brick.cubes);
         this->remove_lines(brick.get_min_y(), brick.get_max_y());
-        this->ui.draw_board(this->board.get_visible_cubes());
+        this->ui.refresh_board(this->board.get_visible_cubes());
         this->can_hold = true;
     }
 
@@ -207,34 +207,34 @@ namespace Tetris
 
     void GameImpl::draw_all()
     {
-        this->ui.draw_hold_brick(this->hold_brick);
-        this->ui.draw_level_progress_bar(this->lines_quantity);
-        this->ui.draw_level(this->level);
-        this->ui.draw_board(this->board.get_visible_cubes());
-        this->ui.draw_score(this->score);
-        this->ui.draw_tetrises(this->tetrises);
+        this->ui.refresh_hold_brick(this->hold_brick);
+        this->ui.refresh_level_progress_bar(this->lines_quantity);
+        this->ui.refresh_level(this->level);
+        this->ui.refresh_board(this->board.get_visible_cubes());
+        this->ui.refresh_score(this->score);
+        this->ui.refresh_tetrises(this->tetrises);
         this->draw_bricks();
-        this->ui.refresh_matrix();
+        this->ui.flush_matrix();
     }
 
-    void GameImpl::draw_ghost_brick(bool use_colors)
+    void GameImpl::refresh_ghost_brick(bool use_colors)
     {
         if (this->settings.generate_ghost)
         {
             Brick brick = this->create_ghost_brick();
             if (not use_colors)
                 brick = Brick::get_colored(brick, 0);
-            this->ui.draw_ghost_brick(this->board.get_visible_brick_cubes(
+            this->ui.refresh_ghost_brick(this->board.get_visible_brick_cubes(
                 brick.cubes));
         }
     }
 
-    void GameImpl::draw_cur_brick(bool use_colors)
+    void GameImpl::refresh_cur_brick(bool use_colors)
     {
         Brick brick = this->get_transformed_cur_brick();
         if (not use_colors)
             brick = Brick::get_colored(brick, 0);
-        this->ui.draw_cur_brick(this->board.get_visible_brick_cubes(
+        this->ui.refresh_cur_brick(this->board.get_visible_brick_cubes(
             brick.cubes));
     }
 
@@ -250,7 +250,7 @@ namespace Tetris
     {
         this->cur_brick = this->next_brick;
         this->next_brick = this->brick_generator.generate();
-        this->ui.draw_next_brick(this->next_brick);
+        this->ui.refresh_next_brick(this->next_brick);
     }
 
     void GameImpl::set_start_position_and_rotation()
@@ -265,7 +265,7 @@ namespace Tetris
         if (amount > 0)
         {
             this->score += amount;
-            this->ui.draw_score(this->score);
+            this->ui.refresh_score(this->score);
         }
     }  
 
@@ -274,7 +274,7 @@ namespace Tetris
         if (amount > 0)
         {
             this->lines_quantity += amount;
-            this->ui.draw_level_progress_bar(this->lines_quantity);
+            this->ui.refresh_level_progress_bar(this->lines_quantity);
             this->add_score_for_lines(amount);
             this->update_level();
         }
@@ -285,7 +285,7 @@ namespace Tetris
         if (amount > 0)
         {
             this->tetrises += amount;
-            this->ui.draw_tetrises(this->tetrises);
+            this->ui.refresh_tetrises(this->tetrises);
         }
     }
 
@@ -295,8 +295,8 @@ namespace Tetris
         {
             ++this->level;
             this->lines_quantity -= this->next_level_lines_quantity;
-            this->ui.draw_level(this->level);
-            this->ui.draw_level_progress_bar(this->lines_quantity);
+            this->ui.refresh_level(this->level);
+            this->ui.refresh_level_progress_bar(this->lines_quantity);
             this->set_timeout_delay(this->level);
         }
     }
@@ -306,6 +306,6 @@ namespace Tetris
         this->draw_bricks(false);
         action();
         this->draw_bricks();
-        this->ui.refresh_matrix();       
+        this->ui.flush_matrix();       
     };
 }

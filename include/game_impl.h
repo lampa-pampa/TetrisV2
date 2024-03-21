@@ -211,8 +211,8 @@ private:
     Vector2 compute_ghost_brick_position() const;
     Brick create_ghost_brick() const;
     void draw_all();
-    void draw_ghost_brick(bool use_colors);
-    void draw_cur_brick(bool use_colors);
+    void refresh_ghost_brick(bool use_colors);
+    void refresh_cur_brick(bool use_colors);
     void remove_lines(int from_y, int to_y);
     void generate_new_brick();
     void set_start_position_and_rotation();
@@ -254,8 +254,8 @@ private:
 
     void draw_bricks(bool use_colors = true)
     {
-        this->draw_ghost_brick(use_colors);
-        this->draw_cur_brick(use_colors);
+        this->refresh_ghost_brick(use_colors);
+        this->refresh_cur_brick(use_colors);
     }
 
     void set_start_position()

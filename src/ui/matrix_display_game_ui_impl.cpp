@@ -57,7 +57,7 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
         it->second();
 }
 
-void MatrixDisplayGameUiImpl::draw_level_progress_bar(int quantity)
+void MatrixDisplayGameUiImpl::refresh_level_progress_bar(int quantity)
 {
     const auto&[on_segments, off_segments]{
         this->components.progress_bar.level.create_segments(quantity)
@@ -74,14 +74,14 @@ void MatrixDisplayGameUiImpl::pause()
     this->draw_on_text_area(
         this->components.text.paused,
         this->components.text_area.game_state);
-    this->refresh_matrix();
+    this->flush_matrix();
 }
 
 void MatrixDisplayGameUiImpl::game_over()
 {
     this->draw_on_text_area(
         this->components.text.game_over, components.text_area.game_state);
-    this->refresh_matrix();
+    this->flush_matrix();
 }
 
 //-------------------------------------------------------------------
