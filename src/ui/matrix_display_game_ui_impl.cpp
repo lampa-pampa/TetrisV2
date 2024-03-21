@@ -62,25 +62,29 @@ void MatrixDisplayGameUiImpl::refresh_level_progress_bar(int quantity)
     const auto&[on_segments, off_segments]{
         this->components.progress_bar.level.create_segments(quantity)
     };
-    this->draw_rectangles(on_segments, this->colors.id.progress_bar.on);
-    this->draw_rectangles(off_segments, this->colors.id.progress_bar.off);
+    this->draw_rectangles(on_segments, this->colors.id.level.progress_bar.on);
+    this->draw_rectangles(off_segments, this->colors.id.level.progress_bar.off);
     this->draw_on_text_area(
         this->components.text.level,
-        this->components.container.level_text);
+        this->components.container.level_text,
+        this->colors.id.level.text);
 }
 
 void MatrixDisplayGameUiImpl::pause()
 {
     this->draw_on_text_area(
         this->components.text.paused,
-        this->components.text_area.game_state);
+        this->components.text_area.game_state,
+        this->colors.id.game_state);
     this->flush_matrix();
 }
 
 void MatrixDisplayGameUiImpl::game_over()
 {
     this->draw_on_text_area(
-        this->components.text.game_over, components.text_area.game_state);
+        this->components.text.game_over,
+        this->components.text_area.game_state,
+        this->colors.id.game_state);
     this->flush_matrix();
 }
 
@@ -128,10 +132,12 @@ void MatrixDisplayGameUiImpl::draw_background()
     });
     this->draw_on_text_area(
         this->components.text.score,
-        this->components.container.score_text);
+        this->components.container.score_text,
+        this->colors.id.score.text);
     this->draw_on_text_area(
         this->components.text.tetrises,
-        this->components.container.tetrises_text);
+        this->components.container.tetrises_text,
+        this->colors.id.tetrises.text);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(

@@ -12,11 +12,32 @@ struct ProgressBarGameUiColors final
     uint_fast8_t off;
 };
 
+struct LevelGameUiColors final
+{
+    uint_fast8_t text;
+    uint_fast8_t value;
+    ProgressBarGameUiColors progress_bar;
+};
+
+struct ScoreGameUiColors final
+{
+    uint_fast8_t text;
+    uint_fast8_t value;
+};
+
+struct TetrisesGameUiColors final
+{
+    uint_fast8_t text;
+    uint_fast8_t value;
+};
+
 struct IdGameUiColors final
 {
     uint_fast8_t border;
-    uint_fast8_t font;
-    ProgressBarGameUiColors progress_bar;
+    uint_fast8_t game_state;
+    LevelGameUiColors level;
+    ScoreGameUiColors score;
+    TetrisesGameUiColors tetrises;
 };
 
 struct ValueGameUiColors final

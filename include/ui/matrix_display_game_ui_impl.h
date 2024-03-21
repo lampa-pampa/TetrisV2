@@ -72,17 +72,20 @@ public:
 
     void refresh_score(unsigned long long score) override
     {
-        this->draw_on_text_area(score, components.text_area.score_value);
+        this->draw_on_text_area(
+            score, components.text_area.score_value, this->colors.id.score.value);
     }
 
     void refresh_tetrises(unsigned long long tetrises) override
     {
-        this->draw_on_text_area(tetrises, components.text_area.tetrises_value);
+        this->draw_on_text_area(
+            tetrises, components.text_area.tetrises_value, this->colors.id.tetrises.value);
     }
     
     void refresh_level(int level) override
     {
-        this->draw_on_text_area(level, components.text_area.level_value);
+        this->draw_on_text_area(
+            level, components.text_area.level_value, this->colors.id.level.value);
     }
 
     void connect_move_left_pressed(
@@ -178,15 +181,16 @@ private:
         return position >= 0 and position < this->matrix.get_size();
     }
 
-    void draw_on_text_area(std::string text, const TextArea& area)
+    void draw_on_text_area(
+        std::string text, const TextArea& area, IvColor color)
     {
-        this->draw_text_lines(area.create_lines(text), this->colors.id.font);
+        this->draw_text_lines(area.create_lines(text), color);
     }
 
-    void draw_on_text_area(unsigned long long number, const TextArea& area)
+    void draw_on_text_area(
+        unsigned long long number, const TextArea& area, IvColor color)
     {
-        this->draw_text_lines(
-            area.create_lines(std::to_string(number)), this->colors.id.font);
+        this->draw_on_text_area(std::to_string(number), area, color);
     }
 
     void draw_text_lines(
