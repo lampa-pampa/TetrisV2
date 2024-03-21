@@ -152,28 +152,34 @@ private:
     using Signal = boost::signals2::signal<void()>;
 
     static constexpr int cube_size{3};
-    static constexpr int level_value_digits_quantity{2};
-    static constexpr int score_value_digits_quantity{18};
-    static constexpr int tetrises_value_digits_quantity{3};
+    static constexpr int level_value_digits_quantity{3};
+    static constexpr int score_value_digits_quantity{9};
+    static constexpr int tetrises_value_digits_quantity{6};
 
     const std::string level_text{"L\nE\nV\nE\nL"};
     const std::string paused_text{"PAUSED"};
     const std::string game_over_text{"GAME\nOVER"};
+    const std::string score_text{"PTS"};
+    const std::string tetrises_text{"TET"};
    
     static constexpr Rectangle board_container{{17, 2}, {30, 60}};
     static constexpr Rectangle hold_container{{2, 2}, {14, 8}};
     static constexpr Rectangle next_container{{48, 2}, {14, 8}};
     static constexpr Rectangle level_text_container{{2, 12}, {13, 41}};
     static constexpr Rectangle level_value_container{{2, 55}, {13, 7}};
-    static constexpr Rectangle score_value_container{{49, 12}, {13, 41}};
-    static constexpr Rectangle tetrises_value_container{{49, 55}, {13, 7}};
+    static constexpr Rectangle score_text_container{{49, 12}, {13, 7}};
+    static constexpr Rectangle score_value_container{{49, 20}, {13, 19}};
+    static constexpr Rectangle tetrises_text_container{{49, 41}, {13, 7}};
+    static constexpr Rectangle tetrises_value_container{{49, 49}, {13, 13}};
    
     static constexpr ProgressBar level_progress_bar{{3, 13}, {11, 3}, 10, 1};
    
     static constexpr TextArea game_state_text_area{board_container};
     static constexpr TextArea level_text_area{level_text_container};
     static constexpr TextArea level_value_area{level_value_container};
+    static constexpr TextArea score_text_area{score_text_container};
     static constexpr TextArea score_value_area{score_value_container};
+    static constexpr TextArea tetrises_text_area{tetrises_text_container};
     static constexpr TextArea tetrises_value_area{tetrises_value_container};
 
     const uint_fast8_t ghost_color_value;
@@ -189,7 +195,9 @@ private:
         level_text_container,
         level_value_container,
         board_container,
+        score_text_container,
         score_value_container,
+        tetrises_text_container,
         tetrises_value_container,
     };
     const std::map<Action, Signal&> action_to_signal
@@ -224,6 +232,7 @@ private:
     Vector2 compute_brick_centered_position(
         const Brick& brick, bool align_to_left) const;
     std::string get_number_as_string(int number, int width = 0) const;
+    void draw_background();
     void draw_cube(
         Vector2 position, const Cube& cube, uint_fast8_t color_value);
     void draw_rectangle(const Rectangle& rectangle, IvColor color = {});
@@ -252,11 +261,6 @@ private:
     { 
         for (const auto& line : text_lines)
             this->draw_text_line(line, color);
-    }
-
-    void draw_background()
-    {
-        this->draw_rectangles(this->containers);
     }
 
     void draw_rectangles(

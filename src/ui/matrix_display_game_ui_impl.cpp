@@ -71,8 +71,7 @@ void MatrixDisplayGameUiImpl::draw_level_progress_bar(int quantity)
 MatrixDisplayGameUiImpl::IvColorMatrix
     MatrixDisplayGameUiImpl::create_layer(Vector2 size, IvColor color) const
 {
-    return IvColorMatrix(
-        size.y, vector<IvColor>(size.x, color));
+    return IvColorMatrix(size.y, vector<IvColor>(size.x, color));
 }
 
 Vector2 MatrixDisplayGameUiImpl::compute_brick_center(
@@ -102,6 +101,13 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
         this->compute_brick_center(brick.get_size(), align_to_left)
     };
     return center_cube_position - brick_center_position;
+}
+
+void MatrixDisplayGameUiImpl::draw_background()
+{
+    this->draw_rectangles(this->containers);
+    this->draw_on_text_area(score_text, score_text_area);
+    this->draw_on_text_area(tetrises_text, tetrises_text_area);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(
