@@ -52,7 +52,7 @@ private:
         }},
         {Align::end, [](int container_size, int content_size){
             return container_size - content_size;
-        }}, 
+        }},
     };
 
     std::vector<TextLine> create_lines(
