@@ -72,7 +72,6 @@ public:
     {
         this->draw_on_text_area(this->get_number_as_string(
             score, score_value_digits_quantity), score_value_area);
-        this->refresh();
     }
     
     void draw_level(int level) override
