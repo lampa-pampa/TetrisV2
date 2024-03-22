@@ -41,25 +41,12 @@ public:
     void refresh_level_progress_bar(int quantity) override;
     void pause() override;
     void game_over() override;
-
-    void refresh_next_brick(const Brick& brick) override
-    {
-        this->draw_centered_brick_in_container(
-            brick,
-            this->components.container.next,
-            this->colors.value.brick.next,
-            false);
-    }
-
-    void refresh_hold_brick(const Brick& brick) override
-    {
-        this->draw_centered_brick_in_container(
-            brick,
-            this->components.container.hold,
-            this->colors.value.brick.hold,
-            true);
-    }
-
+    void refresh_next_brick(const Brick& brick) override;
+    void refresh_hold_brick(const Brick& brick) override;
+    void refresh_score(unsigned long long score) override;
+    void refresh_tetrises(unsigned long long tetrises) override;
+    void refresh_level(int level) override;
+    
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
     {
         this->cur_brick_cubes = cubes;
@@ -74,30 +61,6 @@ public:
     void refresh_board(const CubeMatrix& cubes) override
     {
         this->draw_on_board(cubes);
-    }
-
-    void refresh_score(unsigned long long score) override
-    {
-        this->draw_on_text_area(
-            score,
-            components.text_area.score_value,
-            this->colors.iv.score.value);
-    }
-
-    void refresh_tetrises(unsigned long long tetrises) override
-    {
-        this->draw_on_text_area(
-            tetrises,
-            components.text_area.tetrises_value,
-            this->colors.iv.tetrises.value);
-    }
-    
-    void refresh_level(int level) override
-    {
-        this->draw_on_text_area(
-            level,
-            components.text_area.level_value,
-            this->colors.iv.level.value);
     }
 
     void connect_move_left_pressed(

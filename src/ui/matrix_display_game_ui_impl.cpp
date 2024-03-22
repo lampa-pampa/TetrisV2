@@ -194,4 +194,46 @@ void MatrixDisplayGameUiImpl::draw_centered_brick_in_container(
     this->draw_cubes(cubes_position, brick.cubes, color_value);
 }
 
+void MatrixDisplayGameUiImpl::refresh_next_brick(const Brick& brick)
+{
+    this->draw_centered_brick_in_container(
+        brick,
+        this->components.container.next,
+        this->colors.value.brick.next,
+        false);
+}
+
+void MatrixDisplayGameUiImpl::refresh_hold_brick(const Brick& brick)
+{
+    this->draw_centered_brick_in_container(
+        brick,
+        this->components.container.hold,
+        this->colors.value.brick.hold,
+        true);
+}
+
+void MatrixDisplayGameUiImpl::refresh_score(unsigned long long score)
+{
+    this->draw_on_text_area(
+        score,
+        this->components.text_area.score_value,
+        this->colors.iv.score.value);
+}
+
+void MatrixDisplayGameUiImpl::refresh_tetrises(unsigned long long tetrises)
+{
+    this->draw_on_text_area(
+        tetrises,
+        this->components.text_area.tetrises_value,
+        this->colors.iv.tetrises.value);
+}
+
+void MatrixDisplayGameUiImpl::refresh_level(int level)
+{
+    this->draw_on_text_area(
+        level,
+        this->components.text_area.level_value,
+        this->colors.iv.level.value);
+}
+
 }
