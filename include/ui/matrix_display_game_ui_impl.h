@@ -166,7 +166,8 @@ private:
     void draw_background();
     void draw_cube(
         Vector2 position, const Cube& cube, uint_fast8_t color_value);
-    void draw_rectangle(const Rectangle& rectangle, IvColor color = {});
+    void draw_rectangle(const Rectangle& rectangle, IvColor color);
+    void draw_rectangle(const Rectangle& rectangle);
     void draw_text_line(const TextLine& line, IvColor color);
     void draw_centered_brick_in_container(
         const Brick& brick, const Rectangle& rect, bool align_to_left);
@@ -200,8 +201,14 @@ private:
             this->draw_text_line(line, color);
     }
 
+    void draw_rectangles(const std::vector<Rectangle>& rectangles)
+    { 
+        for (const auto& rectangle : rectangles)
+            this->draw_rectangle(rectangle);
+    }
+
     void draw_rectangles(
-        const std::vector<Rectangle>& rectangles, IvColor color = {})
+        const std::vector<Rectangle>& rectangles, IvColor color)
     { 
         for (const auto& rectangle : rectangles)
             this->draw_rectangle(rectangle, color);
@@ -213,24 +220,33 @@ private:
             this->draw_pixel(position + pixel_position, color);
     }
 
+    void draw_on_board(const CubeMatrix& board)
+    {
+        for (const auto& row : board)
+            this->draw_on_board(row, this->colors.value.main);
+    }
+
+    void draw_on_board(const std::vector<Cube>& cubes)
+    {
+        this->draw_on_board(cubes, this->colors.value.main);
+    }
+
     void draw_on_board(
-        const std::vector<Cube>& cubes, uint_fast8_t color_value = 0xff)
+        const std::vector<Cube>& cubes, uint_fast8_t color_value)
     {
         this->draw_cubes(
             this->components.container.board.position, cubes, color_value);
     }
 
-    void draw_on_board(
-        const CubeMatrix& board, uint_fast8_t color_value = 0xff)
+    void draw_cubes(Vector2 position, const std::vector<Cube>& cubes)
     {
-        for (const auto& row : board)
-            this->draw_on_board(row, color_value);
+        this->draw_cubes(position, cubes, this->colors.value.main);
     }
 
     void draw_cubes(
         Vector2 position,
         const std::vector<Cube>& cubes,
-        uint_fast8_t color_value = 0xff)
+        uint_fast8_t color_value)
     {
         for (const auto& cube : cubes)
             this->draw_cube(position, cube, color_value);

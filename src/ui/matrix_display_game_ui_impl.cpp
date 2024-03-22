@@ -148,6 +148,11 @@ void MatrixDisplayGameUiImpl::draw_cube(
         {position_in_px, cube_size}, {cube.color_id, color_value});
 }
 
+void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
+{
+    this->draw_rectangle(rectangle, this->colors.id.background);
+}
+
 void MatrixDisplayGameUiImpl::draw_rectangle(
     const Rectangle& rectangle, IvColor color)
 {

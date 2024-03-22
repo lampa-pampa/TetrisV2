@@ -33,6 +33,7 @@ struct TetrisesGameUiColors final
 
 struct IdGameUiColors final
 {
+    uint_fast8_t background;
     uint_fast8_t border;
     uint_fast8_t game_state;
     LevelGameUiColors level;
@@ -42,6 +43,7 @@ struct IdGameUiColors final
 
 struct ValueGameUiColors final
 {
+    uint_fast8_t main;
     uint_fast8_t ghost_brick;
 };
 

@@ -78,6 +78,7 @@ int main()
             },
             {
                 {
+                    get_color_id(ColorIdName::black),
                     get_color_id(ColorIdName::white),
                     get_color_id(ColorIdName::sunset_orange),
                     {
@@ -98,6 +99,7 @@ int main()
                     },
                 },
                 {
+                    0xff,
                     80,
                 },
             },
