@@ -78,27 +78,30 @@ int main()
             },
             {
                 {
-                    get_color_id(ColorIdName::black),
-                    get_color_id(ColorIdName::white),
-                    get_color_id(ColorIdName::sunset_orange),
+                    {get_color_id(ColorIdName::black), 0xff},
+                    {get_color_id(ColorIdName::white), 0xff},
+                    {get_color_id(ColorIdName::sunset_orange), 0xff},
                     {
-                    get_color_id(ColorIdName::sunset_orange),
-                    get_color_id(ColorIdName::sunset_orange),
-                    {
-                    get_color_id(ColorIdName::islamic_green),
-                    get_color_id(ColorIdName::davy_s_grey),
-                    },
-                    },
-                    {
-                        get_color_id(ColorIdName::sunset_orange),
-                        get_color_id(ColorIdName::sunset_orange),
+                        {get_color_id(ColorIdName::sunset_orange), 0xff},
+                        {get_color_id(ColorIdName::sunset_orange), 0xff},
+                        {
+                            {get_color_id(ColorIdName::islamic_green), 0xff},
+                            {get_color_id(ColorIdName::davy_s_grey), 0xff},
+                        },
                     },
                     {
-                        get_color_id(ColorIdName::sunset_orange),
-                        get_color_id(ColorIdName::sunset_orange),
+                        {get_color_id(ColorIdName::sunset_orange), 0xff},
+                        {get_color_id(ColorIdName::sunset_orange), 0xff},
+                    },
+                    {
+                        {get_color_id(ColorIdName::sunset_orange), 0xff},
+                        {get_color_id(ColorIdName::sunset_orange), 0xff},
                     },
                 },
                 {
+                    0xff,
+                    0xff,
+                    0xff,
                     0xff,
                     80,
                 },

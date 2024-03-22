@@ -3,39 +3,41 @@
 
 #include <cstdint>
 
+#include "iv_color.h"
+
 namespace Tetris::Ui
 {
 
 struct ProgressBarGameUiColors final
 {
-    uint_fast8_t on;
-    uint_fast8_t off;
+    IvColor on;
+    IvColor off;
 };
 
 struct LevelGameUiColors final
 {
-    uint_fast8_t text;
-    uint_fast8_t value;
+    IvColor text;
+    IvColor value;
     ProgressBarGameUiColors progress_bar;
 };
 
 struct ScoreGameUiColors final
 {
-    uint_fast8_t text;
-    uint_fast8_t value;
+    IvColor text;
+    IvColor value;
 };
 
 struct TetrisesGameUiColors final
 {
-    uint_fast8_t text;
-    uint_fast8_t value;
+    IvColor text;
+    IvColor value;
 };
 
-struct IdGameUiColors final
+struct IvGameUiColors final
 {
-    uint_fast8_t background;
-    uint_fast8_t border;
-    uint_fast8_t game_state;
+    IvColor background;
+    IvColor border;
+    IvColor game_state;
     LevelGameUiColors level;
     ScoreGameUiColors score;
     TetrisesGameUiColors tetrises;
@@ -43,13 +45,16 @@ struct IdGameUiColors final
 
 struct ValueGameUiColors final
 {
-    uint_fast8_t main;
+    uint_fast8_t hold_brick;
+    uint_fast8_t next_brick;
+    uint_fast8_t board;
+    uint_fast8_t bricks;
     uint_fast8_t ghost_brick;
 };
 
 struct GameUiColors final
 {
-    IdGameUiColors id;
+    IvGameUiColors iv;
     ValueGameUiColors value;
 };
 

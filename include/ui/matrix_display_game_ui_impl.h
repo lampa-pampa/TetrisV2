@@ -45,13 +45,19 @@ public:
     void refresh_next_brick(const Brick& brick) override
     {
         this->draw_centered_brick_in_container(
-            brick, this->components.container.next, false);
+            brick,
+            this->components.container.next,
+            this->colors.value.next_brick,
+            false);
     }
 
     void refresh_hold_brick(const Brick& brick) override
     {
         this->draw_centered_brick_in_container(
-            brick, this->components.container.hold, true);
+            brick,
+            this->components.container.hold,
+            this->colors.value.hold_brick,
+            true);
     }
 
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
@@ -73,19 +79,22 @@ public:
     void refresh_score(unsigned long long score) override
     {
         this->draw_on_text_area(
-            score, components.text_area.score_value, this->colors.id.score.value);
+            score, components.text_area.score_value,
+            this->colors.iv.score.value);
     }
 
     void refresh_tetrises(unsigned long long tetrises) override
     {
         this->draw_on_text_area(
-            tetrises, components.text_area.tetrises_value, this->colors.id.tetrises.value);
+            tetrises, components.text_area.tetrises_value,
+            this->colors.iv.tetrises.value);
     }
     
     void refresh_level(int level) override
     {
         this->draw_on_text_area(
-            level, components.text_area.level_value, this->colors.id.level.value);
+            level, components.text_area.level_value,
+            this->colors.iv.level.value);
     }
 
     void connect_move_left_pressed(
@@ -170,7 +179,10 @@ private:
     void draw_rectangle(const Rectangle& rectangle);
     void draw_text_line(const TextLine& line, IvColor color);
     void draw_centered_brick_in_container(
-        const Brick& brick, const Rectangle& rect, bool align_to_left);
+        const Brick& brick,
+        const Rectangle& rect,
+        uint_fast8_t color_value,
+        bool align_to_left);
 
     void flush_matrix() override
     {
@@ -223,12 +235,12 @@ private:
     void draw_on_board(const CubeMatrix& board)
     {
         for (const auto& row : board)
-            this->draw_on_board(row, this->colors.value.main);
+            this->draw_on_board(row, this->colors.value.board);
     }
 
     void draw_on_board(const std::vector<Cube>& cubes)
     {
-        this->draw_on_board(cubes, this->colors.value.main);
+        this->draw_on_board(cubes, this->colors.value.bricks);
     }
 
     void draw_on_board(
@@ -236,11 +248,6 @@ private:
     {
         this->draw_cubes(
             this->components.container.board.position, cubes, color_value);
-    }
-
-    void draw_cubes(Vector2 position, const std::vector<Cube>& cubes)
-    {
-        this->draw_cubes(position, cubes, this->colors.value.main);
     }
 
     void draw_cubes(

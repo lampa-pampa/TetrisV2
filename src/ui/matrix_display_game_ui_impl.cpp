@@ -43,7 +43,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     components{components},
     colors{colors},
     cube_size{cube_size},
-    main_layer{this->create_layer(matrix.get_size(), colors.id.border)},
+    main_layer{this->create_layer(matrix.get_size(), colors.iv.border)},
     cur_brick_cubes{}
 {
     this->draw_background();
@@ -62,12 +62,16 @@ void MatrixDisplayGameUiImpl::refresh_level_progress_bar(int quantity)
     const auto&[on_segments, off_segments]{
         this->components.progress_bar.level.create_segments(quantity)
     };
-    this->draw_rectangles(on_segments, this->colors.id.level.progress_bar.on);
-    this->draw_rectangles(off_segments, this->colors.id.level.progress_bar.off);
+    this->draw_rectangles(
+        on_segments,
+        this->colors.iv.level.progress_bar.on);
+    this->draw_rectangles(
+        off_segments,
+        this->colors.iv.level.progress_bar.off);
     this->draw_on_text_area(
         this->components.text.level,
         this->components.container.level_text,
-        this->colors.id.level.text);
+        this->colors.iv.level.text);
 }
 
 void MatrixDisplayGameUiImpl::pause()
@@ -75,7 +79,7 @@ void MatrixDisplayGameUiImpl::pause()
     this->draw_on_text_area(
         this->components.text.paused,
         this->components.text_area.game_state,
-        this->colors.id.game_state);
+        this->colors.iv.game_state);
     this->flush_matrix();
 }
 
@@ -84,7 +88,7 @@ void MatrixDisplayGameUiImpl::game_over()
     this->draw_on_text_area(
         this->components.text.game_over,
         this->components.text_area.game_state,
-        this->colors.id.game_state);
+        this->colors.iv.game_state);
     this->flush_matrix();
 }
 
@@ -133,11 +137,11 @@ void MatrixDisplayGameUiImpl::draw_background()
     this->draw_on_text_area(
         this->components.text.score,
         this->components.container.score_text,
-        this->colors.id.score.text);
+        this->colors.iv.score.text);
     this->draw_on_text_area(
         this->components.text.tetrises,
         this->components.container.tetrises_text,
-        this->colors.id.tetrises.text);
+        this->colors.iv.tetrises.text);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(
@@ -150,7 +154,8 @@ void MatrixDisplayGameUiImpl::draw_cube(
 
 void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
 {
-    this->draw_rectangle(rectangle, this->colors.id.background);
+    this->draw_rectangle(rectangle,
+        this->colors.iv.background);
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(
@@ -176,14 +181,17 @@ void MatrixDisplayGameUiImpl::draw_text_line(
 }
 
 void MatrixDisplayGameUiImpl::draw_centered_brick_in_container(
-    const Brick& brick, const Rectangle& rectangle, bool align_to_left)
+    const Brick& brick,
+    const Rectangle& rectangle,
+    uint_fast8_t color_value,
+    bool align_to_left)
 {
     this->draw_rectangle(rectangle);
     const Vector2 cubes_position{
         rectangle.position + rectangle.size.center()
             + this->compute_brick_centered_position(brick, align_to_left)
     };
-    this->draw_cubes(cubes_position, brick.cubes);
+    this->draw_cubes(cubes_position, brick.cubes, color_value);
 }
 
 }
