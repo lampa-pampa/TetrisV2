@@ -43,13 +43,18 @@ struct IvGameUiColors final
     TetrisesGameUiColors tetrises;
 };
 
+struct BrickGameUiColors final
+{
+    uint_fast8_t hold;
+    uint_fast8_t next;
+    uint_fast8_t cur;
+    uint_fast8_t ghost;
+};
+
 struct ValueGameUiColors final
 {
-    uint_fast8_t hold_brick;
-    uint_fast8_t next_brick;
     uint_fast8_t board;
-    uint_fast8_t bricks;
-    uint_fast8_t ghost_brick;
+    BrickGameUiColors brick;
 };
 
 struct GameUiColors final

@@ -100,10 +100,12 @@ int main()
                 },
                 {
                     0xff,
-                    0xff,
-                    0xff,
-                    0xff,
-                    80,
+                    {
+                        0xff,
+                        0xff,
+                        0xff,
+                        80,
+                    },
                 },
             },
             3

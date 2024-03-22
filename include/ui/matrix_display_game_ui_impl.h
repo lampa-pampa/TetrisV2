@@ -47,7 +47,7 @@ public:
         this->draw_centered_brick_in_container(
             brick,
             this->components.container.next,
-            this->colors.value.next_brick,
+            this->colors.value.brick.next,
             false);
     }
 
@@ -56,19 +56,19 @@ public:
         this->draw_centered_brick_in_container(
             brick,
             this->components.container.hold,
-            this->colors.value.hold_brick,
+            this->colors.value.brick.hold,
             true);
     }
 
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
     {
         this->cur_brick_cubes = cubes;
-        this->draw_on_board(cubes);
+        this->draw_on_board(cubes, this->colors.value.brick.cur);
     }
 
     void refresh_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        this->draw_on_board(cubes, this->colors.value.ghost_brick);
+        this->draw_on_board(cubes, this->colors.value.brick.ghost);
     }
 
     void refresh_board(const CubeMatrix& cubes) override
@@ -79,21 +79,24 @@ public:
     void refresh_score(unsigned long long score) override
     {
         this->draw_on_text_area(
-            score, components.text_area.score_value,
+            score,
+            components.text_area.score_value,
             this->colors.iv.score.value);
     }
 
     void refresh_tetrises(unsigned long long tetrises) override
     {
         this->draw_on_text_area(
-            tetrises, components.text_area.tetrises_value,
+            tetrises,
+            components.text_area.tetrises_value,
             this->colors.iv.tetrises.value);
     }
     
     void refresh_level(int level) override
     {
         this->draw_on_text_area(
-            level, components.text_area.level_value,
+            level,
+            components.text_area.level_value,
             this->colors.iv.level.value);
     }
 
@@ -236,11 +239,6 @@ private:
     {
         for (const auto& row : board)
             this->draw_on_board(row, this->colors.value.board);
-    }
-
-    void draw_on_board(const std::vector<Cube>& cubes)
-    {
-        this->draw_on_board(cubes, this->colors.value.bricks);
     }
 
     void draw_on_board(
