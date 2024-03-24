@@ -2,6 +2,7 @@
 
 #include <ncurses.h>
 
+#include "game_controller_key_codes.h"
 #include "game_state.h"
 #include "game.h"
 #include "timer.h"
@@ -13,25 +14,21 @@ ConsoleGameControllerImpl::ConsoleGameControllerImpl(
     Timer& timer,
     Game& game,
     ::WINDOW * window,
-    int pause_key_code,
-    int quit_key_code,
-    int no_key_code)
+    GameControllerKeyCodes key_codes)
 :
-    timer{timer},
-    game{game},
-    window{window},
-    pause_key_code_{pause_key_code},
-    quit_key_code_{quit_key_code},
-    no_key_code_{no_key_code}
-{}
+    timer_{timer},
+    game_{game},
+    window_{window},
+    key_codes_{key_codes}
+    {}
 
 void ConsoleGameControllerImpl::run()
 {
     int key_code;
-    timer.start();
-    while ((key_code = ::wgetch(window)) != quit_key_code_)
+    timer_.start();
+    while ((key_code = ::wgetch(window_)) != key_codes_.quit)
     {
-        const GameState state{game.get_state()};
+        const GameState state{game_.get_state()};
         if (state == GameState::ended)
             end_game();
         else
@@ -43,7 +40,7 @@ void ConsoleGameControllerImpl::run()
 
 void ConsoleGameControllerImpl::handle_pause_pressed()
 {
-    const GameState state{game.get_state()};
+    const GameState state{game_.get_state()};
     if (state == GameState::in_progress)
         pause_game();
     else if (state == GameState::paused)

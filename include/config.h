@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "brick.h"
+#include "game_controller_key_codes.h"
 #include "settings.h"
 #include "ui/game_ui_colors.h"
 #include "ui/game_ui_components.h"
@@ -56,9 +57,7 @@ struct UiConfig final
 
 struct GameControllerConfig final
 {
-    int pause_key_code;
-    int quit_key_code;
-    int no_key_code;
+    GameControllerKeyCodes key_codes;
 };
 
 struct Config final

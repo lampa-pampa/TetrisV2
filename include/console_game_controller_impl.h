@@ -8,6 +8,7 @@
 #include <boost/signals2.hpp>
 #include <ncurses.h>
 
+#include "game_controller_key_codes.h"
 #include "game_state.h"
 #include "game.h"
 #include "timer.h"
@@ -22,28 +23,24 @@ public:
         Timer& timer,
         Game& game,
         ::WINDOW * window,
-        int pause_key_code,
-        int quit_key_code,
-        int no_key_code);
+        GameControllerKeyCodes key_codes);
 
     void run() override;
 
     void connect_key_press(const std::function<void(int)> &handler) override
     {
-        key_press.connect(handler);
+        key_press_.connect(handler);
     }
 
 private:
     using Signal = boost::signals2::signal<void(int)>;
 
-    const int pause_key_code_;
-    const int quit_key_code_;
-    const int no_key_code_;
+    const GameControllerKeyCodes key_codes_;
     
-    Timer& timer;
-    Game& game;
-    ::WINDOW * window;
-    Signal key_press;
+    Timer& timer_;
+    Game& game_;
+    ::WINDOW * window_;
+    Signal key_press_;
     
     void handle_pause_pressed();
 
@@ -55,36 +52,36 @@ private:
 
     void update_timer()
     {
-        if (timer.is_active())
-            timer.update_time();
+        if (timer_.is_active())
+            timer_.update_time();
     }
 
     void update_key_press(int key_code, GameState state)
     {
-        if (key_code == pause_key_code_)
+        if (key_code == key_codes_.pause)
             handle_pause_pressed();
-        else if (key_code != no_key_code_
+        else if (key_code != key_codes_.no_key
             and state == GameState::in_progress
         )
-            key_press(key_code);
+            key_press_(key_code);
     }
 
     void end_game()
     {
-        game.game_over();
-        timer.stop();
+        game_.game_over();
+        timer_.stop();
     }
 
     void pause_game()
     {
-        timer.stop();
-        game.pause();
+        timer_.stop();
+        game_.pause();
     }
 
     void start_game()
     {
-        timer.start();
-        game.resume();
+        timer_.start();
+        game_.resume();
     }
 };
 

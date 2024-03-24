@@ -143,9 +143,11 @@ int main()
             10,
         },
         {
-            'p',
-            'q',
-            -1,
+            {
+                'p',
+                'q',
+                -1,
+            }
         },
     };
     TimerImpl timer{
@@ -218,9 +220,7 @@ int main()
         timer,
         game,
         matrix.get_game_window(),
-        config.controller.pause_key_code,
-        config.controller.quit_key_code,
-        config.controller.no_key_code,
+        config.controller.key_codes,
     };
   
     timer.connect_timeout([&game](){ game.handle_timeout(); });
