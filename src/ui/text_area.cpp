@@ -36,9 +36,9 @@ vector<TextLine> TextArea::create_lines(
 
 string TextArea::get_fixed_length_text(string text) const
 {
-    if(max_text_length_ < 0)
+    if (max_text_length_ < 0)
         return text;
-    if(text.size() > max_text_length_)
+    if (text.size() > max_text_length_)
         return string(max_text_length_, overflow_char_);
     return string(max_text_length_ - text.size(), fill_char_) + text;
 }
