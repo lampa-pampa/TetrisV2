@@ -13,7 +13,6 @@
 
 using boost::irange;
 using std::string;
-using std::tuple;
 using std::vector;
 
 namespace Tetris::Ui
@@ -41,8 +40,7 @@ string TextArea::get_fixed_length_text(string text) const
         return text;
     if(text.size() > max_text_length_)
         return string(max_text_length_, overflow_char_);
-    return string(max_text_length_ - text.size(), fill_char_)
-        + text;
+    return string(max_text_length_ - text.size(), fill_char_) + text;
 }
 
 bool TextArea::line_should_be_ended(
@@ -73,7 +71,7 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
         }
         if (line_should_be_ended(line_width, i, text))
         {
-            lines.push_back(tuple<vector<Char>, int>{line_chars, line_width});
+            lines.emplace_back(CharsAndWidth{line_chars, line_width});
             line_chars.clear();
             line_width = 0;
         }
@@ -117,8 +115,7 @@ int TextArea::compute_line_position_x(int line_width) const
 TextLine TextArea::create_line(const vector<Char>& chars, int width, int y) const
 {
     const Vector2 line_position{
-        container_.position
-            + Vector2{compute_line_position_x(width), y}
+        container_.position + Vector2{compute_line_position_x(width), y}
     };
     return {
         create_line_background(line_position, width),

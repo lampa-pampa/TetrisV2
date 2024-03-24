@@ -37,8 +37,7 @@ public:
 
     std::vector<TextLine> create_lines(std::string text) const
     {
-        return create_lines(
-            slice_text_into_lines(get_fixed_length_text(text)));
+        return create_lines(slice_text_into_lines(get_fixed_length_text(text)));
     }
 
 private:

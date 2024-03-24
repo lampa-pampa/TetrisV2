@@ -63,8 +63,7 @@ void ConsoleMatrixDisplayImpl::create_window()
 {
     const Vector2 size{compute_window_size()};
     const Vector2 position{compute_window_position()};
-    window_ = ::newwin(
-        size.y, size.x, position.y, position.x);
+    window_ = ::newwin(size.y, size.x, position.y, position.x);
     ::refresh();
 }
 
@@ -93,14 +92,9 @@ void ConsoleMatrixDisplayImpl::print_colored(
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
-    const int pixel_color{
-        color_id_to_color_.get_ncurses_color(color.id)
-    };
+    const int pixel_color{color_id_to_color_.get_ncurses_color(color.id)};
     const wchar_t pixel_char{get_pixel_char(color.value)};
-    print_colored(
-        position.scale(pixel_size_),
-        pixel_color,
-        pixel_char);
+    print_colored(position.scale(pixel_size_), pixel_color, pixel_char);
 }
 
 wchar_t ConsoleMatrixDisplayImpl::get_pixel_char(int color_value)

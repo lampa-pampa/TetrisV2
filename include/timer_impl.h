@@ -15,7 +15,12 @@ namespace Tetris
 class TimerImpl final: public Timer
 {  
 public:
-    TimerImpl(int start_level);
+    TimerImpl(int start_level)
+    :
+        timeout_time_{Nanoseconds::zero()}
+    {
+        set_timeout_delay(start_level);
+    }
 
     void update_time() override;
 

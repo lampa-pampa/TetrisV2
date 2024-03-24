@@ -25,10 +25,10 @@ ProgressBar::Segments ProgressBar::create_segments(int value) const
             on_segments.emplace_back(std::move(segment));
         else
             off_segments.emplace_back(std::move(segment));
-        
+
         segment_position.y += segment_size_.y + separator_;
     }
-    return {std::move(on_segments), std::move(off_segments)};
+    return {on_segments, off_segments};
 }
 
 }

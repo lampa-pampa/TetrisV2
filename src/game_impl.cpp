@@ -110,8 +110,7 @@ namespace Tetris
     Vector2 GameImpl::compute_spawn_position(const Brick& brick) const
     {
         Vector2 position{brick_start_position_};
-        while (brick_should_be_moved_up(
-                Brick::get_translated(brick, position)))
+        while (brick_should_be_moved_up(Brick::get_translated(brick, position)))
             --position.y;
         return position;
     }
@@ -119,8 +118,7 @@ namespace Tetris
     int GameImpl::compute_lowest_position(const Brick& brick) const
     {
         int y{};
-        while (board_.brick_is_valid(
-                Brick::get_translated(brick, {0, y + 1})))
+        while (board_.brick_is_valid(Brick::get_translated(brick, {0, y + 1})))
             ++y;
         return y;
     }
@@ -144,10 +142,11 @@ namespace Tetris
     void GameImpl::rotate_clockwise()
     {
         if (can_rotate(
-                cur_brick_,
-                cur_brick_position_,
-                cur_brick_rotation_,
-                1))
+            cur_brick_,
+            cur_brick_position_,
+            cur_brick_rotation_,
+            1)
+        )
             cur_brick_rotation_ = Brick::compute_next_rotation(
                 cur_brick_rotation_, 1);
     }
@@ -155,21 +154,22 @@ namespace Tetris
     void GameImpl::rotate_counter_clockwise()
     {
         if (can_rotate(
-                cur_brick_,
-                cur_brick_position_,
-                cur_brick_rotation_,
-                -1))
+            cur_brick_,
+            cur_brick_position_,
+            cur_brick_rotation_,
+            -1)
+        )
             cur_brick_rotation_ = Brick::compute_next_rotation(
                 cur_brick_rotation_, -1);
     }
 
     int GameImpl::hard_drop()
     {
-        const int distance{compute_lowest_position(
-            get_transformed_cur_brick())};
+        const int distance{
+            compute_lowest_position(get_transformed_cur_brick())
+        };
         cur_brick_position_.y += distance;
-        add_score(
-            score_counter_.count_score_for_hard_drop(distance));
+        add_score(score_counter_.count_score_for_hard_drop(distance));
         reset_timeout_();
         return distance;
     }
@@ -192,8 +192,8 @@ namespace Tetris
     {
         return {
             cur_brick_position_.x,
-            cur_brick_position_.y + compute_lowest_position(
-                get_transformed_cur_brick())
+            cur_brick_position_.y
+                + compute_lowest_position(get_transformed_cur_brick())
         };
     }
 

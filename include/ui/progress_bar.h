@@ -13,8 +13,7 @@ namespace Tetris::Ui
 class ProgressBar final
 {
 public:
-    using Segments = std::tuple<
-        std::vector<Rectangle>, std::vector<Rectangle>>;
+    using Segments = std::tuple<std::vector<Rectangle>, std::vector<Rectangle>>;
 
     constexpr ProgressBar(
         Vector2 position,

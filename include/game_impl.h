@@ -31,8 +31,8 @@ public:
         Vector2 brick_start_position,
         int next_level_lines_quantity);
 
-        GameImpl(const GameImpl&) = delete;
-        GameImpl(const GameImpl&&) = delete;
+    GameImpl(const GameImpl&) = delete;
+    GameImpl(const GameImpl&&) = delete;
 
     Brick get_transformed_cur_brick() const;
     void resume() override;
@@ -230,8 +230,7 @@ private:
 
     bool can_move(const Brick& brick, Vector2 vector) const
     {
-        return board_.brick_is_valid(
-            Brick::get_translated(brick, vector));
+        return board_.brick_is_valid(Brick::get_translated(brick, vector));
     }
 
     void locking_hard_drop()
@@ -260,8 +259,7 @@ private:
 
     void set_start_position()
     {
-        cur_brick_position_ = compute_spawn_position(
-            cur_brick_);
+        cur_brick_position_ = compute_spawn_position(cur_brick_);
     }
 
     void set_start_rotation()

@@ -67,7 +67,8 @@ int Brick::get_min_x() const
         cubes.begin(),
         cubes.end(),
         [](const Cube& a, const Cube& b){
-            return a.position.x < b.position.x;}
+            return a.position.x < b.position.x;
+        }
     )->position.x;
 }
 
@@ -79,7 +80,8 @@ int Brick::get_max_x() const
         cubes.begin(),
         cubes.end(),
         [](const Cube& a, const Cube& b){
-            return a.position.x < b.position.x;}
+            return a.position.x < b.position.x;
+        }
     )->position.x;
 }
 
@@ -91,7 +93,8 @@ int Brick::get_min_y() const
         cubes.begin(),
         cubes.end(),
         [](const Cube& a, const Cube& b){
-            return a.position.y < b.position.y;}
+            return a.position.y < b.position.y;
+        }
     )->position.y;
 }
 
@@ -103,7 +106,8 @@ int Brick::get_max_y() const
         cubes.begin(),
         cubes.end(),
         [](const Cube& a, const Cube& b){
-            return a.position.y < b.position.y;}
+            return a.position.y < b.position.y;
+        }
     )->position.y;
 }
 
@@ -113,7 +117,7 @@ Vector2 Brick::get_size() const
         return {};
     return {
         get_max_x() - get_min_x() + 1,
-        get_max_y() - get_min_y() + 1,
+        get_max_y() - get_min_y() + 1
     };
 }
 

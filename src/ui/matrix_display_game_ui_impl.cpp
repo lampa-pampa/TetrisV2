@@ -36,8 +36,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
         {controls.soft_drop, soft_drop_pressed_},
         {controls.locking_hard_drop, locking_hard_drop_pressed_},
         {controls.no_locking_hard_drop, no_locking_hard_drop_pressed_},
-        {controls.rotate_counter_clockwise,
-            rotate_counter_clockwise_pressed_},
+        {controls.rotate_counter_clockwise, rotate_counter_clockwise_pressed_},
         {controls.hold, hold_pressed_},
     },
     components_{components},
@@ -62,12 +61,8 @@ void MatrixDisplayGameUiImpl::refresh_level_progress_bar(int quantity)
     const auto&[on_segments, off_segments]{
         components_.progress_bar.level.create_segments(quantity)
     };
-    draw_rectangles(
-        on_segments,
-        colors_.iv.level.progress_bar.on);
-    draw_rectangles(
-        off_segments,
-        colors_.iv.level.progress_bar.off);
+    draw_rectangles(on_segments, colors_.iv.level.progress_bar.on);
+    draw_rectangles(off_segments, colors_.iv.level.progress_bar.off);
     draw_on_text_area(
         components_.text.level,
         components_.container.level_text,
@@ -147,15 +142,13 @@ void MatrixDisplayGameUiImpl::draw_background()
 void MatrixDisplayGameUiImpl::draw_cube(
     Vector2 position, const Cube& cube, uint_fast8_t color_value)
 {
-    const Vector2 position_in_px{(position + cube.position.scale(cube_size_))};
-    draw_rectangle(
-        {position_in_px, cube_size_}, {cube.color_id, color_value});
+    const Vector2 cube_position{(position + cube.position.scale(cube_size_))};
+    draw_rectangle({cube_position, cube_size_}, {cube.color_id, color_value});
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
 {
-    draw_rectangle(rectangle,
-        colors_.iv.background);
+    draw_rectangle(rectangle, colors_.iv.background);
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(
