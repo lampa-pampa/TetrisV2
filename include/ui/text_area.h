@@ -27,12 +27,12 @@ public:
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center)
     :
-        container{container},
-        horizontal_align{horizontal_align},
-        vertical_align{vertical_align},
-        max_text_length{max_text_length},
-        fill_char{fill_char},
-        overflow_char{overflow_char}
+        container_{container},
+        horizontal_align_{horizontal_align},
+        vertical_align_{vertical_align},
+        max_text_length_{max_text_length},
+        fill_char_{fill_char},
+        overflow_char_{overflow_char}
     {}
 
     std::vector<TextLine> create_lines(std::string text) const
@@ -45,12 +45,12 @@ private:
     using AlignToFuncion = std::map<Align, std::function<int(int, int)>>;
     using CharsAndWidth = std::tuple<std::vector<Char>, int>;
 
-    const Rectangle container;
-    const Align horizontal_align;
-    const Align vertical_align;
-    const int max_text_length;
-    const char fill_char;
-    const char overflow_char;
+    const Rectangle container_;
+    const Align horizontal_align_;
+    const Align vertical_align_;
+    const int max_text_length_;
+    const char fill_char_;
+    const char overflow_char_;
 
     const inline static AlignToFuncion horizontal_align_to_compute
     {

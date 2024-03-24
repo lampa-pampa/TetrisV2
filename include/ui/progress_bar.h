@@ -22,19 +22,19 @@ public:
         int height,
         int separator)
     :
-        position{position},
-        segment_size{segment_size},
-        height{height},
-        separator{separator}
+        position_{position},
+        segment_size_{segment_size},
+        height_{height},
+        separator_{separator}
     {}
 
     Segments create_segments(int value) const;
 
 private:
-    Vector2 position;
-    Vector2 segment_size;
-    int height;
-    int separator;
+    Vector2 position_;
+    Vector2 segment_size_;
+    int height_;
+    int separator_;
 };
 
 }

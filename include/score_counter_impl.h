@@ -3,7 +3,7 @@
 
 #include "score_counter.h"
 
-#include "ui/score_counter_score_for.h"
+#include "score_counter_score_for.h"
 
 namespace Tetris
 {

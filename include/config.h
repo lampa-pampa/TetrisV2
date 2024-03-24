@@ -6,11 +6,11 @@
 
 #include "brick.h"
 #include "game_controller_key_codes.h"
+#include "score_counter_score_for.h"
 #include "settings.h"
 #include "ui/game_ui_colors.h"
 #include "ui/game_ui_components.h"
 #include "ui/game_ui_controls.h"
-#include "ui/score_counter_score_for.h"
 #include "vector_2.h"
 
 namespace Tetris

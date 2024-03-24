@@ -37,11 +37,11 @@ vector<TextLine> TextArea::create_lines(
 
 string TextArea::get_fixed_length_text(string text) const
 {
-    if(max_text_length < 0)
+    if(max_text_length_ < 0)
         return text;
-    if(text.size() > max_text_length)
-        return string(max_text_length, overflow_char);
-    return string(max_text_length - text.size(), fill_char)
+    if(text.size() > max_text_length_)
+        return string(max_text_length_, overflow_char_);
+    return string(max_text_length_ - text.size(), fill_char_)
         + text;
 }
 
@@ -52,7 +52,7 @@ bool TextArea::line_should_be_ended(
         or i == text.size() - 1
         or text[i + 1] != '\n'
             and line_width + get_char(text[i + 1]).width + Char::separator
-                > container.size.x;
+                > container_.size.x;
 }
 
 vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
@@ -100,24 +100,24 @@ int TextArea::compute_aligned_position(
 int TextArea::compute_lines_position_y(int lines_quantity) const
 {
     const int lines_height{compute_lines_height(lines_quantity)};
-    if (lines_height > container.size.y)
+    if (lines_height > container_.size.y)
         return 0;
     return compute_aligned_position(
-        vertical_align, container.size.y, lines_height);
+        vertical_align_, container_.size.y, lines_height);
 }
 
 int TextArea::compute_line_position_x(int line_width) const
 {
-    if (line_width > container.size.x)
+    if (line_width > container_.size.x)
         return 0;
     return compute_aligned_position(
-        horizontal_align, container.size.x, line_width);
+        horizontal_align_, container_.size.x, line_width);
 }
 
 TextLine TextArea::create_line(const vector<Char>& chars, int width, int y) const
 {
     const Vector2 line_position{
-        container.position
+        container_.position
             + Vector2{compute_line_position_x(width), y}
     };
     return {

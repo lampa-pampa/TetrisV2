@@ -33,22 +33,22 @@ public:
 
     Vector2 get_size() const override
     {
-        return size;
+        return size_;
     }
 
     WINDOW * get_game_window() const
     {
-        return window;
+        return window_;
     }
 
 private:
-    const Vector2 size;
-    const Vector2 pixel_size;
-    const std::vector<wchar_t> pixel_chars;
-    const int max_color_value;
+    const Vector2 size_;
+    const Vector2 pixel_size_;
+    const std::vector<wchar_t> pixel_chars_;
+    const int max_color_value_;
 
-    ::WINDOW* window;
-    NCursesColors color_id_to_color;
+    ::WINDOW* window_;
+    NCursesColors color_id_to_color_;
 
     Vector2 get_console_size() const;
     Vector2 compute_window_position() const;
@@ -61,7 +61,7 @@ private:
 
     Vector2 compute_window_size() const
     {
-        return size.scale(pixel_size);
+        return size_.scale(pixel_size_);
     }
 };
 

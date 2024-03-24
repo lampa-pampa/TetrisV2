@@ -22,11 +22,11 @@ namespace Tetris::Ui
         const vector<wchar_t>& pixel_chars,
         NCursesColors color_id_to_color)
 :
-    size{size},
-    pixel_size{pixel_size},
-    pixel_chars{pixel_chars},
-    max_color_value{max_color_value},
-    color_id_to_color{color_id_to_color}
+    size_{size},
+    pixel_size_{pixel_size},
+    pixel_chars_{pixel_chars},
+    max_color_value_{max_color_value},
+    color_id_to_color_{color_id_to_color}
 {
     setup_ncurses_window();
     setup_ncurses_keyboard();
@@ -34,12 +34,12 @@ namespace Tetris::Ui
 
 void ConsoleMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 {
-    for (const auto& y : irange(size.y))
+    for (const auto& y : irange(size_.y))
     {
-        for (const auto& x : irange(size.x))
+        for (const auto& x : irange(size_.x))
             refresh_pixel({x, y}, colors[y][x]);
     }
-    ::wrefresh(window);
+    ::wrefresh(window_);
 }
 
 //-----------------------------------------------------------------------
@@ -63,7 +63,7 @@ void ConsoleMatrixDisplayImpl::create_window()
 {
     const Vector2 size{compute_window_size()};
     const Vector2 position{compute_window_position()};
-    window = ::newwin(
+    window_ = ::newwin(
         size.y, size.x, position.y, position.x);
     ::refresh();
 }
@@ -78,35 +78,35 @@ void ConsoleMatrixDisplayImpl::setup_ncurses_window()
 
 void ConsoleMatrixDisplayImpl::setup_ncurses_keyboard()
 {
-    ::keypad(window, true);
-    ::nodelay(window, true);
+    ::keypad(window_, true);
+    ::nodelay(window_, true);
     ::noecho();
 }
 
 void ConsoleMatrixDisplayImpl::print_colored(
     Vector2 position, int color, wchar_t pixel_char)
 {
-    ::wattron(window, COLOR_PAIR(color));
-    ::mvwprintw(window, position.y, position.x, "%lc", pixel_char);
-    ::wattroff(window, COLOR_PAIR(color));
+    ::wattron(window_, COLOR_PAIR(color));
+    ::mvwprintw(window_, position.y, position.x, "%lc", pixel_char);
+    ::wattroff(window_, COLOR_PAIR(color));
 }
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
     const int pixel_color{
-        color_id_to_color.get_ncurses_color(color.id)
+        color_id_to_color_.get_ncurses_color(color.id)
     };
     const wchar_t pixel_char{get_pixel_char(color.value)};
     print_colored(
-        position.scale(pixel_size),
+        position.scale(pixel_size_),
         pixel_color,
         pixel_char);
 }
 
 wchar_t ConsoleMatrixDisplayImpl::get_pixel_char(int color_value)
 {
-    return pixel_chars.at(
-        color_value * pixel_chars.size() / (max_color_value + 1));
+    return pixel_chars_.at(
+        color_value * pixel_chars_.size() / (max_color_value_ + 1));
 }
 
 }

@@ -49,13 +49,13 @@ public:
     
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
     {
-        cur_brick_cubes = cubes;
-        draw_on_board(cubes, colors.value.brick.cur);
+        cur_brick_cubes_ = cubes;
+        draw_on_board(cubes, colors_.value.brick.cur);
     }
 
     void refresh_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        draw_on_board(cubes, colors.value.brick.ghost);
+        draw_on_board(cubes, colors_.value.brick.ghost);
     }
 
     void refresh_board(const CubeMatrix& cubes) override
@@ -66,72 +66,72 @@ public:
     void connect_move_left_pressed(
         const std::function<void()>& handler) override
     {
-        move_left_pressed.connect(handler);
+        move_left_pressed_.connect(handler);
     }
 
     void connect_move_right_pressed(
         const std::function<void()>& handler) override
     {
-        move_right_pressed.connect(handler);
+        move_right_pressed_.connect(handler);
     }
 
     void connect_rotate_clockwise_pressed(
         const std::function<void()>& handler) override
     {
-        rotate_clockwise_pressed.connect(handler);
+        rotate_clockwise_pressed_.connect(handler);
     }
 
     void connect_rotate_counter_clockwise_pressed(
         const std::function<void()>& handler) override
     {
-        rotate_counter_clockwise_pressed.connect(handler);
+        rotate_counter_clockwise_pressed_.connect(handler);
     }
 
     void connect_soft_drop_pressed(
         const std::function<void()>& handler) override
     {
-        soft_drop_pressed.connect(handler);
+        soft_drop_pressed_.connect(handler);
     }
 
     void connect_locking_hard_drop_pressed(
         const std::function<void()>& handler) override
     {
-        locking_hard_drop_pressed.connect(handler);
+        locking_hard_drop_pressed_.connect(handler);
     }
 
     void connect_no_locking_hard_drop_pressed(
         const std::function<void()>& handler) override
     {
-        no_locking_hard_drop_pressed.connect(handler);
+        no_locking_hard_drop_pressed_.connect(handler);
     }
 
     void connect_hold_pressed(
         const std::function<void()>& handler) override
     {
-        hold_pressed.connect(handler);
+        hold_pressed_.connect(handler);
     }
 
 private:
     using IvColorMatrix = std::vector<std::vector<IvColor>>;
     using Signal = boost::signals2::signal<void()>;
 
-    const std::map<int, Signal&> key_code_to_signal;
-    const GameUiComponents components;
-    const GameUiColors colors;
-    const int cube_size;
+    const std::map<int, Signal&> key_code_to_signal_;
+    const GameUiComponents components_;
+    const GameUiColors colors_;
+    const int cube_size_;
 
-    MatrixDisplay& matrix;
-    IvColorMatrix main_layer;
-    std::vector<Cube> cur_brick_cubes;
+    MatrixDisplay& matrix_;
+    IvColorMatrix main_layer_;
+    std::vector<Cube> cur_brick_cubes_;
     
-    Signal move_left_pressed;
-    Signal move_right_pressed;
-    Signal rotate_clockwise_pressed;
-    Signal rotate_counter_clockwise_pressed;
-    Signal soft_drop_pressed;
-    Signal locking_hard_drop_pressed;
-    Signal no_locking_hard_drop_pressed;
-    Signal hold_pressed;
+    Signal move_left_pressed_;
+    Signal move_right_pressed_;
+    Signal rotate_clockwise_pressed_;
+    Signal rotate_counter_clockwise_pressed_;
+    Signal soft_drop_pressed_;
+    Signal locking_hard_drop_pressed_;
+    Signal no_locking_hard_drop_pressed_;
+    Signal hold_pressed_;
 
     IvColorMatrix create_layer(Vector2 size, IvColor color) const;
     Vector2 compute_brick_center(
@@ -152,12 +152,12 @@ private:
 
     void flush_matrix() override
     {
-        matrix.refresh(main_layer);
+        matrix_.refresh(main_layer_);
     }
 
     bool position_is_on_display(Vector2 position) const
     {
-        return position >= 0 and position < matrix.get_size();
+        return position >= 0 and position < matrix_.get_size();
     }
 
     void draw_on_text_area(
@@ -201,14 +201,14 @@ private:
     void draw_on_board(const CubeMatrix& board)
     {
         for (const auto& row : board)
-            draw_on_board(row, colors.value.board);
+            draw_on_board(row, colors_.value.board);
     }
 
     void draw_on_board(
         const std::vector<Cube>& cubes, uint_fast8_t color_value)
     {
         draw_cubes(
-            components.container.board.position, cubes, color_value);
+            components_.container.board.position, cubes, color_value);
     }
 
     void draw_cubes(
@@ -223,7 +223,7 @@ private:
     void draw_pixel(Vector2 position, IvColor color)
     {
         assert(position_is_on_display(position));
-        main_layer[position.y][position.x] = color;
+        main_layer_[position.y][position.x] = color;
     }
 };
 
