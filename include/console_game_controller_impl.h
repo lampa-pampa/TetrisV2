@@ -30,15 +30,15 @@ public:
 
     void connect_key_press(const std::function<void(int)> &handler) override
     {
-        this->key_press.connect(handler);
+        key_press.connect(handler);
     }
 
 private:
     using Signal = boost::signals2::signal<void(int)>;
 
-    const int pause_key_code;
-    const int quit_key_code;
-    const int no_key_code;
+    const int pause_key_code_;
+    const int quit_key_code_;
+    const int no_key_code_;
     
     Timer& timer;
     Game& game;
@@ -49,42 +49,42 @@ private:
 
     void update(int key_code, GameState state)
     {
-        this->update_timer();
-        this->update_key_press(key_code, state);
+        update_timer();
+        update_key_press(key_code, state);
     }
 
     void update_timer()
     {
-        if (this->timer.is_active())
-            this->timer.update_time();
+        if (timer.is_active())
+            timer.update_time();
     }
 
     void update_key_press(int key_code, GameState state)
     {
-        if (key_code == this->pause_key_code)
-            this->handle_pause_pressed();
-        else if (key_code != this->no_key_code
+        if (key_code == pause_key_code_)
+            handle_pause_pressed();
+        else if (key_code != no_key_code_
             and state == GameState::in_progress
         )
-            this->key_press(key_code);
+            key_press(key_code);
     }
 
     void end_game()
     {
-        this->game.game_over();
-        this->timer.stop();
+        game.game_over();
+        timer.stop();
     }
 
     void pause_game()
     {
-        this->timer.stop();
-        this->game.pause();
+        timer.stop();
+        game.pause();
     }
 
     void start_game()
     {
-        this->timer.start();
-        this->game.resume();
+        timer.start();
+        game.resume();
     }
 };
 

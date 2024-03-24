@@ -25,23 +25,23 @@ public:
 
     int get_offset() const override
     {
-        return this->offset;
+        return offset_;
     }
 
     CubeMatrix get_visible_cubes() const override
     {
-        return {this->cubes.begin() + this->offset, this->cubes.end()};
+        return {cubes_.begin() + offset_, cubes_.end()};
     }
 
     CubeMatrix get_cubes() const
     {
-        return this->cubes;
+        return cubes_;
     }
 
 private:
-    const Vector2 size;
-    const int offset;
-    CubeMatrix cubes;
+    const Vector2 size_;
+    const int offset_;
+    CubeMatrix cubes_;
     
     CubeMatrix create_cubes() const;
     std::vector<int> find_rows_with_line(int from_y, int to_y) const;
@@ -51,45 +51,45 @@ private:
 
     std::vector<Cube>& get_row(int y)
     {
-        return this->cubes[y + this->offset];
+        return cubes_[y + offset_];
     }
 
     const std::vector<Cube>& get_row(int y) const
     {
-        return this->cubes[y + this->offset];
+        return cubes_[y + offset_];
     }
     
     Cube& get_cube(Vector2 position)
     {
-        return this->get_row(position.y)[position.x];
+        return get_row(position.y)[position.x];
     }
 
     const Cube& get_cube(Vector2 position) const
     {
-        return this->get_row(position.y)[position.x];
+        return get_row(position.y)[position.x];
     }
 
     void copy_cube_above(Vector2 position)
     {
-        const Cube& above{this->get_cube(position - Vector2{0, 1})};
-        this->get_cube(position).color_id = above.color_id;
+        const Cube& above{get_cube(position - Vector2{0, 1})};
+        get_cube(position).color_id = above.color_id;
     }
 
     bool position_is_valid(Vector2 position) const
     {
-        return this->position_is_in_range(position)
-            and this->get_cube(position).empty();
+        return position_is_in_range(position)
+            and get_cube(position).empty();
     }
 
     bool position_is_in_range(Vector2 position) const
     {
-        return position.x >= 0 and position.x < this->size.x
-            and position.y >= -this->offset and position.y < this->size.y;
+        return position.x >= 0 and position.x < size_.x
+            and position.y >= -offset_ and position.y < size_.y;
     }
 
     void clear_top_row()
     {
-        for (auto& cube : this->get_row(-this->offset))
+        for (auto& cube : get_row(-offset_))
             cube.clear();
     }
 };

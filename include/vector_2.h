@@ -32,52 +32,52 @@ struct Vector2 final
 
     Vector2 abs() const
     {
-        return {::abs(this->x), ::abs(this->y)};
+        return {::abs(x), ::abs(y)};
     }
 
     Vector2 center() const
     {
-        return {this->x / 2, this->y / 2};
+        return {x / 2, y / 2};
     }
 
     Vector2 scale(const Vector2& other) const
     {
-        return {this->x * other.x, this->y * other.y};
+        return {x * other.x, y * other.y};
     }
 
     bool operator>(const Vector2& other) const
     {
-        return this->x > other.x and this->y > other.y; 
+        return x > other.x and y > other.y; 
     }
 
     bool operator<(const Vector2& other) const
     {
-        return this->x < other.x and this->y < other.y; 
+        return x < other.x and y < other.y; 
     }
 
     bool operator==(const Vector2& other) const
     {
-        return this->x == other.x and this->y == other.y;
+        return x == other.x and y == other.y;
     }
 
     bool operator>=(const Vector2& other) const
     {
-        return this->x >= other.x and this->y >= other.y; 
+        return x >= other.x and y >= other.y; 
     }
 
     bool operator<=(const Vector2& other) const
     {
-        return this->x <= other.x and this->y <= other.y;
+        return x <= other.x and y <= other.y;
     }
 
     Vector2 operator+(const Vector2& other) const
     {
-        return {this->x + other.x, this->y + other.y};
+        return {x + other.x, y + other.y};
     }
 
     Vector2 operator-(const Vector2& other) const
     {
-        return {this->x - other.x, this->y - other.y};
+        return {x - other.x, y - other.y};
     }
 
     Vector2& operator+=(const Vector2& other)

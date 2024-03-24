@@ -58,13 +58,13 @@ struct Brick final
 
     bool operator==(const Brick& other) const
     {
-        return this->cubes == other.cubes
-            and this->rotation_offset == other.rotation_offset;
+        return cubes == other.cubes
+            and rotation_offset == other.rotation_offset;
     }
 
     bool empty() const
     {
-        return this->cubes.empty();
+        return cubes.empty();
     }
 };
 

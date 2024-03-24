@@ -8,9 +8,9 @@ ScoreCounterImpl::ScoreCounterImpl(
     int score_for_soft_drop,
     int score_for_hard_drop)
 :
-    score_for_line{score_for_line},
-    score_for_soft_drop{score_for_soft_drop},
-    score_for_hard_drop{score_for_hard_drop}
+    score_for_line_{score_for_line},
+    score_for_soft_drop_{score_for_soft_drop},
+    score_for_hard_drop_{score_for_hard_drop}
 {}
 
 }

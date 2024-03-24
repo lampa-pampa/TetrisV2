@@ -16,23 +16,23 @@ public:
 
     int count_score_for_lines(int lines) const override
     {
-        return this->score_for_line * lines;
+        return score_for_line_ * lines;
     }
 
     int count_score_for_soft_drop() const override
     {
-        return this->score_for_soft_drop;
+        return score_for_soft_drop_;
     }
 
     int count_score_for_hard_drop(int distance) const override
     {
-        return this->score_for_hard_drop * distance;
+        return score_for_hard_drop_ * distance;
     }
     
 private:
-    int score_for_line;
-    int score_for_soft_drop;
-    int score_for_hard_drop;
+    int score_for_line_;
+    int score_for_soft_drop_;
+    int score_for_hard_drop_;
 };
 
 }

@@ -28,18 +28,18 @@ namespace Tetris::Ui
     max_color_value{max_color_value},
     color_id_to_color{color_id_to_color}
 {
-    this->setup_ncurses_window();
-    this->setup_ncurses_keyboard();
+    setup_ncurses_window();
+    setup_ncurses_keyboard();
 }
 
 void ConsoleMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 {
-    for (const auto& y : irange(this->size.y))
+    for (const auto& y : irange(size.y))
     {
-        for (const auto& x : irange(this->size.x))
-            this->refresh_pixel({x, y}, colors[y][x]);
+        for (const auto& x : irange(size.x))
+            refresh_pixel({x, y}, colors[y][x]);
     }
-    ::wrefresh(this->window);
+    ::wrefresh(window);
 }
 
 //-----------------------------------------------------------------------
@@ -53,17 +53,17 @@ Vector2 ConsoleMatrixDisplayImpl::get_console_size() const
 
 Vector2 ConsoleMatrixDisplayImpl::compute_window_position() const
 {
-    const Vector2 console_size{this->get_console_size()};
-    const Vector2 window_size{this->compute_window_size()};
+    const Vector2 console_size{get_console_size()};
+    const Vector2 window_size{compute_window_size()};
     assert(console_size >= window_size);
     return console_size.center() - window_size.center();
 }
 
 void ConsoleMatrixDisplayImpl::create_window()
 {
-    const Vector2 size{this->compute_window_size()};
-    const Vector2 position{this->compute_window_position()};
-    this->window = ::newwin(
+    const Vector2 size{compute_window_size()};
+    const Vector2 position{compute_window_position()};
+    window = ::newwin(
         size.y, size.x, position.y, position.x);
     ::refresh();
 }
@@ -73,31 +73,31 @@ void ConsoleMatrixDisplayImpl::setup_ncurses_window()
     ::setlocale(LC_ALL, "");
     ::initscr();
     ::start_color();
-    this->create_window();
+    create_window();
 }
 
 void ConsoleMatrixDisplayImpl::setup_ncurses_keyboard()
 {
-    ::keypad(this->window, true);
-    ::nodelay(this->window, true);
+    ::keypad(window, true);
+    ::nodelay(window, true);
     ::noecho();
 }
 
 void ConsoleMatrixDisplayImpl::print_colored(
     Vector2 position, int color, wchar_t pixel_char)
 {
-    ::wattron(this->window, COLOR_PAIR(color));
-    ::mvwprintw(this->window, position.y, position.x, "%lc", pixel_char);
-    ::wattroff(this->window, COLOR_PAIR(color));
+    ::wattron(window, COLOR_PAIR(color));
+    ::mvwprintw(window, position.y, position.x, "%lc", pixel_char);
+    ::wattroff(window, COLOR_PAIR(color));
 }
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
     const int pixel_color{
-        this->color_id_to_color.get_ncurses_color(color.id)
+        color_id_to_color.get_ncurses_color(color.id)
     };
-    const wchar_t pixel_char{this->get_pixel_char(color.value)};
-    this->print_colored(
+    const wchar_t pixel_char{get_pixel_char(color.value)};
+    print_colored(
         position.scale(pixel_size),
         pixel_color,
         pixel_char);

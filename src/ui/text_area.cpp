@@ -22,13 +22,13 @@ namespace Tetris::Ui
 vector<TextLine> TextArea::create_lines(
     const vector<CharsAndWidth>& lines_chars) const
 {
-    const int start_y{this->compute_lines_position_y(lines_chars.size())};
+    const int start_y{compute_lines_position_y(lines_chars.size())};
     vector<TextLine> lines{};
     for (const auto& i : irange(lines_chars.size()))
     {
         const auto&[line_chars, line_width]{lines_chars[i]};
         const int y = start_y + i * (Char::height + Char::separator);
-        lines.emplace_back(this->create_line(line_chars, line_width, y));
+        lines.emplace_back(create_line(line_chars, line_width, y));
     }
     return lines;
 }
@@ -37,11 +37,11 @@ vector<TextLine> TextArea::create_lines(
 
 string TextArea::get_fixed_length_text(string text) const
 {
-    if(this->max_text_length < 0)
+    if(max_text_length < 0)
         return text;
-    if(text.size() > this->max_text_length)
-        return string(this->max_text_length, this->overflow_char);
-    return string(this->max_text_length - text.size(), this->fill_char)
+    if(text.size() > max_text_length)
+        return string(max_text_length, overflow_char);
+    return string(max_text_length - text.size(), fill_char)
         + text;
 }
 
@@ -52,7 +52,7 @@ bool TextArea::line_should_be_ended(
         or i == text.size() - 1
         or text[i + 1] != '\n'
             and line_width + get_char(text[i + 1]).width + Char::separator
-                > this->container.size.x;
+                > container.size.x;
 }
 
 vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
@@ -71,7 +71,7 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
             if (line_chars.size() > 1)
                 line_width += Char::separator;
         }
-        if (this->line_should_be_ended(line_width, i, text))
+        if (line_should_be_ended(line_width, i, text))
         {
             lines.push_back(tuple<vector<Char>, int>{line_chars, line_width});
             line_chars.clear();
@@ -92,36 +92,36 @@ Rectangle TextArea::create_line_background(Vector2 position, int width) const
 int TextArea::compute_aligned_position(
     Align align, int container_size, int content_size) const
 {
-    const auto it{this->horizontal_align_to_compute.find(align)};
-    assert(it != this->horizontal_align_to_compute.end());
+    const auto it{horizontal_align_to_compute.find(align)};
+    assert(it != horizontal_align_to_compute.end());
     return it->second(container_size, content_size);
 }
 
 int TextArea::compute_lines_position_y(int lines_quantity) const
 {
-    const int lines_height{this->compute_lines_height(lines_quantity)};
-    if (lines_height > this->container.size.y)
+    const int lines_height{compute_lines_height(lines_quantity)};
+    if (lines_height > container.size.y)
         return 0;
-    return this->compute_aligned_position(
-        this->vertical_align, this->container.size.y, lines_height);
+    return compute_aligned_position(
+        vertical_align, container.size.y, lines_height);
 }
 
 int TextArea::compute_line_position_x(int line_width) const
 {
-    if (line_width > this->container.size.x)
+    if (line_width > container.size.x)
         return 0;
-    return this->compute_aligned_position(
-        this->horizontal_align, this->container.size.x, line_width);
+    return compute_aligned_position(
+        horizontal_align, container.size.x, line_width);
 }
 
 TextLine TextArea::create_line(const vector<Char>& chars, int width, int y) const
 {
     const Vector2 line_position{
-        this->container.position
-            + Vector2{this->compute_line_position_x(width), y}
+        container.position
+            + Vector2{compute_line_position_x(width), y}
     };
     return {
-        this->create_line_background(line_position, width),
+        create_line_background(line_position, width),
         line_position,
         chars,
     };        

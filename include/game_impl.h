@@ -39,129 +39,129 @@ public:
 
     void pause() override
     {
-        this->ui.pause();
-        this->state = GameState::paused;
+        ui_.pause();
+        state_ = GameState::paused;
     }
 
     void game_over() override
     {
-        this->ui.game_over();
+        ui_.game_over();
     }
 
     GameState get_state() const override
     {
-        return this->state;
+        return state_;
     }
 
     void handle_soft_drop() override
     {
-        this->perform_action([this](){ this->soft_drop(); });
+        perform_action([this](){ soft_drop(); });
     }
 
     void handle_timeout() override
     {
-        this->perform_action([this](){ this->tick(); });
+        perform_action([this](){ tick(); });
     }
 
     void handle_move_left() override
     {
-        this->perform_action([this](){ this->move_left(); });
+        perform_action([this](){ move_left(); });
     }
 
     void handle_move_right() override
     {
-        this->perform_action([this](){ this->move_right(); });
+        perform_action([this](){ move_right(); });
     }
 
     void handle_rotate_clockwise() override
     {
-        this->perform_action([this](){ this->rotate_clockwise(); });
+        perform_action([this](){ rotate_clockwise(); });
     }
 
     void handle_rotate_counter_clockwise() override
     {
-        this->perform_action([this](){this->rotate_counter_clockwise();});
+        perform_action([this](){rotate_counter_clockwise();});
     }
 
     void handle_locking_hard_drop() override
     {
-        this->perform_action([this](){ this->locking_hard_drop(); });
+        perform_action([this](){ locking_hard_drop(); });
     }
 
     void handle_no_locking_hard_drop() override
     {
-        this->perform_action([this](){ this->no_locking_hard_drop(); });
+        perform_action([this](){ no_locking_hard_drop(); });
     }
 
     void handle_hold() override
     {
-        this->perform_action([this](){ this->hold(); });
+        perform_action([this](){ hold(); });
     }
 
     void connect_reset_timeout(const std::function<void()> &handler) override
     {
-        this->reset_timeout.connect(handler);
+        reset_timeout_.connect(handler);
     }
 
     void connect_set_timeout_delay(
         const std::function<void(int)> &handler) override
     {
-        this->set_timeout_delay.connect(handler);
+        set_timeout_delay_.connect(handler);
     }
 
     unsigned long long get_score() const
     {
-        return this->score;
+        return score_;
     }
 
     unsigned long long get_tetrises() const
     {
-        return this->tetrises;
+        return tetrises_;
     }
 
     Brick get_cur_brick() const
     {
-        return this->cur_brick;
+        return cur_brick_;
     }
 
     Vector2 get_cur_brick_position() const
     {
-        return this->cur_brick_position;
+        return cur_brick_position_;
     }
 
     int get_cur_brick_rotation() const
     {
-        return this->cur_brick_rotation;
+        return cur_brick_rotation_;
     }
 
     Brick get_next_brick() const
     {
-        return this->next_brick;
+        return next_brick_;
     }
 
     Brick get_hold_brick() const
     {
-        return this->hold_brick;
+        return hold_brick_;
     }
 
     bool get_can_hold() const
     {
-        return this->can_hold;
+        return can_hold_;
     }
 
     Settings get_settings() const
     {
-        return this->settings;
+        return settings_;
     }
 
     int get_lines_quantity() const
     {
-        return this->lines_quantity;
+        return lines_quantity_;
     }
 
     int get_level() const
     {
-        return this->level;
+        return level_;
     }
     
 private:
@@ -169,29 +169,29 @@ private:
     using Signal = boost::signals2::signal<void()>;
     using SignalInt = boost::signals2::signal<void(int)>;
 
-    static constexpr int tetris_lines_quantity{4};
+    static constexpr int tetris_lines_quantity_{4};
 
-    const Settings settings;
-    const Vector2 brick_start_position;
-    const int next_level_lines_quantity;
+    const Settings settings_;
+    const Vector2 brick_start_position_;
+    const int next_level_lines_quantity_;
 
-    Ui::GameUi& ui;
-    Board& board;
-    BrickGenerator& brick_generator;
-    ScoreCounter& score_counter;
-    GameState state;
-    unsigned long long score;
-    unsigned long long tetrises;
-    Brick cur_brick;
-    Vector2 cur_brick_position;
-    int cur_brick_rotation;
-    Brick next_brick;
-    Brick hold_brick;
-    bool can_hold;
-    Signal reset_timeout;
-    SignalInt set_timeout_delay;
-    int lines_quantity;
-    int level;
+    Ui::GameUi& ui_;
+    Board& board_;
+    BrickGenerator& brick_generator_;
+    ScoreCounter& score_counter_;
+    GameState state_;
+    unsigned long long score_;
+    unsigned long long tetrises_;
+    Brick cur_brick_;
+    Vector2 cur_brick_position_;
+    int cur_brick_rotation_;
+    Brick next_brick_;
+    Brick hold_brick_;
+    bool can_hold_;
+    Signal reset_timeout_;
+    SignalInt set_timeout_delay_;
+    int lines_quantity_;
+    int level_;
 
     void generate_hold_brick();
     void hold();
@@ -224,55 +224,55 @@ private:
 
     void add_score_for_lines(int amount)
     {
-        this->add_score(this->score_counter.count_score_for_lines(amount));
-        this->add_tetrises(amount / tetris_lines_quantity);
+        add_score(score_counter_.count_score_for_lines(amount));
+        add_tetrises(amount / tetris_lines_quantity_);
     }
 
     bool can_move(const Brick& brick, Vector2 vector) const
     {
-        return this->board.brick_is_valid(
+        return board_.brick_is_valid(
             Brick::get_translated(brick, vector));
     }
 
     void locking_hard_drop()
     {
-        this->hard_drop();
-        this->place_and_generate_new_brick();
+        hard_drop();
+        place_and_generate_new_brick();
     }
 
     void move_left()
     {
-        if (this->can_move(this->get_transformed_cur_brick(), {-1, 0}))
-            --this->cur_brick_position.x;
+        if (can_move(get_transformed_cur_brick(), {-1, 0}))
+            --cur_brick_position_.x;
     }
 
     void move_right()
     {
-        if (this->can_move(this->get_transformed_cur_brick(), {1, 0}))
-            ++this->cur_brick_position.x;
+        if (can_move(get_transformed_cur_brick(), {1, 0}))
+            ++cur_brick_position_.x;
     }
 
     void draw_bricks(bool use_colors = true)
     {
-        this->refresh_ghost_brick(use_colors);
-        this->refresh_cur_brick(use_colors);
+        refresh_ghost_brick(use_colors);
+        refresh_cur_brick(use_colors);
     }
 
     void set_start_position()
     {
-        this->cur_brick_position = this->compute_spawn_position(
-            this->cur_brick);
+        cur_brick_position_ = compute_spawn_position(
+            cur_brick_);
     }
 
     void set_start_rotation()
     {
-        this->cur_brick_rotation = 0;
+        cur_brick_rotation_ = 0;
     }
 
     void check_if_game_ended()
     {
-        if (not this->board.brick_is_valid(this->get_transformed_cur_brick()))
-            this->state = GameState::ended;
+        if (not board_.brick_is_valid(get_transformed_cur_brick()))
+            state_ = GameState::ended;
     }
 };
 

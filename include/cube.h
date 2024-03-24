@@ -28,18 +28,18 @@ struct Cube final
 
     bool operator==(const Cube& other) const
     {
-        return this->position == other.position
-            and this->color_id == other.color_id;
+        return position == other.position
+            and color_id == other.color_id;
     }
 
     void clear()
     {
-        this->color_id = 0;
+        color_id = 0;
     }
 
     bool empty() const
     {
-        return this->color_id == 0;
+        return color_id == 0;
     }
 };
 

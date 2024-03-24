@@ -22,36 +22,35 @@ public:
     T get_next();
     
 private:
-    int current_index;
-    Rng& rng;
-    std::vector<T> items;
+    int current_index_;
+    Rng& rng_;
+    std::vector<T> items_;
 
-    void shuffle_items(std::vector<T>& items, Rng& rng)
+    void shuffle_items()
     {
-        for (const auto& i : boost::irange<int>(items.size() - 1, 0, -1))
-            std::swap(items[i], items[rng.random(i + 1)]);
+        for (const auto& i : boost::irange<int>(items_.size() - 1, 0, -1))
+            std::swap(items_[i], items_[rng_.random(i + 1)]);
     }
 };
 
 template<typename T>
 Bag<T>::Bag(const std::vector<T>& items, Rng& rng)
 :
-    items{items},
-    current_index{0},
-    rng{rng}
+    items_{items},
+    current_index_{0},
+    rng_{rng}
 {}
 
-explicit Bag(std::initializer_list<Brick>, Rng& rng) -> Bag<Brick>;
-explicit Bag(std::initializer_list<uint_fast8_t>, Rng& rng)
-    -> Bag<uint_fast8_t>;
+explicit Bag(std::initializer_list<Brick>, Rng& rng)->Bag<Brick>;
+explicit Bag(std::initializer_list<uint_fast8_t>, Rng& rng)->Bag<uint_fast8_t>;
 
 template<typename T>
 T Bag<T>::get_next()
 {
-    if (this->current_index == 0)
-        this->shuffle_items(this->items, this->rng);
-    const T item{this->items[this->current_index]};
-    this->current_index = (this->current_index + 1) % this->items.size();
+    if (current_index_ == 0)
+        shuffle_items();
+    const T item{items_[current_index_]};
+    current_index_ = (current_index_ + 1) % items_.size();
     return item;
 }
 

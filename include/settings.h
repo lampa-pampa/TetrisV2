@@ -14,8 +14,8 @@ struct Settings final
 
     bool operator==(const Settings& other) const
     {
-        return this->generate_ghost == other.generate_ghost 
-            and this->generate_ghost == other.generate_ghost;
+        return generate_ghost == other.generate_ghost 
+            and generate_ghost == other.generate_ghost;
     }
 
     friend inline std::ostream& operator<<(std::ostream& os,

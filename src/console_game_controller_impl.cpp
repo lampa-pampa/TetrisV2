@@ -20,22 +20,22 @@ ConsoleGameControllerImpl::ConsoleGameControllerImpl(
     timer{timer},
     game{game},
     window{window},
-    pause_key_code{pause_key_code},
-    quit_key_code{quit_key_code},
-    no_key_code{no_key_code}
+    pause_key_code_{pause_key_code},
+    quit_key_code_{quit_key_code},
+    no_key_code_{no_key_code}
 {}
 
 void ConsoleGameControllerImpl::run()
 {
     int key_code;
-    this->timer.start();
-    while ((key_code = ::wgetch(this->window)) != this->quit_key_code)
+    timer.start();
+    while ((key_code = ::wgetch(window)) != quit_key_code_)
     {
-        const GameState state{this->game.get_state()};
+        const GameState state{game.get_state()};
         if (state == GameState::ended)
-            this->end_game();
+            end_game();
         else
-            this->update(key_code, state);
+            update(key_code, state);
     }
 }
 
@@ -43,11 +43,11 @@ void ConsoleGameControllerImpl::run()
 
 void ConsoleGameControllerImpl::handle_pause_pressed()
 {
-    const GameState state{this->game.get_state()};
+    const GameState state{game.get_state()};
     if (state == GameState::in_progress)
-        this->pause_game();
+        pause_game();
     else if (state == GameState::paused)
-        this->start_game();
+        start_game();
 }
 
 }

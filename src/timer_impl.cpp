@@ -11,16 +11,16 @@ namespace Tetris
 
 TimerImpl::TimerImpl(int start_level)
 :
-    timeout_time{Nanoseconds::zero()}
+    timeout_time_{Nanoseconds::zero()}
 {
-    this->set_timeout_delay(start_level);
+    set_timeout_delay(start_level);
 }
 
 void TimerImpl::update_time()
 {
     const auto cur_time{system_clock::now()};
-    const auto duration{cur_time - this->start_time};
-    this->time_elapsed(duration);
+    const auto duration{cur_time - start_time_};
+    time_elapsed(duration);
 };
 
 //--------------------------------------------------------
@@ -35,13 +35,13 @@ TimerImpl::Nanoseconds TimerImpl::compute_timeout_delay(int level) const
 
 void TimerImpl::time_elapsed(Nanoseconds time)
 {
-    this->timeout_time += time;
-    if (timeout_time >= this->timeout_delay)
+    timeout_time_ += time;
+    if (timeout_time_ >= timeout_delay_)
     {
-        timeout_time -= timeout_delay;
-        this->timeout_signal();
+        timeout_time_ -= timeout_delay_;
+        timeout_();
     }
-    this->update_start_time();
+    update_start_time();
 }
 
 }

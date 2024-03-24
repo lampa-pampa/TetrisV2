@@ -61,11 +61,11 @@ Brick Brick::get_rotated(const Brick& brick, int quarters_rotation)
 
 int Brick::get_min_x() const
 {
-    if (this->cubes.empty())
+    if (cubes.empty())
         return 0;
     return min_element(
-        this->cubes.begin(),
-        this->cubes.end(),
+        cubes.begin(),
+        cubes.end(),
         [](const Cube& a, const Cube& b){
             return a.position.x < b.position.x;}
     )->position.x;
@@ -73,11 +73,11 @@ int Brick::get_min_x() const
 
 int Brick::get_max_x() const
 {
-    if (this->cubes.empty())
+    if (cubes.empty())
         return 0;
     return max_element(
-        this->cubes.begin(),
-        this->cubes.end(),
+        cubes.begin(),
+        cubes.end(),
         [](const Cube& a, const Cube& b){
             return a.position.x < b.position.x;}
     )->position.x;
@@ -85,11 +85,11 @@ int Brick::get_max_x() const
 
 int Brick::get_min_y() const
 {
-    if (this->cubes.empty())
+    if (cubes.empty())
         return 0;
     return min_element(
-        this->cubes.begin(),
-        this->cubes.end(),
+        cubes.begin(),
+        cubes.end(),
         [](const Cube& a, const Cube& b){
             return a.position.y < b.position.y;}
     )->position.y;
@@ -97,11 +97,11 @@ int Brick::get_min_y() const
 
 int Brick::get_max_y() const
 {
-    if (this->cubes.empty())
+    if (cubes.empty())
         return 0;
     return max_element(
-        this->cubes.begin(),
-        this->cubes.end(),
+        cubes.begin(),
+        cubes.end(),
         [](const Cube& a, const Cube& b){
             return a.position.y < b.position.y;}
     )->position.y;
@@ -109,11 +109,11 @@ int Brick::get_max_y() const
 
 Vector2 Brick::get_size() const
 {
-    if (this->empty())
+    if (empty())
         return {};
     return {
-        this->get_max_x() - this->get_min_x() + 1,
-        this->get_max_y() - this->get_min_y() + 1,
+        get_max_x() - get_min_x() + 1,
+        get_max_y() - get_min_y() + 1,
     };
 }
 

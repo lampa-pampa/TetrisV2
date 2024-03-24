@@ -30,29 +30,29 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
 :
     matrix{matrix},
     key_code_to_signal{
-        {controls.left, this->move_left_pressed},
-        {controls.right, this->move_right_pressed},
-        {controls.rotate_clockwise, this->rotate_clockwise_pressed},
-        {controls.soft_drop, this->soft_drop_pressed},
-        {controls.locking_hard_drop, this->locking_hard_drop_pressed},
-        {controls.no_locking_hard_drop, this->no_locking_hard_drop_pressed},
+        {controls.left, move_left_pressed},
+        {controls.right, move_right_pressed},
+        {controls.rotate_clockwise, rotate_clockwise_pressed},
+        {controls.soft_drop, soft_drop_pressed},
+        {controls.locking_hard_drop, locking_hard_drop_pressed},
+        {controls.no_locking_hard_drop, no_locking_hard_drop_pressed},
         {controls.rotate_counter_clockwise,
-            this->rotate_counter_clockwise_pressed},
-        {controls.hold, this->hold_pressed},
+            rotate_counter_clockwise_pressed},
+        {controls.hold, hold_pressed},
     },
     components{components},
     colors{colors},
     cube_size{cube_size},
-    main_layer{this->create_layer(matrix.get_size(), colors.iv.border)},
+    main_layer{create_layer(matrix.get_size(), colors.iv.border)},
     cur_brick_cubes{}
 {
-    this->draw_background();
+    draw_background();
 }
 
 void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 {
-    if (const auto it{this->key_code_to_signal.find(key_code)};
-        it != this->key_code_to_signal.end()
+    if (const auto it{key_code_to_signal.find(key_code)};
+        it != key_code_to_signal.end()
     )
         it->second();
 }
@@ -60,36 +60,36 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 void MatrixDisplayGameUiImpl::refresh_level_progress_bar(int quantity)
 {
     const auto&[on_segments, off_segments]{
-        this->components.progress_bar.level.create_segments(quantity)
+        components.progress_bar.level.create_segments(quantity)
     };
-    this->draw_rectangles(
+    draw_rectangles(
         on_segments,
-        this->colors.iv.level.progress_bar.on);
-    this->draw_rectangles(
+        colors.iv.level.progress_bar.on);
+    draw_rectangles(
         off_segments,
-        this->colors.iv.level.progress_bar.off);
-    this->draw_on_text_area(
-        this->components.text.level,
-        this->components.container.level_text,
-        this->colors.iv.level.text);
+        colors.iv.level.progress_bar.off);
+    draw_on_text_area(
+        components.text.level,
+        components.container.level_text,
+        colors.iv.level.text);
 }
 
 void MatrixDisplayGameUiImpl::pause()
 {
-    this->draw_on_text_area(
-        this->components.text.paused,
-        this->components.text_area.game_state,
-        this->colors.iv.game_state);
-    this->flush_matrix();
+    draw_on_text_area(
+        components.text.paused,
+        components.text_area.game_state,
+        colors.iv.game_state);
+    flush_matrix();
 }
 
 void MatrixDisplayGameUiImpl::game_over()
 {
-    this->draw_on_text_area(
-        this->components.text.game_over,
-        this->components.text_area.game_state,
-        this->colors.iv.game_state);
-    this->flush_matrix();
+    draw_on_text_area(
+        components.text.game_over,
+        components.text_area.game_state,
+        colors.iv.game_state);
+    flush_matrix();
 }
 
 //-------------------------------------------------------------------
@@ -116,46 +116,46 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
         Vector2{brick.get_min_x(), brick.get_min_y()}.abs().scale(cube_size)
     };
     const Vector2 brick_center_position{
-        this->compute_brick_center(brick.get_size(), align_to_left)
+        compute_brick_center(brick.get_size(), align_to_left)
     };
     return center_cube_position - brick_center_position;
 }
 
 void MatrixDisplayGameUiImpl::draw_background()
 {
-    this->draw_rectangles({
-        this->components.container.next,
-        this->components.container.hold,
-        this->components.container.board,
-        this->components.container.level_text,
-        this->components.container.level_value,
-        this->components.container.score_text,
-        this->components.container.score_value,
-        this->components.container.tetrises_text,
-        this->components.container.tetrises_value,
+    draw_rectangles({
+        components.container.next,
+        components.container.hold,
+        components.container.board,
+        components.container.level_text,
+        components.container.level_value,
+        components.container.score_text,
+        components.container.score_value,
+        components.container.tetrises_text,
+        components.container.tetrises_value,
     });
-    this->draw_on_text_area(
-        this->components.text.score,
-        this->components.container.score_text,
-        this->colors.iv.score.text);
-    this->draw_on_text_area(
-        this->components.text.tetrises,
-        this->components.container.tetrises_text,
-        this->colors.iv.tetrises.text);
+    draw_on_text_area(
+        components.text.score,
+        components.container.score_text,
+        colors.iv.score.text);
+    draw_on_text_area(
+        components.text.tetrises,
+        components.container.tetrises_text,
+        colors.iv.tetrises.text);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(
     Vector2 position, const Cube& cube, uint_fast8_t color_value)
 {
     const Vector2 position_in_px{(position + cube.position.scale(cube_size))};
-    this->draw_rectangle(
+    draw_rectangle(
         {position_in_px, cube_size}, {cube.color_id, color_value});
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
 {
-    this->draw_rectangle(rectangle,
-        this->colors.iv.background);
+    draw_rectangle(rectangle,
+        colors.iv.background);
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(
@@ -164,18 +164,18 @@ void MatrixDisplayGameUiImpl::draw_rectangle(
     for (const auto& y : irange(rectangle.size.y))
     {
         for (const auto& x : irange(rectangle.size.x))
-            this->draw_pixel(rectangle.position + Vector2{x, y}, color);
+            draw_pixel(rectangle.position + Vector2{x, y}, color);
     }
 }
 
 void MatrixDisplayGameUiImpl::draw_text_line(
     const TextLine& line, IvColor color)
 {
-    this->draw_rectangle(line.background);
+    draw_rectangle(line.background);
     Vector2 position{line.position};
     for (const auto& chr : line.chars)
     {
-        this->draw_char(position, chr, color);
+        draw_char(position, chr, color);
         position.x += chr.width + Char::separator;
     }
 }
@@ -186,54 +186,54 @@ void MatrixDisplayGameUiImpl::draw_centered_brick_in_container(
     uint_fast8_t color_value,
     bool align_to_left)
 {
-    this->draw_rectangle(rectangle);
+    draw_rectangle(rectangle);
     const Vector2 cubes_position{
         rectangle.position + rectangle.size.center()
-            + this->compute_brick_centered_position(brick, align_to_left)
+            + compute_brick_centered_position(brick, align_to_left)
     };
-    this->draw_cubes(cubes_position, brick.cubes, color_value);
+    draw_cubes(cubes_position, brick.cubes, color_value);
 }
 
 void MatrixDisplayGameUiImpl::refresh_next_brick(const Brick& brick)
 {
-    this->draw_centered_brick_in_container(
+    draw_centered_brick_in_container(
         brick,
-        this->components.container.next,
-        this->colors.value.brick.next,
+        components.container.next,
+        colors.value.brick.next,
         false);
 }
 
 void MatrixDisplayGameUiImpl::refresh_hold_brick(const Brick& brick)
 {
-    this->draw_centered_brick_in_container(
+    draw_centered_brick_in_container(
         brick,
-        this->components.container.hold,
-        this->colors.value.brick.hold,
+        components.container.hold,
+        colors.value.brick.hold,
         true);
 }
 
 void MatrixDisplayGameUiImpl::refresh_score(unsigned long long score)
 {
-    this->draw_on_text_area(
+    draw_on_text_area(
         score,
-        this->components.text_area.score_value,
-        this->colors.iv.score.value);
+        components.text_area.score_value,
+        colors.iv.score.value);
 }
 
 void MatrixDisplayGameUiImpl::refresh_tetrises(unsigned long long tetrises)
 {
-    this->draw_on_text_area(
+    draw_on_text_area(
         tetrises,
-        this->components.text_area.tetrises_value,
-        this->colors.iv.tetrises.value);
+        components.text_area.tetrises_value,
+        colors.iv.tetrises.value);
 }
 
 void MatrixDisplayGameUiImpl::refresh_level(int level)
 {
-    this->draw_on_text_area(
+    draw_on_text_area(
         level,
-        this->components.text_area.level_value,
-        this->colors.iv.level.value);
+        components.text_area.level_value,
+        colors.iv.level.value);
 }
 
 }

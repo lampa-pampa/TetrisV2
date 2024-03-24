@@ -1,6 +1,8 @@
 #ifndef INCLUDE_TIMER_IMPL_H
 #define INCLUDE_TIMER_IMPL_H
 
+#undef timeout
+
 #include "timer.h"
 
 #include <boost/signals2.hpp>
@@ -19,33 +21,33 @@ public:
 
     void start() override
     {
-        this->update_start_time();
-        this->active = true;
+        update_start_time();
+        active_ = true;
     }
 
     void stop() override
     {
-        this->active = false;
+        active_ = false;
     }
 
     void reset_timeout() override
     {
-        this->timeout_time = Nanoseconds::zero();
+        timeout_time_ = Nanoseconds::zero();
     }
 
     void set_timeout_delay(int level) override
     {
-        this->timeout_delay = this->compute_timeout_delay(level);
+        timeout_delay_ = compute_timeout_delay(level);
     }
 
     void connect_timeout(const std::function<void()>& handler) override
     {
-        this->timeout_signal.connect(handler);
+        timeout_.connect(handler);
     }
 
     bool is_active() const override
     {
-        return this->active;
+        return active_;
     }
 
 private:
@@ -54,18 +56,18 @@ private:
     using TimePoint = std::chrono::time_point<
         std::chrono::system_clock, Nanoseconds>;
 
-    Nanoseconds timeout_delay;
-    Nanoseconds timeout_time;
-    bool active;
-    Signal timeout_signal;
-    TimePoint start_time;
+    Nanoseconds timeout_delay_;
+    Nanoseconds timeout_time_;
+    bool active_;
+    Signal timeout_;
+    TimePoint start_time_;
 
     Nanoseconds compute_timeout_delay(int level) const;
     void time_elapsed(Nanoseconds time);
 
     void update_start_time()
     {
-        this->start_time = std::chrono::system_clock::now();
+        start_time_ = std::chrono::system_clock::now();
     }
 };
 

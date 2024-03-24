@@ -33,12 +33,12 @@ public:
 
     Vector2 get_size() const override
     {
-        return this->size;
+        return size;
     }
 
     WINDOW * get_game_window() const
     {
-        return this->window;
+        return window;
     }
 
 private:
@@ -61,7 +61,7 @@ private:
 
     Vector2 compute_window_size() const
     {
-        return this->size.scale(pixel_size);
+        return size.scale(pixel_size);
     }
 };
 
