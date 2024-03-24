@@ -17,9 +17,9 @@ using Tetris::ScoreCounterImpl;
 TEST(ScoreCounterImpl, test_count_score_for_lines)
 {
     const vector<pair<ScoreCounterImpl, int>> score_counter_to_expected{
-        { {2, 1, 2}, 2},
-        { {10, 3, 7}, 10},
-        { {15, 2, 9}, 15},
+        { {{2, 2, 1}}, 2},
+        { {{10, 7, 3}}, 10},
+        { {{15, 9, 2}}, 15},
     };
 
     for (const auto& pair : score_counter_to_expected)
@@ -36,9 +36,9 @@ TEST(ScoreCounterImpl, test_count_score_for_lines)
 TEST(ScoreCounterImpl, test_count_score_for_soft_drop)
 {
     const vector<pair<ScoreCounterImpl, int>> score_counter_to_expected{
-        { {2, 1, 2}, 1},
-        { {10, 3, 7}, 3},
-        { {15, 2, 9}, 2},
+        { {{2, 2, 1}}, 1},
+        { {{10, 7, 3}}, 3},
+        { {{15, 9, 2}}, 2},
     };
 
     for (const auto& pair : score_counter_to_expected)
@@ -48,9 +48,9 @@ TEST(ScoreCounterImpl, test_count_score_for_soft_drop)
 TEST(ScoreCounterImpl, test_count_score_for_hard_drop)
 {
     const vector<pair<ScoreCounterImpl, int>> score_counter_to_expected{
-        { {2, 1, 2}, 2},
-        { {10, 3, 7}, 7},
-        { {15, 2, 9}, 9},
+        { {{2, 2, 1}}, 2},
+        { {{10, 7, 3}}, 7},
+        { {{15, 9, 2}}, 9},
     };
 
     for (const auto& pair : score_counter_to_expected)

@@ -112,7 +112,11 @@ int main()
         },
         {
             {{10, 20}, 2},
-            {100000, 1, 2},
+            {
+                100000,
+                2,
+                1,
+            },
             {
                 {{ {-1, 0}, {0, 0}, {1, 0}, {2, 0} }, {1, 0} },
                 {{ {0, -1}, {1, -1}, {0, 0}, {1, 0} }, {0, -1} },
@@ -203,9 +207,7 @@ int main()
         {config.game.color_ids, rng},
     };
     ScoreCounterImpl score_counter{
-        config.game.score_counter.score_for_line,    
-        config.game.score_counter.score_for_soft_drop,    
-        config.game.score_counter.score_for_hard_drop,    
+        config.game.score_counter.score_for,
     };
     GameImpl game{
         ui,

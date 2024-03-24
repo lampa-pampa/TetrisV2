@@ -14,7 +14,6 @@ target_sources(TETRIS_V2
         brick.cpp
         console_game_controller_impl.cpp
         game_impl.cpp
-        score_counter_impl.cpp
         timer_impl.cpp
         ui/console_matrix_display_impl.cpp
         ui/matrix_display_game_ui_impl.cpp

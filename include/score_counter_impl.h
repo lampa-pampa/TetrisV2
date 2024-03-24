@@ -3,36 +3,36 @@
 
 #include "score_counter.h"
 
+#include "ui/score_counter_score_for.h"
+
 namespace Tetris
 {
 
 class ScoreCounterImpl final: public ScoreCounter
 {
 public:
-    ScoreCounterImpl(
-        int score_for_line,
-        int score_for_soft_drop,
-        int score_for_hard_drop);
+    ScoreCounterImpl(ScoreCounterScoreFor score_for)
+    :
+        score_for_{score_for}
+    {}
 
     int count_score_for_lines(int lines) const override
     {
-        return score_for_line_ * lines;
+        return score_for_.line * lines;
     }
 
     int count_score_for_soft_drop() const override
     {
-        return score_for_soft_drop_;
+        return score_for_.soft_drop;
     }
 
     int count_score_for_hard_drop(int distance) const override
     {
-        return score_for_hard_drop_ * distance;
+        return score_for_.hard_drop * distance;
     }
     
 private:
-    int score_for_line_;
-    int score_for_soft_drop_;
-    int score_for_hard_drop_;
+    const ScoreCounterScoreFor score_for_;
 };
 
 }
