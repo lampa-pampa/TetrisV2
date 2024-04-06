@@ -1,5 +1,3 @@
-#include <ncurses.h>
-
 #include "board_impl.h"
 #include "brick_generator_impl.h"
 #include "config.h"
@@ -8,152 +6,22 @@
 #include "rng_impl.h"
 #include "score_counter_impl.h"
 #include "timer_impl.h"
-#include "ui/color_id_name.h"
 #include "ui/console_matrix_display_impl.h"
 #include "ui/matrix_display_game_ui_impl.h"
 
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
-using Tetris::Config;
+using Tetris::config;
 using Tetris::ConsoleGameControllerImpl;
 using Tetris::GameImpl;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
 using Tetris::TimerImpl;
-using Tetris::Ui::ColorIdName;
 using Tetris::Ui::ConsoleMatrixDisplayImpl;
-using Tetris::Ui::get_color_id;
 using Tetris::Ui::MatrixDisplayGameUiImpl;
 
 int main()
 {
-    Config config{
-        {
-            {
-                {64, 64},
-                {2, 1},
-                0xff,
-            },
-            {
-                KEY_LEFT,
-                KEY_RIGHT,
-                KEY_UP,
-                KEY_DOWN,
-                ' ',
-                'x',
-                'z',
-                'c',
-            },
-            {
-                {
-                    {{2, 2}, {14, 8}},
-                    {{48, 2}, {14, 8}},
-                    {{2, 12}, {13, 41}},
-                    {{2, 55}, {13, 7}},
-                    {{17, 2}, {30, 60}},
-                    {{49, 12}, {13, 7}},
-                    {{49, 20}, {13, 19}},
-                    {{49, 41}, {13, 7}},
-                    {{49, 49}, {13, 13}},
-                },
-                {
-                    {{{2, 12}, {13, 41}}},
-                    {{{2, 55}, {13, 7}}, 3},
-                    {{{17, 2}, {30, 60}}},
-                    {{{49, 12}, {13, 7}}},
-                    {{{49, 20}, {13, 19}}, 9},
-                    {{{49, 41}, {13, 7}}},
-                    {{{49, 49}, {13, 13}}, 6},
-                },
-                {
-                    "PAUSED",
-                    "GAME\nOVER",
-                    "L\nE\nV\nE\nL",
-                    "SCO",
-                    "TET",
-                },
-                {
-                    {{3, 13}, {11, 3}, 10, 1},
-                },
-            },
-            {
-                {
-                    {get_color_id(ColorIdName::black)},
-                    {get_color_id(ColorIdName::white)},
-                    {get_color_id(ColorIdName::sunset_orange)},
-                    {
-                        {get_color_id(ColorIdName::sunset_orange)},
-                        {get_color_id(ColorIdName::sunset_orange)},
-                        {
-                            {get_color_id(ColorIdName::islamic_green)},
-                            {get_color_id(ColorIdName::davy_s_grey)},
-                        },
-                    },
-                    {
-                        {get_color_id(ColorIdName::sunset_orange)},
-                        {get_color_id(ColorIdName::sunset_orange)},
-                    },
-                    {
-                        {get_color_id(ColorIdName::sunset_orange)},
-                        {get_color_id(ColorIdName::sunset_orange)},
-                    },
-                },
-                {
-                    0xff,
-                    {
-                        0xff,
-                        0xff,
-                        0xff,
-                        80,
-                    },
-                },
-            },
-            3
-        },
-        {
-            {{10, 20}, 2},
-            {
-                100000,
-                2,
-                1,
-            },
-            {
-                {{ {-1, 0}, {0, 0}, {1, 0}, {2, 0} }, {1, 0} },
-                {{ {0, -1}, {1, -1}, {0, 0}, {1, 0} }, {0, -1} },
-                {{ {-1, -1}, {0, -1}, {0, 0}, {1, 0} }},
-                {{ {0, -1}, {1, -1}, {-1, 0}, {0, 0} }},
-                {{ {0, -1}, {-1, 0}, {0, 0}, {1, 0} }},
-                {{ {-1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
-                {{ {1, -1}, {-1, 0}, {0, 0}, {1, 0} }},
-            },
-            {
-                get_color_id(ColorIdName::dark_candy_apple_red),
-                get_color_id(ColorIdName::islamic_green),
-                get_color_id(ColorIdName::windsor_tan),
-                get_color_id(ColorIdName::heliotrope_magenta),
-                get_color_id(ColorIdName::tiffany_blue),
-                get_color_id(ColorIdName::sunset_orange),
-                get_color_id(ColorIdName::screamin_green),
-                get_color_id(ColorIdName::dodie_yellow),
-                get_color_id(ColorIdName::very_light_blue),
-                get_color_id(ColorIdName::shocking_pink),
-                get_color_id(ColorIdName::electric_blue),
-            },
-            {
-                1,
-                true,
-            },
-            {4, 1},
-            10,
-        },
-        {
-            {
-                'p',
-                'q',
-                -1,
-            }
-        },
-    };
     TimerImpl timer{
         config.game.default_settings.start_level,
     };

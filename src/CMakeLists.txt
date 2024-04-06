@@ -12,6 +12,7 @@ target_sources(TETRIS_V2
     PRIVATE
         board_impl.cpp
         brick.cpp
+        config.cpp
         console_game_controller_impl.cpp
         game_impl.cpp
         timer_impl.cpp
