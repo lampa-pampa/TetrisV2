@@ -15,12 +15,12 @@ using std::vector;
 namespace Tetris::Ui
 {
 
-    ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
-        Vector2 size,
-        Vector2 pixel_size,
-        int max_color_value,
-        const vector<wchar_t>& pixel_chars,
-        NCursesColors color_id_to_color)
+ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
+    Vector2 size,
+    Vector2 pixel_size,
+    int max_color_value,
+    const vector<wchar_t>& pixel_chars,
+    NCursesColors color_id_to_color)
 :
     size_{size},
     pixel_size_{pixel_size},
