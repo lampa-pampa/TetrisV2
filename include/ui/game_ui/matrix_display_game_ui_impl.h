@@ -7,6 +7,7 @@
 #include <cstdint>
 #include <functional>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -31,7 +32,7 @@ class MatrixDisplayGameUiImpl final: public GameUi
 {
 public:
     MatrixDisplayGameUiImpl(
-        MatrixDisplay& matrix,
+        std::shared_ptr<MatrixDisplay> matrix,
         GameUiControls controls,
         GameUiComponents components,
         GameUiColors colors,
@@ -120,7 +121,7 @@ private:
     const GameUiColors colors_;
     const int cube_size_;
 
-    MatrixDisplay& matrix_;
+    std::shared_ptr<MatrixDisplay> matrix_;
     IvColorMatrix main_layer_;
     std::vector<Cube> cur_brick_cubes_;
     
@@ -152,12 +153,12 @@ private:
 
     void flush_matrix() override
     {
-        matrix_.refresh(main_layer_);
+        matrix_->refresh(main_layer_);
     }
 
     bool position_is_on_display(Vector2 position) const
     {
-        return position >= 0 and position < matrix_.get_size();
+        return position >= 0 and position < matrix_->get_size();
     }
 
     void draw_on_text_area(
