@@ -15,12 +15,12 @@ namespace Tetris
 GameController::GameController(
     Timer& timer,
     Game& game,
-    const function<int()>& get_pressed_key,
+    const function<int()>& get_pressed_key_code,
     GameControllerKeyCodes key_codes)
 :
     timer_{timer},
     game_{game},
-    get_pressed_key_{get_pressed_key},
+    get_pressed_key_code_{get_pressed_key_code},
     key_codes_{key_codes}
     {}
 
@@ -28,7 +28,7 @@ void GameController::run()
 {
     int key_code;
     timer_.start();
-    while ((key_code = get_pressed_key_()) != key_codes_.quit)
+    while ((key_code = get_pressed_key_code_()) != key_codes_.quit)
     {
         const GameState state{game_.get_state()};
         if (state == GameState::ended)

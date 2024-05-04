@@ -19,7 +19,7 @@ public:
     GameController(
         Timer& timer,
         Game& game,
-        const std::function<int()>& get_pressed_key,
+        const std::function<int()>& get_pressed_key_code,
         GameControllerKeyCodes key_codes);
 
     void run();
@@ -36,7 +36,7 @@ private:
     
     Timer& timer_;
     Game& game_;
-    const std::function<int()>& get_pressed_key_;
+    const std::function<int()>& get_pressed_key_code_;
     Signal key_press_;
     
     void handle_pause_pressed();
