@@ -18,6 +18,7 @@ target_sources(TETRIS_V2
         timer/timer_impl.cpp
         ui/game_ui/matrix_display_game_ui_impl.cpp
         ui/matrix_display/console/console_matrix_display_impl.cpp
+        ui/matrix_display/console/create_matrix_display_impl.cpp
         ui/matrix_display/console/ncurses_colors.cpp
         ui/progress_bar/progress_bar.cpp
         ui/text_area/text_area.cpp
