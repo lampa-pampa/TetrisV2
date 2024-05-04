@@ -13,7 +13,7 @@ target_sources(TETRIS_V2
         board/board_impl.cpp
         brick/brick.cpp
         config.cpp
-        game_controller/console_game_controller_impl.cpp
+        game_controller/game_controller.cpp
         game/game_impl.cpp
         timer/timer_impl.cpp
         ui/game_ui/matrix_display_game_ui_impl.cpp

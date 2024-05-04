@@ -1,4 +1,4 @@
-#include "game_controller/console_game_controller_impl.h"
+#include "game_controller/game_controller.h"
 
 #include <ncurses.h>
 
@@ -10,7 +10,7 @@
 namespace Tetris
 {
 
-ConsoleGameControllerImpl::ConsoleGameControllerImpl(
+GameController::GameController(
     Timer& timer,
     Game& game,
     ::WINDOW * window,
@@ -22,7 +22,7 @@ ConsoleGameControllerImpl::ConsoleGameControllerImpl(
     key_codes_{key_codes}
     {}
 
-void ConsoleGameControllerImpl::run()
+void GameController::run()
 {
     int key_code;
     timer_.start();
@@ -38,7 +38,7 @@ void ConsoleGameControllerImpl::run()
 
 //--------------------------------------------------------------------
 
-void ConsoleGameControllerImpl::handle_pause_pressed()
+void GameController::handle_pause_pressed()
 {
     const GameState state{game_.get_state()};
     if (state == GameState::in_progress)
