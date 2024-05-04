@@ -23,7 +23,7 @@ using Tetris::Ui::MatrixDisplayGameUiImpl;
 int main()
 {
     ConsoleMatrixDisplayImpl matrix{
-        {64, 64},
+        config.ui.matrix.size,
         {2, 1},
         0xff,
         {

@@ -38,8 +38,14 @@ struct GameConfig final
     int next_level_lines_quantity;
 };
 
+struct MatrixConfig final
+{
+    Vector2 size;
+};
+
 struct UiConfig final
 {
+    MatrixConfig matrix;
     Ui::GameUiControls controls;
     Ui::GameUiComponents components;
     Ui::GameUiColors colors;

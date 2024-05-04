@@ -1,3 +1,4 @@
+#include "config/config.h"
 #include "config/filled_config.h"
 
 #include "game_controller/game_controller_key_codes.h"
@@ -17,6 +18,9 @@ namespace Tetris
 
 const Config config{
     UiConfig{
+        MatrixConfig{
+            {64, 64},
+        },
         GameUiControls{
             0x104,
             0x105,
