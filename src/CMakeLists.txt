@@ -10,17 +10,17 @@ target_include_directories(TETRIS_V2
 
 target_sources(TETRIS_V2
     PRIVATE
-        board_impl.cpp
-        brick.cpp
+        board/board_impl.cpp
+        brick/brick.cpp
         config.cpp
-        console_game_controller_impl.cpp
-        game_impl.cpp
-        timer_impl.cpp
-        ui/console_matrix_display_impl.cpp
-        ui/matrix_display_game_ui_impl.cpp
-        ui/ncurses_colors.cpp
-        ui/progress_bar.cpp
-        ui/text_area.cpp
+        game_controller/console_game_controller_impl.cpp
+        game/game_impl.cpp
+        timer/timer_impl.cpp
+        ui/game_ui/matrix_display_game_ui_impl.cpp
+        ui/matrix_display/console/console_matrix_display_impl.cpp
+        ui/matrix_display/console/ncurses_colors.cpp
+        ui/progress_bar/progress_bar.cpp
+        ui/text_area/text_area.cpp
 )
 
 add_executable(tetris_v2

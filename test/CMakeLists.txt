@@ -1,12 +1,12 @@
 add_executable(all_tests
-    test_brick.cpp
-    test_bag.cpp
-    test_score_counter_impl.cpp
-    test_brick_generator_impl.cpp
-    test_board_impl.cpp
-    test_cube.cpp
-    test_game_impl.cpp
-    test_vector_2.cpp
+    bag/test_bag.cpp
+    board/test_board_impl.cpp
+    brick/test_brick_generator_impl.cpp
+    brick/test_brick.cpp
+    cube/test_cube.cpp
+    game/test_game_impl.cpp
+    score_counter/test_score_counter_impl.cpp
+    vector_2/test_vector_2.cpp
 )
 
 include(FetchContent)

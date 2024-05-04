@@ -1,13 +1,13 @@
-#include "board_impl.h"
-#include "brick_generator_impl.h"
+#include "board/board_impl.h"
+#include "brick/brick_generator_impl.h"
 #include "config.h"
-#include "console_game_controller_impl.h"
-#include "game_impl.h"
-#include "rng_impl.h"
-#include "score_counter_impl.h"
-#include "timer_impl.h"
-#include "ui/console_matrix_display_impl.h"
-#include "ui/matrix_display_game_ui_impl.h"
+#include "game_controller/console_game_controller_impl.h"
+#include "game/game_impl.h"
+#include "rng/rng_impl.h"
+#include "score_counter/score_counter_impl.h"
+#include "timer/timer_impl.h"
+#include "ui/matrix_display/console/console_matrix_display_impl.h"
+#include "ui/game_ui/matrix_display_game_ui_impl.h"
 
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
@@ -22,13 +22,10 @@ using Tetris::Ui::MatrixDisplayGameUiImpl;
 
 int main()
 {
-    TimerImpl timer{
-        config.game.default_settings.start_level,
-    };
     ConsoleMatrixDisplayImpl matrix{
-        config.ui.display.size,
-        config.ui.display.pixel_size,
-        config.ui.display.max_color_value,
+        {64, 64},
+        {2, 1},
+        0xff,
         {   
             L' ',
             L'·',
@@ -58,6 +55,7 @@ int main()
             {15, 15},
         }},
     };
+
     MatrixDisplayGameUiImpl ui{
         matrix,
         config.ui.controls,
@@ -65,18 +63,23 @@ int main()
         config.ui.colors,
         config.ui.cube_size,
     };
+
     BoardImpl board{
         config.game.board.size,
         config.game.board.offset,
     };
+
     RngImpl rng{};
+
     BrickGeneratorImpl brick_generator{
         {config.game.bricks, rng},
         {config.game.color_ids, rng},
     };
+
     ScoreCounterImpl score_counter{
         config.game.score_counter.score_for,
     };
+
     GameImpl game{
         ui,
         board,
@@ -86,6 +89,11 @@ int main()
         config.game.brick_spawn_position,
         config.game.next_level_lines_quantity,
     };
+
+    TimerImpl timer{
+        config.game.default_settings.start_level,
+    };
+
     ConsoleGameControllerImpl game_controller{
         timer,
         game,
@@ -110,7 +118,7 @@ int main()
     game.connect_set_timeout_delay(
         [&timer](int level){ timer.set_timeout_delay(level); });
     game_controller.connect_key_press(
-        [&ui](int key_code){ui.handle_key_press(key_code);});
+        [&ui](int key_code){ ui.handle_key_press(key_code); });
     
     game_controller.run();
 

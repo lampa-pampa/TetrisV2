@@ -2,11 +2,11 @@
 
 #include <ncurses.h>
 
-#include "game_controller_key_codes.h"
-#include "ui/color_id_name.h"
-#include "ui/game_ui_colors.h"
-#include "ui/game_ui_components.h"
-#include "ui/game_ui_controls.h"
+#include "game_controller/game_controller_key_codes.h"
+#include "ui/color/color_id_name.h"
+#include "ui/game_ui/game_ui_colors.h"
+#include "ui/game_ui/game_ui_components.h"
+#include "ui/game_ui/game_ui_controls.h"
 
 using Tetris::Ui::ColorIdName;
 using Tetris::Ui::GameUiColors;
@@ -19,11 +19,6 @@ namespace Tetris
 
 const Config config{
     UiConfig{
-        DisplayConfig{
-            {64, 64},
-            {2, 1},
-            0xff,
-        },
         GameUiControls{
             KEY_LEFT,
             KEY_RIGHT,

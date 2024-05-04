@@ -4,14 +4,14 @@
 #include <cstdint>
 #include <vector>
 
-#include "brick.h"
-#include "game_controller_key_codes.h"
-#include "score_counter_score_for.h"
-#include "settings.h"
-#include "ui/game_ui_colors.h"
-#include "ui/game_ui_components.h"
-#include "ui/game_ui_controls.h"
-#include "vector_2.h"
+#include "brick/brick.h"
+#include "game_controller/game_controller_key_codes.h"
+#include "score_counter/score_counter_score_for.h"
+#include "game/settings.h"
+#include "ui/game_ui/game_ui_colors.h"
+#include "ui/game_ui/game_ui_components.h"
+#include "ui/game_ui/game_ui_controls.h"
+#include "vector_2/vector_2.h"
 
 namespace Tetris
 {
@@ -38,16 +38,8 @@ struct GameConfig final
     int next_level_lines_quantity;
 };
 
-struct DisplayConfig final
-{
-    Vector2 size;
-    Vector2 pixel_size;
-    int max_color_value;
-};
-
 struct UiConfig final
 {
-    DisplayConfig display;
     Ui::GameUiControls controls;
     Ui::GameUiComponents components;
     Ui::GameUiColors colors;
