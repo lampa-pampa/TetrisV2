@@ -1,4 +1,4 @@
-#include "config.h"
+#include "config/filled_config.h"
 
 #include <ncurses.h>
 

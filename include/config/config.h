@@ -58,8 +58,6 @@ struct Config final
     GameControllerConfig controller;
 };
 
-extern const Config config;
-
 }
 
 #endif

@@ -1,6 +1,6 @@
 #include "board/board_impl.h"
 #include "brick/brick_generator_impl.h"
-#include "config.h"
+#include "config/filled_config.h"
 #include "game_controller/console_game_controller_impl.h"
 #include "game/game_impl.h"
 #include "rng/rng_impl.h"

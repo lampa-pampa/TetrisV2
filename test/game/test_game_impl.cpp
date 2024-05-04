@@ -12,7 +12,7 @@
 #include "board/board_impl.h"
 #include "brick/brick_generator_impl.h"
 #include "brick/brick.h"
-#include "config.h"
+#include "config/config.h"
 #include "game/game_state.h"
 #include "ui/game_ui/game_ui_mock.h"
 #include "rng/rng_mock.h"
