@@ -1,3 +1,5 @@
+#include <memory>
+
 #include "board/board_impl.h"
 #include "brick/brick_generator_impl.h"
 #include "config/filled_config.h"
@@ -7,8 +9,10 @@
 #include "score_counter/score_counter_impl.h"
 #include "timer/timer_impl.h"
 #include "ui/game_ui/matrix_display_game_ui_impl.h"
-#include "ui/matrix_display/console/console_matrix_display_impl.h"
+#include "ui/matrix_display/create_matrix_display_impl.h"
+#include "ui/matrix_display/matrix_display.h"
 
+using std::shared_ptr;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
 using Tetris::config;
@@ -17,43 +21,14 @@ using Tetris::GameImpl;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
 using Tetris::TimerImpl;
-using Tetris::Ui::ConsoleMatrixDisplayImpl;
+using Tetris::Ui::create_matrix_display_impl;
+using Tetris::Ui::MatrixDisplay;
 using Tetris::Ui::MatrixDisplayGameUiImpl;
 
 int main()
 {
-    ConsoleMatrixDisplayImpl matrix{
-        config.ui.matrix.size,
-        {2, 1},
-        0xff,
-        {
-            L' ',
-            L'·',
-            L'◦',
-            L'◌',
-            L'○',
-            L'◎',
-            L'◉',
-            L'●',
-        },
-        {{
-            {0, 16},
-            {1, 1},
-            {2, 2},
-            {3, 3},
-            {4, 4},
-            {5, 5},
-            {6, 6},
-            {7, 7},
-            {8, 8},
-            {9, 9},
-            {10, 10},
-            {11, 11},
-            {12, 12},
-            {13, 13},
-            {14, 14},
-            {15, 15},
-        }},
+    shared_ptr<MatrixDisplay> matrix{
+        create_matrix_display_impl(config.ui.matrix)
     };
 
     MatrixDisplayGameUiImpl ui{
@@ -97,9 +72,7 @@ int main()
     GameController game_controller{
         timer,
         game,
-        [&matrix](){
-            return ::wgetch(matrix.get_game_window());
-        },
+        [&matrix](){ return matrix->get_pressed_key_code(); },
         config.controller.key_codes,
     };
   
