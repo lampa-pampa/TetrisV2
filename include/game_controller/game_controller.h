@@ -4,7 +4,6 @@
 #include <functional>
 
 #include <boost/signals2.hpp>
-#include <ncurses.h>
 
 #include "game_controller/game_controller_key_codes.h"
 #include "game/game_state.h"
@@ -20,7 +19,7 @@ public:
     GameController(
         Timer& timer,
         Game& game,
-        ::WINDOW * window,
+        const std::function<int()>& get_pressed_key,
         GameControllerKeyCodes key_codes);
 
     void run();
@@ -37,7 +36,7 @@ private:
     
     Timer& timer_;
     Game& game_;
-    ::WINDOW * window_;
+    const std::function<int()>& get_pressed_key_;
     Signal key_press_;
     
     void handle_pause_pressed();

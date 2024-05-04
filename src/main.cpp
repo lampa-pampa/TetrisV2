@@ -6,8 +6,8 @@
 #include "rng/rng_impl.h"
 #include "score_counter/score_counter_impl.h"
 #include "timer/timer_impl.h"
-#include "ui/matrix_display/console/console_matrix_display_impl.h"
 #include "ui/game_ui/matrix_display_game_ui_impl.h"
+#include "ui/matrix_display/console/console_matrix_display_impl.h"
 
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
@@ -97,7 +97,9 @@ int main()
     GameController game_controller{
         timer,
         game,
-        matrix.get_game_window(),
+        [&matrix](){
+            return ::wgetch(matrix.get_game_window());
+        },
         config.controller.key_codes,
     };
   

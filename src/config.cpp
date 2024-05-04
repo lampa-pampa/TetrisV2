@@ -1,7 +1,5 @@
 #include "config/filled_config.h"
 
-#include <ncurses.h>
-
 #include "game_controller/game_controller_key_codes.h"
 #include "ui/color/color_id_name.h"
 #include "ui/game_ui/game_ui_colors.h"
@@ -20,10 +18,10 @@ namespace Tetris
 const Config config{
     UiConfig{
         GameUiControls{
-            KEY_LEFT,
-            KEY_RIGHT,
-            KEY_UP,
-            KEY_DOWN,
+            0x104,
+            0x105,
+            0x103,
+            0x102,
             ' ',
             'x',
             'z',
