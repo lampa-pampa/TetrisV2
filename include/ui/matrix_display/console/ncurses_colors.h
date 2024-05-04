@@ -11,7 +11,7 @@ class NCursesColors final
 {
 public:
     NCursesColors(
-        std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_color)
+        const std::map<uint_fast8_t, uint_fast8_t>& color_id_to_ncurses_color)
     :
         color_id_to_ncurses_color_{color_id_to_ncurses_color}
     {}
