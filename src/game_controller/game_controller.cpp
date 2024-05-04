@@ -40,9 +40,8 @@ void GameController::run()
 
 //--------------------------------------------------------------------
 
-void GameController::handle_pause_pressed()
+void GameController::handle_pause_pressed(GameState state)
 {
-    const GameState state{game_.get_state()};
     if (state == GameState::in_progress)
         pause_game();
     else if (state == GameState::paused)

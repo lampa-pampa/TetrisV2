@@ -39,7 +39,7 @@ private:
     const std::function<int()>& get_pressed_key_code_;
     Signal key_press_;
     
-    void handle_pause_pressed();
+    void handle_pause_pressed(GameState state);
 
     void update(int key_code, GameState state)
     {
@@ -56,7 +56,7 @@ private:
     void update_key_press(int key_code, GameState state)
     {
         if (key_code == key_codes_.pause)
-            handle_pause_pressed();
+            handle_pause_pressed(state);
         else if (key_code != key_codes_.no_key
             and state == GameState::in_progress
         )
