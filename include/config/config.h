@@ -2,6 +2,7 @@
 #define INCLUDE_CONFIG_H
 
 #include <cstdint>
+#include <map>
 #include <vector>
 
 #include "brick/brick.h"
@@ -41,6 +42,7 @@ struct GameConfig final
 struct MatrixConfig final
 {
     Vector2 size;
+    std::map<uint_fast8_t, uint_fast8_t> color_id_to_matrix_color;
 };
 
 struct UiConfig final
