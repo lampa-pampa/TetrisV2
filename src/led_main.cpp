@@ -1,24 +1,19 @@
-#include <chrono>
 #include <memory>
-#include <thread>
 
 #include "board/board_impl.h"
 #include "brick/brick_generator_impl.h"
 #include "config/filled_config.h"
 #include "game_controller/game_controller.h"
+#include "game_controller/main_loop.h"
 #include "game/game_impl.h"
 #include "rng/rng_impl.h"
 #include "score_counter/score_counter_impl.h"
 #include "timer/timer_impl.h"
 #include "ui/game_ui/matrix_display_game_ui_impl.h"
-#include "ui/matrix_display/create_matrix_display_impl.h"
-#include "ui/matrix_display/matrix_display.h"
+#include "ui/input_receiver/led/led_input_receiver_impl.h"
+#include "ui/matrix_display/led/led_matrix_display_impl.h"
 
-using std::chrono::duration_cast;
-using std::chrono::milliseconds;
-using std::chrono::system_clock;
-using std::shared_ptr;
-using std::this_thread::sleep_for;
+using std::unique_ptr;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
 using Tetris::config;
@@ -27,15 +22,36 @@ using Tetris::GameImpl;
 using Tetris::RngImpl;
 using Tetris::ScoreCounterImpl;
 using Tetris::TimerImpl;
-using Tetris::Ui::create_matrix_display_impl;
-using Tetris::Ui::MatrixDisplay;
+using Tetris::Ui::LedInputReceiverImpl;
+using Tetris::Ui::LedMatrixDisplayImpl;
 using Tetris::Ui::MatrixDisplayGameUiImpl;
 
 int main()
 {
-    shared_ptr<MatrixDisplay> matrix{
-        create_matrix_display_impl(config.ui.matrix)
+    LedMatrixDisplayImpl matrix{
+        config.ui.matrix.size,
+        160,
+        1,
+        {
+            25,
+            26,
+            27,
+            14,
+            12,
+            13,
+            23,
+            19,
+            5,
+            17,
+            33,
+            4,
+            18,
+            16,
+        },
+        {config.ui.matrix.color_id_to_matrix_color},
     };
+
+    LedInputReceiverImpl input_receiver{};
 
     MatrixDisplayGameUiImpl ui{
         matrix,
@@ -75,10 +91,12 @@ int main()
         config.game.default_settings.start_level,
     };
 
-    GameController game_controller{
-        timer,
-        game,
-        config.controller.key_codes,
+    unique_ptr<GameController> game_controller{
+        new GameController{
+            timer,
+            game,
+            config.controller.key_codes,
+        }
     };
   
     timer.connect_timeout([&game](){ game.handle_timeout(); });
@@ -97,22 +115,12 @@ int main()
     game.connect_reset_timeout([&timer](){ timer.reset_timeout(); });
     game.connect_set_timeout_delay(
         [&timer](int level){ timer.set_timeout_delay(level); });
-    game_controller.connect_get_pressed_key_code(
-        [&matrix](){ return matrix->get_pressed_key_code(); });
-    game_controller.connect_key_press(
+    game_controller->connect_get_pressed_key_code(
+        [&input_receiver](){ return input_receiver.get_pressed_key_code(); });
+    game_controller->connect_key_press(
         [&ui](int key_code){ ui.handle_key_press(key_code); });
-    
-    auto previous_time{system_clock::now()};
 
-    while(true)
-    {
-        const auto now{system_clock::now()};
-        const auto delta_time{duration_cast<milliseconds>(now - previous_time)};
-        if(not game_controller.update(delta_time.count()))
-            break;
-        previous_time = now;
-        sleep_for(milliseconds(5));
-    }
+    Tetris::main_loop(std::move(game_controller));
 
     return 0;
 }
