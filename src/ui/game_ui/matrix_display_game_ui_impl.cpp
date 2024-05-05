@@ -1,7 +1,6 @@
 #include "ui/game_ui/matrix_display_game_ui_impl.h"
 
 #include <cstdint>
-#include <memory>
 #include <string>
 #include <vector>
 
@@ -23,7 +22,7 @@ namespace Tetris::Ui
 {
 
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
-    std::shared_ptr<MatrixDisplay> matrix,
+    MatrixDisplay& matrix,
     GameUiControls controls,
     GameUiComponents components,
     GameUiColors colors,
@@ -43,7 +42,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
     components_{components},
     colors_{colors},
     cube_size_{cube_size},
-    main_layer_{create_layer(matrix->get_size(), colors.iv.border)},
+    main_layer_{create_layer(matrix.get_size(), colors.iv.border)},
     cur_brick_cubes_{}
 {
     draw_background();
