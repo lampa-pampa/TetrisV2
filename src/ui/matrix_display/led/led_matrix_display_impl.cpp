@@ -14,6 +14,7 @@ namespace Tetris::Ui
 
 LedMatrixDisplayImpl::LedMatrixDisplayImpl(
     Vector2 size,
+    uint_fast8_t brightness,
     int chain_length,
     HUB75_I2S_CFG::i2s_pins pins,
     const std::map<uint_fast8_t, uint_fast8_t>& color_id_to_hs_color)
@@ -28,6 +29,7 @@ LedMatrixDisplayImpl::LedMatrixDisplayImpl(
     }}
 {
     matrix_.begin();
+    matrix_.setBrightness8(brightness);
 }
 
 void LedMatrixDisplayImpl::refresh(const IvColorMatrix& colors)

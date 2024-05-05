@@ -15,6 +15,7 @@ std::shared_ptr<MatrixDisplay> create_matrix_display_impl(
 {
     return shared_ptr<MatrixDisplay>{new LedMatrixDisplayImpl{
         config.size,
+        160,
         1,
         {
             25,
