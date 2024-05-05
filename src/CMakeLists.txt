@@ -12,10 +12,10 @@ target_sources(TETRIS_V2
     PRIVATE
         board/board_impl.cpp
         brick/brick.cpp
-        config.cpp
+        config/config.cpp
         game_controller/game_controller.cpp
         game/game_impl.cpp
-        console_matrix_config.cpp
+        config/matrix/console/matrix_config.cpp
         run_tetris/main_loop.cpp
         run_tetris/run_tetris.cpp
         timer/timer_impl.cpp
@@ -27,7 +27,7 @@ target_sources(TETRIS_V2
 )
 
 add_executable(tetris_v2
-    console_main.cpp
+    main/console/main.cpp
 )
 
 target_link_libraries(tetris_v2
