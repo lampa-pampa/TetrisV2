@@ -1,13 +1,9 @@
 #include "game_controller/game_controller.h"
 
-#include <functional>
-
 #include "game_controller/game_controller_key_codes.h"
 #include "game/game_state.h"
 #include "game/game.h"
 #include "timer/timer.h"
-
-using std::function;
 
 namespace Tetris
 {
@@ -15,27 +11,27 @@ namespace Tetris
 GameController::GameController(
     Timer& timer,
     Game& game,
-    const function<int()>& get_pressed_key_code,
     GameControllerKeyCodes key_codes)
 :
     timer_{timer},
     game_{game},
-    get_pressed_key_code_{get_pressed_key_code},
     key_codes_{key_codes}
-    {}
+{}
 
-void GameController::run()
+bool GameController::update(unsigned long delta_time)
 {
-    int key_code;
-    timer_.start();
-    while ((key_code = get_pressed_key_code_()) != key_codes_.quit)
-    {
-        const GameState state{game_.get_state()};
-        if (state == GameState::ended)
-            end_game();
-        else
-            update(key_code, state);
-    }
+    const GameState state{game_.get_state()};
+    const int key_code{get_pressed_key_code_().value()};
+    
+    if (timer_.is_active())
+        timer_.update(delta_time);
+    
+    if(state == GameState::ended)
+        end_game();
+    else
+        handle_key_press(key_code, state);
+    
+    return key_code != key_codes_.quit;
 }
 
 //--------------------------------------------------------------------

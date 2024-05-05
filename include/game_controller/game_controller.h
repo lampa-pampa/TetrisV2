@@ -19,10 +19,14 @@ public:
     GameController(
         Timer& timer,
         Game& game,
-        const std::function<int()>& get_pressed_key_code,
         GameControllerKeyCodes key_codes);
 
-    void run();
+    bool update(unsigned long delta_time);
+
+    void connect_get_pressed_key_code(const std::function<int()>& handler)
+    {
+        get_pressed_key_code_.connect(handler);
+    }
 
     void connect_key_press(const std::function<void(int)> &handler)
     {
@@ -31,35 +35,24 @@ public:
 
 private:
     using Signal = boost::signals2::signal<void(int)>;
+    using SignalGetPressedKey = boost::signals2::signal<int()>;
 
     const GameControllerKeyCodes key_codes_;
     
     Timer& timer_;
     Game& game_;
-    const std::function<int()>& get_pressed_key_code_;
+    SignalGetPressedKey get_pressed_key_code_;
     Signal key_press_;
     
     void handle_pause_pressed(GameState state);
 
-    void update(int key_code, GameState state)
+    void handle_key_press(int key_code, GameState state)
     {
-        update_timer();
-        update_key_press(key_code, state);
-    }
-
-    void update_timer()
-    {
-        if (timer_.is_active())
-            timer_.update_time();
-    }
-
-    void update_key_press(int key_code, GameState state)
-    {
+        if (key_code == key_codes_.no_key)
+            return;
         if (key_code == key_codes_.pause)
             handle_pause_pressed(state);
-        else if (key_code != key_codes_.no_key
-            and state == GameState::in_progress
-        )
+        else if (state == GameState::in_progress)
             key_press_(key_code);
     }
 

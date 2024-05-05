@@ -1,4 +1,6 @@
+#include <chrono>
 #include <memory>
+#include <thread>
 
 #include "board/board_impl.h"
 #include "brick/brick_generator_impl.h"
@@ -12,7 +14,11 @@
 #include "ui/matrix_display/create_matrix_display_impl.h"
 #include "ui/matrix_display/matrix_display.h"
 
+using std::chrono::duration_cast;
+using std::chrono::milliseconds;
+using std::chrono::system_clock;
 using std::shared_ptr;
+using std::this_thread::sleep_for;
 using Tetris::BoardImpl;
 using Tetris::BrickGeneratorImpl;
 using Tetris::config;
@@ -72,7 +78,6 @@ int main()
     GameController game_controller{
         timer,
         game,
-        [&matrix](){ return matrix->get_pressed_key_code(); },
         config.controller.key_codes,
     };
   
@@ -92,10 +97,22 @@ int main()
     game.connect_reset_timeout([&timer](){ timer.reset_timeout(); });
     game.connect_set_timeout_delay(
         [&timer](int level){ timer.set_timeout_delay(level); });
+    game_controller.connect_get_pressed_key_code(
+        [&matrix](){ return matrix->get_pressed_key_code(); });
     game_controller.connect_key_press(
         [&ui](int key_code){ ui.handle_key_press(key_code); });
     
-    game_controller.run();
+    auto previous_time{system_clock::now()};
+
+    while(true)
+    {
+        const auto now{system_clock::now()};
+        const auto delta_time{duration_cast<milliseconds>(now - previous_time)};
+        if(not game_controller.update(delta_time.count()))
+            break;
+        previous_time = now;
+        sleep_for(milliseconds(5));
+    }
 
     return 0;
 }
