@@ -1,6 +1,7 @@
 #ifndef INCLUDE_UI_CONSOLE_MATRIX_DISPLAY_IMPL_H
 #define INCLUDE_UI_CONSOLE_MATRIX_DISPLAY_IMPL_H
 
+#include "ui/matrix_display/console/config/matrix_config.h"
 #include "ui/matrix_display/matrix_display.h"
 
 #include <vector>
@@ -17,12 +18,7 @@ namespace Tetris::Ui
 class ConsoleMatrixDisplayImpl final: public MatrixDisplay
 {  
 public:
-    ConsoleMatrixDisplayImpl(
-        Vector2 size,
-        Vector2 pixel_size,
-        int max_color_value,
-        const std::vector<wchar_t>& pixel_chars,
-        NCursesColors color_id_to_color);
+    ConsoleMatrixDisplayImpl(const MatrixConfig& config);
 
     ~ConsoleMatrixDisplayImpl()
     {

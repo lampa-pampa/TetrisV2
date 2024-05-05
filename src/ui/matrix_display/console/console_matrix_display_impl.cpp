@@ -6,27 +6,23 @@
 #include <ncurses.h>
 
 #include "ui/color/iv_color.h"
+#include "ui/matrix_display/console/config/matrix_config.h"
 #include "ui/matrix_display/console/ncurses_colors.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
-using std::vector;
 
 namespace Tetris::Ui
 {
 
 ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
-    Vector2 size,
-    Vector2 pixel_size,
-    int max_color_value,
-    const vector<wchar_t>& pixel_chars,
-    NCursesColors color_id_to_color)
+    const MatrixConfig& config)
 :
-    size_{size},
-    pixel_size_{pixel_size},
-    pixel_chars_{pixel_chars},
-    max_color_value_{max_color_value},
-    color_id_to_color_{color_id_to_color}
+    size_{config.size},
+    pixel_size_{config.pixel_size},
+    pixel_chars_{config.pixel_chars},
+    max_color_value_{config.max_color_value},
+    color_id_to_color_{config.color_id_to_color}
 {
     setup_ncurses_window();
     setup_ncurses_keyboard();
@@ -77,7 +73,6 @@ void ConsoleMatrixDisplayImpl::setup_ncurses_window()
 
 void ConsoleMatrixDisplayImpl::setup_ncurses_keyboard()
 {
-    ::keypad(window_, true);
     ::nodelay(window_, true);
     ::noecho();
 }

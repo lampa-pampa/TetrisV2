@@ -14,7 +14,9 @@ public:
     ConsoleInputReceiverImpl(::WINDOW * const window)
     :
         window_{window}
-    {}
+    {
+        ::keypad(window_, true);
+    }
 
     int get_pressed_key_code() const override
     {
