@@ -15,6 +15,7 @@ target_sources(TETRIS_V2
         config.cpp
         game_controller/game_controller.cpp
         game/game_impl.cpp
+        matrix_config.cpp
         run_tetris/main_loop.cpp
         run_tetris/run_tetris.cpp
         timer/timer_impl.cpp
