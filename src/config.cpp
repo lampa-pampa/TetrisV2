@@ -1,6 +1,6 @@
-#include "config/config.h"
 #include "config/filled_config.h"
 
+#include "config/config.h"
 #include "game_controller/game_controller_key_codes.h"
 #include "ui/color/color_id_name.h"
 #include "ui/game_ui/game_ui_colors.h"
@@ -18,27 +18,6 @@ namespace Tetris
 
 const Config config{
     UiConfig{
-        MatrixConfig{
-            {64, 64},
-            {
-                {0, 16},
-                {1, 1},
-                {2, 2},
-                {3, 3},
-                {4, 4},
-                {5, 5},
-                {6, 6},
-                {7, 7},
-                {8, 8},
-                {9, 9},
-                {10, 10},
-                {11, 11},
-                {12, 12},
-                {13, 13},
-                {14, 14},
-                {15, 15},
-            }
-        },
         GameUiControls{
             0x104,
             0x105,
@@ -109,7 +88,7 @@ const Config config{
                     0xff,
                     0xff,
                     0xff,
-                    140,
+                    0x8c,
                 },
             },
         },

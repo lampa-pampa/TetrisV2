@@ -2,7 +2,6 @@
 #define INCLUDE_CONFIG_H
 
 #include <cstdint>
-#include <map>
 #include <vector>
 
 #include "brick/brick.h"
@@ -39,15 +38,8 @@ struct GameConfig final
     int next_level_lines_quantity;
 };
 
-struct MatrixConfig final
-{
-    Vector2 size;
-    std::map<uint_fast8_t, uint_fast8_t> color_id_to_matrix_color;
-};
-
 struct UiConfig final
 {
-    MatrixConfig matrix;
     Ui::GameUiControls controls;
     Ui::GameUiComponents components;
     Ui::GameUiColors colors;
