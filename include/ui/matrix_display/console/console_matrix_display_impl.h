@@ -31,14 +31,14 @@ public:
 
     void refresh(const IvColorMatrix& colors) override;
 
-    int get_pressed_key_code() override
-    {
-        return ::wgetch(window_);
-    }
-
     Vector2 get_size() const override
     {
         return size_;
+    }
+
+    ::WINDOW * const get_window()
+    {
+        return window_;
     }
 
 private:

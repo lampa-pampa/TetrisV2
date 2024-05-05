@@ -15,7 +15,6 @@ public:
     using IvColorMatrix = std::vector<std::vector<IvColor>>;
 
     virtual void refresh(const IvColorMatrix& colors) = 0;
-    virtual int get_pressed_key_code() = 0;
     virtual Vector2 get_size() const = 0;
     virtual ~MatrixDisplay() = default;
 };

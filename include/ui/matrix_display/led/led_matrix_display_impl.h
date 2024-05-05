@@ -27,11 +27,6 @@ public:
 
     void refresh(const IvColorMatrix& colors) override;
 
-    int get_pressed_key_code() override
-    {
-        return -1;
-    }
-
     Vector2 get_size() const override
     {
         return size_;
