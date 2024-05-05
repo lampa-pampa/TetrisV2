@@ -1,35 +1,17 @@
-#include <memory>
-
-#include "board/board_impl.h"
-#include "brick/brick_generator_impl.h"
 #include "config/filled_config.h"
-#include "game_controller/game_controller.h"
-#include "game_controller/main_loop.h"
-#include "game/game_impl.h"
-#include "rng/rng_impl.h"
-#include "score_counter/score_counter_impl.h"
-#include "timer/timer_impl.h"
-#include "ui/game_ui/matrix_display_game_ui_impl.h"
+#include "run_tetris/run_tetris.h"
 #include "ui/input_receiver/led/led_input_receiver_impl.h"
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
-using std::unique_ptr;
-using Tetris::BoardImpl;
-using Tetris::BrickGeneratorImpl;
-using Tetris::config;
-using Tetris::GameController;
-using Tetris::GameImpl;
-using Tetris::RngImpl;
-using Tetris::ScoreCounterImpl;
-using Tetris::TimerImpl;
-using Tetris::Ui::LedInputReceiverImpl;
 using Tetris::Ui::LedMatrixDisplayImpl;
-using Tetris::Ui::MatrixDisplayGameUiImpl;
+using Tetris::Ui::LedInputReceiverImpl;
+using Tetris::config;
+using Tetris::run_tetris;
 
 int main()
 {
     LedMatrixDisplayImpl matrix{
-        config.ui.matrix.size,
+        {config.ui.matrix.size},
         160,
         1,
         {
@@ -48,79 +30,16 @@ int main()
             18,
             16,
         },
-        {config.ui.matrix.color_id_to_matrix_color},
+        config.ui.matrix.color_id_to_matrix_color,
     };
 
     LedInputReceiverImpl input_receiver{};
 
-    MatrixDisplayGameUiImpl ui{
-        matrix,
-        config.ui.controls,
-        config.ui.components,
-        config.ui.colors,
-        config.ui.cube_size,
-    };
-
-    BoardImpl board{
-        config.game.board.size,
-        config.game.board.offset,
-    };
-
-    RngImpl rng{};
-
-    BrickGeneratorImpl brick_generator{
-        {config.game.bricks, rng},
-        {config.game.color_ids, rng},
-    };
-
-    ScoreCounterImpl score_counter{
-        config.game.score_counter.score_for,
-    };
-
-    GameImpl game{
-        ui,
-        board,
-        brick_generator,
-        score_counter,
-        config.game.default_settings,
-        config.game.brick_spawn_position,
-        config.game.next_level_lines_quantity,
-    };
-
-    TimerImpl timer{
-        config.game.default_settings.start_level,
-    };
-
-    unique_ptr<GameController> game_controller{
-        new GameController{
-            timer,
-            game,
-            config.controller.key_codes,
-        }
-    };
-  
-    timer.connect_timeout([&game](){ game.handle_timeout(); });
-    ui.connect_move_left_pressed([&game](){ game.handle_move_left(); });
-    ui.connect_move_right_pressed([&game](){ game.handle_move_right(); });
-    ui.connect_rotate_clockwise_pressed(
-        [&game](){ game.handle_rotate_clockwise(); });
-    ui.connect_rotate_counter_clockwise_pressed(
-        [&game](){ game.handle_rotate_counter_clockwise(); });
-    ui.connect_soft_drop_pressed([&game](){ game.handle_soft_drop(); });
-    ui.connect_locking_hard_drop_pressed(
-        [&game](){ game.handle_locking_hard_drop(); });
-    ui.connect_no_locking_hard_drop_pressed(
-        [&game](){ game.handle_no_locking_hard_drop(); });
-    ui.connect_hold_pressed([&game](){ game.handle_hold(); });
-    game.connect_reset_timeout([&timer](){ timer.reset_timeout(); });
-    game.connect_set_timeout_delay(
-        [&timer](int level){ timer.set_timeout_delay(level); });
-    game_controller->connect_get_pressed_key_code(
-        [&input_receiver](){ return input_receiver.get_pressed_key_code(); });
-    game_controller->connect_key_press(
-        [&ui](int key_code){ ui.handle_key_press(key_code); });
-
-    Tetris::main_loop(std::move(game_controller));
+    run_tetris(
+        config,
+        input_receiver,
+        matrix
+    );
 
     return 0;
 }
