@@ -1,37 +1,18 @@
 #include "config/filled_config.h"
 #include "run_tetris/run_tetris.h"
 #include "ui/input_receiver/led/led_input_receiver_impl.h"
+#include "ui/matrix_display/led/config/filled_matrix_config.h"
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
-using Tetris::Ui::LedMatrixDisplayImpl;
-using Tetris::Ui::LedInputReceiverImpl;
 using Tetris::config;
+using Tetris::matrix_config;
 using Tetris::run_tetris;
+using Tetris::Ui::LedInputReceiverImpl;
+using Tetris::Ui::LedMatrixDisplayImpl;
 
-int main()
+void setup()
 {
-    LedMatrixDisplayImpl matrix{
-        {config.ui.matrix.size},
-        160,
-        1,
-        {
-            25,
-            26,
-            27,
-            14,
-            12,
-            13,
-            23,
-            19,
-            5,
-            17,
-            33,
-            4,
-            18,
-            16,
-        },
-        config.ui.matrix.color_id_to_matrix_color,
-    };
+    LedMatrixDisplayImpl matrix{matrix_config};
 
     LedInputReceiverImpl input_receiver{};
 
@@ -40,6 +21,6 @@ int main()
         input_receiver,
         matrix
     );
-
-    return 0;
 }
+
+void loop() {}

@@ -1,6 +1,7 @@
 #ifndef INCLUDE_UI_LED_MATRIX_DISPLAY_IMPL_H
 #define INCLUDE_UI_LED_MATRIX_DISPLAY_IMPL_H
 
+#include "ui/matrix_display/led/config/matrix_config.h"
 #include "ui/matrix_display/matrix_display.h"
 
 #include <cstdint>
@@ -17,13 +18,7 @@ namespace Tetris::Ui
 class LedMatrixDisplayImpl final: public MatrixDisplay
 {  
 public:
-    LedMatrixDisplayImpl(
-        Vector2 size,
-        uint_fast8_t brightness,
-        int chain_length,
-        HUB75_I2S_CFG::i2s_pins pins,
-        const std::map<uint_fast8_t, uint_fast8_t>& color_id_to_hs_color
-    );
+    LedMatrixDisplayImpl(const MatrixConfig& config);
 
     void refresh(const IvColorMatrix& colors) override;
 
