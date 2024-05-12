@@ -1,7 +1,7 @@
 #include "config/filled_config.h"
+#include "config/matrix_display/led/filled_matrix_config.h"
 #include "run_tetris/run_tetris.h"
 #include "ui/input_receiver/led/led_input_receiver_impl.h"
-#include "ui/matrix_display/led/config/filled_matrix_config.h"
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
 using Tetris::config;
@@ -13,7 +13,6 @@ using Tetris::Ui::LedMatrixDisplayImpl;
 void setup()
 {
     LedMatrixDisplayImpl matrix{matrix_config};
-
     LedInputReceiverImpl input_receiver{};
 
     run_tetris(
