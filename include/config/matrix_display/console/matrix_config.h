@@ -15,7 +15,7 @@ struct MatrixConfig final
     Vector2 pixel_size;
     int max_color_value;
     const std::vector<wchar_t>& pixel_chars;
-    Ui::NCursesColors color_id_to_color;
+    Ui::NCursesColors ncurses_colors;
 };
 
 }

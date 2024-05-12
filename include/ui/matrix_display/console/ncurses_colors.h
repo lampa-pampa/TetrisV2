@@ -16,7 +16,7 @@ public:
         color_id_to_ncurses_id_{color_id_to_ncurses_id}
     {}
 
-    int get_ncurses_color(uint_fast8_t color_id);
+    int get(uint_fast8_t color_id);
 
 private:
     using ColorPair = std::_Rb_tree_iterator<

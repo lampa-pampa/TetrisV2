@@ -8,7 +8,7 @@
 namespace Tetris::Ui
 {
 
-int NCursesColors::get_ncurses_color(uint_fast8_t color_id)
+int NCursesColors::get(uint_fast8_t color_id)
 {
     auto it{color_id_to_ncurses_color_.find(color_id)};
     if (it == color_id_to_ncurses_color_.end())

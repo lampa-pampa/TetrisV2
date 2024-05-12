@@ -44,7 +44,7 @@ private:
     const int max_color_value_;
 
     ::WINDOW* window_;
-    NCursesColors color_id_to_color_;
+    NCursesColors ncurses_colors_;
 
     Vector2 get_console_size() const;
     Vector2 compute_window_position() const;

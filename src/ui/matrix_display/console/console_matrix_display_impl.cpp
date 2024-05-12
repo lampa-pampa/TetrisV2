@@ -22,10 +22,9 @@ ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
     pixel_size_{config.pixel_size},
     pixel_chars_{config.pixel_chars},
     max_color_value_{config.max_color_value},
-    color_id_to_color_{config.color_id_to_color}
+    ncurses_colors_{config.ncurses_colors}
 {
     setup_ncurses_window();
-    setup_ncurses_keyboard();
 }
 
 void ConsoleMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
@@ -69,10 +68,6 @@ void ConsoleMatrixDisplayImpl::setup_ncurses_window()
     ::initscr();
     ::start_color();
     create_window();
-}
-
-void ConsoleMatrixDisplayImpl::setup_ncurses_keyboard()
-{
     ::nodelay(window_, true);
     ::noecho();
 }
@@ -87,7 +82,7 @@ void ConsoleMatrixDisplayImpl::print_colored(
 
 void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
-    const int pixel_color{color_id_to_color_.get_ncurses_color(color.id)};
+    const int pixel_color{ncurses_colors_.get(color.id)};
     const wchar_t pixel_char{get_pixel_char(color.value)};
     print_colored(position.scale(pixel_size_), pixel_color, pixel_char);
 }
