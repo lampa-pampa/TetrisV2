@@ -16,13 +16,13 @@
 namespace Tetris
 {
 
-using Ui::InputReciever;
+using Ui::InputReceiver;
 using Ui::MatrixDisplay;
 using Ui::MatrixDisplayGameUiImpl;
 
 void run_tetris(
     const Config& config,
-    InputReciever& input_receiver,
+    InputReceiver& input_receiver,
     MatrixDisplay& matrix_display
 ){
     MatrixDisplayGameUiImpl ui{
@@ -64,8 +64,9 @@ void run_tetris(
     };
 
     GameController game_controller{
-        timer,
         game,
+        timer,
+        input_receiver,
         config.controller.key_codes,
     };
   
@@ -85,8 +86,6 @@ void run_tetris(
     game.connect_reset_timeout([&timer](){ timer.reset_timeout(); });
     game.connect_set_timeout_delay(
         [&timer](int level){ timer.set_timeout_delay(level); });
-    game_controller.connect_get_pressed_key_code(
-        [&input_receiver](){ return input_receiver.get_pressed_key_code(); });
     game_controller.connect_key_press(
         [&ui](int key_code){ ui.handle_key_press(key_code); });
 

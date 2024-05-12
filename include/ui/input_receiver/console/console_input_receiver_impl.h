@@ -8,7 +8,7 @@
 namespace Tetris::Ui
 {
 
-class ConsoleInputReceiverImpl final: public InputReciever
+class ConsoleInputReceiverImpl final: public InputReceiver
 {
 public:
     ConsoleInputReceiverImpl(::WINDOW * const window)

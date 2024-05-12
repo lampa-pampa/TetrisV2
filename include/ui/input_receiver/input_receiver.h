@@ -4,11 +4,11 @@
 namespace Tetris::Ui
 {
 
-class InputReciever
+class InputReceiver
 {
 public:
     virtual int get_pressed_key_code() const = 0;
-    ~InputReciever() = default;
+    ~InputReceiver() = default;
 };
 
 }

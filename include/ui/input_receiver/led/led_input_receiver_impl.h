@@ -6,7 +6,7 @@
 namespace Tetris::Ui
 {
 
-class LedInputReceiverImpl final: public InputReciever
+class LedInputReceiverImpl final: public InputReceiver
 {
 public:
     int get_pressed_key_code() const override

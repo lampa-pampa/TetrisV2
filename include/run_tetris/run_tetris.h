@@ -10,7 +10,7 @@ namespace Tetris
 
 void run_tetris(
     const Config& config,
-    Ui::InputReciever& input_receiver,
+    Ui::InputReceiver& input_receiver,
     Ui::MatrixDisplay& matrix_display
 );
 
