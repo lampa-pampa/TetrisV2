@@ -6,7 +6,7 @@
 namespace Tetris::Ui
 {
 
-struct IvColor
+struct IvColor final
 {
     uint_fast8_t id;
     uint_fast8_t value;
