@@ -1,13 +1,13 @@
 #ifndef INCLUDE_UI_CONSOLE_MATRIX_DISPLAY_IMPL_H
 #define INCLUDE_UI_CONSOLE_MATRIX_DISPLAY_IMPL_H
 
-#include "ui/matrix_display/console/config/matrix_config.h"
 #include "ui/matrix_display/matrix_display.h"
 
 #include <vector>
 
 #include <ncurses.h>
 
+#include "config/matrix_display/console/matrix_config.h"
 #include "ui/color/iv_color.h"
 #include "ui/matrix_display/console/ncurses_colors.h"
 #include "vector_2/vector_2.h"

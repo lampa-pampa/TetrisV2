@@ -1,6 +1,6 @@
-#include "ui/matrix_display/console/config/filled_matrix_config.h"
+#include "config/matrix_display/console/filled_matrix_config.h"
 
-#include "ui/matrix_display/console/config/matrix_config.h"
+#include "config/matrix_display/console/matrix_config.h"
 #include "ui/matrix_display/console/ncurses_colors.h"
 
 namespace Tetris

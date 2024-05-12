@@ -5,8 +5,8 @@
 #include <boost/range/irange.hpp>
 #include <ncurses.h>
 
+#include "config/matrix_display/console/matrix_config.h"
 #include "ui/color/iv_color.h"
-#include "ui/matrix_display/console/config/matrix_config.h"
 #include "ui/matrix_display/console/ncurses_colors.h"
 #include "vector_2/vector_2.h"
 

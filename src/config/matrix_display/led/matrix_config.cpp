@@ -1,6 +1,6 @@
-#include "ui/matrix_display/led/config/filled_matrix_config.h"
+#include "config/matrix_display/led/filled_matrix_config.h"
 
-#include "ui/matrix_display/led/config/matrix_config.h"
+#include "config/matrix_display/led/matrix_config.h"
 
 namespace Tetris
 {

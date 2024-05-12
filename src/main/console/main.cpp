@@ -1,8 +1,9 @@
 #include "config/filled_config.h"
+#include "config/matrix_display/console/filled_matrix_config.h"
 #include "run_tetris/run_tetris.h"
+#include "ui/color/led/rgb_color.h"
 #include "ui/input_receiver/console/console_input_receiver_impl.h"
 #include "ui/matrix_display/console/console_matrix_display_impl.h"
-#include "ui/matrix_display/console/config/filled_matrix_config.h"
 
 using Tetris::config;
 using Tetris::matrix_config;

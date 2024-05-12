@@ -4,8 +4,8 @@
 
 #include <boost/range/irange.hpp>
 
+#include "config/matrix_display/led/matrix_config.h"
 #include "ui/color/iv_color.h"
-#include "ui/matrix_display/led/config/matrix_config.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -45,7 +45,7 @@ void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
     if(color.id == 0)
         rgb_color = matrix_.color565(0, 0, 0);
     else
-        rgb_color = matrix_.color565(0, 0, 255);
+        rgb_color = matrix_.color565(255, 255, color.value);
     matrix_.drawPixel(position.x, position.y, rgb_color);
 }
 

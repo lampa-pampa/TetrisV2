@@ -1,7 +1,6 @@
 #ifndef INCLUDE_UI_LED_MATRIX_DISPLAY_IMPL_H
 #define INCLUDE_UI_LED_MATRIX_DISPLAY_IMPL_H
 
-#include "ui/matrix_display/led/config/matrix_config.h"
 #include "ui/matrix_display/matrix_display.h"
 
 #include <cstdint>
@@ -9,6 +8,7 @@
 
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 
+#include "config/matrix_display/led/matrix_config.h"
 #include "ui/color/iv_color.h"
 #include "vector_2/vector_2.h"
 

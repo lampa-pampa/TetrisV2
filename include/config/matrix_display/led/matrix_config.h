@@ -1,5 +1,5 @@
-#ifndef INCLUDE_UI_MATRIX_CONFIG_H
-#define INCLUDE_UI_MATRIX_CONFIG_H
+#ifndef INCLUDE_MATRIX_CONFIG_H
+#define INCLUDE_MATRIX_CONFIG_H
 
 #include <cstdint>
 #include <map>
