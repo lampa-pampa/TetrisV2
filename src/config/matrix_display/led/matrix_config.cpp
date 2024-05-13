@@ -19,7 +19,7 @@ const MatrixConfig matrix_config{
         18, 16,
     },
     {
-        {0, {0x00, 0xff}},
+        {0, {0x00, 0x00}},
         {1, {0x11, 0xff}},
         {2, {0x22, 0xff}},
         {3, {0x33, 0xff}},
