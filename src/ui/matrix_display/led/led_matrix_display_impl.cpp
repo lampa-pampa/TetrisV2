@@ -1,11 +1,14 @@
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
+#include <cassert>
 #include <cstdint>
 
 #include <boost/range/irange.hpp>
 
 #include "config/matrix_display/led/matrix_config.h"
 #include "ui/color/iv_color.h"
+#include "ui/color/led/hs_color.h"
+#include "ui/color/led/rgb_color.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -41,12 +44,10 @@ void LedMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 
 void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
-    uint16_t rgb_color;
-    if(color.id == 0)
-        rgb_color = matrix_.color565(0, 0, 0);
-    else
-        rgb_color = matrix_.color565(255, 255, color.value);
-    matrix_.drawPixel(position.x, position.y, rgb_color);
+    const auto it{color_id_to_hs_color_.find(color.id)};
+    assert(it != color_id_to_hs_color_.end());
+    const RgbColor rgb_color{RgbColor::from_hsv(it->second, color.value)};
+    matrix_.drawPixel(rgb_color.red, rgb_color.green, rgb_color.blue);
 }
 
 }
