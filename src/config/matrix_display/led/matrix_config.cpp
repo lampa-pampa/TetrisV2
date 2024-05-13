@@ -6,10 +6,10 @@ namespace Tetris
 {
 
 const MatrixConfig matrix_config{
-    {64, 64},
-    160,
-    1,
-    {
+    {64, 64},   // size
+    160,        // brightness
+    1,          // chain length
+    {   // PINS
         25, 26,
         27, 14,
         12, 13,
@@ -18,7 +18,7 @@ const MatrixConfig matrix_config{
         33, 4,
         18, 16,
     },
-    {
+    {   // COLOR ID TO HS-COLOR
         {0, {0x00, 0x00}},
         {1, {0x11, 0xff}},
         {2, {0x22, 0xff}},

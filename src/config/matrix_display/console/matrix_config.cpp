@@ -7,10 +7,10 @@ namespace Tetris
 {
 
 const MatrixConfig matrix_config{
-    {64, 64},
-    {2, 1},
-    0xff,
-    {
+    {64, 64},   // matrix size
+    {2, 1},     // pixel size
+    0xff,       // max color value
+    {   // PIXEL CHARS
         L' ',
         L'·',
         L'◦',
@@ -20,7 +20,8 @@ const MatrixConfig matrix_config{
         L'◉',
         L'●',
     },
-    Ui::NCursesColors{{
+    Ui::NCursesColors
+    {{  // COLOR TO NCURSES-ID
         {0, 16},
         {1, 1},
         {2, 2},
