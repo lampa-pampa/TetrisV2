@@ -1,13 +1,11 @@
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
 #include <cassert>
-#include <cstdint>
 
 #include <boost/range/irange.hpp>
 
 #include "config/matrix_display/led/matrix_config.h"
 #include "ui/color/iv_color.h"
-#include "ui/color/led/hs_color.h"
 #include "ui/color/led/rgb_color.h"
 #include "vector_2/vector_2.h"
 

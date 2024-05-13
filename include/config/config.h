@@ -6,8 +6,8 @@
 
 #include "brick/brick.h"
 #include "game_controller/game_controller_key_codes.h"
-#include "score_counter/score_counter_score_for.h"
 #include "game/settings.h"
+#include "score_counter/score_counter_score_for.h"
 #include "ui/game_ui/game_ui_colors.h"
 #include "ui/game_ui/game_ui_components.h"
 #include "ui/game_ui/game_ui_controls.h"
