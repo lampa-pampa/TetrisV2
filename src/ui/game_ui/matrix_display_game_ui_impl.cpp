@@ -143,7 +143,12 @@ void MatrixDisplayGameUiImpl::draw_cube(
     Vector2 position, const Cube& cube, uint_fast8_t color_value)
 {
     const Vector2 cube_position{(position + cube.position.scale(cube_size_))};
-    draw_rectangle({cube_position, cube_size_}, {cube.color_id, color_value});
+    const IvColor iv_color{
+        not cube.empty()
+        ? IvColor{cube.color_id, color_value}
+        : colors_.iv.background
+    };
+    draw_rectangle({cube_position, cube_size_}, iv_color);
 }
 
 void MatrixDisplayGameUiImpl::draw_rectangle(const Rectangle& rectangle)
