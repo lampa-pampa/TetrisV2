@@ -10,6 +10,7 @@
 
 #include "config/matrix_display/led/matrix_config.h"
 #include "ui/color/iv_color.h"
+#include "ui/color/led/hs_color.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris::Ui
@@ -29,7 +30,7 @@ public:
 
 private:
     const Vector2 size_;
-    const std::map<uint_fast8_t, uint_fast8_t> color_id_to_hs_color_;
+    const std::map<uint_fast8_t, HsColor> color_id_to_hs_color_;
     MatrixPanel_I2S_DMA matrix_;
 
     void refresh_pixel(Vector2 position, IvColor color);
