@@ -11,7 +11,7 @@ namespace Tetris
 
 const Config config{
     UiConfig{
-        {           // CONTROLS
+        {   // CONTROLS
             0x104,  // move left
             0x105,  // move right
             0x103,  // rotate clockwise
@@ -55,24 +55,24 @@ const Config config{
         },
         {   // COLORS
             {   // ID-VALUE
-                {get_color_id(ColorIdName::black), 0x00},           // background
-                {get_color_id(ColorIdName::white)},                 // border
-                {get_color_id(ColorIdName::sunset_orange)},         // game state
-                {                                                   // LEVEL
-                    {get_color_id(ColorIdName::sunset_orange)},     // text
-                    {get_color_id(ColorIdName::sunset_orange)},     // value
-                    {                                               // PROGRESS BAR
-                        {get_color_id(ColorIdName::islamic_green)}, // on
-                        {get_color_id(ColorIdName::davy_s_grey)},   // off
+                {get_color_id(ColorIdName::black), 0x00},       // background
+                {get_color_id(ColorIdName::white), 0xff},       // border
+                {get_color_id(ColorIdName::sunset_orange), 0xff},     // game state
+                {   // LEVEL
+                    {get_color_id(ColorIdName::sunset_orange), 0xff},   // text
+                    {get_color_id(ColorIdName::sunset_orange), 0xff},   // value
+                    {   // PROGRESS BAR
+                        {get_color_id(ColorIdName::islamic_green), 0xff},   // on
+                        {get_color_id(ColorIdName::davy_s_grey), 0xff},     // off
                     },
                 },
-                {                                                   // SCORE
-                    {get_color_id(ColorIdName::sunset_orange)},     // text
-                    {get_color_id(ColorIdName::sunset_orange)},     // value
+                {   // SCORE
+                    {get_color_id(ColorIdName::sunset_orange), 0xff},     // text
+                    {get_color_id(ColorIdName::sunset_orange), 0xff},     // value
                 },
-                {                                                   // TETRISES
-                    {get_color_id(ColorIdName::sunset_orange)},     // text
-                    {get_color_id(ColorIdName::sunset_orange)},     // value
+                {   // TETRISES
+                    {get_color_id(ColorIdName::sunset_orange), 0xff},     // text
+                    {get_color_id(ColorIdName::sunset_orange), 0xff},     // value
                 },
             },
             {   // VALUES
@@ -81,7 +81,7 @@ const Config config{
                     0xff,   // hold
                     0xff,   // next
                     0xff,   // current
-                    0x8c,   // ghost
+                    0x44,   // ghost
                 },
             },
         },
