@@ -16,16 +16,12 @@
 namespace Tetris
 {
 
-using Ui::InputReceiver;
-using Ui::MatrixDisplay;
-using Ui::MatrixDisplayGameUiImpl;
-
 void run_tetris(
     const Config& config,
-    InputReceiver& input_receiver,
-    MatrixDisplay& matrix_display
+    Ui::InputReceiver& input_receiver,
+    Ui::MatrixDisplay& matrix_display
 ){
-    MatrixDisplayGameUiImpl ui{
+    Ui::MatrixDisplayGameUiImpl ui{
         matrix_display,
         config.ui.controls,
         config.ui.components,
