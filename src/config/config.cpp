@@ -62,7 +62,7 @@ const Config config{
         },
         GameUiColors{
             {
-                {get_color_id(ColorIdName::black)},
+                {get_color_id(ColorIdName::black), 0x00},
                 {get_color_id(ColorIdName::white)},
                 {get_color_id(ColorIdName::sunset_orange)},
                 {
@@ -95,7 +95,10 @@ const Config config{
         3
     },
     GameConfig{
-        {{10, 20}, 2},
+        {
+            {10, 20},
+            2
+        },
         {
             100000,
             2,
