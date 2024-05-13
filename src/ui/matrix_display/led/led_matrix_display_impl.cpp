@@ -1,5 +1,6 @@
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
+#include <cstdint>
 #include <cassert>
 
 #include <boost/range/irange.hpp>
@@ -45,7 +46,8 @@ void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
     const auto it{color_id_to_hs_color_.find(color.id)};
     assert(it != color_id_to_hs_color_.end());
     const RgbColor rgb_color{RgbColor::from_hsv(it->second, color.value)};
-    matrix_.drawPixel(rgb_color.red, rgb_color.green, rgb_color.blue);
+    const uint_fast16_t color565{matrix_.color565(rgb_color.red, rgb_color.green, rgb_color.blue)};
+    matrix_.drawPixel(position.x, position.y, color565);
 }
 
 }
