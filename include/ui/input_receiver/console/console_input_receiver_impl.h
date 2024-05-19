@@ -18,7 +18,7 @@ public:
         ::keypad(window_, true);
     }
 
-    int get_pressed_key_code() const override
+    int get_pressed_key_code() override
     {
         return ::wgetch(window_);
     }
