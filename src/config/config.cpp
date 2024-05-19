@@ -12,14 +12,24 @@ namespace Tetris
 const Config config{
     UiConfig{
         {   // CONTROLS
-            0x104,  // move left
-            0x105,  // move right
-            0x103,  // rotate clockwise
-            0x102,  // soft drop
-            ' ',    // locking hard drop
-            'x',    // no-locking hard drop
-            'z',    // rotate counter-clockwise
-            'c',    // hold
+            // CONSOLE
+            // 0x104,  // move left
+            // 0x105,  // move right
+            // 0x103,  // rotate clockwise
+            // 0x102,  // soft drop
+            // ' ',    // locking hard drop
+            // 'x',    // no-locking hard drop
+            // 'z',    // rotate counter-clockwise
+            // 'c',    // hold
+            // LED
+            12,        // move left
+            14,        // move right
+            9,         // rotate clockwise
+            13,        // soft drop
+            15,        // locking hard drop
+            11,        // no-locking hard drop
+            8,         // rotate counter-clockwise
+            10,        // hold
         },
         {   //UI COMPONENTS
             {   // CONTAINERS
@@ -128,9 +138,14 @@ const Config config{
     },
     {
         {   // GAME CONTROLLER KEY CODES
-            'p',    // pause
-            'q',    // quit
-            -1,     // no key
+            // CONSOLE
+            // 'p',    // pause
+            // 'q',    // quit
+            // -1,     // no key
+            // LED
+            0,         // pause
+            4,         // quit
+            -1,        // no key
         }
     },
 };
