@@ -5,7 +5,7 @@
 
 #include <boost/range/irange.hpp>
 
-#include "config/matrix_display/led/matrix_config.h"
+#include "config/matrix_display/led/config.h"
 #include "ui/color/iv_color.h"
 #include "ui/color/led/rgb_color.h"
 #include "vector_2/vector_2.h"
@@ -15,7 +15,7 @@ using boost::irange;
 namespace Tetris::Ui
 {
 
-LedMatrixDisplayImpl::LedMatrixDisplayImpl(const MatrixConfig& config)
+LedMatrixDisplayImpl::LedMatrixDisplayImpl(const MatrixDisplayConfig& config)
 :
     size_{config.size},
     color_id_to_hs_color_{config.color_id_to_hs_color},

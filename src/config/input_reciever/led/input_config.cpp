@@ -1,11 +1,11 @@
-#include "config/input_receiver/led/filled_input_config.h"
+#include "config/input_receiver/led/filled_config.h"
 
-#include "config/input_receiver/led/input_config.h"
+#include "config/input_receiver/led/config.h"
 
 namespace Tetris
 {
 
-const InputConfig input_config{
+const InputReceiverConfig input_receiver_config{
     {   // COLUMN PINS
         21,
         9,

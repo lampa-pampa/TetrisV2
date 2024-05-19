@@ -1,11 +1,11 @@
-#include "config/matrix_display/led/filled_matrix_config.h"
+#include "config/matrix_display/led/filled_config.h"
 
-#include "config/matrix_display/led/matrix_config.h"
+#include "config/matrix_display/led/config.h"
 
 namespace Tetris
 {
 
-const MatrixConfig matrix_config{
+const MatrixDisplayConfig matrix_display_config{
     {64, 64},   // size
     0x88,        // brightness
     1,          // chain length

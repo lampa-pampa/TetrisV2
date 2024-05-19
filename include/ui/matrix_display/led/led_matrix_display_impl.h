@@ -8,7 +8,7 @@
 
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 
-#include "config/matrix_display/led/matrix_config.h"
+#include "config/matrix_display/led/config.h"
 #include "ui/color/iv_color.h"
 #include "ui/color/led/hs_color.h"
 #include "vector_2/vector_2.h"
@@ -19,7 +19,7 @@ namespace Tetris::Ui
 class LedMatrixDisplayImpl final: public MatrixDisplay
 {  
 public:
-    LedMatrixDisplayImpl(const MatrixConfig& config);
+    LedMatrixDisplayImpl(const MatrixDisplayConfig& config);
 
     void refresh(const IvColorMatrix& colors) override;
 

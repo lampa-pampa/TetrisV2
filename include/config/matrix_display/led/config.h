@@ -1,5 +1,5 @@
-#ifndef INCLUDE_MATRIX_CONFIG_H
-#define INCLUDE_MATRIX_CONFIG_H
+#ifndef INCLUDE_MATRIX_DISPLAY_CONFIG_H
+#define INCLUDE_MATRIX_DISPLAY_CONFIG_H
 
 #include <cstdint>
 #include <map>
@@ -12,7 +12,7 @@
 namespace Tetris
 {
 
-struct MatrixConfig final
+struct MatrixDisplayConfig final
 {
     Vector2 size;
     uint_fast8_t brightness;

@@ -5,7 +5,7 @@
 #include <boost/range/irange.hpp>
 #include <ncurses.h>
 
-#include "config/matrix_display/console/matrix_config.h"
+#include "config/matrix_display/console/config.h"
 #include "ui/color/iv_color.h"
 #include "ui/matrix_display/console/ncurses_colors.h"
 #include "vector_2/vector_2.h"
@@ -16,7 +16,7 @@ namespace Tetris::Ui
 {
 
 ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
-    const MatrixConfig& config)
+    const MatrixDisplayConfig& config)
 :
     size_{config.size},
     pixel_size_{config.pixel_size},

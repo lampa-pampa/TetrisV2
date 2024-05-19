@@ -10,7 +10,7 @@
 #include <Arduino.h>
 #include <boost/range/irange.hpp>
 
-#include "config/input_receiver/led/input_config.h"
+#include "config/input_receiver/led/config.h"
 
 namespace Tetris::Ui
 {
@@ -18,7 +18,7 @@ namespace Tetris::Ui
 class LedInputReceiverImpl final: public InputReceiver
 {
 public:    
-    LedInputReceiverImpl(const InputConfig& config)
+    LedInputReceiverImpl(const InputReceiverConfig& config)
     :
         column_pins_{config.column_pins},
         row_pins_{config.row_pins},
