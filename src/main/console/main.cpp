@@ -12,10 +12,11 @@ using Tetris::Ui::ConsoleMatrixDisplayImpl;
 
 int main()
 {
-    ConsoleMatrixDisplayImpl matrix_display{matrix_display_config};
-    ConsoleInputReceiverImpl input_receiver{matrix_display.get_window()};
-    
-    run_tetris(config, input_receiver, matrix_display);
-
-    return 0;
+    while(true)
+    {
+        ConsoleMatrixDisplayImpl matrix_display{matrix_display_config};
+        ConsoleInputReceiverImpl input_receiver{matrix_display.get_window()};
+        
+        run_tetris(config, input_receiver, matrix_display);
+    }
 }
