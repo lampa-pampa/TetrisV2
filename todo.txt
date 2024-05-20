@@ -1,3 +1,7 @@
+char format
+
+game_state border	
+	
 	https://tetris.fandom.com/wiki/SRS
 	https://tetris.fandom.com/wiki/Back-to-Back
 	https://tetris.fandom.com/wiki/T-Spin
