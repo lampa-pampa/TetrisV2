@@ -14,10 +14,16 @@ using Tetris::Ui::LedMatrixDisplayImpl;
 
 void setup()
 {
-    LedMatrixDisplayImpl matrix{matrix_display_config};
-    LedInputReceiverImpl input_receiver{input_receiver_config};
+    while(true)
+    {
+        {
+            LedMatrixDisplayImpl matrix{matrix_display_config};
+            LedInputReceiverImpl input_receiver{input_receiver_config};
 
-    run_tetris(config, input_receiver, matrix);
+            run_tetris(config, input_receiver, matrix);
+        }
+        delay(3000);
+    }
 }
 
 void loop() {}
