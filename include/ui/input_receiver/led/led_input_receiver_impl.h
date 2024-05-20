@@ -35,7 +35,7 @@ public:
         update_key_states();
         if(not pressed_keys_.empty())
             return get_first_pressed_key_code();
-        return -1;
+        return no_key_code_;
     }
 
 private:
