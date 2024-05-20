@@ -65,7 +65,7 @@ void MatrixDisplayGameUiImpl::refresh_level_progress_bar(int quantity)
     draw_rectangles(off_segments, colors_.iv.level.progress_bar.off);
     draw_on_text_area(
         components_.text.level,
-        components_.container.level_text,
+        components_.text_area.level_text,
         colors_.iv.level.text);
 }
 
@@ -131,11 +131,11 @@ void MatrixDisplayGameUiImpl::draw_background()
     });
     draw_on_text_area(
         components_.text.score,
-        components_.container.score_text,
+        components_.text_area.score_text,
         colors_.iv.score.text);
     draw_on_text_area(
         components_.text.tetrises,
-        components_.container.tetrises_text,
+        components_.text_area.tetrises_text,
         colors_.iv.tetrises.text);
 }
 
