@@ -26,7 +26,7 @@ vector<TextLine> TextArea::create_lines(
     for (const auto& i : irange(lines_chars.size()))
     {
         const auto&[line_chars, line_width]{lines_chars[i]};
-        const int y = start_y + i * (Char::height + Char::separator);
+        const int y = start_y + i * (Char::height + padding_);
         lines.emplace_back(create_line(line_chars, line_width, y));
     }
     return lines;
@@ -36,7 +36,7 @@ vector<TextLine> TextArea::create_lines(
 
 string TextArea::get_fixed_length_text(string text) const
 {
-    if (max_text_length_ < 0)
+    if (max_text_length_ == 0)
         return text;
     if (text.size() > max_text_length_)
         return string(max_text_length_, overflow_char_);
@@ -82,8 +82,8 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
 Rectangle TextArea::create_line_background(Vector2 position, int width) const
 {
     return {
-        position - Char::separator,
-        Vector2{width, Char::height} + 2 * Char::separator
+        position - padding_,
+        Vector2{width, Char::height} + 2 * padding_
     };
 }
 

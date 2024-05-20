@@ -20,19 +20,21 @@ class TextArea final
 {
 public:
     constexpr TextArea(
-        const Rectangle& container, 
-        int max_text_length = -1,
+        const Rectangle& container,
+        int padding = 0, 
+        int max_text_length = 0,
         char fill_char = ' ',
         char overflow_char = '9',
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center)
     :
         container_{container},
-        horizontal_align_{horizontal_align},
-        vertical_align_{vertical_align},
+        padding_{padding},
         max_text_length_{max_text_length},
         fill_char_{fill_char},
-        overflow_char_{overflow_char}
+        overflow_char_{overflow_char},
+        horizontal_align_{horizontal_align},
+        vertical_align_{vertical_align}
     {}
 
     std::vector<TextLine> create_lines(std::string text) const
@@ -45,11 +47,12 @@ private:
     using CharsAndWidth = std::tuple<std::vector<Char>, int>;
 
     const Rectangle container_;
-    const Align horizontal_align_;
-    const Align vertical_align_;
+    const int padding_;
     const int max_text_length_;
     const char fill_char_;
     const char overflow_char_;
+    const Align horizontal_align_;
+    const Align vertical_align_;
 
     const inline static AlignToFuncion horizontal_align_to_compute
     {
@@ -79,8 +82,7 @@ private:
 
     int compute_lines_height(int lines_quantity) const
     {
-        return lines_quantity * Char::height
-            + (lines_quantity - 1) * Char::separator;
+        return lines_quantity * Char::height + (lines_quantity - 1) * padding_;
     }
 };
 
