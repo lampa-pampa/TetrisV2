@@ -22,14 +22,14 @@ const Config config{
             // 'z',    // rotate counter-clockwise
             // 'c',    // hold
             // LED
-            12,     // move left
-            14,     // move right
-            9,      // rotate clockwise
-            13,     // soft drop
-            15,     // locking hard drop
-            11,     // no-locking hard drop
-            8,      // rotate counter-clockwise
-            10,     // hold
+            13,     // move left
+            15,     // move right
+            10,      // rotate clockwise
+            14,     // soft drop
+            12,     // locking hard drop
+            8,     // no-locking hard drop
+            11,      // rotate counter-clockwise
+            9,     // hold
         },
         {   //UI COMPONENTS
             {   // CONTAINERS
