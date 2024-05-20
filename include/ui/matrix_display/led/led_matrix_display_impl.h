@@ -21,6 +21,11 @@ class LedMatrixDisplayImpl final: public MatrixDisplay
 public:
     LedMatrixDisplayImpl(const MatrixDisplayConfig& config);
 
+    ~LedMatrixDisplayImpl()
+    {
+        matrix_.clearScreen();
+    }
+
     void refresh(const IvColorMatrix& colors) override;
 
     Vector2 get_size() const override
