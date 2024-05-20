@@ -144,7 +144,7 @@ const Config config{
             // -1,     // no key
             // LED
             0,      // pause
-            4,      // quit
+            3,      // quit
             -1,     // no key
         }
     },
