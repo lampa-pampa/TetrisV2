@@ -44,13 +44,13 @@ const Config config{
                 {{49, 49}, {13, 13}},   // tetrises value
             },
             {   // TEXT AREAS
-                {{{2, 12}, {13, 41}}},      // 'level' text
-                {{{2, 55}, {13, 7}}, 3},    // level value
-                {{{17, 2}, {30, 60}}},      // game state
+                {{{2, 12}, {13, 41}}, 2},      // 'level' text
+                {{{2, 55}, {13, 7}}, 0, 3},    // level value
+                {{{17, 2}, {30, 60}}, 2},      // game state
                 {{{49, 12}, {13, 7}}},      // 'score' text
-                {{{49, 20}, {13, 19}}, 9},  // score value
+                {{{49, 20}, {13, 19}}, 1, 9},  // score value
                 {{{49, 41}, {13, 7}}},      // 'tetrises' text
-                {{{49, 49}, {13, 13}}, 6},  // tetrises value
+                {{{49, 49}, {13, 13}}, 1, 6},  // tetrises value
             },
             {   // MESSAGES
                 "PAUSED",           // paused
