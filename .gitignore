@@ -3,4 +3,5 @@ build
 .vscode
 .pio
 include/boost
-todo.txt
+.idea
+cmake-build-debug
