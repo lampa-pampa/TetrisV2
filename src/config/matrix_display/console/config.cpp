@@ -21,8 +21,8 @@ const MatrixDisplayConfig matrix_display_config{
         L'●',
     },
     Ui::NCursesColors{
-        {  // COLOR TO NCURSES-ID
-            {0, 16},
+        {   // COLOR TO NCURSES-ID
+            {0, 0},
             {1, 1},
             {2, 2},
             {3, 3},
