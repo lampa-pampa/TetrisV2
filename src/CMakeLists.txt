@@ -2,10 +2,7 @@ add_library(TETRIS_V2)
 
 target_include_directories(TETRIS_V2
     PUBLIC
-        $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}/include>
-        $<INSTALL_INTERFACE:include>
-    PRIVATE
-        ${CMAKE_CURRENT_LIST_DIR}
+        ${PROJECT_SOURCE_DIR}/include
 )
 
 target_sources(TETRIS_V2
