@@ -1,7 +1,5 @@
-build
 .cache
-.vscode
 .pio
-include/boost
-.idea
-cmake-build-debug
+.vscode
+build
+external
