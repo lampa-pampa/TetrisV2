@@ -4,7 +4,7 @@
 #include "game/game_state.h"
 #include "game/game.h"
 #include "timer/timer.h"
-#include "ui/input_receiver/input_receiver.h"
+#include "ui/keyboard/keyboard.h"
 
 namespace Tetris
 {
@@ -12,19 +12,19 @@ namespace Tetris
 GameController::GameController(
     Game& game,
     Timer& timer,
-    Ui::InputReceiver& input_receiver,
+    Ui::Keyboard& keyboard,
     GameControllerKeyCodes key_codes)
 :
     game_{game},
     timer_{timer},
-    input_receiver_{input_receiver},
+    keyboard_{keyboard},
     key_codes_{key_codes}
 {}
 
 bool GameController::update(unsigned long delta_time)
 {
     const GameState state{game_.get_state()};
-    const int key_code{input_receiver_.get_pressed_key_code()};
+    const int key_code{keyboard_.get_pressed_key_code()};
     
     if (timer_.is_active())
         timer_.update(delta_time);

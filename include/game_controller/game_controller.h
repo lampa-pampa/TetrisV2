@@ -9,7 +9,7 @@
 #include "game/game_state.h"
 #include "game/game.h"
 #include "timer/timer.h"
-#include "ui/input_receiver/input_receiver.h"
+#include "ui/keyboard/keyboard.h"
 
 namespace Tetris
 {
@@ -20,7 +20,7 @@ public:
     GameController(
         Game& game,
         Timer& timer,
-        Ui::InputReceiver& input_receiver,
+        Ui::Keyboard& keyboard,
         GameControllerKeyCodes key_codes);
 
     bool update(unsigned long delta_time);
@@ -37,7 +37,7 @@ private:
     
     Game& game_;
     Timer& timer_;
-    Ui::InputReceiver& input_receiver_;
+    Ui::Keyboard& keyboard_;
     Signal key_press_;
     
     void handle_pause_pressed(GameState state);

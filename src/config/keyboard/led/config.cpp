@@ -1,11 +1,11 @@
-#include "config/input_receiver/led/filled_config.h"
+#include "config/keyboard/led/filled_config.h"
 
-#include "config/input_receiver/led/config.h"
+#include "config/keyboard/led/config.h"
 
 namespace Tetris
 {
 
-const InputReceiverConfig input_receiver_config{
+const KeyboardConfig keyboard_config{
     {   // ROW PINS
         2,
         15,

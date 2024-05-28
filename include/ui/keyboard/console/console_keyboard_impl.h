@@ -1,17 +1,17 @@
-#ifndef INCLUDE_UI_CONSOLE_INPUT_RECEIVER_IMPL
-#define INCLUDE_UI_CONSOLE_INPUT_RECEIVER_IMPL
+#ifndef INCLUDE_UI_CONSOLE_KEYBOARD_IMPL
+#define INCLUDE_UI_CONSOLE_KEYBOARD_IMPL
 
-#include "ui/input_receiver/input_receiver.h"
+#include "ui/keyboard/keyboard.h"
 
 #include <ncurses.h>
 
 namespace Tetris::Ui
 {
 
-class ConsoleInputReceiverImpl final: public InputReceiver
+class ConsoleKeyboardImpl final: public Keyboard
 {
 public:
-    ConsoleInputReceiverImpl(::WINDOW * const window)
+    ConsoleKeyboardImpl(::WINDOW * const window)
     :
         window_{window}
     {

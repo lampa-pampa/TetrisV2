@@ -1,7 +1,7 @@
-#ifndef INCLUDE_UI_LED_INPUT_RECEIVER_IMPL
-#define INCLUDE_UI_LED_INPUT_RECEIVER_IMPL
+#ifndef INCLUDE_UI_LED_KEYBOARD_IMPL
+#define INCLUDE_UI_LED_KEYBOARD_IMPL
 
-#include "ui/input_receiver/input_receiver.h"
+#include "ui/keyboard/keyboard.h"
 
 #include <cassert>
 #include <deque>
@@ -10,15 +10,15 @@
 #include <Arduino.h>
 #include <boost/range/irange.hpp>
 
-#include "config/input_receiver/led/config.h"
+#include "config/keyboard/led/config.h"
 
 namespace Tetris::Ui
 {
 
-class LedInputReceiverImpl final: public InputReceiver
+class LedKeyboardImpl final: public Keyboard
 {
 public:    
-    LedInputReceiverImpl(const InputReceiverConfig& config)
+    LedKeyboardImpl(const KeyboardConfig& config)
     :
         column_pins_{config.column_pins},
         row_pins_{config.row_pins},

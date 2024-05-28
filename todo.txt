@@ -1,4 +1,3 @@
-input_receiver -> keyboard
 game_state border
 char format
 preload hsv colors

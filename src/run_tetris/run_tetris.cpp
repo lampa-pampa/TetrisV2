@@ -10,7 +10,8 @@
 #include "score_counter/score_counter_impl.h"
 #include "timer/timer_impl.h"
 #include "ui/game_ui/matrix_display_game_ui_impl.h"
-#include "ui/input_receiver/input_receiver.h"
+#include "ui/keyboard/keyboard.h"
+#include "ui/keyboard/keyboard.h"
 #include "ui/matrix_display/matrix_display.h"
 
 namespace Tetris
@@ -18,7 +19,7 @@ namespace Tetris
 
 void run_tetris(
     const Config& config,
-    Ui::InputReceiver& input_receiver,
+    Ui::Keyboard& keyboard,
     Ui::MatrixDisplay& matrix_display
 ){
     Ui::MatrixDisplayGameUiImpl ui{
@@ -62,7 +63,7 @@ void run_tetris(
     GameController game_controller{
         game,
         timer,
-        input_receiver,
+        keyboard,
         config.controller.key_codes,
     };
   
