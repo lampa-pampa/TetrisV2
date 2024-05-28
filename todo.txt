@@ -2,6 +2,8 @@ game_state border
 char format
 preload hsv colors
 
+OS
+
 https://tetris.fandom.com/wiki/SRS
 https://tetris.fandom.com/wiki/Back-to-Back
 https://tetris.fandom.com/wiki/T-Spin
