@@ -11,6 +11,6 @@ public:
     ~Keyboard() = default;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

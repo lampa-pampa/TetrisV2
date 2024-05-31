@@ -31,11 +31,10 @@ TEST(Brick, compute_next_rotation)
         {-4, 0},
     };
 
-    for (const auto& pair: delta_quarters_to_expected)
+    for (const auto& pair : delta_quarters_to_expected)
     {
         const int actual{
-            Brick::compute_next_rotation(initial_rotation, pair.first)
-        };
+            Brick::compute_next_rotation(initial_rotation, pair.first)};
 
         ASSERT_THAT(actual, Eq(pair.second));
     }
@@ -43,14 +42,14 @@ TEST(Brick, compute_next_rotation)
 
 TEST(Brick, get_colored)
 {
-    const Brick initial_brick{{ {2, 8}, {1, 2} }};
+    const Brick initial_brick{{{2, 8}, {1, 2}}};
     const vector<pair<int, Brick>> color_id_to_expected{
-        { 1, {{ {2, 8, 1}, {1, 2, 1} }} },
-        { 3, {{ {2, 8, 3}, {1, 2, 3} }} },
-        { 6, {{ {2, 8, 6}, {1, 2, 6} }} },
+        {1, {{{2, 8, 1}, {1, 2, 1}}}},
+        {3, {{{2, 8, 3}, {1, 2, 3}}}},
+        {6, {{{2, 8, 6}, {1, 2, 6}}}},
     };
 
-    for (const auto& pair: color_id_to_expected)
+    for (const auto& pair : color_id_to_expected)
     {
         const Brick actual{Brick::get_colored(initial_brick, pair.first)};
 
@@ -60,15 +59,15 @@ TEST(Brick, get_colored)
 
 TEST(Brick, get_translated)
 {
-    const Brick initial_brick{{ {6, 3}, {2, 4} }};
+    const Brick initial_brick{{{6, 3}, {2, 4}}};
     const vector<pair<Vector2, Brick>> position_to_expected{
-        { {4, 9}, {{ {10, 12}, {6, 13} }} },
-        { {2, -7}, {{ {8, -4}, {4, -3} }} },
-        { {-3, 5}, {{ {3, 8}, {-1, 9} }} },
-        { {-4, -8}, {{ {2, -5}, {-2, -4} }} },
+        {{4, 9}, {{{10, 12}, {6, 13}}}},
+        {{2, -7}, {{{8, -4}, {4, -3}}}},
+        {{-3, 5}, {{{3, 8}, {-1, 9}}}},
+        {{-4, -8}, {{{2, -5}, {-2, -4}}}},
     };
 
-    for (const auto& pair: position_to_expected)
+    for (const auto& pair : position_to_expected)
     {
         const Brick actual{Brick::get_translated(initial_brick, pair.first)};
 
@@ -77,23 +76,25 @@ TEST(Brick, get_translated)
 }
 
 TEST(Brick, get_rotated)
-{ 
+{
     const vector<pair<Brick, vector<Brick>>> brick_to_expected{
-        { {{ {8, 3}, {4, 5} }}, {
-            {{ {8, 3}, {4, 5} }},
-            {{ {-3, 8}, {-5, 4} }},
-            {{ {-8, -3}, {-4, -5} }},
-            {{ {3, -8}, {5, -4} }},
-        }},
-        { {{ {1, 2}, {6, 3} }, {2, 4} }, {
-            {{ {1, 2}, {6, 3} }, {2, 4} },
-            {{ {0, 5}, {-1, 10} }, {2, 4} },
-            {{ {-3, 4}, {-8, 3} }, {2, 4} },
-            {{ {-2, 1}, {-1, -4} }, {2, 4} },
-        }},
+        {{{{8, 3}, {4, 5}}},
+            {
+                {{{8, 3}, {4, 5}}},
+                {{{-3, 8}, {-5, 4}}},
+                {{{-8, -3}, {-4, -5}}},
+                {{{3, -8}, {5, -4}}},
+            }},
+        {{{{1, 2}, {6, 3}}, {2, 4}},
+            {
+                {{{1, 2}, {6, 3}}, {2, 4}},
+                {{{0, 5}, {-1, 10}}, {2, 4}},
+                {{{-3, 4}, {-8, 3}}, {2, 4}},
+                {{{-2, 1}, {-1, -4}}, {2, 4}},
+            }},
     };
 
-    for (const auto& pair: brick_to_expected)
+    for (const auto& pair : brick_to_expected)
     {
         for (const auto& i : irange(Brick::rotation_quantity))
         {
@@ -106,19 +107,18 @@ TEST(Brick, get_rotated)
 
 TEST(Brick, get_transformed)
 {
-    const Brick initial_brick{{ {3, 2}, {4, 1} }};
+    const Brick initial_brick{{{3, 2}, {4, 1}}};
     const vector<pair<tuple<int, Vector2>, Brick>> args_to_expected{
-        { { 1, {2, 3} }, {{ {0, 6}, {1, 7} }} },
-        { { 2, {6, 9} }, {{ {3, 7}, {2, 8} }} },
-        { { 3, {5, 8} }, {{ {7, 5}, {6, 4} }} },
+        {{1, {2, 3}}, {{{0, 6}, {1, 7}}}},
+        {{2, {6, 9}}, {{{3, 7}, {2, 8}}}},
+        {{3, {5, 8}}, {{{7, 5}, {6, 4}}}},
     };
 
-    for (const auto& pair: args_to_expected)
+    for (const auto& pair : args_to_expected)
     {
-        const auto&[rotation, position]{pair.first};
+        const auto& [rotation, position]{pair.first};
         const Brick actual{
-            Brick::get_transformed(initial_brick, rotation, position)
-        };
+            Brick::get_transformed(initial_brick, rotation, position)};
 
         ASSERT_THAT(actual, Eq(pair.second));
     }
@@ -127,64 +127,64 @@ TEST(Brick, get_transformed)
 TEST(Brick, get_min_x)
 {
     const vector<pair<Brick, int>> brick_to_expected{
-        { {{ {3, 4}, {9, 8} }}, 3 },
-        { {{ {0, -6}, {-2, 5} }}, -2 },
-        { {{ {1, -9}, {1, -4} }}, 1 },
-        { {{}}, 0 },
+        {{{{3, 4}, {9, 8}}}, 3},
+        {{{{0, -6}, {-2, 5}}}, -2},
+        {{{{1, -9}, {1, -4}}}, 1},
+        {{{}}, 0},
     };
 
-    for (const auto& pair: brick_to_expected)
+    for (const auto& pair : brick_to_expected)
         ASSERT_THAT(pair.first.get_min_x(), Eq(pair.second));
 }
 
 TEST(Brick, get_max_x)
 {
     const vector<pair<Brick, int>> brick_to_expected{
-        { {{ {6, -2}, {-7, 3} }}, 6 },
-        { {{ {10, 1}, {5, -4} }}, 10 },
-        { {{ {3, -9}, {3, 8} }}, 3 },
-        { {{}}, 0 },
+        {{{{6, -2}, {-7, 3}}}, 6},
+        {{{{10, 1}, {5, -4}}}, 10},
+        {{{{3, -9}, {3, 8}}}, 3},
+        {{{}}, 0},
     };
 
-    for (const auto& pair: brick_to_expected)
+    for (const auto& pair : brick_to_expected)
         ASSERT_THAT(pair.first.get_max_x(), Eq(pair.second));
 }
 
 TEST(Brick, get_min_y)
 {
-   const vector<pair<Brick, int>> brick_to_expected{
-        { {{ {3, 5}, {9, -2} }}, -2 },
-        { {{ {1, -7}, {3, 4} }}, -7 },
-        { {{ {-9, -2}, {-8, -2} }}, -2 },
-        { {{}}, 0 },
+    const vector<pair<Brick, int>> brick_to_expected{
+        {{{{3, 5}, {9, -2}}}, -2},
+        {{{{1, -7}, {3, 4}}}, -7},
+        {{{{-9, -2}, {-8, -2}}}, -2},
+        {{{}}, 0},
     };
 
-    for (const auto& pair: brick_to_expected)
+    for (const auto& pair : brick_to_expected)
         ASSERT_THAT(pair.first.get_min_y(), Eq(pair.second));
 }
 
 TEST(Brick, get_max_y)
 {
     const vector<pair<Brick, int>> brick_to_expected{
-        { {{ {2, 9}, {-6, 1} }}, 9 },
-        { {{ {-5, 0}, {7, 4} }}, 4 },
-        { {{ {6, -3}, {-1, -3} }}, -3 },
-        { {{}}, 0 },
+        {{{{2, 9}, {-6, 1}}}, 9},
+        {{{{-5, 0}, {7, 4}}}, 4},
+        {{{{6, -3}, {-1, -3}}}, -3},
+        {{{}}, 0},
     };
 
-    for (const auto& pair: brick_to_expected)
+    for (const auto& pair : brick_to_expected)
         ASSERT_THAT(pair.first.get_max_y(), Eq(pair.second));
 }
 
 TEST(Brick, get_size)
 {
     const vector<pair<Brick, Vector2>> brick_to_expected{
-        { {{ {-4, 2}, {1, 5} }}, {6, 4} },
-        { {{ {3, 8}, {-7, 3} }}, {11, 6} },
-        { {{ {2, -6}, {2, 0} }}, {1, 7} },
-        { {{}}, {0, 0} },
+        {{{{-4, 2}, {1, 5}}}, {6, 4}},
+        {{{{3, 8}, {-7, 3}}}, {11, 6}},
+        {{{{2, -6}, {2, 0}}}, {1, 7}},
+        {{{}}, {0, 0}},
     };
 
-    for (const auto& pair: brick_to_expected)
+    for (const auto& pair : brick_to_expected)
         ASSERT_THAT(pair.first.get_size(), Eq(pair.second));
 }

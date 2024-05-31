@@ -12,6 +12,6 @@ struct Rectangle final
     Vector2 size;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

@@ -17,6 +17,6 @@ struct TextLine final
     std::vector<Char> chars;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

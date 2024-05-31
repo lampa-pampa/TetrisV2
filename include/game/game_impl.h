@@ -9,8 +9,8 @@
 #include <boost/signals2.hpp>
 
 #include "board/board.h"
-#include "brick/brick_generator.h"
 #include "brick/brick.h"
+#include "brick/brick_generator.h"
 #include "game/settings.h"
 #include "score_counter/score_counter.h"
 #include "ui/game_ui/game_ui.h"
@@ -22,8 +22,7 @@ namespace Tetris
 class GameImpl final: public Game
 {
 public:
-    GameImpl(
-        Ui::GameUi& ui,
+    GameImpl(Ui::GameUi& ui,
         Board& board,
         BrickGenerator& brick_generator,
         ScoreCounter& score_counter,
@@ -55,56 +54,56 @@ public:
 
     void handle_soft_drop() override
     {
-        perform_action([this](){ soft_drop(); });
+        perform_action([this]() { soft_drop(); });
     }
 
     void handle_timeout() override
     {
-        perform_action([this](){ tick(); });
+        perform_action([this]() { tick(); });
     }
 
     void handle_move_left() override
     {
-        perform_action([this](){ move_left(); });
+        perform_action([this]() { move_left(); });
     }
 
     void handle_move_right() override
     {
-        perform_action([this](){ move_right(); });
+        perform_action([this]() { move_right(); });
     }
 
     void handle_rotate_clockwise() override
     {
-        perform_action([this](){ rotate_clockwise(); });
+        perform_action([this]() { rotate_clockwise(); });
     }
 
     void handle_rotate_counter_clockwise() override
     {
-        perform_action([this](){rotate_counter_clockwise();});
+        perform_action([this]() { rotate_counter_clockwise(); });
     }
 
     void handle_locking_hard_drop() override
     {
-        perform_action([this](){ locking_hard_drop(); });
+        perform_action([this]() { locking_hard_drop(); });
     }
 
     void handle_no_locking_hard_drop() override
     {
-        perform_action([this](){ no_locking_hard_drop(); });
+        perform_action([this]() { no_locking_hard_drop(); });
     }
 
     void handle_hold() override
     {
-        perform_action([this](){ hold(); });
+        perform_action([this]() { hold(); });
     }
 
-    void connect_reset_timeout(const std::function<void()> &handler) override
+    void connect_reset_timeout(const std::function<void()>& handler) override
     {
         reset_timeout_.connect(handler);
     }
 
     void connect_set_timeout_delay(
-        const std::function<void(int)> &handler) override
+        const std::function<void(int)>& handler) override
     {
         set_timeout_delay_.connect(handler);
     }
@@ -163,7 +162,7 @@ public:
     {
         return level_;
     }
-    
+
 private:
     using CubeMatrix = std::vector<std::vector<Cube>>;
     using Signal = boost::signals2::signal<void()>;
@@ -274,6 +273,6 @@ private:
     }
 };
 
-}
+} // namespace Tetris
 
 #endif

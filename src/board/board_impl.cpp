@@ -15,10 +15,7 @@ using std::vector;
 namespace Tetris
 {
 
-BoardImpl::BoardImpl(Vector2 size, int offset)
-:
-    size_{size},
-    offset_{offset}
+BoardImpl::BoardImpl(Vector2 size, int offset): size_{size}, offset_{offset}
 {
     cubes_ = create_cubes();
 }
@@ -34,15 +31,15 @@ void BoardImpl::put_cubes(const vector<Cube>& cubes)
 
 vector<int> BoardImpl::remove_lines_and_compress(int from_y, int to_y)
 {
-    assert(position_is_in_range({0, from_y})
-        and position_is_in_range({0, to_y}));
+    assert(
+        position_is_in_range({0, from_y}) and position_is_in_range({0, to_y}));
     const vector rows{find_rows_with_line(from_y, to_y)};
     for (const auto& y : rows)
         compress(y);
     return rows;
 }
 
-bool BoardImpl::brick_is_valid(const Brick& brick) const 
+bool BoardImpl::brick_is_valid(const Brick& brick) const
 {
     for (const auto& cube : brick.cubes)
     {
@@ -52,8 +49,7 @@ bool BoardImpl::brick_is_valid(const Brick& brick) const
     return true;
 }
 
-vector<Cube> BoardImpl::get_visible_brick_cubes(
-    const vector<Cube>& cubes) const
+vector<Cube> BoardImpl::get_visible_brick_cubes(const vector<Cube>& cubes) const
 {
     vector<Cube> visible_cubes{};
     for (const auto& cube : cubes)
@@ -122,4 +118,4 @@ void BoardImpl::compress(int start_y)
     clear_top_row();
 }
 
-}
+} // namespace Tetris

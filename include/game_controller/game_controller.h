@@ -5,9 +5,9 @@
 
 #include <boost/signals2.hpp>
 
-#include "game_controller/game_controller_key_codes.h"
-#include "game/game_state.h"
 #include "game/game.h"
+#include "game/game_state.h"
+#include "game_controller/game_controller_key_codes.h"
 #include "timer/timer.h"
 #include "ui/keyboard/keyboard.h"
 
@@ -17,15 +17,14 @@ namespace Tetris
 class GameController final
 {
 public:
-    GameController(
-        Game& game,
+    GameController(Game& game,
         Timer& timer,
         Ui::Keyboard& keyboard,
         GameControllerKeyCodes key_codes);
 
     bool update(unsigned long delta_time);
 
-    void connect_key_press(const std::function<void(int)> &handler)
+    void connect_key_press(const std::function<void(int)>& handler)
     {
         key_press_.connect(handler);
     }
@@ -34,12 +33,12 @@ private:
     using Signal = boost::signals2::signal<void(int)>;
 
     const GameControllerKeyCodes key_codes_;
-    
+
     Game& game_;
     Timer& timer_;
     Ui::Keyboard& keyboard_;
     Signal key_press_;
-    
+
     void handle_pause_pressed(GameState state);
 
     void handle_key_press(int key_code, GameState state)
@@ -71,6 +70,6 @@ private:
     }
 };
 
-}
+} // namespace Tetris
 
 #endif

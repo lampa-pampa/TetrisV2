@@ -11,9 +11,7 @@ namespace Tetris::Ui
 class ConsoleKeyboardImpl final: public Keyboard
 {
 public:
-    ConsoleKeyboardImpl(::WINDOW * const window)
-    :
-        window_{window}
+    ConsoleKeyboardImpl(::WINDOW* const window): window_{window}
     {
         ::keypad(window_, true);
     }
@@ -24,9 +22,9 @@ public:
     }
 
 private:
-    ::WINDOW * const window_;
+    ::WINDOW* const window_;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

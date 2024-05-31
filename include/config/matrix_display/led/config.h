@@ -21,6 +21,6 @@ struct MatrixDisplayConfig final
     const std::map<uint_fast8_t, Ui::HsColor>& color_id_to_hs_color;
 };
 
-}
+} // namespace Tetris
 
 #endif

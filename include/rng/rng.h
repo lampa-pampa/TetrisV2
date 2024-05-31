@@ -11,6 +11,6 @@ public:
     virtual ~Rng() = default;
 };
 
-}
+} // namespace Tetris
 
 #endif

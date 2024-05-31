@@ -17,8 +17,7 @@ namespace Tetris::Ui
 
 ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
     const MatrixDisplayConfig& config)
-:
-    size_{config.size},
+  : size_{config.size},
     pixel_size_{config.pixel_size},
     pixel_chars_{config.pixel_chars},
     max_color_value_{config.max_color_value},
@@ -93,4 +92,4 @@ wchar_t ConsoleMatrixDisplayImpl::get_pixel_char(int color_value)
         color_value * pixel_chars_.size() / (max_color_value_ + 1));
 }
 
-}
+} // namespace Tetris::Ui

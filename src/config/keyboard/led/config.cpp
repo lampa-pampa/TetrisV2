@@ -6,13 +6,15 @@ namespace Tetris
 {
 
 const KeyboardConfig keyboard_config{
-    {   // ROW PINS
+    {
+        // ROW PINS
         2,
         15,
         23,
         32,
     },
-    {   // COLUMN PINS
+    {
+        // COLUMN PINS
         21,
         9,
         10,

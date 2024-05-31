@@ -13,6 +13,6 @@ struct KeyboardConfig final
     int no_key_code;
 };
 
-}
+} // namespace Tetris
 
 #endif

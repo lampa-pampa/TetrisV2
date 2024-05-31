@@ -16,7 +16,7 @@ class BoardImpl final: public Board
 {
 public:
     BoardImpl(Vector2 size, int offset = 0);
-    
+
     void put_cubes(const std::vector<Cube>& cubes) override;
     std::vector<int> remove_lines_and_compress(int from_y, int to_y) override;
     bool brick_is_valid(const Brick& brick) const override;
@@ -42,7 +42,7 @@ private:
     const Vector2 size_;
     const int offset_;
     CubeMatrix cubes_;
-    
+
     CubeMatrix create_cubes() const;
     std::vector<int> find_rows_with_line(int from_y, int to_y) const;
     bool is_row_with_line(int y) const;
@@ -58,7 +58,7 @@ private:
     {
         return cubes_[y + offset_];
     }
-    
+
     Cube& get_cube(Vector2 position)
     {
         return get_row(position.y)[position.x];
@@ -77,8 +77,7 @@ private:
 
     bool position_is_valid(Vector2 position) const
     {
-        return position_is_in_range(position)
-            and get_cube(position).empty();
+        return position_is_in_range(position) and get_cube(position).empty();
     }
 
     bool position_is_in_range(Vector2 position) const
@@ -94,6 +93,6 @@ private:
     }
 };
 
-}
+} // namespace Tetris
 
 #endif

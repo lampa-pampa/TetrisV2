@@ -12,16 +12,9 @@ struct Vector2 final
     int x;
     int y;
 
-    constexpr Vector2(int x, int y)
-    :
-        x{x},
-        y{y}
-    {}
+    constexpr Vector2(int x, int y): x{x}, y{y} {}
 
-    constexpr Vector2(int a)
-    :
-        Vector2{a, a}
-    {}
+    constexpr Vector2(int a): Vector2{a, a} {}
 
     Vector2() = default;
 
@@ -47,12 +40,12 @@ struct Vector2 final
 
     bool operator>(const Vector2& other) const
     {
-        return x > other.x and y > other.y; 
+        return x > other.x and y > other.y;
     }
 
     bool operator<(const Vector2& other) const
     {
-        return x < other.x and y < other.y; 
+        return x < other.x and y < other.y;
     }
 
     bool operator==(const Vector2& other) const
@@ -62,7 +55,7 @@ struct Vector2 final
 
     bool operator>=(const Vector2& other) const
     {
-        return x >= other.x and y >= other.y; 
+        return x >= other.x and y >= other.y;
     }
 
     bool operator<=(const Vector2& other) const
@@ -91,6 +84,6 @@ struct Vector2 final
     }
 };
 
-}
+} // namespace Tetris
 
 #endif

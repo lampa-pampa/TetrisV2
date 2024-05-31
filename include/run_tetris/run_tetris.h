@@ -8,11 +8,9 @@
 namespace Tetris
 {
 
-void run_tetris(
-    const Config& config,
+void run_tetris(const Config& config,
     Ui::Keyboard& keyboard,
-    Ui::MatrixDisplay& matrix_display
-);
+    Ui::MatrixDisplay& matrix_display);
 
 }
 

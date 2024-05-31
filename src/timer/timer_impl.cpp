@@ -10,7 +10,7 @@ namespace Tetris
 void TimerImpl::update(unsigned long delta_time)
 {
     timeout_time_ += delta_time;
-    if(timeout_time_ >= timeout_delay_)
+    if (timeout_time_ >= timeout_delay_)
     {
         timeout_time_ -= timeout_delay_;
         timeout_();
@@ -25,4 +25,4 @@ unsigned long TimerImpl::compute_timeout_delay(int level) const
         pow((0.8 - (level - 1) * 0.007), level - 1) * 1000);
 }
 
-}
+} // namespace Tetris

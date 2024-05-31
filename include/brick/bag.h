@@ -18,9 +18,9 @@ class Bag final
 {
 public:
     Bag(const std::vector<T>& items, Rng& rng);
-    
+
     T get_next();
-    
+
 private:
     int current_index_;
     Rng& rng_;
@@ -35,14 +35,14 @@ private:
 
 template<typename T>
 Bag<T>::Bag(const std::vector<T>& items, Rng& rng)
-:
-    items_{items},
+  : items_{items},
     current_index_{0},
     rng_{rng}
 {}
 
-explicit Bag(std::initializer_list<Brick>, Rng& rng)->Bag<Brick>;
-explicit Bag(std::initializer_list<uint_fast8_t>, Rng& rng)->Bag<uint_fast8_t>;
+explicit Bag(std::initializer_list<Brick>, Rng& rng) -> Bag<Brick>;
+explicit Bag(
+    std::initializer_list<uint_fast8_t>, Rng& rng) -> Bag<uint_fast8_t>;
 
 template<typename T>
 T Bag<T>::get_next()
@@ -54,6 +54,6 @@ T Bag<T>::get_next()
     return item;
 }
 
-}
+} // namespace Tetris
 
 #endif

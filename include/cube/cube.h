@@ -16,20 +16,18 @@ struct Cube final
 
     friend std::ostream& operator<<(std::ostream& os, const Cube& cube)
     {
-        return os << "{" << cube.position.x << ", " << cube.position.y
-            << ", " << cube.color_id << "}";
+        return os << "{" << cube.position.x << ", " << cube.position.y << ", "
+                  << cube.color_id << "}";
     }
 
     Cube(int x, int y, uint_fast8_t color_id = 0)
-    :
-        position{x, y},
+      : position{x, y},
         color_id{color_id}
     {}
 
     bool operator==(const Cube& other) const
     {
-        return position == other.position
-            and color_id == other.color_id;
+        return position == other.position and color_id == other.color_id;
     }
 
     void clear()
@@ -43,6 +41,6 @@ struct Cube final
     }
 };
 
-}
+} // namespace Tetris
 
 #endif

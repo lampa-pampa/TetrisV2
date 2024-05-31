@@ -16,7 +16,7 @@ namespace Tetris::Ui
 {
 
 class ConsoleMatrixDisplayImpl final: public MatrixDisplay
-{  
+{
 public:
     ConsoleMatrixDisplayImpl(const MatrixDisplayConfig& config);
 
@@ -32,7 +32,7 @@ public:
         return size_;
     }
 
-    ::WINDOW * const get_window()
+    ::WINDOW* const get_window()
     {
         return window_;
     }
@@ -61,6 +61,6 @@ private:
     }
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

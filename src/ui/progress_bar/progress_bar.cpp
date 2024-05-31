@@ -17,10 +17,10 @@ ProgressBar::Segments ProgressBar::create_segments(int value) const
 {
     vector<Rectangle> on_segments;
     vector<Rectangle> off_segments;
-    Vector2 segment_position = position_; 
+    Vector2 segment_position = position_;
     for (const auto& i : irange(height_))
     {
-        const Rectangle segment{segment_position, segment_size_};      
+        const Rectangle segment{segment_position, segment_size_};
         if (height_ - i <= value)
             on_segments.emplace_back(std::move(segment));
         else
@@ -31,4 +31,4 @@ ProgressBar::Segments ProgressBar::create_segments(int value) const
     return {on_segments, off_segments};
 }
 
-}
+} // namespace Tetris::Ui

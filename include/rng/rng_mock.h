@@ -7,7 +7,7 @@ namespace Tetris
 {
 
 class RngMock final: public Rng
-{   
+{
 public:
     int random(int range) override
     {
@@ -15,6 +15,6 @@ public:
     }
 };
 
-}
+} // namespace Tetris
 
 #endif

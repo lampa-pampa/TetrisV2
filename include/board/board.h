@@ -25,6 +25,6 @@ public:
     virtual ~Board() = default;
 };
 
-}
+} // namespace Tetris
 
 #endif

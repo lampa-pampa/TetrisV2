@@ -27,23 +27,29 @@ public:
     void pause() override {}
     void handle_key_press(int key_code) override {}
     void connect_move_left_pressed(
-        const std::function<void()>& handler) override {}
+        const std::function<void()>& handler) override
+    {}
     void connect_move_right_pressed(
-        const std::function<void()>& handler) override {}
+        const std::function<void()>& handler) override
+    {}
     void connect_rotate_clockwise_pressed(
-        const std::function<void()>& handler) override {}
+        const std::function<void()>& handler) override
+    {}
     void connect_rotate_counter_clockwise_pressed(
-        const std::function<void()>& handler) override {}
+        const std::function<void()>& handler) override
+    {}
     void connect_soft_drop_pressed(
-        const std::function<void()>& handler) override {}
+        const std::function<void()>& handler) override
+    {}
     void connect_locking_hard_drop_pressed(
-        const std::function<void()>& handler) override {}
+        const std::function<void()>& handler) override
+    {}
     void connect_no_locking_hard_drop_pressed(
-        const std::function<void()>& handler) override {}
-    void connect_hold_pressed(
-        const std::function<void()>& handler) override {}
+        const std::function<void()>& handler) override
+    {}
+    void connect_hold_pressed(const std::function<void()>& handler) override {}
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

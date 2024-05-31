@@ -19,16 +19,14 @@ namespace Tetris::Ui
 class TextArea final
 {
 public:
-    constexpr TextArea(
-        const Rectangle& container,
-        int padding = 0, 
+    constexpr TextArea(const Rectangle& container,
+        int padding = 0,
         int max_text_length = 0,
         char fill_char = ' ',
         char overflow_char = '9',
         Align horizontal_align = Align::center,
         Align vertical_align = Align::center)
-    :
-        container_{container},
+      : container_{container},
         padding_{padding},
         max_text_length_{max_text_length},
         fill_char_{fill_char},
@@ -54,17 +52,14 @@ private:
     const Align horizontal_align_;
     const Align vertical_align_;
 
-    const inline static AlignToFuncion horizontal_align_to_compute
-    {
-        {Align::start, [](int container_size, int content_size){
-            return 0;
-        }},
-        {Align::center, [](int container_size, int content_size){
-            return container_size / 2 - content_size / 2;
-        }},
-        {Align::end, [](int container_size, int content_size){
-            return container_size - content_size;
-        }},
+    const inline static AlignToFuncion horizontal_align_to_compute{
+        {Align::start, [](int container_size, int content_size) { return 0; }},
+        {Align::center,
+            [](int container_size, int content_size)
+            { return container_size / 2 - content_size / 2; }},
+        {Align::end,
+            [](int container_size, int content_size)
+            { return container_size - content_size; }},
     };
 
     std::string get_fixed_length_text(std::string text) const;
@@ -86,6 +81,6 @@ private:
     }
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

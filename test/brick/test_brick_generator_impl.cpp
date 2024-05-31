@@ -23,28 +23,24 @@ TEST(BrickGeneratorImpl, generate)
 {
     RngMock initial_rng{};
     const vector<pair<BrickGeneratorImpl, vector<Brick>>> gen_to_expected{
-        { {
-            { { {{ {1, 0}, {0, 1} }}, {{ {2, 0}, {0, 2} }} }, initial_rng },
-            { {1, 3}, initial_rng }
-        }, {
-            {{ {1, 0, 1}, {0, 1, 1} }},
-            {{ {2, 0, 3}, {0, 2, 3} }},
-        }},
-        { {
-            { { {{ {0, 0} }}, {{ {1, 1} }} }, initial_rng },
-            { {2, 5}, initial_rng }
-        }, {
-            {{ {0, 0, 2} }},
-            {{ {1, 1, 5} }},
-        }},
-        { {
-            { { {{ {0, 0} }}, {{ {1, 1} }}, {{ {0, 2} }} }, initial_rng },
-            { {7}, initial_rng }
-        }, {
-            {{ {0, 0, 7} }},
-            {{ {1, 1, 7} }},
-            {{ {0, 2, 7} }},
-        }},
+        {{{{{{{1, 0}, {0, 1}}}, {{{2, 0}, {0, 2}}}}, initial_rng},
+             {{1, 3}, initial_rng}},
+            {
+                {{{1, 0, 1}, {0, 1, 1}}},
+                {{{2, 0, 3}, {0, 2, 3}}},
+            }},
+        {{{{{{{0, 0}}}, {{{1, 1}}}}, initial_rng}, {{2, 5}, initial_rng}},
+            {
+                {{{0, 0, 2}}},
+                {{{1, 1, 5}}},
+            }},
+        {{{{{{{0, 0}}}, {{{1, 1}}}, {{{0, 2}}}}, initial_rng},
+             {{7}, initial_rng}},
+            {
+                {{{0, 0, 7}}},
+                {{{1, 1, 7}}},
+                {{{0, 2, 7}}},
+            }},
     };
 
     for (const auto& pair : gen_to_expected)
@@ -56,5 +52,4 @@ TEST(BrickGeneratorImpl, generate)
                 ASSERT_THAT(brick_generator.generate(), Eq(expected));
         }
     }
-        
 }

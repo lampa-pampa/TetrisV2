@@ -16,6 +16,6 @@ struct GameUiControls final
     int hold;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

@@ -42,11 +42,10 @@ public:
         const std::function<void()>& handler) = 0;
     virtual void connect_no_locking_hard_drop_pressed(
         const std::function<void()>& handler) = 0;
-    virtual void connect_hold_pressed(
-        const std::function<void()>& handler) = 0;
+    virtual void connect_hold_pressed(const std::function<void()>& handler) = 0;
     virtual ~GameUi() = default;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

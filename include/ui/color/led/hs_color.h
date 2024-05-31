@@ -12,12 +12,11 @@ struct HsColor final
     uint_fast8_t saturation;
 
     constexpr HsColor(uint_fast8_t hue, uint_fast8_t saturation)
-    :
-        hue{hue},
+      : hue{hue},
         saturation{saturation}
     {}
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

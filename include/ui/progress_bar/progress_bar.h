@@ -16,12 +16,8 @@ public:
     using Segments = std::tuple<std::vector<Rectangle>, std::vector<Rectangle>>;
 
     constexpr ProgressBar(
-        Vector2 position,
-        Vector2 segment_size,
-        int height,
-        int separator)
-    :
-        position_{position},
+        Vector2 position, Vector2 segment_size, int height, int separator)
+      : position_{position},
         segment_size_{segment_size},
         height_{height},
         separator_{separator}
@@ -36,6 +32,6 @@ private:
     int separator_;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

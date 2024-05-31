@@ -11,10 +11,7 @@ namespace Tetris
 class ScoreCounterImpl final: public ScoreCounter
 {
 public:
-    ScoreCounterImpl(ScoreCounterScoreFor score_for)
-    :
-        score_for_{score_for}
-    {}
+    ScoreCounterImpl(ScoreCounterScoreFor score_for): score_for_{score_for} {}
 
     int count_score_for_lines(int lines) const override
     {
@@ -30,11 +27,11 @@ public:
     {
         return score_for_.hard_drop * distance;
     }
-    
+
 private:
     const ScoreCounterScoreFor score_for_;
 };
 
-}
+} // namespace Tetris
 
 #endif

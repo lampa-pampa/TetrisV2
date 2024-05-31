@@ -63,62 +63,51 @@ int Brick::get_min_x() const
 {
     if (cubes.empty())
         return 0;
-    return min_element(
-        cubes.begin(),
+    return min_element(cubes.begin(),
         cubes.end(),
-        [](const Cube& a, const Cube& b){
-            return a.position.x < b.position.x;
-        }
-    )->position.x;
+        [](const Cube& a, const Cube& b)
+        { return a.position.x < b.position.x; })
+        ->position.x;
 }
 
 int Brick::get_max_x() const
 {
     if (cubes.empty())
         return 0;
-    return max_element(
-        cubes.begin(),
+    return max_element(cubes.begin(),
         cubes.end(),
-        [](const Cube& a, const Cube& b){
-            return a.position.x < b.position.x;
-        }
-    )->position.x;
+        [](const Cube& a, const Cube& b)
+        { return a.position.x < b.position.x; })
+        ->position.x;
 }
 
 int Brick::get_min_y() const
 {
     if (cubes.empty())
         return 0;
-    return min_element(
-        cubes.begin(),
+    return min_element(cubes.begin(),
         cubes.end(),
-        [](const Cube& a, const Cube& b){
-            return a.position.y < b.position.y;
-        }
-    )->position.y;
+        [](const Cube& a, const Cube& b)
+        { return a.position.y < b.position.y; })
+        ->position.y;
 }
 
 int Brick::get_max_y() const
 {
     if (cubes.empty())
         return 0;
-    return max_element(
-        cubes.begin(),
+    return max_element(cubes.begin(),
         cubes.end(),
-        [](const Cube& a, const Cube& b){
-            return a.position.y < b.position.y;
-        }
-    )->position.y;
+        [](const Cube& a, const Cube& b)
+        { return a.position.y < b.position.y; })
+        ->position.y;
 }
 
 Vector2 Brick::get_size() const
 {
     if (empty())
         return {};
-    return {
-        get_max_x() - get_min_x() + 1,
-        get_max_y() - get_min_y() + 1
-    };
+    return {get_max_x() - get_min_x() + 1, get_max_y() - get_min_y() + 1};
 }
 
 ostream& operator<<(ostream& os, const vector<Cube>& cubes)
@@ -132,4 +121,4 @@ ostream& operator<<(ostream& os, const vector<Cube>& cubes)
     return os;
 }
 
-}
+} // namespace Tetris

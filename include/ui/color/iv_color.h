@@ -11,13 +11,10 @@ struct IvColor final
     uint_fast8_t id;
     uint_fast8_t value;
 
-    constexpr IvColor(uint_fast8_t id, uint_fast8_t value)
-    :
-        id{id},
-        value{value}
+    constexpr IvColor(uint_fast8_t id, uint_fast8_t value): id{id}, value{value}
     {}
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

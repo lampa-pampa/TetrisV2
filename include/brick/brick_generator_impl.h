@@ -8,17 +8,16 @@
 
 namespace Tetris
 {
-    
+
 class BrickGeneratorImpl final: public BrickGenerator
 {
 public:
     BrickGeneratorImpl(
         const Bag<Brick>& bricks, const Bag<uint_fast8_t>& color_ids)
-    :
-        bricks_bag_{bricks},
+      : bricks_bag_{bricks},
         color_ids_bag_{color_ids}
     {}
-    
+
     Brick generate() override
     {
         return Brick::get_colored(
@@ -30,6 +29,6 @@ private:
     Bag<uint_fast8_t> color_ids_bag_;
 };
 
-}
+} // namespace Tetris
 
 #endif

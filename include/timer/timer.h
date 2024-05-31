@@ -19,6 +19,6 @@ public:
     virtual ~Timer() = default;
 };
 
-}
+} // namespace Tetris
 
 #endif

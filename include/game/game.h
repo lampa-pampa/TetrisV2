@@ -31,6 +31,6 @@ public:
     virtual ~Game() = default;
 };
 
-}
+} // namespace Tetris
 
 #endif

@@ -6,7 +6,7 @@
 namespace Tetris::Ui
 {
 
-enum class ColorIdName: uint_fast8_t
+enum class ColorIdName : uint_fast8_t
 {
     black = 0,
     dark_candy_apple_red = 1,
@@ -31,6 +31,6 @@ constexpr uint_fast8_t get_color_id(ColorIdName name)
     return static_cast<uint_fast8_t>(name);
 }
 
-}
+} // namespace Tetris::Ui
 
 #endif

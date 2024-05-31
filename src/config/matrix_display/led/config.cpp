@@ -6,19 +6,28 @@ namespace Tetris
 {
 
 const MatrixDisplayConfig matrix_display_config{
-    {64, 64},   // size
-    0x88,        // brightness
-    1,          // chain length
-    {   // PINS
-        25, 26,
-        27, 14,
-        12, 13,
-        0,  19,
-        5,  17,
-        33, 4,
-        18, 16,
+    {64, 64}, // size
+    0x88, // brightness
+    1, // chain length
+    {
+        // PINS
+        25,
+        26,
+        27,
+        14,
+        12,
+        13,
+        0,
+        19,
+        5,
+        17,
+        33,
+        4,
+        18,
+        16,
     },
-    {   // COLOR ID TO HS-COLOR
+    {
+        // COLOR ID TO HS-COLOR
         {0, {0x00, 0x00}},
         {1, {0x11, 0x88}},
         {2, {0x22, 0x88}},

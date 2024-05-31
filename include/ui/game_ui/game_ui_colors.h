@@ -63,6 +63,6 @@ struct GameUiColors final
     ValueGameUiColors value;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

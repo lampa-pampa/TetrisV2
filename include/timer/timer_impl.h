@@ -12,11 +12,9 @@ namespace Tetris
 {
 
 class TimerImpl final: public Timer
-{  
+{
 public:
-    TimerImpl(int start_level)
-    :
-        timeout_time_{0}
+    TimerImpl(int start_level): timeout_time_{0}
     {
         set_timeout_delay(start_level);
         start();
@@ -65,6 +63,6 @@ private:
     unsigned long compute_timeout_delay(int level) const;
 };
 
-}
+} // namespace Tetris
 
 #endif

@@ -21,11 +21,11 @@ TEST(Bag, get_next)
 {
     RngMock rng{};
     const vector<pair<vector<int>, vector<int>>> items_to_expected{
-        { {1, 2, 3}, {1, 2, 3} },
-        { {45, 54, 34}, {45, 54, 34} },
-        { {1, 0, 1}, {1, 0, 1} },
+        {{1, 2, 3}, {1, 2, 3}},
+        {{45, 54, 34}, {45, 54, 34}},
+        {{1, 0, 1}, {1, 0, 1}},
     };
-    
+
     for (const auto& pair : items_to_expected)
     {
         Bag bag{pair.first, rng};

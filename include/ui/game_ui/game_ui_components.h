@@ -56,6 +56,6 @@ struct GameUiComponents final
     ProgressBarComponents progress_bar;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

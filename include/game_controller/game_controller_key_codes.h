@@ -11,6 +11,6 @@ struct GameControllerKeyCodes final
     int no_key;
 };
 
-}
+} // namespace Tetris
 
 #endif

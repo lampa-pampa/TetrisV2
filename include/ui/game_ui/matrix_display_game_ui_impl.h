@@ -30,13 +30,12 @@ namespace Tetris::Ui
 class MatrixDisplayGameUiImpl final: public GameUi
 {
 public:
-    MatrixDisplayGameUiImpl(
-        MatrixDisplay& matrix,
+    MatrixDisplayGameUiImpl(MatrixDisplay& matrix,
         GameUiControls controls,
         GameUiComponents components,
         GameUiColors colors,
         int cube_size);
-    
+
     void handle_key_press(int key_code) override;
     void refresh_level_progress_bar(int quantity) override;
     void pause() override;
@@ -46,7 +45,7 @@ public:
     void refresh_score(unsigned long long score) override;
     void refresh_tetrises(unsigned long long tetrises) override;
     void refresh_level(int level) override;
-    
+
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
     {
         cur_brick_cubes_ = cubes;
@@ -105,8 +104,7 @@ public:
         no_locking_hard_drop_pressed_.connect(handler);
     }
 
-    void connect_hold_pressed(
-        const std::function<void()>& handler) override
+    void connect_hold_pressed(const std::function<void()>& handler) override
     {
         hold_pressed_.connect(handler);
     }
@@ -123,7 +121,7 @@ private:
     MatrixDisplay& matrix_;
     IvColorMatrix main_layer_;
     std::vector<Cube> cur_brick_cubes_;
-    
+
     Signal move_left_pressed_;
     Signal move_right_pressed_;
     Signal rotate_clockwise_pressed_;
@@ -144,8 +142,7 @@ private:
     void draw_rectangle(const Rectangle& rectangle, IvColor color);
     void draw_rectangle(const Rectangle& rectangle);
     void draw_text_line(const TextLine& line, IvColor color);
-    void draw_centered_brick_in_container(
-        const Brick& brick,
+    void draw_centered_brick_in_container(const Brick& brick,
         const Rectangle& rect,
         uint_fast8_t color_value,
         bool align_to_left);
@@ -172,22 +169,21 @@ private:
         draw_on_text_area(std::to_string(number), area, color);
     }
 
-    void draw_text_lines(
-        const std::vector<TextLine>& text_lines, IvColor color)
-    { 
+    void draw_text_lines(const std::vector<TextLine>& text_lines, IvColor color)
+    {
         for (const auto& line : text_lines)
             draw_text_line(line, color);
     }
 
     void draw_rectangles(const std::vector<Rectangle>& rectangles)
-    { 
+    {
         for (const auto& rectangle : rectangles)
             draw_rectangle(rectangle);
     }
 
     void draw_rectangles(
         const std::vector<Rectangle>& rectangles, IvColor color)
-    { 
+    {
         for (const auto& rectangle : rectangles)
             draw_rectangle(rectangle, color);
     }
@@ -204,15 +200,12 @@ private:
             draw_on_board(row, colors_.value.board);
     }
 
-    void draw_on_board(
-        const std::vector<Cube>& cubes, uint_fast8_t color_value)
+    void draw_on_board(const std::vector<Cube>& cubes, uint_fast8_t color_value)
     {
-        draw_cubes(
-            components_.container.board.position, cubes, color_value);
+        draw_cubes(components_.container.board.position, cubes, color_value);
     }
 
-    void draw_cubes(
-        Vector2 position,
+    void draw_cubes(Vector2 position,
         const std::vector<Cube>& cubes,
         uint_fast8_t color_value)
     {
@@ -227,6 +220,6 @@ private:
     }
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

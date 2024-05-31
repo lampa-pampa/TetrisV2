@@ -17,7 +17,7 @@ namespace Tetris::Ui
 {
 
 class LedMatrixDisplayImpl final: public MatrixDisplay
-{  
+{
 public:
     LedMatrixDisplayImpl(const MatrixDisplayConfig& config);
 
@@ -41,6 +41,6 @@ private:
     void refresh_pixel(Vector2 position, IvColor color);
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

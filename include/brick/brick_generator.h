@@ -13,6 +13,6 @@ public:
     virtual ~BrickGenerator() = default;
 };
 
-}
+} // namespace Tetris
 
 #endif

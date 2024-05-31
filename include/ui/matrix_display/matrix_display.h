@@ -11,7 +11,7 @@ namespace Tetris::Ui
 
 class MatrixDisplay
 {
-public:   
+public:
     using IvColorMatrix = std::vector<std::vector<IvColor>>;
 
     virtual void refresh(const IvColorMatrix& colors) = 0;
@@ -19,6 +19,6 @@ public:
     virtual ~MatrixDisplay() = default;
 };
 
-}
+} // namespace Tetris::Ui
 
 #endif

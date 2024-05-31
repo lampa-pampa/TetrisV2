@@ -18,6 +18,6 @@ struct MatrixDisplayConfig final
     Ui::NCursesColors ncurses_colors;
 };
 
-}
+} // namespace Tetris
 
 #endif

@@ -25,7 +25,7 @@ vector<TextLine> TextArea::create_lines(
     vector<TextLine> lines{};
     for (const auto& i : irange(lines_chars.size()))
     {
-        const auto&[line_chars, line_width]{lines_chars[i]};
+        const auto& [line_chars, line_width]{lines_chars[i]};
         const int y = start_y + i * (Char::height + padding_);
         lines.emplace_back(create_line(line_chars, line_width, y));
     }
@@ -43,14 +43,12 @@ string TextArea::get_fixed_length_text(string text) const
     return string(max_text_length_ - text.size(), fill_char_) + text;
 }
 
-bool TextArea::line_should_be_ended(
-    int line_width, int i, string text) const
+bool TextArea::line_should_be_ended(int line_width, int i, string text) const
 {
-    return text[i] == '\n'
-        or i == text.size() - 1
+    return text[i] == '\n' or i == text.size() - 1
         or text[i + 1] != '\n'
-            and line_width + get_char(text[i + 1]).width + Char::separator
-                > container_.size.x;
+        and line_width + get_char(text[i + 1]).width + Char::separator
+            > container_.size.x;
 }
 
 vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
@@ -81,10 +79,7 @@ vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
 
 Rectangle TextArea::create_line_background(Vector2 position, int width) const
 {
-    return {
-        position - padding_,
-        Vector2{width, Char::height} + 2 * padding_
-    };
+    return {position - padding_, Vector2{width, Char::height} + 2 * padding_};
 }
 
 int TextArea::compute_aligned_position(
@@ -112,16 +107,16 @@ int TextArea::compute_line_position_x(int line_width) const
         horizontal_align_, container_.size.x, line_width);
 }
 
-TextLine TextArea::create_line(const vector<Char>& chars, int width, int y) const
+TextLine TextArea::create_line(
+    const vector<Char>& chars, int width, int y) const
 {
     const Vector2 line_position{
-        container_.position + Vector2{compute_line_position_x(width), y}
-    };
+        container_.position + Vector2{compute_line_position_x(width), y}};
     return {
         create_line_background(line_position, width),
         line_position,
         chars,
-    };        
+    };
 }
 
-}
+} // namespace Tetris::Ui

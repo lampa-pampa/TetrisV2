@@ -18,8 +18,7 @@ int NCursesColors::get(uint_fast8_t color_id)
 
 //----------------------------------------------------
 
-NCursesColors::ColorPair NCursesColors::create_color_pair(
-    uint_fast8_t color_id)
+NCursesColors::ColorPair NCursesColors::create_color_pair(uint_fast8_t color_id)
 {
     auto it{color_id_to_ncurses_id_.find(color_id)};
     assert(it != color_id_to_ncurses_id_.end());
@@ -27,4 +26,4 @@ NCursesColors::ColorPair NCursesColors::create_color_pair(
     return color_id_to_ncurses_color_.insert({color_id, it->second}).first;
 }
 
-}
+} // namespace Tetris::Ui

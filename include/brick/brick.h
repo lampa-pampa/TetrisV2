@@ -26,11 +26,10 @@ struct Brick final
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
     static Brick get_colored(const Brick& brick, uint_fast8_t color_id);
 
-    friend inline std::ostream& operator<<(
-        std::ostream& os, const Brick& brick)
-    { 
-        return os << "{{ " << brick.cubes << " }, "
-            << brick.rotation_offset << "}";
+    friend inline std::ostream& operator<<(std::ostream& os, const Brick& brick)
+    {
+        return os << "{{ " << brick.cubes << " }, " << brick.rotation_offset
+                  << "}";
     }
 
     static int compute_next_rotation(int rotation, int d_q)
@@ -43,13 +42,12 @@ struct Brick final
     {
         return get_translated(get_rotated(brick, quarters_rotation), position);
     }
-    
+
     Brick(std::vector<Cube> cubes = {}, Vector2 rotation_offset = {0, 0})
-    :
-        cubes{cubes},
+      : cubes{cubes},
         rotation_offset{rotation_offset}
     {}
-    
+
     int get_min_x() const;
     int get_max_x() const;
     int get_min_y() const;
@@ -68,6 +66,6 @@ struct Brick final
     }
 };
 
-}
+} // namespace Tetris
 
 #endif

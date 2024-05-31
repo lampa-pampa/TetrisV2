@@ -14,18 +14,18 @@ struct Settings final
 
     bool operator==(const Settings& other) const
     {
-        return generate_ghost == other.generate_ghost 
+        return generate_ghost == other.generate_ghost
             and generate_ghost == other.generate_ghost;
     }
 
-    friend inline std::ostream& operator<<(std::ostream& os,
-        const Settings& settings)
+    friend inline std::ostream& operator<<(
+        std::ostream& os, const Settings& settings)
     {
-        return os << "{" << settings.generate_ghost << ", "
-            << std::boolalpha << settings.generate_ghost << "}";
+        return os << "{" << settings.generate_ghost << ", " << std::boolalpha
+                  << settings.generate_ghost << "}";
     }
 };
 
-}
+} // namespace Tetris
 
 #endif
