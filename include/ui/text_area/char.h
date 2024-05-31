@@ -19,8 +19,6 @@ struct Char final
     std::vector<Vector2> pixels;
 };
 
-namespace
-{
 const std::map<char, Char> char_to_ui_char{
     {'0',
         {3,
@@ -681,7 +679,6 @@ const std::map<char, Char> char_to_ui_char{
 
             }}},
 };
-}
 
 inline Char get_char(char c)
 {
