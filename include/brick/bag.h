@@ -36,7 +36,7 @@ private:
 template<typename T>
 Bag<T>::Bag(const std::vector<T>& items, Rng& rng)
   : items_{items},
-    current_index_{0},
+    current_index_{},
     rng_{rng}
 {}
 

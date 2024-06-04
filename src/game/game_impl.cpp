@@ -9,6 +9,7 @@
 #include "game/game_state.h"
 #include "game/settings.h"
 #include "score_counter/score_counter.h"
+#include "ui/color/color_id_name.h"
 #include "ui/game_ui/game_ui.h"
 #include "vector_2/vector_2.h"
 
@@ -34,10 +35,10 @@ GameImpl::GameImpl(Ui::GameUi& ui,
     brick_start_position_{brick_start_position},
     next_level_lines_quantity_{next_level_lines_quantity},
     state_{GameState::in_progress},
-    score_{0},
-    tetrises_{0},
+    score_{},
+    tetrises_{},
     level_{settings.start_level},
-    lines_quantity_{0},
+    lines_quantity_{},
     next_brick_{brick_generator.generate()},
     hold_brick_{},
     can_hold_{true}
@@ -203,7 +204,7 @@ void GameImpl::refresh_ghost_brick(bool use_colors)
     {
         Brick brick = create_ghost_brick();
         if (not use_colors)
-            brick = Brick::get_colored(brick, 0);
+            brick = Brick::get_colored(brick, Ui::ColorIdName::black);
         ui_.refresh_ghost_brick(board_.get_visible_brick_cubes(brick.cubes));
     }
 }
@@ -212,7 +213,7 @@ void GameImpl::refresh_cur_brick(bool use_colors)
 {
     Brick brick = get_transformed_cur_brick();
     if (not use_colors)
-        brick = Brick::get_colored(brick, 0);
+        brick = Brick::get_colored(brick, Ui::ColorIdName::black);
     ui_.refresh_cur_brick(board_.get_visible_brick_cubes(brick.cubes));
 }
 

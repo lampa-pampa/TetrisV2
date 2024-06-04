@@ -14,7 +14,7 @@ namespace Tetris
 class TimerImpl final: public Timer
 {
 public:
-    TimerImpl(int start_level): timeout_time_{0}
+    TimerImpl(int start_level): timeout_time_{}
     {
         set_timeout_delay(start_level);
         start();

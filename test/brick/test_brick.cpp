@@ -23,7 +23,7 @@ using Tetris::Ui::ColorIdName;
 
 TEST(Brick, compute_next_rotation)
 {
-    const int initial_rotation{0};
+    const int initial_rotation{};
     const vector<pair<int, int>> delta_quarters_to_expected{
         {0, 0},
         {3, 3},

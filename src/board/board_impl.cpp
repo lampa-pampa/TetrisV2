@@ -69,7 +69,7 @@ BoardImpl::CubeMatrix BoardImpl::create_cubes() const
     {
         vector<Cube> row{};
         for (const auto& x : irange(size_.x))
-            row.emplace_back(Cube{x, y});
+            row.emplace_back(x, y);
         cubes.emplace_back(std::move(row));
     }
     return cubes;
