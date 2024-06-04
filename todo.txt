@@ -1,10 +1,6 @@
-wszędzie bitmapy (uogólnione wyświetlacze)
+data structures + render_<name>
 
-max value
-
-text_lines -> one text container (rectangle + char pixels)
-
-
+max value char
 
 
 console input_receiver (translations to button matrix key codes)
