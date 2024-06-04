@@ -10,6 +10,7 @@
 
 #include "brick/brick.h"
 #include "rng/rng_mock.h"
+#include "ui/color/color_id_name.h"
 
 using boost::irange;
 using std::pair;
@@ -18,29 +19,77 @@ using testing::Eq;
 using Tetris::Brick;
 using Tetris::BrickGeneratorImpl;
 using Tetris::RngMock;
+using Tetris::Ui::ColorIdName;
 
 TEST(BrickGeneratorImpl, generate)
 {
     RngMock initial_rng{};
     const vector<pair<BrickGeneratorImpl, vector<Brick>>> gen_to_expected{
-        {{{{{{{1, 0}, {0, 1}}}, {{{2, 0}, {0, 2}}}}, initial_rng},
-             {{1, 3}, initial_rng}},
+        {
             {
-                {{{1, 0, 1}, {0, 1, 1}}},
-                {{{2, 0, 3}, {0, 2, 3}}},
-            }},
-        {{{{{{{0, 0}}}, {{{1, 1}}}}, initial_rng}, {{2, 5}, initial_rng}},
+                {
+                    {
+                        {{{1, 0}, {0, 1}}},
+                        {{{2, 0}, {0, 2}}},
+                    },
+                    initial_rng,
+                },
+                {
+                    {ColorIdName::white, ColorIdName::duke_blue},
+                    initial_rng,
+                },
+            },
             {
-                {{{0, 0, 2}}},
-                {{{1, 1, 5}}},
-            }},
-        {{{{{{{0, 0}}}, {{{1, 1}}}, {{{0, 2}}}}, initial_rng},
-             {{7}, initial_rng}},
+                {{
+                    {1, 0, ColorIdName::white},
+                    {0, 1, ColorIdName::white},
+                }},
+                {{
+                    {2, 0, ColorIdName::duke_blue},
+                    {0, 2, ColorIdName::duke_blue},
+                }},
+            },
+        },
+        {
             {
-                {{{0, 0, 7}}},
-                {{{1, 1, 7}}},
-                {{{0, 2, 7}}},
-            }},
+                {
+                    {
+                        {{{0, 0}}},
+                        {{{1, 1}}},
+                    },
+                    initial_rng,
+                },
+                {
+                    {ColorIdName::white, ColorIdName::duke_blue},
+                    initial_rng,
+                },
+            },
+            {
+                {{{0, 0, ColorIdName::white}}},
+                {{{1, 1, ColorIdName::duke_blue}}},
+            },
+        },
+        {
+            {
+                {
+                    {
+                        {{{0, 0}}},
+                        {{{1, 1}}},
+                        {{{0, 2}}},
+                    },
+                    initial_rng,
+                },
+                {
+                    {ColorIdName::white},
+                    initial_rng,
+                },
+            },
+            {
+                {{{0, 0, ColorIdName::white}}},
+                {{{1, 1, ColorIdName::white}}},
+                {{{0, 2, ColorIdName::white}}},
+            },
+        },
     };
 
     for (const auto& pair : gen_to_expected)

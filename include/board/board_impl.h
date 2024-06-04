@@ -72,7 +72,7 @@ private:
     void copy_cube_above(Vector2 position)
     {
         const Cube& above{get_cube(position - Vector2{0, 1})};
-        get_cube(position).color_id = above.color_id;
+        get_cube(position).color_id_name = above.color_id_name;
     }
 
     bool position_is_valid(Vector2 position) const

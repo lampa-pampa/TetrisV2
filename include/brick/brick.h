@@ -1,11 +1,11 @@
 #ifndef INCLUDE_BRICK_H
 #define INCLUDE_BRICK_H
 
-#include <cstdint>
 #include <ostream>
 #include <vector>
 
 #include "cube/cube.h"
+#include "ui/color/color_id_name.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
@@ -24,7 +24,7 @@ struct Brick final
     static Vector2 get_rotated_position(
         Vector2 position, Vector2 rotation_offset, int quarters_rotation);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
-    static Brick get_colored(const Brick& brick, uint_fast8_t color_id);
+    static Brick get_colored(const Brick& brick, Ui::ColorIdName color_id_name);
 
     friend inline std::ostream& operator<<(std::ostream& os, const Brick& brick)
     {

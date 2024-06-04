@@ -16,6 +16,7 @@
 #include "game/game_state.h"
 #include "rng/rng_mock.h"
 #include "score_counter/score_counter_impl.h"
+#include "ui/color/color_id_name.h"
 #include "ui/game_ui/game_ui_mock.h"
 #include "vector_2/vector_2.h"
 
@@ -34,6 +35,7 @@ using Tetris::RngMock;
 using Tetris::ScoreCounterImpl;
 using Tetris::Settings;
 using Tetris::Vector2;
+using Tetris::Ui::ColorIdName;
 using Tetris::Ui::GameUiMock;
 
 namespace
@@ -49,7 +51,7 @@ struct GameImplTest
         rng{},
         brick_generator{
             {config.bricks, rng},
-            {config.color_ids, rng},
+            {config.color_id_names, rng},
         },
         score_counter{
             config.score_counter.score_for,
@@ -87,69 +89,93 @@ TEST(GameImpl, GameImpl)
             bool,
             Settings>>>
         config_to_expected{
-            {{
-                 {{5, 10}},
-                 {{1, 2, 4}},
-                 {{{{0, 0}, {0, 1}}}},
-                 {2},
-                 {0, false},
-                 {2, 5},
-                 10,
-             },
+            {
+                {
+                    {{5, 10}},
+                    {{1, 2, 4}},
+                    {{{{0, 0}, {0, 1}}}},
+                    {ColorIdName::white},
+                    {0, false},
+                    {2, 5},
+                    10,
+                },
                 {
                     GameState::in_progress,
                     0,
                     0,
-                    {{{0, 0, 2}, {0, 1, 2}}},
+                    {{
+                        {0, 0, ColorIdName::white},
+                        {0, 1, ColorIdName::white},
+                    }},
                     {2, 5},
                     0,
-                    {{{0, 0, 2}, {0, 1, 2}}},
+                    {{
+                        {0, 0, ColorIdName::white},
+                        {0, 1, ColorIdName::white},
+                    }},
                     {{}},
                     true,
                     {0, false},
-                }},
-            {{
-                 {{3, 5}, 2},
-                 {{3, 12, 24}},
-                 {{{{0, 0}, {1, 2}}}, {{{0, 0}, {1, 3}}}},
-                 {4, 6},
-                 {0, false},
-                 {1, 2},
-                 10,
-             },
+                },
+            },
+            {
+                {
+                    {{3, 5}, 2},
+                    {{3, 12, 24}},
+                    {{{{0, 0}, {1, 2}}}, {{{0, 0}, {1, 3}}}},
+                    {ColorIdName::dark_gray, ColorIdName::white},
+                    {0, false},
+                    {1, 2},
+                    10,
+                },
                 {
                     GameState::in_progress,
                     0,
                     0,
-                    {{{0, 0, 4}, {1, 2, 4}}},
+                    {{
+                        {0, 0, ColorIdName::dark_gray},
+                        {1, 2, ColorIdName::dark_gray},
+                    }},
                     {1, 2},
                     0,
-                    {{{0, 0, 6}, {1, 3, 6}}},
+                    {{
+                        {0, 0, ColorIdName::white},
+                        {1, 3, ColorIdName::white},
+                    }},
                     {{}},
                     true,
                     {0, false},
-                }},
-            {{
-                 {{10, 20}, 2},
-                 {{0, 0, 0}},
-                 {{{{0, 0}, {1, 0}}}, {{{-1, 0}, {0, 0}}}},
-                 {3, 5},
-                 {0, false},
-                 {4, 3},
-                 10,
-             },
+                },
+            },
+            {
+                {
+                    {{10, 20}, 2},
+                    {{0, 0, 0}},
+                    {{{{0, 0}, {1, 0}}}, {{{-1, 0}, {0, 0}}}},
+                    {ColorIdName::white},
+                    {0, false},
+                    {4, 3},
+                    10,
+                },
                 {
                     GameState::in_progress,
                     0,
                     0,
-                    {{{0, 0, 3}, {1, 0, 3}}},
+                    {{
+                        {0, 0, ColorIdName::white},
+                        {1, 0, ColorIdName::white},
+                    }},
                     {4, 3},
                     0,
-                    {{{-1, 0, 5}, {0, 0, 5}}},
+                    {{
+                        {-1, 0, ColorIdName::white},
+                        {0, 0, ColorIdName::white},
+                    }},
                     {{}},
                     true,
                     {0, false},
-                }},
+                },
+            },
         };
 
     for (const auto& pair : config_to_expected)
@@ -186,7 +212,11 @@ TEST(GameImpl, handle_soft_drop)
         {{3}, 0},
         {{1, 3, 2}},
         {{{{0, 0}}}},
-        {1, 2, 3},
+        {
+            ColorIdName::white,
+            ColorIdName::davy_s_grey,
+            ColorIdName::dodie_yellow,
+        },
         {0, false},
         {1, 0},
     };
@@ -196,25 +226,25 @@ TEST(GameImpl, handle_soft_drop)
                 {
                     GameState::in_progress,
                     2,
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::white}}},
                     {1, 1},
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                 }},
             {4,
                 {
                     GameState::in_progress,
                     8,
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                     {1, 1},
-                    {{{0, 0, 3}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
                 }},
             {6,
                 {
                     GameState::ended,
                     12,
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::white}}},
                     {1, 0},
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                 }},
         };
 
@@ -240,48 +270,56 @@ TEST(GameImpl, handle_timeout)
 {
     const GameConfig initial_config{
         {{3}, 0},
-        {{1, 2, 3}},
+        {{1, 3, 2}},
         {{{{0, 0}}}},
-        {1, 2, 3},
+        {
+            ColorIdName::white,
+            ColorIdName::davy_s_grey,
+            ColorIdName::dodie_yellow,
+        },
         {0, false},
         {1, 0},
     };
-    const vector<pair<int, tuple<GameState, Brick, Vector2, Brick>>>
-        timeouts_to_expected{
+    const vector<pair<int, tuple<GameState, int, Brick, Vector2, Brick>>>
+        soft_drops_to_expected{
             {1,
                 {
                     GameState::in_progress,
-                    {{{0, 0, 1}}},
+                    2,
+                    {{{0, 0, ColorIdName::white}}},
                     {1, 1},
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                 }},
             {4,
                 {
                     GameState::in_progress,
-                    {{{0, 0, 2}}},
+                    8,
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                     {1, 1},
-                    {{{0, 0, 3}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
                 }},
             {6,
                 {
                     GameState::ended,
-                    {{{0, 0, 1}}},
+                    12,
+                    {{{0, 0, ColorIdName::white}}},
                     {1, 0},
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                 }},
         };
 
-    for (const auto& pair : timeouts_to_expected)
+    for (const auto& pair : soft_drops_to_expected)
     {
-        const auto& [state, cur_brick, cur_brick_position, next_brick]{
+        const auto& [state, score, cur_brick, cur_brick_position, next_brick]{
             pair.second};
 
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
         for (const auto& i : irange(pair.first))
-            game.handle_timeout();
+            game.handle_soft_drop();
 
         ASSERT_THAT(game.get_state(), Eq(state));
+        ASSERT_THAT(game.get_score(), Eq(score));
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
         ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
@@ -294,7 +332,7 @@ TEST(GameImpl, handle_move_left)
         {{5, 3}, 0},
         {{0, 0, 0}},
         {{{{0, 0}}}},
-        {1},
+        {ColorIdName::white},
         {0, false},
         {2, 0},
     };
@@ -321,7 +359,7 @@ TEST(GameImpl, handle_move_right)
         {{5, 3}, 0},
         {{0, 0, 0}},
         {{{{0, 0}}}},
-        {1},
+        {ColorIdName::white},
         {0, false},
         {2, 0},
     };
@@ -348,7 +386,7 @@ TEST(GameImpl, handle_rotate_clockwise)
         {{3}, 0},
         {{0, 0, 0}},
         {{{{0, 0}, {1, 0}}}},
-        {1},
+        {ColorIdName::white},
         {0, false},
         {1, 0},
     };
@@ -382,7 +420,7 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
         {{3}, 0},
         {{0, 0, 0}},
         {{{{-1, 0}, {0, 0}}}},
-        {1},
+        {ColorIdName::white},
         {0, false},
         {1, 0},
     };
@@ -416,7 +454,11 @@ TEST(GameImpl, handle_locking_hard_drop)
         {{3}, 0},
         {{1, 3, 2}},
         {{{{0, 0}}}},
-        {1, 2, 3},
+        {
+            ColorIdName::white,
+            ColorIdName::davy_s_grey,
+            ColorIdName::dodie_yellow,
+        },
         {0, false},
         {1, 0},
     };
@@ -426,25 +468,25 @@ TEST(GameImpl, handle_locking_hard_drop)
                 {
                     GameState::in_progress,
                     6,
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                     {1, 0},
-                    {{{0, 0, 3}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
                 }},
             {2,
                 {
                     GameState::in_progress,
                     9,
-                    {{{0, 0, 3}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
                     {1, 0},
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::white}}},
                 }},
             {3,
                 {
                     GameState::ended,
                     9,
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::white}}},
                     {1, 0},
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                 }},
         };
 
@@ -472,7 +514,11 @@ TEST(GameImpl, handle_no_locking_hard_drop)
         {{3}, 0},
         {{1, 3, 2}},
         {{{{0, 0}}}},
-        {1, 2, 3},
+        {
+            ColorIdName::white,
+            ColorIdName::davy_s_grey,
+            ColorIdName::dodie_yellow,
+        },
         {0, false},
         {1, 0},
     };
@@ -482,25 +528,25 @@ TEST(GameImpl, handle_no_locking_hard_drop)
                 {
                     GameState::in_progress,
                     6,
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::white}}},
                     {1, 2},
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                 }},
             {2,
                 {
                     GameState::in_progress,
                     6,
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                     {1, 0},
-                    {{{0, 0, 3}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
                 }},
             {5,
                 {
                     GameState::ended,
                     9,
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::white}}},
                     {1, 0},
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                 }},
         };
 
@@ -528,7 +574,11 @@ TEST(GameImpl, handle_hold)
         {{3}, 0},
         {{0, 0, 0}},
         {{{{0, 0}}}},
-        {1, 2, 3},
+        {
+            ColorIdName::white,
+            ColorIdName::davy_s_grey,
+            ColorIdName::dodie_yellow,
+        },
         {0, false},
         {1, 0},
     };
@@ -537,26 +587,26 @@ TEST(GameImpl, handle_hold)
         timeouts_before_and_after_to_expected{
             {{0, 0},
                 {
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                     {1, 0},
-                    {{{0, 0, 3}}},
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
+                    {{{0, 0, ColorIdName::white}}},
                     false,
                 }},
             {{1, 2},
                 {
-                    {{{0, 0, 2}}},
+                    {{{0, 0, ColorIdName::davy_s_grey}}},
                     {1, 2},
-                    {{{0, 0, 3}}},
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
+                    {{{0, 0, ColorIdName::white}}},
                     false,
                 }},
             {{2, 3},
                 {
-                    {{{0, 0, 3}}},
+                    {{{0, 0, ColorIdName::dodie_yellow}}},
                     {1, 0},
-                    {{{0, 0, 1}}},
-                    {{{0, 0, 1}}},
+                    {{{0, 0, ColorIdName::white}}},
+                    {{{0, 0, ColorIdName::white}}},
                     true,
                 }},
         };
@@ -593,7 +643,7 @@ TEST(GameImpl, update_level)
         {{3}, 0},
         {{1, 2, 3}},
         {{{{-1, 0}, {0, 0}, {1, 0}}}},
-        {1},
+        {ColorIdName::white},
         {1, false},
         {1, 2},
         10,
@@ -621,7 +671,7 @@ TEST(GameImpl, set_start_position)
         {{2, 5}, 2},
         {{0, 0, 0}},
         {{{{0, 0}, {0, 1}}}},
-        {1},
+        {ColorIdName::white},
         {1, false},
         {0, 3},
     };

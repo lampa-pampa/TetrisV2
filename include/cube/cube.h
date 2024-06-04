@@ -1,9 +1,9 @@
 #ifndef INCLUDE_CUBE_H
 #define INCLUDE_CUBE_H
 
-#include <cstdint>
 #include <ostream>
 
+#include "ui/color/color_id_name.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
@@ -12,32 +12,33 @@ namespace Tetris
 struct Cube final
 {
     Vector2 position;
-    uint_fast8_t color_id;
+    Ui::ColorIdName color_id_name;
 
     friend std::ostream& operator<<(std::ostream& os, const Cube& cube)
     {
         return os << "{" << cube.position.x << ", " << cube.position.y << ", "
-                  << cube.color_id << "}";
+                  << cube.color_id_name << "}";
     }
 
-    Cube(int x, int y, uint_fast8_t color_id = 0)
+    Cube(int x, int y, Ui::ColorIdName color_id_name = Ui::ColorIdName::black)
       : position{x, y},
-        color_id{color_id}
+        color_id_name{color_id_name}
     {}
 
     bool operator==(const Cube& other) const
     {
-        return position == other.position and color_id == other.color_id;
+        return position == other.position
+            and color_id_name == other.color_id_name;
     }
 
     void clear()
     {
-        color_id = 0;
+        color_id_name = Ui::ColorIdName::black;
     }
 
     bool empty() const
     {
-        return color_id == 0;
+        return color_id_name == Ui::ColorIdName::black;
     }
 };
 

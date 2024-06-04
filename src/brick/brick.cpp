@@ -1,13 +1,13 @@
 #include "brick/brick.h"
 
 #include <algorithm>
-#include <cstdint>
 #include <ostream>
 #include <vector>
 
 #include <boost/range/irange.hpp>
 
 #include "cube/cube.h"
+#include "ui/color/color_id_name.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -20,11 +20,11 @@ using std::vector;
 namespace Tetris
 {
 
-Brick Brick::get_colored(const Brick& brick, uint_fast8_t color_id)
+Brick Brick::get_colored(const Brick& brick, Ui::ColorIdName color_id_name)
 {
     Brick colored_brick{brick};
     for (auto& cube : colored_brick.cubes)
-        cube.color_id = color_id;
+        cube.color_id_name = color_id_name;
     return colored_brick;
 }
 

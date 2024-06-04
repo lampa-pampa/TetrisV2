@@ -37,7 +37,7 @@ void run_tetris(const Config& config,
 
     BrickGeneratorImpl brick_generator{
         {config.game.bricks, rng},
-        {config.game.color_ids, rng},
+        {config.game.color_id_names, rng},
     };
 
     ScoreCounterImpl score_counter{

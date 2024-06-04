@@ -5,6 +5,7 @@
 
 #include "brick/bag.h"
 #include "brick/brick.h"
+#include "ui/color/color_id_name.h"
 
 namespace Tetris
 {
@@ -13,20 +14,20 @@ class BrickGeneratorImpl final: public BrickGenerator
 {
 public:
     BrickGeneratorImpl(
-        const Bag<Brick>& bricks, const Bag<uint_fast8_t>& color_ids)
+        const Bag<Brick>& bricks, const Bag<Ui::ColorIdName>& color_id_names)
       : bricks_bag_{bricks},
-        color_ids_bag_{color_ids}
+        color_id_names_bag_{color_id_names}
     {}
 
     Brick generate() override
     {
         return Brick::get_colored(
-            bricks_bag_.get_next(), color_ids_bag_.get_next());
+            bricks_bag_.get_next(), color_id_names_bag_.get_next());
     }
 
 private:
     Bag<Brick> bricks_bag_;
-    Bag<uint_fast8_t> color_ids_bag_;
+    Bag<Ui::ColorIdName> color_id_names_bag_;
 };
 
 } // namespace Tetris

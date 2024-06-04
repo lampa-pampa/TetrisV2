@@ -11,14 +11,15 @@ using std::pair;
 using std::vector;
 using testing::Eq;
 using Tetris::Cube;
+using Tetris::Ui::ColorIdName;
 
 TEST(Cube, empty)
 {
     const vector<pair<Cube, bool>> cube_to_expected{
         {{1, 2}, true},
-        {{4, 3, 0}, true},
-        {{6, 7, 1}, false},
-        {{8, 0, 2}, false},
+        {{4, 3, ColorIdName::black}, true},
+        {{6, 7, ColorIdName::white}, false},
+        {{8, 0, ColorIdName::dodie_yellow}, false},
     };
 
     for (const auto& pair : cube_to_expected)
@@ -29,9 +30,9 @@ TEST(Cube, clear)
 {
     const vector<pair<Cube, Cube>> cube_to_expected{
         {{1, 2}, {1, 2}},
-        {{4, 3, 0}, {4, 3, 0}},
-        {{6, 7, 1}, {6, 7}},
-        {{8, 0, 2}, {8, 0}},
+        {{4, 3, ColorIdName::black}, {4, 3, ColorIdName::black}},
+        {{6, 7, ColorIdName::davy_s_grey}, {6, 7}},
+        {{8, 0, ColorIdName::screamin_green}, {8, 0}},
     };
 
     for (const auto& pair : cube_to_expected)

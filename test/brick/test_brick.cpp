@@ -18,6 +18,7 @@ using std::vector;
 using testing::Eq;
 using Tetris::Brick;
 using Tetris::Vector2;
+using Tetris::Ui::ColorIdName;
 
 TEST(Brick, compute_next_rotation)
 {
@@ -43,10 +44,28 @@ TEST(Brick, compute_next_rotation)
 TEST(Brick, get_colored)
 {
     const Brick initial_brick{{{2, 8}, {1, 2}}};
-    const vector<pair<int, Brick>> color_id_to_expected{
-        {1, {{{2, 8, 1}, {1, 2, 1}}}},
-        {3, {{{2, 8, 3}, {1, 2, 3}}}},
-        {6, {{{2, 8, 6}, {1, 2, 6}}}},
+    const vector<pair<ColorIdName, Brick>> color_id_to_expected{
+        {
+            ColorIdName::white,
+            {{
+                {2, 8, ColorIdName::white},
+                {1, 2, ColorIdName::white},
+            }},
+        },
+        {
+            ColorIdName::dark_gray,
+            {{
+                {2, 8, ColorIdName::dark_gray},
+                {1, 2, ColorIdName::dark_gray},
+            }},
+        },
+        {
+            ColorIdName::dodie_yellow,
+            {{
+                {2, 8, ColorIdName::dodie_yellow},
+                {1, 2, ColorIdName::dodie_yellow},
+            }},
+        },
     };
 
     for (const auto& pair : color_id_to_expected)

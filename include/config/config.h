@@ -32,7 +32,7 @@ struct GameConfig final
     BoardConfig board;
     ScoreCounterConfig score_counter;
     std::vector<Brick> bricks;
-    std::vector<uint_fast8_t> color_ids;
+    std::vector<Ui::ColorIdName> color_id_names;
     Settings default_settings;
     Vector2 brick_spawn_position;
     int next_level_lines_quantity;
