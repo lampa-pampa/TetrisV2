@@ -9,6 +9,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "ui/color/color_id_name.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
