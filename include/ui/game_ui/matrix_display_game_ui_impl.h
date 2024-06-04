@@ -14,7 +14,6 @@
 
 #include "brick/brick.h"
 #include "cube/cube.h"
-#include "ui/bitmap/bitmap.h"
 #include "ui/color/iv_color.h"
 #include "ui/game_ui/game_ui_colors.h"
 #include "ui/game_ui/game_ui_components.h"
@@ -148,6 +147,8 @@ private:
         const Rectangle& rect,
         uint_fast8_t color_value,
         bool align_to_left);
+    void draw_text(
+        std::string text, TextIvColors text_colors, const TextArea& area);
 
     void flush_matrix() override
     {
@@ -157,18 +158,6 @@ private:
     bool position_is_on_display(Vector2 position) const
     {
         return position >= 0 and position < matrix_.get_size();
-    }
-
-    void draw_text(
-        std::string text, TextIvColors text_colors, const TextArea& area)
-    {
-        const std::vector<Bitmap> text_lines{area.create_lines(text)};
-        for (const auto& bitmap : text_lines)
-            draw_rectangle(bitmap.container, text_colors.background);
-        for (const auto& bitmap : text_lines)
-            draw_pixels(bitmap.container.position,
-                bitmap.pixels,
-                text_colors.foreground);
     }
 
     void draw_game_state(std::string message)

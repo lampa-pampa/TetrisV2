@@ -1,12 +1,14 @@
 #include "ui/game_ui/matrix_display_game_ui_impl.h"
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 #include <boost/range/irange.hpp>
 
 #include "brick/brick.h"
 #include "cube/cube.h"
+#include "ui/bitmap/bitmap.h"
 #include "ui/color/iv_color.h"
 #include "ui/game_ui/game_ui_colors.h"
 #include "ui/game_ui/game_ui_controls.h"
@@ -16,6 +18,7 @@
 #include "vector_2/vector_2.h"
 
 using boost::irange;
+using std::string;
 using std::vector;
 
 namespace Tetris::Ui
@@ -192,6 +195,17 @@ void MatrixDisplayGameUiImpl::refresh_level(int level)
     draw_text(level,
         colors_.iv.level.value,
         components_.displays.level.display.value_display);
+}
+
+void MatrixDisplayGameUiImpl::draw_text(
+    string text, TextIvColors text_colors, const TextArea& area)
+{
+    const vector<Bitmap> text_lines{area.render(text)};
+    for (const auto& bitmap : text_lines)
+        draw_rectangle(bitmap.container, text_colors.background);
+    for (const auto& bitmap : text_lines)
+        draw_pixels(
+            bitmap.container.position, bitmap.pixels, text_colors.foreground);
 }
 
 } // namespace Tetris::Ui
