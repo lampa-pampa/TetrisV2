@@ -12,7 +12,7 @@ using std::vector;
 namespace Tetris::Ui
 {
 
-vector<Bitmap> TextArea::create_lines(string text) const
+vector<Bitmap> TextArea::render(string text) const
 {
     const vector<string> splited_text{split(text)};
     vector<Bitmap> lines{};

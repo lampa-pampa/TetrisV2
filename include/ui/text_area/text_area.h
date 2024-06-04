@@ -34,7 +34,7 @@ public:
         separator_{separator}
     {}
 
-    std::vector<Bitmap> create_lines(std::string text) const;
+    std::vector<Bitmap> render(std::string text) const;
 
 private:
     using AlignToFuncion = std::map<Align, std::function<int(int, int)>>;
