@@ -1,13 +1,13 @@
 #ifndef INCLUDE_CONFIG_H
 #define INCLUDE_CONFIG_H
 
-#include <cstdint>
 #include <vector>
 
 #include "brick/brick.h"
 #include "game/settings.h"
 #include "game_controller/game_controller_key_codes.h"
 #include "score_counter/score_counter_score_for.h"
+#include "ui/color/color_id_name.h"
 #include "ui/game_ui/game_ui_colors.h"
 #include "ui/game_ui/game_ui_components.h"
 #include "ui/game_ui/game_ui_controls.h"
