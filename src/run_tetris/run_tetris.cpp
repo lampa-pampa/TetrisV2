@@ -24,6 +24,7 @@ void run_tetris(const Config& config,
         matrix_display,
         config.ui.controls,
         config.ui.components,
+        config.ui.state_messages,
         config.ui.colors,
         config.ui.cube_size,
     };

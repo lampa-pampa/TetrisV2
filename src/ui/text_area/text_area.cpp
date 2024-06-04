@@ -1,122 +1,104 @@
 #include "ui/text_area/text_area.h"
 
+#include <algorithm>
 #include <string>
 #include <vector>
-
-#include <boost/range/irange.hpp>
-
-#include "ui/rectangle/rectangle.h"
 #include "ui/text_area/align.h"
-#include "ui/text_area/char.h"
-#include "ui/text_area/text_line.h"
-#include "vector_2/vector_2.h"
 
-using boost::irange;
+using std::reverse;
 using std::string;
 using std::vector;
 
 namespace Tetris::Ui
 {
 
-vector<TextLine> TextArea::create_lines(
-    const vector<CharsAndWidth>& lines_chars) const
+vector<Bitmap> TextArea::create_lines(string text) const
 {
-    const int start_y{compute_lines_position_y(lines_chars.size())};
-    vector<TextLine> lines{};
-    for (const auto& i : irange(lines_chars.size()))
-    {
-        const auto& [line_chars, line_width]{lines_chars[i]};
-        const int y = start_y + i * (Char::height + padding_);
-        lines.emplace_back(create_line(line_chars, line_width, y));
-    }
+    const vector<string> splited_text{split(text)};
+    vector<Bitmap> lines{};
+    for (const auto& text : splited_text)
+        lines.emplace_back(create_line(text));
+    set_lines_positions(lines);
     return lines;
 }
 
-//-------------------------------------------------------------------------
+//-----------------------------------------------------------------------
 
-string TextArea::get_fixed_length_text(string text) const
+Bitmap TextArea::create_line(const string& text) const
 {
-    if (max_text_length_ == 0)
+    int width{padding_.x};
+    vector<Vector2> pixels{};
+    for (const auto& c : text)
+    {
+        const Char chr = font_.get_char(c);
+        for (const auto& pixel : chr.pixels)
+            pixels.emplace_back(pixel + Vector2{width, padding_.y});
+        width += chr.width;
+        if (&c != &text.back())
+            width += separator_.x;
+    }
+    width += padding_.x;
+    return {{{}, {width, font_.get_height() + 2 * padding_.y}}, pixels};
+}
+
+vector<string> TextArea::split(string text) const
+{
+    const string wrapped_text = wrap(text);
+    vector<string> text_lines{};
+    size_t delimiter_index{};
+    do
+    {
+        const size_t new_line_index{wrapped_text.find('\n', delimiter_index)};
+        text_lines.emplace_back(wrapped_text.substr(
+            delimiter_index, new_line_index - delimiter_index));
+        delimiter_index = new_line_index + 1;
+    }
+    while (delimiter_index != 0);
+    return text_lines;
+}
+
+string TextArea::wrap(const string& text) const
+{
+    if (wrap_after_ == 0)
         return text;
-    if (text.size() > max_text_length_)
-        return string(max_text_length_, overflow_char_);
-    return string(max_text_length_ - text.size(), fill_char_) + text;
+    string wrapped_text{};
+    string input_text{text};
+    if (align_ == Align::end)
+        reverse(input_text.begin(), input_text.end());
+    string parsed_text{put_new_lines(input_text)};
+    if (align_ == Align::end)
+        reverse(parsed_text.begin(), parsed_text.end());
+    return parsed_text;
 }
 
-bool TextArea::line_should_be_ended(int line_width, int i, string text) const
+string TextArea::put_new_lines(const string& text) const
 {
-    return text[i] == '\n' or i == text.size() - 1
-        or text[i + 1] != '\n'
-        and line_width + get_char(text[i + 1]).width + Char::separator
-            > container_.size.x;
-}
-
-vector<TextArea::CharsAndWidth> TextArea::slice_text_into_lines(
-    string text) const
-{
-    vector<CharsAndWidth> lines{};
-    vector<Char> line_chars{};
-    int line_width{};
-    for (const auto& i : irange(text.size()))
+    int char_count{};
+    string output_text{};
+    for (const auto& c : text)
     {
-        if (text[i] != '\n')
+        if (char_count == wrap_after_)
         {
-            const Char chr{get_char(text[i])};
-            line_width += chr.width;
-            line_chars.emplace_back(std::move(chr));
-            if (line_chars.size() > 1)
-                line_width += Char::separator;
+            output_text += '\n';
+            char_count = 0;
         }
-        if (line_should_be_ended(line_width, i, text))
-        {
-            lines.emplace_back(CharsAndWidth{line_chars, line_width});
-            line_chars.clear();
-            line_width = 0;
-        }
+        output_text += c;
+        if (c != '\n')
+            ++char_count;
+        else
+            char_count = 0;
     }
-    return lines;
+    return output_text;
 }
 
-Rectangle TextArea::create_line_background(Vector2 position, int width) const
+void TextArea::set_lines_positions(vector<Bitmap>& lines) const
 {
-    return {position - padding_, Vector2{width, Char::height} + 2 * padding_};
-}
-
-int TextArea::compute_aligned_position(
-    Align align, int container_size, int content_size) const
-{
-    const auto it{horizontal_align_to_compute.find(align)};
-    assert(it != horizontal_align_to_compute.end());
-    return it->second(container_size, content_size);
-}
-
-int TextArea::compute_lines_position_y(int lines_quantity) const
-{
-    const int lines_height{compute_lines_height(lines_quantity)};
-    if (lines_height > container_.size.y)
-        return 0;
-    return compute_aligned_position(
-        vertical_align_, container_.size.y, lines_height);
-}
-
-int TextArea::compute_line_position_x(int line_width) const
-{
-    if (line_width > container_.size.x)
-        return 0;
-    return compute_aligned_position(
-        horizontal_align_, container_.size.x, line_width);
-}
-
-TextLine TextArea::create_line(
-    const vector<Char>& chars, int width, int y) const
-{
-    const Vector2 line_position{
-        container_.position + Vector2{compute_line_position_x(width), y}};
-    return {
-        create_line_background(line_position, width),
-        line_position,
-        chars,
-    };
+    int y{compute_all_lines_start_y(lines.size())};
+    for (auto& line : lines)
+    {
+        line.container.position = {compute_line_x(line.container.size.x), y};
+        y += font_.get_height() + separator_.y;
+    }
 }
 
 } // namespace Tetris::Ui

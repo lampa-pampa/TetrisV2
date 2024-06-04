@@ -14,13 +14,14 @@
 
 #include "brick/brick.h"
 #include "cube/cube.h"
+#include "ui/bitmap/bitmap.h"
 #include "ui/color/iv_color.h"
 #include "ui/game_ui/game_ui_colors.h"
 #include "ui/game_ui/game_ui_components.h"
 #include "ui/game_ui/game_ui_controls.h"
+#include "ui/game_ui/game_ui_state_messages.h"
 #include "ui/matrix_display/matrix_display.h"
 #include "ui/rectangle/rectangle.h"
-#include "ui/text_area/char.h"
 #include "ui/text_area/text_area.h"
 #include "vector_2/vector_2.h"
 
@@ -33,6 +34,7 @@ public:
     MatrixDisplayGameUiImpl(MatrixDisplay& matrix,
         GameUiControls controls,
         GameUiComponents components,
+        GameUiStateMessages state_messages,
         GameUiColors colors,
         int cube_size);
 
@@ -115,6 +117,7 @@ private:
 
     const std::map<int, Signal&> key_code_to_signal_;
     const GameUiComponents components_;
+    const GameUiStateMessages state_messages_;
     const GameUiColors colors_;
     const int cube_size_;
 
@@ -141,7 +144,6 @@ private:
         Vector2 position, const Cube& cube, uint_fast8_t color_value);
     void draw_rectangle(const Rectangle& rectangle, IvColor color);
     void draw_rectangle(const Rectangle& rectangle);
-    void draw_text_line(const TextLine& line, IvColor color);
     void draw_centered_brick_in_container(const Brick& brick,
         const Rectangle& rect,
         uint_fast8_t color_value,
@@ -157,22 +159,29 @@ private:
         return position >= 0 and position < matrix_.get_size();
     }
 
-    void draw_on_text_area(
-        std::string text, const TextArea& area, IvColor color)
+    void draw_text(
+        std::string text, TextIvColors text_colors, const TextArea& area)
     {
-        draw_text_lines(area.create_lines(text), color);
+        const std::vector<Bitmap> text_lines{area.create_lines(text)};
+        for (const auto& bitmap : text_lines)
+            draw_rectangle(bitmap.container, text_colors.background);
+        for (const auto& bitmap : text_lines)
+            draw_pixels(bitmap.container.position,
+                bitmap.pixels,
+                text_colors.foreground);
     }
 
-    void draw_on_text_area(
-        unsigned long long number, const TextArea& area, IvColor color)
+    void draw_game_state(std::string message)
     {
-        draw_on_text_area(std::to_string(number), area, color);
+        draw_text(
+            message, colors_.iv.game_state, components_.displays.game_state);
     }
 
-    void draw_text_lines(const std::vector<TextLine>& text_lines, IvColor color)
+    void draw_text(unsigned long long number,
+        TextIvColors text_colors,
+        const TextArea& area)
     {
-        for (const auto& line : text_lines)
-            draw_text_line(line, color);
+        draw_text(std::to_string(number), text_colors, area);
     }
 
     void draw_rectangles(const std::vector<Rectangle>& rectangles)
@@ -188,12 +197,6 @@ private:
             draw_rectangle(rectangle, color);
     }
 
-    void draw_char(Vector2 position, Char c, IvColor color)
-    {
-        for (const auto& pixel_position : c.pixels)
-            draw_pixel(position + pixel_position, color);
-    }
-
     void draw_on_board(const CubeMatrix& board)
     {
         for (const auto& row : board)
@@ -202,7 +205,7 @@ private:
 
     void draw_on_board(const std::vector<Cube>& cubes, uint_fast8_t color_value)
     {
-        draw_cubes(components_.container.board.position, cubes, color_value);
+        draw_cubes(components_.containers.board.position, cubes, color_value);
     }
 
     void draw_cubes(Vector2 position,
@@ -211,6 +214,13 @@ private:
     {
         for (const auto& cube : cubes)
             draw_cube(position, cube, color_value);
+    }
+
+    void draw_pixels(
+        Vector2 position, std::vector<Vector2> pixels, IvColor color)
+    {
+        for (const auto& pixel_position : pixels)
+            draw_pixel(position + pixel_position, color);
     }
 
     void draw_pixel(Vector2 position, IvColor color)

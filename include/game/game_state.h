@@ -15,7 +15,7 @@ enum class GameState
     ended,
 };
 
-const std::map<GameState, std::string> game_state_to_name{
+const std::map<GameState, std::string> game_state_to_text{
     {GameState::in_progress, "in_progress"},
     {GameState::paused, "paused"},
     {GameState::ended, "ended"},
@@ -23,7 +23,7 @@ const std::map<GameState, std::string> game_state_to_name{
 
 inline std::ostream& operator<<(std::ostream& os, GameState state)
 {
-    return os << "GameState::" << game_state_to_name.at(state);
+    return os << "GameState::" << game_state_to_text.at(state);
 }
 
 } // namespace Tetris

@@ -1,7 +1,6 @@
 #include "ui/game_ui/matrix_display_game_ui_impl.h"
 
 #include <cstdint>
-#include <string>
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -11,6 +10,7 @@
 #include "ui/color/iv_color.h"
 #include "ui/game_ui/game_ui_colors.h"
 #include "ui/game_ui/game_ui_controls.h"
+#include "ui/game_ui/game_ui_state_messages.h"
 #include "ui/matrix_display/matrix_display.h"
 #include "ui/rectangle/rectangle.h"
 #include "vector_2/vector_2.h"
@@ -24,6 +24,7 @@ namespace Tetris::Ui
 MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(MatrixDisplay& matrix,
     GameUiControls controls,
     GameUiComponents components,
+    GameUiStateMessages state_messages,
     GameUiColors colors,
     int cube_size)
   : matrix_{matrix},
@@ -38,6 +39,7 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(MatrixDisplay& matrix,
         {controls.hold, hold_pressed_},
     },
     components_{components},
+    state_messages_{state_messages},
     colors_{colors},
     cube_size_{cube_size},
     main_layer_{create_layer(matrix.get_size(), colors.iv.border)},
@@ -56,28 +58,22 @@ void MatrixDisplayGameUiImpl::handle_key_press(int key_code)
 void MatrixDisplayGameUiImpl::refresh_level_progress_bar(int quantity)
 {
     const auto& [on_segments, off_segments]{
-        components_.progress_bar.level.create_segments(quantity)};
-    draw_rectangles(on_segments, colors_.iv.level.progress_bar.on);
-    draw_rectangles(off_segments, colors_.iv.level.progress_bar.off);
-    draw_on_text_area(components_.text.level,
-        components_.text_area.level_text,
-        colors_.iv.level.text);
+        components_.displays.level.bar.create_segments(quantity)};
+    draw_rectangles(on_segments, colors_.iv.progress_bar.on);
+    draw_rectangles(off_segments, colors_.iv.progress_bar.off);
+    draw_text(components_.displays.level.display.label_text,
+        colors_.iv.level.text,
+        components_.displays.level.display.label_display);
 }
 
 void MatrixDisplayGameUiImpl::pause()
 {
-    draw_on_text_area(components_.text.paused,
-        components_.text_area.game_state,
-        colors_.iv.game_state);
-    flush_matrix();
+    draw_game_state(state_messages_.paused);
 }
 
 void MatrixDisplayGameUiImpl::game_over()
 {
-    draw_on_text_area(components_.text.game_over,
-        components_.text_area.game_state,
-        colors_.iv.game_state);
-    flush_matrix();
+    draw_game_state(state_messages_.game_over);
 }
 
 //-------------------------------------------------------------------
@@ -110,22 +106,22 @@ Vector2 MatrixDisplayGameUiImpl::compute_brick_centered_position(
 void MatrixDisplayGameUiImpl::draw_background()
 {
     draw_rectangles({
-        components_.container.next,
-        components_.container.hold,
-        components_.container.board,
-        components_.container.level_text,
-        components_.container.level_value,
-        components_.container.score_text,
-        components_.container.score_value,
-        components_.container.tetrises_text,
-        components_.container.tetrises_value,
+        components_.containers.next,
+        components_.containers.hold,
+        components_.containers.board,
+        components_.containers.level_text,
+        components_.containers.level_value,
+        components_.containers.score_text,
+        components_.containers.score_value,
+        components_.containers.tetrises_text,
+        components_.containers.tetrises_value,
     });
-    draw_on_text_area(components_.text.score,
-        components_.text_area.score_text,
-        colors_.iv.score.text);
-    draw_on_text_area(components_.text.tetrises,
-        components_.text_area.tetrises_text,
-        colors_.iv.tetrises.text);
+    draw_text(components_.displays.score.label_text,
+        colors_.iv.score.text,
+        components_.displays.score.label_display);
+    draw_text(components_.displays.tetrises.label_text,
+        colors_.iv.tetrises.text,
+        components_.displays.tetrises.label_display);
 }
 
 void MatrixDisplayGameUiImpl::draw_cube(
@@ -133,7 +129,7 @@ void MatrixDisplayGameUiImpl::draw_cube(
 {
     const Vector2 cube_position{(position + cube.position.scale(cube_size_))};
     const IvColor iv_color{not cube.empty()
-            ? IvColor{cube.color_id, color_value}
+            ? IvColor{cube.color_id_name, color_value}
             : colors_.iv.background};
     draw_rectangle({cube_position, cube_size_}, iv_color);
 }
@@ -153,18 +149,6 @@ void MatrixDisplayGameUiImpl::draw_rectangle(
     }
 }
 
-void MatrixDisplayGameUiImpl::draw_text_line(
-    const TextLine& line, IvColor color)
-{
-    draw_rectangle(line.background);
-    Vector2 position{line.position};
-    for (const auto& chr : line.chars)
-    {
-        draw_char(position, chr, color);
-        position.x += chr.width + Char::separator;
-    }
-}
-
 void MatrixDisplayGameUiImpl::draw_centered_brick_in_container(
     const Brick& brick,
     const Rectangle& rectangle,
@@ -180,32 +164,34 @@ void MatrixDisplayGameUiImpl::draw_centered_brick_in_container(
 void MatrixDisplayGameUiImpl::refresh_next_brick(const Brick& brick)
 {
     draw_centered_brick_in_container(
-        brick, components_.container.next, colors_.value.brick.next, false);
+        brick, components_.containers.next, colors_.value.brick.next, false);
 }
 
 void MatrixDisplayGameUiImpl::refresh_hold_brick(const Brick& brick)
 {
     draw_centered_brick_in_container(
-        brick, components_.container.hold, colors_.value.brick.hold, true);
+        brick, components_.containers.hold, colors_.value.brick.hold, true);
 }
 
 void MatrixDisplayGameUiImpl::refresh_score(unsigned long long score)
 {
-    draw_on_text_area(
-        score, components_.text_area.score_value, colors_.iv.score.value);
+    draw_text(score,
+        colors_.iv.score.value,
+        components_.displays.score.value_display);
 }
 
 void MatrixDisplayGameUiImpl::refresh_tetrises(unsigned long long tetrises)
 {
-    draw_on_text_area(tetrises,
-        components_.text_area.tetrises_value,
-        colors_.iv.tetrises.value);
+    draw_text(tetrises,
+        colors_.iv.tetrises.value,
+        components_.displays.tetrises.value_display);
 }
 
 void MatrixDisplayGameUiImpl::refresh_level(int level)
 {
-    draw_on_text_area(
-        level, components_.text_area.level_value, colors_.iv.level.value);
+    draw_text(level,
+        colors_.iv.level.value,
+        components_.displays.level.display.value_display);
 }
 
 } // namespace Tetris::Ui

@@ -10,7 +10,7 @@
 namespace Tetris::Ui
 {
 
-struct ContainerGameUiComponents final
+struct Containers final
 {
     Rectangle hold;
     Rectangle next;
@@ -23,37 +23,32 @@ struct ContainerGameUiComponents final
     Rectangle tetrises_value;
 };
 
-struct TextAreaGameUiComponents final
+struct ValueDisplay final
 {
-    TextArea level_text;
-    TextArea level_value;
+    TextArea label_display;
+    std::string label_text;
+    TextArea value_display;
+    int max_value_length;
+};
+
+struct ProgressBarDisplay final
+{
+    ProgressBar bar;
+    ValueDisplay display;
+};
+
+struct DisplayGameUiComponents final
+{
     TextArea game_state;
-    TextArea score_text;
-    TextArea score_value;
-    TextArea tetrises_text;
-    TextArea tetrises_value;
-};
-
-struct TextGameUiComponents final
-{
-    std::string paused;
-    std::string game_over;
-    std::string level;
-    std::string score;
-    std::string tetrises;
-};
-
-struct ProgressBarComponents final
-{
-    ProgressBar level;
+    ProgressBarDisplay level;
+    ValueDisplay score;
+    ValueDisplay tetrises;
 };
 
 struct GameUiComponents final
 {
-    ContainerGameUiComponents container;
-    TextAreaGameUiComponents text_area;
-    TextGameUiComponents text;
-    ProgressBarComponents progress_bar;
+    Containers containers;
+    DisplayGameUiComponents displays;
 };
 
 } // namespace Tetris::Ui

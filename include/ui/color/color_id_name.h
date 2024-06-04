@@ -2,6 +2,9 @@
 #define INCLUDE_UI_COLOR_ID_NAME_H
 
 #include <cstdint>
+#include <map>
+#include <ostream>
+#include <string>
 
 namespace Tetris::Ui
 {
@@ -26,9 +29,28 @@ enum class ColorIdName : uint_fast8_t
     white = 15,
 };
 
-constexpr uint_fast8_t get_color_id(ColorIdName name)
+const std::map<ColorIdName, std::string> color_id_name_to_text{
+    {ColorIdName::black, "black"},
+    {ColorIdName::dark_candy_apple_red, "dark_candy_apple_red"},
+    {ColorIdName::islamic_green, "islamic_green"},
+    {ColorIdName::windsor_tan, "windsor_tan"},
+    {ColorIdName::duke_blue, "duke_blue"},
+    {ColorIdName::heliotrope_magenta, "heliotrope_magenta"},
+    {ColorIdName::tiffany_blue, "tiffany_blue"},
+    {ColorIdName::dark_gray, "dark_gray"},
+    {ColorIdName::davy_s_grey, "davy_s_grey"},
+    {ColorIdName::sunset_orange, "sunset_orange"},
+    {ColorIdName::screamin_green, "screamin_green"},
+    {ColorIdName::dodie_yellow, "dodie_yellow"},
+    {ColorIdName::very_light_blue, "very_light_blue"},
+    {ColorIdName::shocking_pink, "shocking_pink"},
+    {ColorIdName::electric_blue, "electric_blue"},
+    {ColorIdName::white, "white"},
+};
+
+inline std::ostream& operator<<(std::ostream& os, ColorIdName name)
 {
-    return static_cast<uint_fast8_t>(name);
+    return os << "ColorIdName::" << color_id_name_to_text.at(name);
 }
 
 } // namespace Tetris::Ui

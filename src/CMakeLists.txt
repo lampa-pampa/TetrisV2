@@ -21,6 +21,8 @@ target_sources(TETRIS_V2
         ui/matrix_display/console/ncurses_colors.cpp
         ui/progress_bar/progress_bar.cpp
         ui/text_area/text_area.cpp
+        ui/text_area/font/fixed_width.cpp
+        ui/text_area/font/font.cpp
 )
 
 add_executable(tetris_v2

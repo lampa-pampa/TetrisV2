@@ -8,42 +8,36 @@
 namespace Tetris::Ui
 {
 
-struct ProgressBarGameUiColors final
+struct ProgressBarIvColors final
 {
     IvColor on;
     IvColor off;
 };
 
-struct LevelGameUiColors final
+struct TextIvColors final
 {
-    IvColor text;
-    IvColor value;
-    ProgressBarGameUiColors progress_bar;
+    IvColor foreground;
+    IvColor background;
 };
 
-struct ScoreGameUiColors final
+struct DescribedValueColors final
 {
-    IvColor text;
-    IvColor value;
+    TextIvColors text;
+    TextIvColors value;
 };
 
-struct TetrisesGameUiColors final
-{
-    IvColor text;
-    IvColor value;
-};
-
-struct IvGameUiColors final
+struct IvColors final
 {
     IvColor background;
     IvColor border;
-    IvColor game_state;
-    LevelGameUiColors level;
-    ScoreGameUiColors score;
-    TetrisesGameUiColors tetrises;
+    TextIvColors game_state;
+    ProgressBarIvColors progress_bar;
+    DescribedValueColors level;
+    DescribedValueColors score;
+    DescribedValueColors tetrises;
 };
 
-struct BrickGameUiColors final
+struct BrickValueColors final
 {
     uint_fast8_t hold;
     uint_fast8_t next;
@@ -51,16 +45,16 @@ struct BrickGameUiColors final
     uint_fast8_t ghost;
 };
 
-struct ValueGameUiColors final
+struct ValueColors final
 {
     uint_fast8_t board;
-    BrickGameUiColors brick;
+    BrickValueColors brick;
 };
 
 struct GameUiColors final
 {
-    IvGameUiColors iv;
-    ValueGameUiColors value;
+    IvColors iv;
+    ValueColors value;
 };
 
 } // namespace Tetris::Ui

@@ -3,6 +3,8 @@
 
 #include <cstdint>
 
+#include "ui/color/color_id_name.h"
+
 namespace Tetris::Ui
 {
 
@@ -13,6 +15,12 @@ struct IvColor final
 
     constexpr IvColor(uint_fast8_t id, uint_fast8_t value): id{id}, value{value}
     {}
+
+    constexpr IvColor(ColorIdName id_name, uint_fast8_t value = 0xff)
+      : IvColor(static_cast<uint_fast8_t>(id_name), value)
+    {}
+
+    constexpr IvColor(): IvColor(ColorIdName::black, 0) {}
 };
 
 } // namespace Tetris::Ui

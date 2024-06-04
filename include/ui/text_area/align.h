@@ -5,7 +5,7 @@
 #include <ostream>
 #include <string>
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 enum class Align
@@ -15,7 +15,7 @@ enum class Align
     end,
 };
 
-const std::map<Align, std::string> align_to_name{
+const std::map<Align, std::string> align_to_text{
     {Align::start, "start"},
     {Align::center, "center"},
     {Align::end, "end"},
@@ -23,9 +23,9 @@ const std::map<Align, std::string> align_to_name{
 
 inline std::ostream& operator<<(std::ostream& os, Align align)
 {
-    return os << "Align::" << align_to_name.at(align);
+    return os << "Align::" << align_to_text.at(align);
 }
 
-} // namespace Tetris
+} // namespace Tetris::Ui
 
 #endif

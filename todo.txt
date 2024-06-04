@@ -1,5 +1,23 @@
-char format
+COMMIT
+
+wszędzie bitmapy (uogólnione wyświetlacze)
+
+max value
+
+text_lines -> one text container (rectangle + char pixels)
+
+
+
+
+console input_receiver (translations to button matrix key codes)
+
+const brick colors
+
 preload hsv colors
+
+configi jako jeden argument
+
+ui tests
 
 OS
 

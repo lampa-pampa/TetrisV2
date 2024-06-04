@@ -38,13 +38,15 @@ public:
 
     void pause() override
     {
-        ui_.pause();
         state_ = GameState::paused;
+        ui_.pause();
+        ui_.flush_matrix();
     }
 
     void game_over() override
     {
         ui_.game_over();
+        ui_.flush_matrix();
     }
 
     GameState get_state() const override

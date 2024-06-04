@@ -11,6 +11,7 @@
 #include "ui/game_ui/game_ui_colors.h"
 #include "ui/game_ui/game_ui_components.h"
 #include "ui/game_ui/game_ui_controls.h"
+#include "ui/game_ui/game_ui_state_messages.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
@@ -42,6 +43,7 @@ struct UiConfig final
 {
     Ui::GameUiControls controls;
     Ui::GameUiComponents components;
+    Ui::GameUiStateMessages state_messages;
     Ui::GameUiColors colors;
     int cube_size;
 };

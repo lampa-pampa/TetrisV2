@@ -1,16 +1,17 @@
 #ifndef INCLUDE_UI_TEXT_AREA_H
 #define INCLUDE_UI_TEXT_AREA_H
 
+#include <algorithm>
+#include <cassert>
 #include <functional>
 #include <map>
 #include <string>
-#include <tuple>
 #include <vector>
 
+#include "ui/bitmap/bitmap.h"
 #include "ui/rectangle/rectangle.h"
 #include "ui/text_area/align.h"
-#include "ui/text_area/char.h"
-#include "ui/text_area/text_line.h"
+#include "ui/text_area/font/font.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris::Ui
@@ -19,65 +20,72 @@ namespace Tetris::Ui
 class TextArea final
 {
 public:
-    constexpr TextArea(const Rectangle& container,
-        int padding = 0,
-        int max_text_length = 0,
-        char fill_char = ' ',
-        char overflow_char = '9',
-        Align horizontal_align = Align::center,
-        Align vertical_align = Align::center)
-      : container_{container},
+    TextArea(const Rectangle& container,
+        const Font& font,
+        Align align = Align::end,
+        int wrap_after = 3,
+        Vector2 separator = {1},
+        Vector2 padding = {1})
+      : font_{font},
+        container_{container},
+        align_{align},
+        wrap_after_{wrap_after},
         padding_{padding},
-        max_text_length_{max_text_length},
-        fill_char_{fill_char},
-        overflow_char_{overflow_char},
-        horizontal_align_{horizontal_align},
-        vertical_align_{vertical_align}
+        separator_{separator}
     {}
 
-    std::vector<TextLine> create_lines(std::string text) const
-    {
-        return create_lines(slice_text_into_lines(get_fixed_length_text(text)));
-    }
+    std::vector<Bitmap> create_lines(std::string text) const;
 
 private:
     using AlignToFuncion = std::map<Align, std::function<int(int, int)>>;
-    using CharsAndWidth = std::tuple<std::vector<Char>, int>;
 
-    const Rectangle container_;
-    const int padding_;
-    const int max_text_length_;
-    const char fill_char_;
-    const char overflow_char_;
-    const Align horizontal_align_;
-    const Align vertical_align_;
-
-    const inline static AlignToFuncion horizontal_align_to_compute{
-        {Align::start, [](int container_size, int content_size) { return 0; }},
-        {Align::center,
+    const inline static AlignToFuncion aligners{
+        {
+            Align::start,
+            [](int container_size, int content_size) { return 0; },
+        },
+        {
+            Align::center,
             [](int container_size, int content_size)
-            { return container_size / 2 - content_size / 2; }},
-        {Align::end,
+            { return container_size / 2 - content_size / 2; },
+        },
+        {
+            Align::end,
             [](int container_size, int content_size)
-            { return container_size - content_size; }},
+            { return container_size - content_size; },
+        },
     };
 
-    std::string get_fixed_length_text(std::string text) const;
-    std::vector<TextLine> create_lines(
-        const std::vector<CharsAndWidth>& lines_chars) const;
-    bool line_should_be_ended(int line_width, int i, std::string text) const;
-    std::vector<CharsAndWidth> slice_text_into_lines(std::string text) const;
-    Rectangle create_line_background(Vector2 position, int width) const;
-    int compute_aligned_position(
-        Align align, int container_size, int content_size) const;
-    int compute_lines_position_y(int lines_quantity) const;
-    int compute_line_position_x(int line_width) const;
-    TextLine create_line(
-        const std::vector<Char>& chars, int width, int y) const;
+    const Font& font_;
+    const Rectangle container_;
+    const Align align_;
+    const int wrap_after_;
+    const Vector2 separator_;
+    const Vector2 padding_;
 
-    int compute_lines_height(int lines_quantity) const
+    Bitmap create_line(const std::string& text) const;
+    std::vector<std::string> split(std::string text) const;
+    std::string wrap(const std::string& text) const;
+    std::string put_new_lines(const std::string& text) const;
+    void set_lines_positions(std::vector<Bitmap>& lines) const;
+
+    int compute_all_lines_height(int number_of_lines) const
     {
-        return lines_quantity * Char::height + (lines_quantity - 1) * padding_;
+        return number_of_lines * font_.get_height()
+            + std::max(number_of_lines - 1, 0) * separator_.y + 2 * padding_.y;
+    }
+
+    int compute_all_lines_start_y(int number_of_lines) const
+    {
+        return container_.position.y
+            + aligners.at(align_)(
+                container_.size.y, compute_all_lines_height(number_of_lines));
+    }
+
+    int compute_line_x(int line_width) const
+    {
+        return container_.position.x
+            + aligners.at(align_)(container_.size.x, line_width);
     }
 };
 
