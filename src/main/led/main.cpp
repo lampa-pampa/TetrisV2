@@ -16,13 +16,9 @@ void setup()
 {
     while (true)
     {
-        {
-            LedMatrixDisplayImpl matrix{matrix_display_config};
-            LedKeyboardImpl keyboard{keyboard_config};
-
-            run_tetris(config, keyboard, matrix);
-        }
-        delay(3000);
+        LedMatrixDisplayImpl matrix{matrix_display_config};
+        LedKeyboardImpl keyboard{keyboard_config};
+        run_tetris(config, keyboard, matrix);
     }
 }
 

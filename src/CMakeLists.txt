@@ -10,6 +10,7 @@ target_sources(TETRIS_V2
         board/board_impl.cpp
         brick/brick.cpp
         config/config.cpp
+        config/keyboard/console/config.cpp
         config/matrix_display/console/config.cpp
         game_controller/game_controller.cpp
         game/game_impl.cpp

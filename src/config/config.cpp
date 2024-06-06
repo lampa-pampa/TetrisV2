@@ -11,25 +11,14 @@ namespace Tetris
 const Config config{
     Ui::GameUiConfig{
         {
-            // CONTROLS
-            // CONSOLE
-            0x104, // move left
-            0x105, // move right
-            0x103, // rotate clockwise
-            0x102, // soft drop
-            ' ', // locking hard drop
-            'x', // no-locking hard drop
-            'z', // rotate counter-clockwise
-            'c', // hold
-                 // LED
-                 // 13, // move left
-                 // 15, // move right
-                 // 10, // rotate clockwise
-                 // 14, // soft drop
-                 // 12, // locking hard drop
-                 // 8, // no-locking hard drop
-                 // 11, // rotate counter-clockwise
-                 // 9, // hold
+            13, // move left
+            15, // move right
+            10, // rotate clockwise
+            14, // soft drop
+            12, // locking hard drop
+            8, // no-locking hard drop
+            11, // rotate counter-clockwise
+            9, // hold
         },
         {
             // GRAPHIC ENGINE
@@ -43,7 +32,6 @@ const Config config{
                         // container
                         Ui::ColorIdName::black,
                         {2},
-                        Ui::ColorIdName::white,
                     },
                     Ui::fixed_width_font,
                     Ui::ColorIdName::sunset_orange,
@@ -238,17 +226,15 @@ const Config config{
         {4, 1}, // brick spawn position
         10, // next level lines quantity
     },
-    {{
-        // GAME CONTROLLER KEY CODES
-        // CONSOLE
-        'p', // pause
-        'q', // quit
-        -1, // no key
-        // LED
-        // 0, // pause
-        // 3, // quit
-        // -1, // no key
-    }},
+    {
+        // GAME CONTROLLER
+        {
+            // KEY CODES
+            0, // pause
+            3, // quit
+            -1, // no key
+        },
+    },
 };
 
 }
