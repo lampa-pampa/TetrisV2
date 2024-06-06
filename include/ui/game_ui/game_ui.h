@@ -15,6 +15,7 @@ class GameUi
 public:
     using CubeMatrix = std::vector<std::vector<Cube>>;
 
+    virtual void refresh_background() = 0;
     virtual void refresh_board(const CubeMatrix& cubes) = 0;
     virtual void refresh_cur_brick(const std::vector<Cube>& cubes) = 0;
     virtual void refresh_ghost_brick(const std::vector<Cube>& cubes) = 0;

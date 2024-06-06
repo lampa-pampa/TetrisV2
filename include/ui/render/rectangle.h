@@ -10,6 +10,11 @@ struct Rectangle final
 {
     Vector2 position;
     Vector2 size;
+
+    constexpr Rectangle(const Vector2& position, const Vector2& size)
+      : position{position},
+        size{size}
+    {}
 };
 
 } // namespace Tetris::Ui

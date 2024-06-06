@@ -8,10 +8,7 @@
 #include "game_controller/game_controller_key_codes.h"
 #include "score_counter/score_counter_score_for.h"
 #include "ui/color/color_id_name.h"
-#include "ui/game_ui/game_ui_colors.h"
-#include "ui/game_ui/game_ui_components.h"
-#include "ui/game_ui/game_ui_controls.h"
-#include "ui/game_ui/game_ui_state_messages.h"
+#include "ui/game_ui/config.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
@@ -39,15 +36,6 @@ struct GameConfig final
     int next_level_lines_quantity;
 };
 
-struct UiConfig final
-{
-    Ui::GameUiControls controls;
-    Ui::GameUiComponents components;
-    Ui::GameUiStateMessages state_messages;
-    Ui::GameUiColors colors;
-    int cube_size;
-};
-
 struct GameControllerConfig final
 {
     GameControllerKeyCodes key_codes;
@@ -55,7 +43,7 @@ struct GameControllerConfig final
 
 struct Config final
 {
-    UiConfig ui;
+    Ui::GameUiConfig ui;
     GameConfig game;
     GameControllerConfig controller;
 };

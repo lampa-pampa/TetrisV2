@@ -17,10 +17,11 @@ struct IvColor final
     {}
 
     constexpr IvColor(ColorIdName id_name, uint_fast8_t value = 0xff)
-      : IvColor(static_cast<uint_fast8_t>(id_name), value)
+      : IvColor(static_cast<uint_fast8_t>(id_name),
+            (id_name == ColorIdName::black) ? 0 : value)
     {}
 
-    constexpr IvColor(): IvColor(ColorIdName::black, 0) {}
+    constexpr IvColor(): IvColor(ColorIdName::black) {}
 };
 
 } // namespace Tetris::Ui

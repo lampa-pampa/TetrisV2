@@ -1,6 +1,6 @@
-#include "ui/text_area/font/fixed_width.h"
+#include "ui/render/text/font/fixed_width.h"
 
-#include "ui/text_area/font/font.h"
+#include "ui/render/text/font/font.h"
 
 namespace Tetris::Ui
 {

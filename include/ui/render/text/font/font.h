@@ -1,7 +1,7 @@
 #ifndef UI_FONT
 #define UI_FONT
 
-#include "ui/text_area/char.h"
+#include "ui/render/text/char.h"
 #include "vector_2/vector_2.h"
 
 #include <initializer_list>

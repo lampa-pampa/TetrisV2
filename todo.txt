@@ -1,19 +1,13 @@
-data structures + render_<name>
-
-max value char
-
-
-console input_receiver (translations to button matrix key codes)
+console keyboard (translations to button matrix key codes)
+Q -> R
 
 const brick colors
 
 preload hsv colors
 
-configi jako jeden argument
+config as one argument
 
 ui tests
-
-OS
 
 https://tetris.fandom.com/wiki/SRS
 https://tetris.fandom.com/wiki/Back-to-Back

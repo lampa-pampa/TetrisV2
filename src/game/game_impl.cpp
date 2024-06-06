@@ -188,10 +188,12 @@ Brick GameImpl::create_ghost_brick() const
 
 void GameImpl::draw_all()
 {
+    ui_.refresh_background();
     ui_.refresh_hold_brick(hold_brick_);
     ui_.refresh_level_progress_bar(lines_quantity_);
     ui_.refresh_level(level_);
     ui_.refresh_board(board_.get_visible_cubes());
+    ui_.refresh_next_brick(next_brick_);
     ui_.refresh_score(score_);
     ui_.refresh_tetrises(tetrises_);
     draw_bricks();

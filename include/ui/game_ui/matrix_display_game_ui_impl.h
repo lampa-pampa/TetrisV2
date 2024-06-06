@@ -1,27 +1,21 @@
 #ifndef INCLUDE_UI_MATRIX_DISPLAY_GAME_UI_IMPL_H
 #define INCLUDE_UI_MATRIX_DISPLAY_GAME_UI_IMPL_H
 
-#include "game_ui.h"
+#include "ui/color/iv_color.h"
+#include "ui/game_ui/game_ui.h"
 
 #include <cassert>
-#include <cstdint>
 #include <functional>
 #include <map>
 #include <string>
 #include <vector>
 
-#include <boost/signals2.hpp>
+#include <boost/range/irange.hpp>
+#include <boost/signals2/signal.hpp>
 
-#include "brick/brick.h"
-#include "cube/cube.h"
-#include "ui/color/iv_color.h"
-#include "ui/game_ui/game_ui_colors.h"
-#include "ui/game_ui/game_ui_components.h"
-#include "ui/game_ui/game_ui_controls.h"
-#include "ui/game_ui/game_ui_state_messages.h"
+#include "ui/game_ui/config.h"
 #include "ui/matrix_display/matrix_display.h"
-#include "ui/rectangle/rectangle.h"
-#include "ui/text_area/text_area.h"
+#include "ui/render/sprite.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris::Ui
@@ -30,37 +24,123 @@ namespace Tetris::Ui
 class MatrixDisplayGameUiImpl final: public GameUi
 {
 public:
-    MatrixDisplayGameUiImpl(MatrixDisplay& matrix,
-        GameUiControls controls,
-        GameUiComponents components,
-        GameUiStateMessages state_messages,
-        GameUiColors colors,
-        int cube_size);
+    using IvColorMatrix = std::vector<std::vector<IvColor>>;
+    using Signal = boost::signals2::signal<void()>;
 
-    void handle_key_press(int key_code) override;
-    void refresh_level_progress_bar(int quantity) override;
-    void pause() override;
-    void game_over() override;
-    void refresh_next_brick(const Brick& brick) override;
-    void refresh_hold_brick(const Brick& brick) override;
-    void refresh_score(unsigned long long score) override;
-    void refresh_tetrises(unsigned long long tetrises) override;
-    void refresh_level(int level) override;
+    MatrixDisplayGameUiImpl(MatrixDisplay& matrix, const GameUiConfig& config);
+
+    void refresh_background() override;
+
+    void refresh_level_progress_bar(int quantity) override
+    {
+        draw_sprites(
+            config_.graphic_engine.level.progress_bar.render(quantity));
+        draw_sprites(config_.graphic_engine.level.display.label.display.render(
+            config_.graphic_engine.level.display.label.text));
+    }
+
+    void pause() override
+    {
+        draw_sprites(config_.graphic_engine.main.display.render(
+            config_.state_messages.paused));
+    }
+
+    void game_over() override
+    {
+        draw_sprites(config_.graphic_engine.main.display.render(
+            config_.state_messages.game_over));
+    }
+
+    void refresh_score(unsigned long long score) override
+    {
+        draw_sprites(config_.graphic_engine.score.value.display.render(
+            score, config_.graphic_engine.score.value.max_length));
+    }
+
+    void refresh_tetrises(unsigned long long tetrises) override
+    {
+        draw_sprites(config_.graphic_engine.tetrises.value.display.render(
+            tetrises, config_.graphic_engine.tetrises.value.max_length));
+    }
+
+    void refresh_next_brick(const Brick& brick) override
+    {
+        draw_sprites(config_.graphic_engine.next.render(brick));
+    }
+
+    void refresh_hold_brick(const Brick& brick) override
+    {
+        draw_sprites(config_.graphic_engine.hold.render(brick));
+    }
+
+    void refresh_level(int level) override
+    {
+        draw_sprites(config_.graphic_engine.level.display.value.display.render(
+            level, config_.graphic_engine.level.display.value.max_length));
+    }
 
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
     {
-        cur_brick_cubes_ = cubes;
-        draw_on_board(cubes, colors_.value.brick.cur);
+        draw_sprites(config_.graphic_engine.board.display.render(cubes));
     }
 
     void refresh_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        draw_on_board(cubes, colors_.value.brick.ghost);
+        draw_sprites(config_.graphic_engine.board.display.render(
+            cubes, config_.graphic_engine.board.ghost_color_value));
     }
 
     void refresh_board(const CubeMatrix& cubes) override
     {
-        draw_on_board(cubes);
+        for (const auto& row : cubes)
+            draw_sprites(config_.graphic_engine.board.display.render(row));
+    }
+
+    void handle_key_press(int key_code) override
+    {
+        if (const auto it{key_code_to_signal_.find(key_code)};
+            it != key_code_to_signal_.end())
+            it->second();
+    }
+
+    IvColorMatrix create_layer(const Vector2& size) const
+    {
+        return IvColorMatrix(size.y, std::vector<IvColor>(size.x));
+    }
+
+    void flush_matrix() override
+    {
+        matrix_display_.refresh(main_layer_);
+    }
+
+    void draw_sprites(const Sprites& sprites)
+    {
+        for (const auto& sprite : sprites)
+            draw_sprite(sprite, main_layer_);
+    }
+
+    void draw_sprites(const Sprites& sprites, IvColorMatrix& layer)
+    {
+        for (const auto& sprite : sprites)
+            draw_sprite(sprite, layer);
+    }
+
+    void draw_sprite(const Sprite& sprite)
+    {
+        draw_sprite(sprite, main_layer_);
+    }
+
+    void draw_sprite(const Sprite& sprite, IvColorMatrix& layer)
+    {
+        for (const auto& pixel : sprite.pixels)
+            draw_pixel(sprite.position + pixel, sprite.color, layer);
+    }
+
+    void draw_pixel(
+        const Vector2& position, const IvColor& color, IvColorMatrix& layer)
+    {
+        if (position >= 0 and position < matrix_display_.get_size())
+            layer[position.y][position.x] = color;
     }
 
     void connect_move_left_pressed(
@@ -111,18 +191,10 @@ public:
     }
 
 private:
-    using IvColorMatrix = std::vector<std::vector<IvColor>>;
-    using Signal = boost::signals2::signal<void()>;
-
+    MatrixDisplay& matrix_display_;
+    const GameUiConfig& config_;
     const std::map<int, Signal&> key_code_to_signal_;
-    const GameUiComponents components_;
-    const GameUiStateMessages state_messages_;
-    const GameUiColors colors_;
-    const int cube_size_;
-
-    MatrixDisplay& matrix_;
     IvColorMatrix main_layer_;
-    std::vector<Cube> cur_brick_cubes_;
 
     Signal move_left_pressed_;
     Signal move_right_pressed_;
@@ -132,91 +204,6 @@ private:
     Signal locking_hard_drop_pressed_;
     Signal no_locking_hard_drop_pressed_;
     Signal hold_pressed_;
-
-    IvColorMatrix create_layer(Vector2 size, IvColor color) const;
-    Vector2 compute_brick_center(
-        Vector2 brick_position, bool align_to_left) const;
-    Vector2 compute_brick_centered_position(
-        const Brick& brick, bool align_to_left) const;
-    void draw_background();
-    void draw_cube(
-        Vector2 position, const Cube& cube, uint_fast8_t color_value);
-    void draw_rectangle(const Rectangle& rectangle, IvColor color);
-    void draw_rectangle(const Rectangle& rectangle);
-    void draw_centered_brick_in_container(const Brick& brick,
-        const Rectangle& rect,
-        uint_fast8_t color_value,
-        bool align_to_left);
-    void draw_text(
-        std::string text, TextIvColors text_colors, const TextArea& area);
-
-    void flush_matrix() override
-    {
-        matrix_.refresh(main_layer_);
-    }
-
-    bool position_is_on_display(Vector2 position) const
-    {
-        return position >= 0 and position < matrix_.get_size();
-    }
-
-    void draw_game_state(std::string message)
-    {
-        draw_text(
-            message, colors_.iv.game_state, components_.displays.game_state);
-    }
-
-    void draw_text(unsigned long long number,
-        TextIvColors text_colors,
-        const TextArea& area)
-    {
-        draw_text(std::to_string(number), text_colors, area);
-    }
-
-    void draw_rectangles(const std::vector<Rectangle>& rectangles)
-    {
-        for (const auto& rectangle : rectangles)
-            draw_rectangle(rectangle);
-    }
-
-    void draw_rectangles(
-        const std::vector<Rectangle>& rectangles, IvColor color)
-    {
-        for (const auto& rectangle : rectangles)
-            draw_rectangle(rectangle, color);
-    }
-
-    void draw_on_board(const CubeMatrix& board)
-    {
-        for (const auto& row : board)
-            draw_on_board(row, colors_.value.board);
-    }
-
-    void draw_on_board(const std::vector<Cube>& cubes, uint_fast8_t color_value)
-    {
-        draw_cubes(components_.containers.board.position, cubes, color_value);
-    }
-
-    void draw_cubes(Vector2 position,
-        const std::vector<Cube>& cubes,
-        uint_fast8_t color_value)
-    {
-        for (const auto& cube : cubes)
-            draw_cube(position, cube, color_value);
-    }
-
-    void draw_pixels(
-        Vector2 position, std::vector<Vector2> pixels, IvColor color)
-    {
-        for (const auto& pixel_position : pixels)
-            draw_pixel(position + pixel_position, color);
-    }
-
-    void draw_pixel(Vector2 position, IvColor color)
-    {
-        assert(position_is_on_display(position));
-        main_layer_[position.y][position.x] = color;
-    }
 };
 
 } // namespace Tetris::Ui

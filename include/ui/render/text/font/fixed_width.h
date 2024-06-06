@@ -1,7 +1,7 @@
 #ifndef UI_FIXED_WIDTH_CHAR_SHAPES
 #define UI_FIXED_WIDTH_CHAR_SHAPES
 
-#include "ui/text_area/font/font.h"
+#include "ui/render/text/font/font.h"
 
 namespace Tetris::Ui
 {

@@ -2,16 +2,14 @@
 
 #include "config/config.h"
 #include "ui/color/color_id_name.h"
-#include "ui/text_area/align.h"
-#include "ui/text_area/font/fixed_width.h"
-
-using Tetris::Ui::ColorIdName;
+#include "ui/game_ui/config.h"
+#include "ui/render/text/font/fixed_width.h"
 
 namespace Tetris
 {
 
 const Config config{
-    UiConfig{
+    Ui::GameUiConfig{
         {
             // CONTROLS
             // CONSOLE
@@ -34,155 +32,167 @@ const Config config{
                  // 9, // hold
         },
         {
-            // UI COMPONENTS
+            // GRAPHIC ENGINE
             {
-                // CONTAINERS
-                {{2, 2}, {14, 8}}, // hold brick
-                {{48, 2}, {14, 8}}, // next brick
-                {{2, 12}, {13, 41}}, // 'LEVEL' text
-                {{2, 55}, {13, 7}}, // level value
-                {{17, 2}, {30, 60}}, // game board
-                {{49, 12}, {13, 7}}, // 'SCO' text
-                {{49, 20}, {13, 19}}, // score value
-                {{49, 41}, {13, 7}}, // 'TET' text
-                {{49, 49}, {13, 13}}, // tetrises value
-            },
-            {
-                // DISPLAYS
+                // MAIN
+                Ui::ColorIdName::white, // background color
                 {
                     // game state
                     {{17, 2}, {30, 60}},
+                    {
+                        // container
+                        Ui::ColorIdName::black,
+                        {2},
+                        Ui::ColorIdName::white,
+                    },
                     Ui::fixed_width_font,
+                    Ui::ColorIdName::sunset_orange,
                     Ui::Align::center,
                     0,
                     {1, 2},
-                    {2},
+                    false,
                 },
+            },
+            {
+                // HOLD
+                {{2, 2}, {14, 8}},
                 {
-                    // level
-                    {{3, 13}, {11, 3}, 10, 1}, // bar
+                    // container
+                    Ui::ColorIdName::black,
+                },
+                true,
+            },
+            {
+                // LEVEL
+                {
                     {
+                        // label
+                        "LEVEL",
                         {
-                            // label display
                             {{2, 12}, {13, 41}},
+                            {
+                                // container
+                                Ui::ColorIdName::black,
+                                {2},
+                            },
                             Ui::fixed_width_font,
+                            Ui::ColorIdName::sunset_orange,
                             Ui::Align::center,
-                            0,
-                            {2},
-                            {2},
+                            1,
+                            {1, 2},
+                            false,
                         },
-                        "L\nE\nV\nE\nL", // label text
+                    },
+                    {
+                        // value
+                        9,
                         {
-                            // value display
-                            {{2, 55}, {13, 7}},
+                            {{3, 56}, {11, 5}},
+                            {
+                                // container
+                                Ui::ColorIdName::black,
+                                {1},
+                            },
                             Ui::fixed_width_font,
+                            Ui::ColorIdName::sunset_orange,
                         },
-                        3, // max value length
                     },
                 },
                 {
-                    // score
+                    // progress bar
+                    {{3, 13}, {11, 39}},
                     {
-                        // label display
-                        {{49, 12}, {13, 7}},
-                        Ui::fixed_width_font,
+                        // container
+                        Ui::ColorIdName::black,
+                        {1},
                     },
-                    "SCO", // label text
+                    Ui::ColorIdName::islamic_green,
+                    Ui::ColorIdName::davy_s_grey,
+                },
+            },
+            {
+                // BOARD
+                {
+                    {17, 2},
+                },
+                64,
+            },
+            {
+                // NEXT
+                {{48, 2}, {14, 8}},
+                {
+                    // container
+                    Ui::ColorIdName::black,
+                },
+            },
+            {
+                // SCORE
+                {
+                    // label
+                    "SCO",
                     {
-                        // value display
-                        {{49, 20}, {13, 19}},
+                        {{50, 13}, {11, 5}},
+                        {
+                            // container
+                            Ui::ColorIdName::black,
+                            {1},
+                        },
                         Ui::fixed_width_font,
+                        Ui::ColorIdName::sunset_orange,
                     },
                 },
                 {
-                    // tetrises
+                    // value
+                    9,
                     {
-                        // label display
-                        {{49, 41}, {13, 7}},
+                        {{50, 21}, {11, 17}},
+                        {
+                            // container
+                            Ui::ColorIdName::black,
+                            {1},
+                        },
                         Ui::fixed_width_font,
+                        Ui::ColorIdName::sunset_orange,
                     },
-                    "TET", // label text
+                },
+            },
+            {
+                // TETRISES
+                {
+                    // label
+                    "TET",
                     {
-                        // value display
-                        {{49, 49}, {13, 13}},
+                        {{50, 42}, {11, 5}},
+                        {
+                            // container
+                            Ui::ColorIdName::black,
+                            {1},
+                        },
                         Ui::fixed_width_font,
+                        Ui::ColorIdName::sunset_orange,
+                    },
+                },
+                {
+                    // value
+                    6,
+                    {
+                        {{50, 50}, {11, 11}},
+                        {
+                            // container
+                            Ui::ColorIdName::black,
+                            {1},
+                        },
+                        Ui::fixed_width_font,
+                        Ui::ColorIdName::sunset_orange,
                     },
                 },
             },
         },
         {
+            // STATE MESSAGES
             "PAUSED",
             "GAME\nOVER",
         },
-        {
-            // COLORS
-            {
-                // ID-VALUE
-                {}, // background
-                {ColorIdName::white}, // border
-                {
-                    // GAME STATE TEXT
-                    {ColorIdName::sunset_orange}, // foreground
-                    {}, // background
-                },
-                {
-                    // PROGRESS BAR
-                    {ColorIdName::islamic_green}, // on
-                    {ColorIdName::davy_s_grey}, // off
-                },
-                {
-                    // LEVEL
-                    {
-                        // TEXT
-                        {ColorIdName::sunset_orange}, // foreground
-                        {}, // background
-                    },
-                    {
-                        // VALUE
-                        {ColorIdName::sunset_orange}, // foreground
-                        {}, // background
-                    },
-                },
-                {
-                    // SCORE
-                    {
-                        // TEXT
-                        {ColorIdName::sunset_orange}, // foreground
-                        {}, // background
-                    },
-                    {
-                        // VALUE
-                        {ColorIdName::sunset_orange},
-                        {}, // background
-                    },
-                },
-                {
-                    // TETRISES
-                    {
-                        // TEXT
-                        {ColorIdName::sunset_orange}, // foreground
-                        {}, // background
-                    },
-                    {
-                        // VALUE
-                        {ColorIdName::sunset_orange}, // foreground
-                        {}, // background
-                    },
-                },
-            },
-            {
-                // VALUES
-                0xff, // board
-                {
-                    // BRICKS
-                    0xff, // hold
-                    0xff, // next
-                    0xff, // current
-                    0x44, // ghost
-                },
-            },
-        },
-        3 // CUBE SIZE
     },
     GameConfig{
         {
@@ -208,17 +218,17 @@ const Config config{
         },
         {
             // BRICK COLORS
-            ColorIdName::dark_candy_apple_red,
-            ColorIdName::islamic_green,
-            ColorIdName::windsor_tan,
-            ColorIdName::heliotrope_magenta,
-            ColorIdName::tiffany_blue,
-            ColorIdName::sunset_orange,
-            ColorIdName::screamin_green,
-            ColorIdName::dodie_yellow,
-            ColorIdName::very_light_blue,
-            ColorIdName::shocking_pink,
-            ColorIdName::electric_blue,
+            Ui::ColorIdName::dark_candy_apple_red,
+            Ui::ColorIdName::islamic_green,
+            Ui::ColorIdName::windsor_tan,
+            Ui::ColorIdName::heliotrope_magenta,
+            Ui::ColorIdName::tiffany_blue,
+            Ui::ColorIdName::sunset_orange,
+            Ui::ColorIdName::screamin_green,
+            Ui::ColorIdName::dodie_yellow,
+            Ui::ColorIdName::very_light_blue,
+            Ui::ColorIdName::shocking_pink,
+            Ui::ColorIdName::electric_blue,
         },
         {
             // DEFAULT SETTINGS

@@ -13,6 +13,7 @@ namespace Tetris::Ui
 class GameUiMock final: public GameUi
 {
 public:
+    void refresh_background() override {}
     void refresh_board(const CubeMatrix& cubes) override {}
     void refresh_cur_brick(const std::vector<Cube>& cubes) override {}
     void refresh_ghost_brick(const std::vector<Cube>& cubes) override {}

@@ -22,11 +22,7 @@ void run_tetris(const Config& config,
 {
     Ui::MatrixDisplayGameUiImpl ui{
         matrix_display,
-        config.ui.controls,
-        config.ui.components,
-        config.ui.state_messages,
-        config.ui.colors,
-        config.ui.cube_size,
+        config.ui,
     };
 
     BoardImpl board{
