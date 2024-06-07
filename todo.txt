@@ -1,3 +1,9 @@
+update tests:
+game
+board
+brick
+bag
+
 preload hsv colors
 
 config as one argument
