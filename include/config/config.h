@@ -33,7 +33,7 @@ struct GameConfig final
     std::vector<Ui::ColorIdName> color_id_names;
     Settings default_settings;
     Vector2 brick_spawn_position;
-    int next_level_lines_quantity;
+    int next_level_lines_count;
 };
 
 struct GameControllerConfig final

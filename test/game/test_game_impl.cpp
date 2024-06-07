@@ -63,7 +63,7 @@ struct GameImplTest
             score_counter,
             config.default_settings,
             config.brick_spawn_position,
-            config.next_level_lines_quantity,
+            config.next_level_lines_count,
         }
     {}
     GameUiMock ui;

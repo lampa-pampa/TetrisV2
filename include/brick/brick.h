@@ -15,7 +15,7 @@ std::ostream& operator<<(std::ostream& os, const std::vector<Cube>& cubes);
 
 struct Brick final
 {
-    static constexpr int rotation_quantity{4};
+    static constexpr int rotation_count{4};
 
     std::vector<Cube> cubes;
     Vector2 rotation_offset;
@@ -34,7 +34,7 @@ struct Brick final
 
     static int compute_next_rotation(int rotation, int d_q)
     {
-        return (rotation + d_q + rotation_quantity) % rotation_quantity;
+        return (rotation + d_q + rotation_count) % rotation_count;
     }
 
     static Brick get_transformed(

@@ -48,7 +48,7 @@ void run_tetris(const Config& config,
         score_counter,
         config.game.default_settings,
         config.game.brick_spawn_position,
-        config.game.next_level_lines_quantity,
+        config.game.next_level_lines_count,
     };
 
     TimerImpl timer{

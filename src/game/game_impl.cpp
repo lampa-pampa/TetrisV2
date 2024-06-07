@@ -26,19 +26,19 @@ GameImpl::GameImpl(Ui::GameUi& ui,
     ScoreCounter& score_counter,
     const Settings& settings,
     Vector2 brick_start_position,
-    int next_level_lines_quantity)
+    int next_level_lines_count)
   : ui_{ui},
     board_{board},
     brick_generator_{brick_generator},
     score_counter_{score_counter},
     settings_{settings},
     brick_start_position_{brick_start_position},
-    next_level_lines_quantity_{next_level_lines_quantity},
+    next_level_lines_count_{next_level_lines_count},
     state_{GameState::in_progress},
     score_{},
     tetrises_{},
     level_{settings.start_level},
-    lines_quantity_{},
+    lines_count_{},
     next_brick_{brick_generator.generate()},
     hold_brick_{},
     can_hold_{true}
@@ -190,7 +190,7 @@ void GameImpl::draw_all()
 {
     ui_.refresh_background();
     ui_.refresh_hold_brick(hold_brick_);
-    ui_.refresh_level_progress_bar(lines_quantity_);
+    ui_.refresh_level_progress_bar(lines_count_);
     ui_.refresh_level(level_);
     ui_.refresh_board(board_.get_visible_cubes());
     ui_.refresh_next_brick(next_brick_);
@@ -251,8 +251,8 @@ void GameImpl::add_lines(int amount)
 {
     if (amount > 0)
     {
-        lines_quantity_ += amount;
-        ui_.refresh_level_progress_bar(lines_quantity_);
+        lines_count_ += amount;
+        ui_.refresh_level_progress_bar(lines_count_);
         add_score_for_lines(amount);
         update_level();
     }
@@ -260,12 +260,12 @@ void GameImpl::add_lines(int amount)
 
 void GameImpl::update_level()
 {
-    if (lines_quantity_ >= next_level_lines_quantity_)
+    if (lines_count_ >= next_level_lines_count_)
     {
         ++level_;
-        lines_quantity_ -= next_level_lines_quantity_;
+        lines_count_ -= next_level_lines_count_;
         ui_.refresh_level(level_);
-        ui_.refresh_level_progress_bar(lines_quantity_);
+        ui_.refresh_level_progress_bar(lines_count_);
         set_timeout_delay_(level_);
     }
 }

@@ -28,7 +28,7 @@ public:
         ScoreCounter& score_counter,
         const Settings& settings,
         Vector2 brick_start_position,
-        int next_level_lines_quantity);
+        int next_level_lines_count);
 
     GameImpl(const GameImpl&) = delete;
     GameImpl(const GameImpl&&) = delete;
@@ -155,9 +155,9 @@ public:
         return settings_;
     }
 
-    int get_lines_quantity() const
+    int get_lines_count() const
     {
-        return lines_quantity_;
+        return lines_count_;
     }
 
     int get_level() const
@@ -170,11 +170,11 @@ private:
     using Signal = boost::signals2::signal<void()>;
     using SignalInt = boost::signals2::signal<void(int)>;
 
-    static constexpr int tetris_lines_quantity_{4};
+    static constexpr int tetris_lines_count_{4};
 
     const Settings settings_;
     const Vector2 brick_start_position_;
-    const int next_level_lines_quantity_;
+    const int next_level_lines_count_;
 
     Ui::GameUi& ui_;
     Board& board_;
@@ -191,7 +191,7 @@ private:
     bool can_hold_;
     Signal reset_timeout_;
     SignalInt set_timeout_delay_;
-    int lines_quantity_;
+    int lines_count_;
     int level_;
 
     void generate_hold_brick();
@@ -225,7 +225,7 @@ private:
     void add_score_for_lines(int amount)
     {
         add_score(score_counter_.count_score_for_lines(amount));
-        tetrises_ += amount / tetris_lines_quantity_;
+        tetrises_ += amount / tetris_lines_count_;
     }
 
     bool can_move(const Brick& brick, Vector2 vector) const

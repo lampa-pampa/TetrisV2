@@ -116,7 +116,7 @@ TEST(Brick, get_rotated)
 
     for (const auto& pair : brick_to_expected)
     {
-        for (const auto& i : irange(Brick::rotation_quantity))
+        for (const auto& i : irange(Brick::rotation_count))
         {
             const Brick actual{Brick::get_rotated(pair.first, i)};
 

@@ -24,11 +24,11 @@ TEST(ScoreCounterImpl, test_count_score_for_lines)
 
     for (const auto& pair : score_counter_to_expected)
     {
-        for (const auto& lines_quantity : irange(3))
+        for (const auto& lines_count : irange(3))
         {
-            const int actual{pair.first.count_score_for_lines(lines_quantity)};
+            const int actual{pair.first.count_score_for_lines(lines_count)};
 
-            ASSERT_THAT(actual, Eq(pair.second * lines_quantity));
+            ASSERT_THAT(actual, Eq(pair.second * lines_count));
         }
     }
 }

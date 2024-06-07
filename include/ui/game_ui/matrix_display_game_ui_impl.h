@@ -31,10 +31,9 @@ public:
 
     void refresh_background() override;
 
-    void refresh_level_progress_bar(int quantity) override
+    void refresh_level_progress_bar(int count) override
     {
-        draw_sprites(
-            config_.graphic_engine.level.progress_bar.render(quantity));
+        draw_sprites(config_.graphic_engine.level.progress_bar.render(count));
         draw_sprites(config_.graphic_engine.level.display.label.display.render(
             config_.graphic_engine.level.display.label.text));
     }

@@ -193,7 +193,7 @@ const Config config{
             true, // generate ghost
         },
         {4, 1}, // brick spawn position
-        10, // next level lines quantity
+        10, // next level lines count
     },
     {
         // GAME CONTROLLER
