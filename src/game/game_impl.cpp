@@ -195,7 +195,6 @@ void GameImpl::draw_all()
     ui_.refresh_board(board_.get_visible_cubes());
     ui_.refresh_next_brick(next_brick_);
     ui_.refresh_score(score_);
-    ui_.refresh_tetrises(tetrises_);
     draw_bricks();
     ui_.flush_matrix();
 }
@@ -256,15 +255,6 @@ void GameImpl::add_lines(int amount)
         ui_.refresh_level_progress_bar(lines_quantity_);
         add_score_for_lines(amount);
         update_level();
-    }
-}
-
-void GameImpl::add_tetrises(unsigned long long amount)
-{
-    if (amount > 0)
-    {
-        tetrises_ += amount;
-        ui_.refresh_tetrises(tetrises_);
     }
 }
 

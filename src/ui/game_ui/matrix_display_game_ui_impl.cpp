@@ -28,8 +28,6 @@ void MatrixDisplayGameUiImpl::refresh_background()
         config_.graphic_engine.main.bg_color});
     draw_sprites(config_.graphic_engine.score.label.display.render(
         config_.graphic_engine.score.label.text));
-    draw_sprites(config_.graphic_engine.tetrises.label.display.render(
-        config_.graphic_engine.tetrises.label.text));
 }
 
 } // namespace Tetris::Ui

@@ -219,14 +219,13 @@ private:
     void set_start_position_and_rotation();
     void add_score(unsigned long long amount);
     void add_lines(int amount);
-    void add_tetrises(unsigned long long amount);
     void update_level();
     void perform_action(const std::function<void()>& action);
 
     void add_score_for_lines(int amount)
     {
         add_score(score_counter_.count_score_for_lines(amount));
-        add_tetrises(amount / tetris_lines_quantity_);
+        tetrises_ += amount / tetris_lines_quantity_;
     }
 
     bool can_move(const Brick& brick, Vector2 vector) const

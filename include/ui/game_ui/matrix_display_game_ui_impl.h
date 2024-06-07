@@ -57,12 +57,6 @@ public:
             score, config_.graphic_engine.score.value.max_length));
     }
 
-    void refresh_tetrises(unsigned long long tetrises) override
-    {
-        draw_sprites(config_.graphic_engine.tetrises.value.display.render(
-            tetrises, config_.graphic_engine.tetrises.value.max_length));
-    }
-
     void refresh_next_brick(const Brick& brick) override
     {
         draw_sprites(config_.graphic_engine.next.render(brick));

@@ -20,7 +20,6 @@ public:
     void refresh_next_brick(const Brick& brick) override {}
     void refresh_hold_brick(const Brick& brick) override {}
     void refresh_score(unsigned long long score) override {}
-    void refresh_tetrises(unsigned long long tetrises) override {}
     void refresh_level_progress_bar(int quantity) override {}
     void refresh_level(int level) override {}
     void flush_matrix() override {}

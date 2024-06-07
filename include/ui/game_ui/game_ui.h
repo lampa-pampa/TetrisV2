@@ -22,7 +22,6 @@ public:
     virtual void refresh_next_brick(const Brick& brick) = 0;
     virtual void refresh_hold_brick(const Brick& brick) = 0;
     virtual void refresh_score(unsigned long long score) = 0;
-    virtual void refresh_tetrises(unsigned long long tetrises) = 0;
     virtual void refresh_level_progress_bar(int quantity) = 0;
     virtual void refresh_level(int level) = 0;
     virtual void flush_matrix() = 0;

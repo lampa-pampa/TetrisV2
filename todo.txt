@@ -1,5 +1,4 @@
-console keyboard (translations to button matrix key codes)
-Q -> R
+3 preview
 
 const brick colors
 

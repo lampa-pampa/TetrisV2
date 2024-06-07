@@ -119,7 +119,7 @@ const Config config{
                     // label
                     "SCO",
                     {
-                        {{50, 13}, {11, 5}},
+                        {{50, 35}, {11, 5}},
                         {
                             // container
                             Ui::ColorIdName::black,
@@ -133,38 +133,7 @@ const Config config{
                     // value
                     9,
                     {
-                        {{50, 21}, {11, 17}},
-                        {
-                            // container
-                            Ui::ColorIdName::black,
-                            {1},
-                        },
-                        Ui::fixed_width_font,
-                        Ui::ColorIdName::sunset_orange,
-                    },
-                },
-            },
-            {
-                // TETRISES
-                {
-                    // label
-                    "TET",
-                    {
-                        {{50, 42}, {11, 5}},
-                        {
-                            // container
-                            Ui::ColorIdName::black,
-                            {1},
-                        },
-                        Ui::fixed_width_font,
-                        Ui::ColorIdName::sunset_orange,
-                    },
-                },
-                {
-                    // value
-                    6,
-                    {
-                        {{50, 50}, {11, 11}},
+                        {{50, 44}, {11, 17}},
                         {
                             // container
                             Ui::ColorIdName::black,

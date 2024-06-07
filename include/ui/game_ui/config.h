@@ -68,7 +68,6 @@ struct GraphicEngine final
     BoardDisplay board;
     RenderBrickPreview next;
     LabeledDisplay score;
-    LabeledDisplay tetrises;
 };
 
 struct StateMessages final
