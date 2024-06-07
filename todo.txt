@@ -1,5 +1,3 @@
-3 preview
-
 const brick colors
 
 preload hsv colors
