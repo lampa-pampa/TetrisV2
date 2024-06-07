@@ -34,7 +34,7 @@ Sprites RenderBrickPreview::render(
         render_container_.render({container_position, container_size_})};
     RenderCubes render_cubes{
         compute_brick_centered_position(brick, container_position), cube_size_};
-    const Sprites rendered_sprites{render_cubes.render(brick.cubes)};
+    const Sprites rendered_sprites{render_cubes.render(brick.get_cubes())};
     sprites.insert(
         sprites.end(), rendered_sprites.begin(), rendered_sprites.end());
     return sprites;

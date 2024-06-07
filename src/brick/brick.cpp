@@ -7,7 +7,6 @@
 #include <boost/range/irange.hpp>
 
 #include "cube/cube.h"
-#include "ui/color/color_id_name.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -20,19 +19,11 @@ using std::vector;
 namespace Tetris
 {
 
-Brick Brick::get_colored(const Brick& brick, Ui::ColorIdName color_id_name)
-{
-    Brick colored_brick{brick};
-    for (auto& cube : colored_brick.cubes)
-        cube.color_id_name = color_id_name;
-    return colored_brick;
-}
-
 Brick Brick::get_translated(const Brick& brick, Vector2 position)
 {
     Brick translated_brick{brick};
-    for (auto& cube : translated_brick.cubes)
-        cube.position += position;
+    for (auto& cube_position : translated_brick.cube_positions)
+        cube_position += position;
     return translated_brick;
 }
 
@@ -51,56 +42,60 @@ Vector2 Brick::get_rotated_position(
 Brick Brick::get_rotated(const Brick& brick, int quarters_rotation)
 {
     Brick rotated_brick{brick};
-    for (auto& cube : rotated_brick.cubes)
+    for (auto& cube_position : rotated_brick.cube_positions)
     {
-        cube.position = get_rotated_position(
-            cube.position, brick.rotation_offset, quarters_rotation);
+        cube_position = get_rotated_position(
+            cube_position, brick.rotation_offset, quarters_rotation);
     }
     return rotated_brick;
 }
 
+vector<Cube> Brick::get_cubes() const
+{
+    vector<Cube> cubes{};
+    for (const auto& cube_position : cube_positions)
+        cubes.emplace_back(cube_position.x, cube_position.y, color_id_name);
+    return cubes;
+}
+
 int Brick::get_min_x() const
 {
-    if (cubes.empty())
+    if (cube_positions.empty())
         return 0;
-    return min_element(cubes.begin(),
-        cubes.end(),
-        [](const Cube& a, const Cube& b)
-        { return a.position.x < b.position.x; })
-        ->position.x;
+    return min_element(cube_positions.begin(),
+        cube_positions.end(),
+        [](const Vector2& a, const Vector2& b) { return a.x < b.x; })
+        ->x;
 }
 
 int Brick::get_max_x() const
 {
-    if (cubes.empty())
+    if (cube_positions.empty())
         return 0;
-    return max_element(cubes.begin(),
-        cubes.end(),
-        [](const Cube& a, const Cube& b)
-        { return a.position.x < b.position.x; })
-        ->position.x;
+    return max_element(cube_positions.begin(),
+        cube_positions.end(),
+        [](const Vector2& a, const Vector2& b) { return a.x < b.x; })
+        ->x;
 }
 
 int Brick::get_min_y() const
 {
-    if (cubes.empty())
+    if (cube_positions.empty())
         return 0;
-    return min_element(cubes.begin(),
-        cubes.end(),
-        [](const Cube& a, const Cube& b)
-        { return a.position.y < b.position.y; })
-        ->position.y;
+    return min_element(cube_positions.begin(),
+        cube_positions.end(),
+        [](const Vector2& a, const Vector2& b) { return a.y < b.y; })
+        ->y;
 }
 
 int Brick::get_max_y() const
 {
-    if (cubes.empty())
+    if (cube_positions.empty())
         return 0;
-    return max_element(cubes.begin(),
-        cubes.end(),
-        [](const Cube& a, const Cube& b)
-        { return a.position.y < b.position.y; })
-        ->position.y;
+    return max_element(cube_positions.begin(),
+        cube_positions.end(),
+        [](const Vector2& a, const Vector2& b) { return a.y < b.y; })
+        ->y;
 }
 
 Vector2 Brick::get_size() const
@@ -110,12 +105,12 @@ Vector2 Brick::get_size() const
     return {get_max_x() - get_min_x() + 1, get_max_y() - get_min_y() + 1};
 }
 
-ostream& operator<<(ostream& os, const vector<Cube>& cubes)
+ostream& operator<<(ostream& os, const vector<Vector2>& cube_positions)
 {
-    for (const auto& cube : cubes)
+    for (const auto& cube_position : cube_positions)
     {
-        os << cube;
-        if (&cube != &cubes.back())
+        os << cube_position;
+        if (&cube_position != &cube_positions.back())
             os << ", ";
     }
     return os;

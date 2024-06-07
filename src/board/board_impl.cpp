@@ -41,9 +41,9 @@ vector<int> BoardImpl::remove_lines_and_compress(int from_y, int to_y)
 
 bool BoardImpl::brick_is_valid(const Brick& brick) const
 {
-    for (const auto& cube : brick.cubes)
+    for (const auto& cube_position : brick.cube_positions)
     {
-        if (not position_is_valid(cube.position))
+        if (not position_is_valid(cube_position))
             return false;
     }
     return true;
@@ -103,7 +103,7 @@ Brick BoardImpl::try_to_create_line(int y) const
     {
         if (cube.empty())
             return {};
-        line.cubes.push_back(cube);
+        line.cube_positions.push_back(cube.position);
     }
     return line;
 }

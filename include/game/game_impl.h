@@ -1,6 +1,7 @@
 #ifndef INCLUDE_GAME_IMPL_H
 #define INCLUDE_GAME_IMPL_H
 
+#include "brick/bag.h"
 #include "game/game.h"
 
 #include <deque>
@@ -11,7 +12,6 @@
 
 #include "board/board.h"
 #include "brick/brick.h"
-#include "brick/brick_generator.h"
 #include "game/settings.h"
 #include "score_counter/score_counter.h"
 #include "ui/game_ui/game_ui.h"
@@ -25,7 +25,7 @@ class GameImpl final: public Game
 public:
     GameImpl(Ui::GameUi& ui,
         Board& board,
-        BrickGenerator& brick_generator,
+        Bag<Brick>& bricks_bag,
         ScoreCounter& score_counter,
         const Settings& settings,
         Vector2 brick_start_position,
@@ -180,7 +180,7 @@ private:
 
     Ui::GameUi& ui_;
     Board& board_;
-    BrickGenerator& brick_generator_;
+    Bag<Brick>& bricks_bag_;
     ScoreCounter& score_counter_;
     GameState state_;
     unsigned long long score_;

@@ -11,25 +11,26 @@
 namespace Tetris
 {
 
-std::ostream& operator<<(std::ostream& os, const std::vector<Cube>& cubes);
+std::ostream& operator<<(
+    std::ostream& os, const std::vector<Vector2>& cube_positions);
 
 struct Brick final
 {
     static constexpr int rotation_count{4};
 
-    std::vector<Cube> cubes;
+    std::vector<Vector2> cube_positions;
+    Ui::ColorIdName color_id_name;
     Vector2 rotation_offset;
 
     static Brick get_translated(const Brick& brick, Vector2 position);
     static Vector2 get_rotated_position(
         Vector2 position, Vector2 rotation_offset, int quarters_rotation);
     static Brick get_rotated(const Brick& brick, int quarters_rotation);
-    static Brick get_colored(const Brick& brick, Ui::ColorIdName color_id_name);
 
     friend inline std::ostream& operator<<(std::ostream& os, const Brick& brick)
     {
-        return os << "{{ " << brick.cubes << " }, " << brick.rotation_offset
-                  << "}";
+        return os << "{{ " << brick.cube_positions << " }, "
+                  << brick.rotation_offset << "}";
     }
 
     static int compute_next_rotation(int rotation, int d_q)
@@ -43,11 +44,15 @@ struct Brick final
         return get_translated(get_rotated(brick, quarters_rotation), position);
     }
 
-    Brick(std::vector<Cube> cubes = {}, Vector2 rotation_offset = {0, 0})
-      : cubes{cubes},
+    Brick(std::vector<Vector2> cube_positions = {},
+        Ui::ColorIdName color_id_name = Ui::ColorIdName::black,
+        Vector2 rotation_offset = {})
+      : cube_positions{cube_positions},
+        color_id_name{color_id_name},
         rotation_offset{rotation_offset}
     {}
 
+    std::vector<Cube> get_cubes() const;
     int get_min_x() const;
     int get_max_x() const;
     int get_min_y() const;
@@ -56,13 +61,13 @@ struct Brick final
 
     bool operator==(const Brick& other) const
     {
-        return cubes == other.cubes
+        return cube_positions == other.cube_positions
             and rotation_offset == other.rotation_offset;
     }
 
     bool empty() const
     {
-        return cubes.empty();
+        return cube_positions.empty();
     }
 };
 

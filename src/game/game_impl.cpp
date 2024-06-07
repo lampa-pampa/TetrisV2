@@ -6,8 +6,8 @@
 #include <boost/range/irange.hpp>
 
 #include "board/board.h"
+#include "brick/bag.h"
 #include "brick/brick.h"
-#include "brick/brick_generator.h"
 #include "game/game_state.h"
 #include "game/settings.h"
 #include "score_counter/score_counter.h"
@@ -24,14 +24,14 @@ namespace Tetris
 
 GameImpl::GameImpl(Ui::GameUi& ui,
     Board& board,
-    BrickGenerator& brick_generator,
+    Bag<Brick>& bricks_bag,
     ScoreCounter& score_counter,
     const Settings& settings,
     Vector2 brick_start_position,
     int next_level_lines_count)
   : ui_{ui},
     board_{board},
-    brick_generator_{brick_generator},
+    bricks_bag_{bricks_bag},
     score_counter_{score_counter},
     settings_{settings},
     brick_start_position_{brick_start_position},
@@ -45,7 +45,7 @@ GameImpl::GameImpl(Ui::GameUi& ui,
     can_hold_{true}
 {
     for (const auto& i : boost::irange(next_bricks_count))
-        next_bricks_.emplace_back(brick_generator_.generate());
+        next_bricks_.emplace_back(bricks_bag_.get_next());
     generate_new_brick();
     set_start_position_and_rotation();
     draw_all();
@@ -88,7 +88,7 @@ void GameImpl::hold()
 
 void GameImpl::place(const Brick& brick)
 {
-    board_.put_cubes(brick.cubes);
+    board_.put_cubes(brick.get_cubes());
     remove_lines(brick.get_min_y(), brick.get_max_y());
     ui_.refresh_board(board_.get_visible_cubes());
     can_hold_ = true;
@@ -208,8 +208,9 @@ void GameImpl::refresh_ghost_brick(bool use_colors)
     {
         Brick brick = create_ghost_brick();
         if (not use_colors)
-            brick = Brick::get_colored(brick, Ui::ColorIdName::black);
-        ui_.refresh_ghost_brick(board_.get_visible_brick_cubes(brick.cubes));
+            brick.color_id_name = Ui::ColorIdName::black;
+        ui_.refresh_ghost_brick(
+            board_.get_visible_brick_cubes(brick.get_cubes()));
     }
 }
 
@@ -217,8 +218,8 @@ void GameImpl::refresh_cur_brick(bool use_colors)
 {
     Brick brick = get_transformed_cur_brick();
     if (not use_colors)
-        brick = Brick::get_colored(brick, Ui::ColorIdName::black);
-    ui_.refresh_cur_brick(board_.get_visible_brick_cubes(brick.cubes));
+        brick.color_id_name = Ui::ColorIdName::black;
+    ui_.refresh_cur_brick(board_.get_visible_brick_cubes(brick.get_cubes()));
 }
 
 void GameImpl::remove_lines(int from_y, int to_y)
@@ -231,7 +232,7 @@ void GameImpl::generate_new_brick()
 {
     cur_brick_ = next_bricks_.front();
     next_bricks_.pop_front();
-    next_bricks_.emplace_back(brick_generator_.generate());
+    next_bricks_.emplace_back(bricks_bag_.get_next());
     ui_.refresh_next_bricks(next_bricks_);
 }
 
