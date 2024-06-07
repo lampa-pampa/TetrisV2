@@ -1,6 +1,7 @@
 #ifndef INCLUDE_UI_GAME_UI_H
 #define INCLUDE_UI_GAME_UI_H
 
+#include <deque>
 #include <functional>
 #include <vector>
 
@@ -19,7 +20,7 @@ public:
     virtual void refresh_board(const CubeMatrix& cubes) = 0;
     virtual void refresh_cur_brick(const std::vector<Cube>& cubes) = 0;
     virtual void refresh_ghost_brick(const std::vector<Cube>& cubes) = 0;
-    virtual void refresh_next_brick(const Brick& brick) = 0;
+    virtual void refresh_next_bricks(const std::deque<Brick>& brick) = 0;
     virtual void refresh_hold_brick(const Brick& brick) = 0;
     virtual void refresh_score(unsigned long long score) = 0;
     virtual void refresh_level_progress_bar(int count) = 0;

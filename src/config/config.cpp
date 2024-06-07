@@ -43,7 +43,8 @@ const Config config{
             },
             {
                 // HOLD
-                {{2, 2}, {14, 8}},
+                {2, 2},
+                {14, 8},
                 {
                     // container
                     Ui::ColorIdName::black,
@@ -107,7 +108,8 @@ const Config config{
             },
             {
                 // NEXT
-                {{48, 2}, {14, 8}},
+                {48, 2},
+                {14, 10},
                 {
                     // container
                     Ui::ColorIdName::black,

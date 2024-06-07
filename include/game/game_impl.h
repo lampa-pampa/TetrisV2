@@ -3,6 +3,7 @@
 
 #include "game/game.h"
 
+#include <deque>
 #include <functional>
 #include <vector>
 
@@ -135,9 +136,9 @@ public:
         return cur_brick_rotation_;
     }
 
-    Brick get_next_brick() const
+    std::deque<Brick> get_next_bricks() const
     {
-        return next_brick_;
+        return next_bricks_;
     }
 
     Brick get_hold_brick() const
@@ -171,6 +172,7 @@ private:
     using SignalInt = boost::signals2::signal<void(int)>;
 
     static constexpr int tetris_lines_count_{4};
+    static constexpr int next_bricks_count{3};
 
     const Settings settings_;
     const Vector2 brick_start_position_;
@@ -186,7 +188,7 @@ private:
     Brick cur_brick_;
     Vector2 cur_brick_position_;
     int cur_brick_rotation_;
-    Brick next_brick_;
+    std::deque<Brick> next_bricks_;
     Brick hold_brick_;
     bool can_hold_;
     Signal reset_timeout_;

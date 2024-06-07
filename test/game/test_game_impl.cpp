@@ -200,7 +200,7 @@ TEST(GameImpl, GameImpl)
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
         ASSERT_THAT(game.get_cur_brick_rotation(), Eq(cur_brick_rotation));
-        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_next_bricks()[0], Eq(next_brick));
         ASSERT_THAT(game.get_hold_brick(), Eq(hold_brick));
         ASSERT_THAT(game.get_can_hold(), Eq(can_hold));
         ASSERT_THAT(game.get_settings(), Eq(settings));
@@ -262,7 +262,7 @@ TEST(GameImpl, handle_soft_drop)
         ASSERT_THAT(game.get_score(), Eq(score));
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
-        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_next_bricks()[0], Eq(next_brick));
     }
 }
 
@@ -322,7 +322,7 @@ TEST(GameImpl, handle_timeout)
         ASSERT_THAT(game.get_score(), Eq(score));
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
-        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_next_bricks()[0], Eq(next_brick));
     }
 }
 
@@ -504,7 +504,7 @@ TEST(GameImpl, handle_locking_hard_drop)
         ASSERT_THAT(game.get_score(), Eq(score));
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
-        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_next_bricks()[0], Eq(next_brick));
     }
 }
 
@@ -564,7 +564,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
         ASSERT_THAT(game.get_score(), Eq(score));
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
-        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_next_bricks()[0], Eq(next_brick));
     }
 }
 
@@ -631,7 +631,7 @@ TEST(GameImpl, handle_hold)
 
         ASSERT_THAT(game.get_cur_brick(), Eq(cur_brick));
         ASSERT_THAT(game.get_cur_brick_position(), Eq(cur_brick_position));
-        ASSERT_THAT(game.get_next_brick(), Eq(next_brick));
+        ASSERT_THAT(game.get_next_bricks()[0], Eq(next_brick));
         ASSERT_THAT(game.get_hold_brick(), Eq(hold_brick));
         ASSERT_THAT(game.get_can_hold(), Eq(can_hold));
     }

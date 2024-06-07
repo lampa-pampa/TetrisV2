@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <vector>
 
+#include <boost/range/irange.hpp>
+
 #include "board/board.h"
 #include "brick/brick.h"
 #include "brick/brick_generator.h"
@@ -39,10 +41,11 @@ GameImpl::GameImpl(Ui::GameUi& ui,
     tetrises_{},
     level_{settings.start_level},
     lines_count_{},
-    next_brick_{brick_generator.generate()},
     hold_brick_{},
     can_hold_{true}
 {
+    for (const auto& i : boost::irange(next_bricks_count))
+        next_bricks_.emplace_back(brick_generator_.generate());
     generate_new_brick();
     set_start_position_and_rotation();
     draw_all();
@@ -193,7 +196,7 @@ void GameImpl::draw_all()
     ui_.refresh_level_progress_bar(lines_count_);
     ui_.refresh_level(level_);
     ui_.refresh_board(board_.get_visible_cubes());
-    ui_.refresh_next_brick(next_brick_);
+    ui_.refresh_next_bricks(next_bricks_);
     ui_.refresh_score(score_);
     draw_bricks();
     ui_.flush_matrix();
@@ -226,9 +229,10 @@ void GameImpl::remove_lines(int from_y, int to_y)
 
 void GameImpl::generate_new_brick()
 {
-    cur_brick_ = next_brick_;
-    next_brick_ = brick_generator_.generate();
-    ui_.refresh_next_brick(next_brick_);
+    cur_brick_ = next_bricks_.front();
+    next_bricks_.pop_front();
+    next_bricks_.emplace_back(brick_generator_.generate());
+    ui_.refresh_next_bricks(next_bricks_);
 }
 
 void GameImpl::set_start_position_and_rotation()

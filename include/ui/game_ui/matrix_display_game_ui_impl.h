@@ -1,10 +1,12 @@
 #ifndef INCLUDE_UI_MATRIX_DISPLAY_GAME_UI_IMPL_H
 #define INCLUDE_UI_MATRIX_DISPLAY_GAME_UI_IMPL_H
 
+#include "brick/brick.h"
 #include "ui/color/iv_color.h"
 #include "ui/game_ui/game_ui.h"
 
 #include <cassert>
+#include <deque>
 #include <functional>
 #include <map>
 #include <string>
@@ -56,9 +58,9 @@ public:
             score, config_.graphic_engine.score.value.max_length));
     }
 
-    void refresh_next_brick(const Brick& brick) override
+    void refresh_next_bricks(const std::deque<Brick>& bricks) override
     {
-        draw_sprites(config_.graphic_engine.next.render(brick));
+        draw_sprites(config_.graphic_engine.next.render(bricks));
     }
 
     void refresh_hold_brick(const Brick& brick) override

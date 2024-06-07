@@ -1,6 +1,7 @@
 #ifndef INCLUDE_UI_GAME_UI_MOCK_H
 #define INCLUDE_UI_GAME_UI_MOCK_H
 
+#include <deque>
 #include <vector>
 
 #include "brick/brick.h"
@@ -17,7 +18,7 @@ public:
     void refresh_board(const CubeMatrix& cubes) override {}
     void refresh_cur_brick(const std::vector<Cube>& cubes) override {}
     void refresh_ghost_brick(const std::vector<Cube>& cubes) override {}
-    void refresh_next_brick(const Brick& brick) override {}
+    void refresh_next_bricks(const std::deque<Brick>& bricks) override {}
     void refresh_hold_brick(const Brick& brick) override {}
     void refresh_score(unsigned long long score) override {}
     void refresh_level_progress_bar(int count) override {}
