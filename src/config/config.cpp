@@ -199,20 +199,6 @@ const Config config{
             },
         },
         {
-            // BRICK COLORS
-            Ui::ColorIdName::dark_candy_apple_red,
-            Ui::ColorIdName::islamic_green,
-            Ui::ColorIdName::windsor_tan,
-            Ui::ColorIdName::heliotrope_magenta,
-            Ui::ColorIdName::tiffany_blue,
-            Ui::ColorIdName::sunset_orange,
-            Ui::ColorIdName::screamin_green,
-            Ui::ColorIdName::dodie_yellow,
-            Ui::ColorIdName::very_light_blue,
-            Ui::ColorIdName::shocking_pink,
-            Ui::ColorIdName::electric_blue,
-        },
-        {
             // DEFAULT SETTINGS
             1, // start level
             true, // generate ghost
