@@ -8,10 +8,10 @@
 #include "board/board.h"
 #include "brick/bag.h"
 #include "brick/brick.h"
+#include "cube/cube.h"
 #include "game/game_state.h"
 #include "game/settings.h"
 #include "score_counter/score_counter.h"
-#include "ui/color/color_id_name.h"
 #include "ui/game_ui/game_ui.h"
 #include "vector_2/vector_2.h"
 
@@ -208,7 +208,7 @@ void GameImpl::refresh_ghost_brick(bool use_colors)
     {
         Brick brick = create_ghost_brick();
         if (not use_colors)
-            brick.color_id_name = Ui::ColorIdName::black;
+            brick.color_id_name = Cube::empty_color_id_name;
         ui_.refresh_ghost_brick(
             board_.get_visible_brick_cubes(brick.get_cubes()));
     }
@@ -218,7 +218,7 @@ void GameImpl::refresh_cur_brick(bool use_colors)
 {
     Brick brick = get_transformed_cur_brick();
     if (not use_colors)
-        brick.color_id_name = Ui::ColorIdName::black;
+        brick.color_id_name = Cube::empty_color_id_name;
     ui_.refresh_cur_brick(board_.get_visible_brick_cubes(brick.get_cubes()));
 }
 
