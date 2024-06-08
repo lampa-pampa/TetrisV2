@@ -20,42 +20,7 @@ using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::Cube;
 using Tetris::Ui::ColorIdName;
-
-namespace
-{
 using CubeMatrix = vector<vector<Cube>>;
-}
-
-TEST(BoardImpl, BoardImpl)
-{
-    const vector<pair<BoardImpl, CubeMatrix>> board_to_expected{
-        {
-            {{1, 3}},
-            {
-                {{0, 0}},
-                {{0, 1}},
-                {{0, 2}},
-            },
-        },
-        {
-            {2},
-            {
-                {{0, 0}, {1, 0}},
-                {{0, 1}, {1, 1}},
-            },
-        },
-        {
-            {{3, 2}},
-            {
-                {{0, 0}, {1, 0}, {2, 0}},
-                {{0, 1}, {1, 1}, {2, 1}},
-            },
-        },
-    };
-
-    for (const auto& pair : board_to_expected)
-        ASSERT_THAT(pair.first.get_cubes(), Eq(pair.second));
-}
 
 TEST(BoardImpl, put_cubes)
 {
@@ -118,84 +83,22 @@ TEST(BoardImpl, put_cubes)
 
 TEST(BoardImpl, remove_lines_and_compress)
 {
-    const BoardImpl initial_board{{2}, 1};
+    const BoardImpl initial_board{{2, 3}};
     const vector<
         pair<tuple<vector<Cube>, int, int>, tuple<CubeMatrix, vector<int>>>>
         cubes_and_range_to_expected{
             {
                 {
                     {
-                        {1, -1, ColorIdName::white},
-                        {0, 0, ColorIdName::white},
                         {0, 1, ColorIdName::white},
-                        {1, 1, ColorIdName::white},
-                    },
-                    -1,
-                    1,
-                },
-                {
-                    {
-                        {
-                            {0, -1},
-                            {1, -1},
-                        },
-                        {
-                            {0, 0},
-                            {1, 0, ColorIdName::white},
-                        },
-                        {
-                            {0, 1, ColorIdName::white},
-                            {1, 1},
-                        },
-                    },
-                    {1},
-                },
-            },
-            {
-                {
-                    {
-                        {0, 0, ColorIdName::white},
-                        {1, 0, ColorIdName::white},
-                        {1, 1, ColorIdName::white},
-                    },
-                    1,
-                    1,
-                },
-                {
-                    {
-                        {
-                            {0, -1},
-                            {1, -1},
-                        },
-                        {
-                            {0, 0, ColorIdName::white},
-                            {1, 0, ColorIdName::white},
-                        },
-                        {
-                            {0, 1},
-                            {1, 1, ColorIdName::white},
-                        },
-                    },
-                    {},
-                },
-            },
-            {
-                {
-                    {
-                        {0, 0, ColorIdName::white},
-                        {1, 0, ColorIdName::white},
-                        {0, 1, ColorIdName::white},
-                        {1, 1, ColorIdName::white},
+                        {0, 2, ColorIdName::white},
+                        {1, 2, ColorIdName::white},
                     },
                     0,
-                    1,
+                    2,
                 },
                 {
                     {
-                        {
-                            {0, -1},
-                            {1, -1},
-                        },
                         {
                             {0, 0},
                             {1, 0},
@@ -204,8 +107,69 @@ TEST(BoardImpl, remove_lines_and_compress)
                             {0, 1},
                             {1, 1},
                         },
+                        {
+                            {0, 2, ColorIdName::white},
+                            {1, 2},
+                        },
                     },
-                    {0, 1},
+                    {2},
+                },
+            },
+            {
+                {
+                    {
+                        {0, 1, ColorIdName::white},
+                        {1, 1, ColorIdName::white},
+                        {0, 2, ColorIdName::white},
+                    },
+                    2,
+                    2,
+                },
+                {
+                    {
+                        {
+                            {0, 0},
+                            {1, 0},
+                        },
+                        {
+                            {0, 1, ColorIdName::white},
+                            {1, 1, ColorIdName::white},
+                        },
+                        {
+                            {0, 2, ColorIdName::white},
+                            {1, 2},
+                        },
+                    },
+                    {},
+                },
+            },
+            {
+                {
+                    {
+                        {0, 1, ColorIdName::white},
+                        {1, 1, ColorIdName::white},
+                        {0, 2, ColorIdName::white},
+                        {1, 2, ColorIdName::white},
+                    },
+                    1,
+                    2,
+                },
+                {
+                    {
+                        {
+                            {0, 0},
+                            {1, 0},
+                        },
+                        {
+                            {0, 1},
+                            {1, 1},
+                        },
+                        {
+                            {0, 2},
+                            {1, 2},
+                        },
+                    },
+                    {1, 2},
                 },
             },
         };
@@ -255,18 +219,18 @@ TEST(BoardImpl, brick_is_valid)
         },
     };
 
-    BoardImpl board{2};
+    BoardImpl board{{2}};
     board.put_cubes(initial_cubes);
 
     for (const auto& pair : brick_to_expected)
         ASSERT_THAT(board.brick_is_valid(pair.first), Eq(pair.second));
 }
 
-TEST(BoardImpl, get_visible_cubes)
+TEST(BoardImpl, get_cubes)
 {
     const vector<pair<BoardImpl, CubeMatrix>> board_to_expected{
         {
-            {{2}, 0},
+            {{2}},
             {
                 {
                     {0, 0},
@@ -279,7 +243,7 @@ TEST(BoardImpl, get_visible_cubes)
             },
         },
         {
-            {{2}, 1},
+            {{2, 3}},
             {
                 {
                     {0, 0},
@@ -288,19 +252,30 @@ TEST(BoardImpl, get_visible_cubes)
                 {
                     {0, 1},
                     {1, 1},
+                },
+                {
+                    {0, 2},
+                    {1, 2},
                 },
             },
         },
         {
-            {{2}, 2},
+            {{3}},
             {
                 {
                     {0, 0},
                     {1, 0},
+                    {2, 0},
                 },
                 {
                     {0, 1},
                     {1, 1},
+                    {2, 1},
+                },
+                {
+                    {0, 2},
+                    {1, 2},
+                    {2, 2},
                 },
             },
         },
@@ -308,53 +283,7 @@ TEST(BoardImpl, get_visible_cubes)
 
     for (const auto& pair : board_to_expected)
     {
-        const CubeMatrix& actual{pair.first.get_visible_cubes()};
-
-        ASSERT_THAT(actual, Eq(pair.second));
-    }
-}
-
-TEST(BoardImpl, get_visible_brick_cubes)
-{
-    const BoardImpl initial_board{{2}, 2};
-    const vector<pair<vector<Cube>, vector<Cube>>> cubes_to_expected{
-        {
-            {
-                {0, 1},
-                {1, 1},
-                {1, -1},
-            },
-            {
-                {0, 1},
-                {1, 1},
-            },
-        },
-        {
-            {
-                {0, -2},
-                {1, 0},
-                {0, -2},
-            },
-            {
-                {1, 0},
-            },
-        },
-        {
-            {
-                {0, 1},
-                {1, 0},
-            },
-            {
-                {0, 1},
-                {1, 0},
-            },
-        },
-    };
-
-    for (const auto& pair : cubes_to_expected)
-    {
-        const vector<Cube>& actual{
-            initial_board.get_visible_brick_cubes(pair.first)};
+        const CubeMatrix& actual{pair.first.get_cubes()};
 
         ASSERT_THAT(actual, Eq(pair.second));
     }

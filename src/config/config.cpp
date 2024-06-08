@@ -163,7 +163,6 @@ const Config config{
         {
             // BOARD
             {10, 21}, // size
-            1 // offset
         },
         {
             // SCORE FOR
@@ -209,7 +208,7 @@ const Config config{
             1, // start level
             true, // generate ghost
         },
-        {4, 1}, // brick spawn position
+        {4, 2}, // brick spawn position
         10, // next level lines count
     },
     {

@@ -15,7 +15,7 @@ using std::vector;
 namespace Tetris
 {
 
-BoardImpl::BoardImpl(Vector2 size, int offset): size_{size}, offset_{offset}
+BoardImpl::BoardImpl(Vector2 size): size_{size}
 {
     cubes_ = create_cubes();
 }
@@ -65,7 +65,7 @@ vector<Cube> BoardImpl::get_visible_brick_cubes(const vector<Cube>& cubes) const
 BoardImpl::CubeMatrix BoardImpl::create_cubes() const
 {
     CubeMatrix cubes;
-    for (const auto& y : irange(-offset_, size_.y))
+    for (const auto& y : irange(size_.y))
     {
         vector<Cube> row{};
         for (const auto& x : irange(size_.x))
@@ -88,7 +88,7 @@ vector<int> BoardImpl::find_rows_with_line(int from_y, int to_y) const
 
 bool BoardImpl::is_row_with_line(int y) const
 {
-    for (const auto& cube : get_row(y))
+    for (const auto& cube : cubes_[y])
     {
         if (cube.empty())
             return false;
@@ -99,7 +99,7 @@ bool BoardImpl::is_row_with_line(int y) const
 Brick BoardImpl::try_to_create_line(int y) const
 {
     Brick line{};
-    for (const auto& cube : get_row(y))
+    for (const auto& cube : cubes_[y])
     {
         if (cube.empty())
             return {};
@@ -110,7 +110,7 @@ Brick BoardImpl::try_to_create_line(int y) const
 
 void BoardImpl::compress(int start_y)
 {
-    for (const auto& y : irange(start_y, -offset_, -1))
+    for (const auto& y : irange(start_y, 0, -1))
     {
         for (const auto& x : irange(size_.x))
             copy_cube_above({x, y});

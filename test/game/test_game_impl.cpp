@@ -48,7 +48,6 @@ struct GameImplTest
       : ui{},
         board{
             config.board.size,
-            config.board.offset,
         },
         rng{},
         bricks_bag{
@@ -119,7 +118,7 @@ TEST(GameImpl, GameImpl)
             },
             {
                 {
-                    {{3, 5}, 2},
+                    {{3, 5}},
                     {{3, 12, 24}},
                     {
                         {{{0, 0}, {0, 1}}, ColorIdName::dark_gray},
@@ -148,7 +147,7 @@ TEST(GameImpl, GameImpl)
             },
             {
                 {
-                    {{10, 20}, 2},
+                    {{10, 20}},
                     {{0, 0, 0}},
                     {
                         {{{3, 5}, {2, 2}}, ColorIdName::duke_blue},
@@ -209,7 +208,7 @@ TEST(GameImpl, GameImpl)
 TEST(GameImpl, handle_soft_drop)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{1, 3, 2}},
         {
             {{{0, 0}}, ColorIdName::dark_gray},
@@ -285,7 +284,7 @@ TEST(GameImpl, handle_soft_drop)
 TEST(GameImpl, handle_timeout)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{1, 3, 2}},
         {
             {{{0, 0}}, ColorIdName::dark_gray},
@@ -361,7 +360,7 @@ TEST(GameImpl, handle_timeout)
 TEST(GameImpl, handle_move_left)
 {
     const GameConfig initial_config{
-        {{5, 3}, 0},
+        {{5, 3}},
         {{0, 0, 0}},
         {{{{0, 0}}, ColorIdName::white}},
         {0, false},
@@ -387,7 +386,7 @@ TEST(GameImpl, handle_move_left)
 TEST(GameImpl, handle_move_right)
 {
     const GameConfig initial_config{
-        {{5, 3}, 0},
+        {{5, 3}},
         {{0, 0, 0}},
         {{{{0, 0}}, ColorIdName::white}},
         {0, false},
@@ -413,7 +412,7 @@ TEST(GameImpl, handle_move_right)
 TEST(GameImpl, handle_rotate_clockwise)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{0, 0, 0}},
         {{{{0, 0}, {1, 0}}, ColorIdName::white}},
         {0, false},
@@ -446,7 +445,7 @@ TEST(GameImpl, handle_rotate_clockwise)
 TEST(GameImpl, handle_rotate_counter_clockwise)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{0, 0, 0}},
         {{{{-1, 0}, {0, 0}}, ColorIdName::white}},
         {0, false},
@@ -479,7 +478,7 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
 TEST(GameImpl, handle_locking_hard_drop)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{1, 3, 2}},
         {
             {{{0, 0}}, ColorIdName::white},
@@ -556,7 +555,7 @@ TEST(GameImpl, handle_locking_hard_drop)
 TEST(GameImpl, handle_no_locking_hard_drop)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{1, 3, 2}},
         {
             {{{0, 0}}, ColorIdName::white},
@@ -633,7 +632,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
 TEST(GameImpl, handle_hold)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{0, 0, 0}},
         {
             {{{0, 0}}, ColorIdName::white},
@@ -719,7 +718,7 @@ TEST(GameImpl, handle_hold)
 TEST(GameImpl, update_level)
 {
     const GameConfig initial_config{
-        {{3}, 0},
+        {{3}},
         {{1, 2, 3}},
         {{{{-1, 0}, {0, 0}, {1, 0}}, ColorIdName::white}},
         {1, false},
@@ -746,7 +745,7 @@ TEST(GameImpl, update_level)
 TEST(GameImpl, set_start_position)
 {
     const GameConfig initial_config{
-        {{2, 5}, 2},
+        {{2, 5}},
         {{0, 0, 0}},
         {{{{0, 0}, {0, 1}}, ColorIdName::white}},
         {1, false},
@@ -755,7 +754,7 @@ TEST(GameImpl, set_start_position)
     const vector<pair<int, Vector2>> hard_drops_to_expected{
         {0, {0, 3}},
         {1, {0, 1}},
-        {2, {0, -1}},
+        {2, {0, 0}},
     };
 
     for (const auto& pair : hard_drops_to_expected)

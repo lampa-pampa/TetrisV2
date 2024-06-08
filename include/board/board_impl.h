@@ -15,7 +15,7 @@ namespace Tetris
 class BoardImpl final: public Board
 {
 public:
-    BoardImpl(Vector2 size, int offset = 0);
+    BoardImpl(Vector2 size);
 
     void put_cubes(const std::vector<Cube>& cubes) override;
     std::vector<int> remove_lines_and_compress(int from_y, int to_y) override;
@@ -23,24 +23,13 @@ public:
     std::vector<Cube> get_visible_brick_cubes(
         const std::vector<Cube>& cubes) const override;
 
-    int get_offset() const override
-    {
-        return offset_;
-    }
-
-    CubeMatrix get_visible_cubes() const override
-    {
-        return {cubes_.begin() + offset_, cubes_.end()};
-    }
-
-    CubeMatrix get_cubes() const
+    CubeMatrix get_cubes() const override
     {
         return cubes_;
     }
 
 private:
     const Vector2 size_;
-    const int offset_;
     CubeMatrix cubes_;
 
     CubeMatrix create_cubes() const;
@@ -49,24 +38,14 @@ private:
     Brick try_to_create_line(int y) const;
     void compress(int start_y);
 
-    std::vector<Cube>& get_row(int y)
-    {
-        return cubes_[y + offset_];
-    }
-
-    const std::vector<Cube>& get_row(int y) const
-    {
-        return cubes_[y + offset_];
-    }
-
     Cube& get_cube(Vector2 position)
     {
-        return get_row(position.y)[position.x];
+        return cubes_[position.y][position.x];
     }
 
     const Cube& get_cube(Vector2 position) const
     {
-        return get_row(position.y)[position.x];
+        return cubes_[position.y][position.x];
     }
 
     void copy_cube_above(Vector2 position)
@@ -82,13 +61,12 @@ private:
 
     bool position_is_in_range(Vector2 position) const
     {
-        return position.x >= 0 and position.x < size_.x
-            and position.y >= -offset_ and position.y < size_.y;
+        return position >= 0 and position < size_;
     }
 
     void clear_top_row()
     {
-        for (auto& cube : get_row(-offset_))
+        for (auto& cube : cubes_[0])
             cube.clear();
     }
 };

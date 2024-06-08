@@ -59,7 +59,7 @@ Brick GameImpl::get_transformed_cur_brick() const
 
 void GameImpl::resume()
 {
-    ui_.refresh_board(board_.get_visible_cubes());
+    ui_.refresh_board(board_.get_cubes());
     draw_bricks();
     ui_.flush_matrix();
     state_ = GameState::in_progress;
@@ -90,7 +90,7 @@ void GameImpl::place(const Brick& brick)
 {
     board_.put_cubes(brick.get_cubes());
     remove_lines(brick.get_min_y(), brick.get_max_y());
-    ui_.refresh_board(board_.get_visible_cubes());
+    ui_.refresh_board(board_.get_cubes());
     can_hold_ = true;
 }
 
@@ -103,8 +103,7 @@ void GameImpl::place_and_generate_new_brick()
 
 bool GameImpl::brick_should_be_moved_up(const Brick& brick) const
 {
-    return not board_.brick_is_valid(brick)
-        and brick.get_min_y() > -board_.get_offset() and brick.get_max_y() > 0;
+    return not board_.brick_is_valid(brick) and brick.get_min_y() > 0;
 }
 
 Vector2 GameImpl::compute_spawn_position(const Brick& brick) const
@@ -195,7 +194,7 @@ void GameImpl::draw_all()
     ui_.refresh_hold_brick(hold_brick_);
     ui_.refresh_level_progress_bar(lines_count_);
     ui_.refresh_level(level_);
-    ui_.refresh_board(board_.get_visible_cubes());
+    ui_.refresh_board(board_.get_cubes());
     ui_.refresh_next_bricks(next_bricks_);
     ui_.refresh_score(score_);
     draw_bricks();

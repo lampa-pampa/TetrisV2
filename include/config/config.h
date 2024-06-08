@@ -16,7 +16,6 @@ namespace Tetris
 struct BoardConfig final
 {
     Vector2 size;
-    int offset;
 };
 
 struct ScoreCounterConfig final

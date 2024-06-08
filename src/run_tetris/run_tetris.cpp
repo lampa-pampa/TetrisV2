@@ -26,7 +26,6 @@ void run_tetris(const Config& config,
 
     BoardImpl board{
         config.game.board.size,
-        config.game.board.offset,
     };
 
     RngImpl rng{};
