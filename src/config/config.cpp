@@ -44,12 +44,12 @@ const Config config{
             },
             {
                 // HOLD
-                {2, 0},
-                {14, 10},
+                {{1, 0}, {15, 10}},
                 {
                     // container
                     Ui::ColorIdName::black,
                 },
+                {14, 10},
                 true,
             },
             {
@@ -111,12 +111,12 @@ const Config config{
             },
             {
                 // NEXT
-                {48, 0},
-                {14, 10},
+                {{48, 0}, {15, 30}},
                 {
                     // container
                     Ui::ColorIdName::black,
                 },
+                {14, 10},
             },
             {
                 // SCORE

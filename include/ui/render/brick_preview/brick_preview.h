@@ -5,6 +5,8 @@
 
 #include "brick/brick.h"
 #include "ui/render/container/container.h"
+#include "ui/render/cubes/cubes.h"
+#include "ui/render/rectangle.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris::Ui
@@ -13,13 +15,13 @@ namespace Tetris::Ui
 class RenderBrickPreview final
 {
 public:
-    RenderBrickPreview(Vector2 position,
-        Vector2 container_size,
+    RenderBrickPreview(Rectangle container,
         RenderContainer render_container,
+        Vector2 brick_container_size,
         bool align_to_left = false,
         int cube_size = 3)
-      : position_{position},
-        container_size_{container_size},
+      : container_{container},
+        brick_container_size_{brick_container_size},
         render_container_{render_container},
         align_to_left_{align_to_left},
         cube_size_{cube_size}
@@ -29,15 +31,22 @@ public:
     Sprites render(const Brick& brick) const;
 
 private:
-    const Vector2 position_;
-    const Vector2 container_size_;
+    const Rectangle container_;
     const RenderContainer render_container_;
+    const Vector2 brick_container_size_;
     const bool align_to_left_;
     const int cube_size_;
 
-    Sprites render(const Brick& brick, const Vector2& container_position) const;
     Vector2 compute_brick_centered_position(
         const Brick& brick, const Vector2& container_position) const;
+
+    Sprites render(const Brick& brick, const Vector2& container_position) const
+    {
+        RenderCubes render_cubes{
+            compute_brick_centered_position(brick, container_position),
+            cube_size_};
+        return render_cubes.render(brick.get_cubes());
+    }
 };
 
 } // namespace Tetris::Ui
