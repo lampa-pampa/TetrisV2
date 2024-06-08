@@ -3,6 +3,7 @@
 #include "config/config.h"
 #include "ui/color/color_id_name.h"
 #include "ui/game_ui/config.h"
+#include "ui/render/text/align.h"
 #include "ui/render/text/font/fixed_width.h"
 
 namespace Tetris
@@ -24,10 +25,10 @@ const Config config{
             // GRAPHIC ENGINE
             {
                 // MAIN
-                Ui::ColorIdName::white, // background color
+                Ui::ColorIdName::black, // background color
                 {
                     // game state
-                    {{17, 2}, {30, 60}},
+                    {{17, 1}, {30, 63}},
                     {
                         // container
                         Ui::ColorIdName::black,
@@ -43,8 +44,8 @@ const Config config{
             },
             {
                 // HOLD
-                {2, 2},
-                {14, 8},
+                {2, 0},
+                {14, 10},
                 {
                     // container
                     Ui::ColorIdName::black,
@@ -58,7 +59,7 @@ const Config config{
                         // label
                         "LEVEL",
                         {
-                            {{2, 12}, {13, 41}},
+                            {{2, 11}, {13, 41}},
                             {
                                 // container
                                 Ui::ColorIdName::black,
@@ -76,11 +77,12 @@ const Config config{
                         // value
                         9,
                         {
-                            {{3, 56}, {11, 5}},
+                            {{3, 55}, {11, 5}},
                             {
                                 // container
                                 Ui::ColorIdName::black,
-                                {1},
+                                {2},
+                                Ui::ColorIdName::white,
                             },
                             Ui::fixed_width_font,
                             Ui::ColorIdName::sunset_orange,
@@ -89,11 +91,12 @@ const Config config{
                 },
                 {
                     // progress bar
-                    {{3, 13}, {11, 39}},
+                    {{3, 12}, {11, 39}},
                     {
                         // container
                         Ui::ColorIdName::black,
-                        {1},
+                        {2, 1},
+                        Ui::ColorIdName::white,
                     },
                     Ui::ColorIdName::islamic_green,
                     Ui::ColorIdName::davy_s_grey,
@@ -102,13 +105,13 @@ const Config config{
             {
                 // BOARD
                 {
-                    {17, 2},
+                    {17, 0},
                 },
                 64,
             },
             {
                 // NEXT
-                {48, 2},
+                {48, 0},
                 {14, 10},
                 {
                     // container
@@ -121,25 +124,28 @@ const Config config{
                     // label
                     "SCO",
                     {
-                        {{50, 35}, {11, 5}},
+                        {{50, 32}, {11, 7}},
                         {
                             // container
                             Ui::ColorIdName::black,
-                            {1},
+                            {2, 1},
+                            Ui::ColorIdName::white,
                         },
                         Ui::fixed_width_font,
                         Ui::ColorIdName::sunset_orange,
+                        Ui::Align::center,
                     },
                 },
                 {
                     // value
                     9,
                     {
-                        {{50, 44}, {11, 17}},
+                        {{50, 43}, {11, 17}},
                         {
                             // container
                             Ui::ColorIdName::black,
-                            {1},
+                            {2},
+                            Ui::ColorIdName::white,
                         },
                         Ui::fixed_width_font,
                         Ui::ColorIdName::sunset_orange,
@@ -156,8 +162,8 @@ const Config config{
     GameConfig{
         {
             // BOARD
-            {10, 20}, // size
-            2 // offset
+            {10, 21}, // size
+            1 // offset
         },
         {
             // SCORE FOR
