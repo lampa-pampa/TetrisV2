@@ -30,7 +30,8 @@ struct Brick final
     friend inline std::ostream& operator<<(std::ostream& os, const Brick& brick)
     {
         return os << "{{ " << brick.cube_positions << " }, "
-                  << brick.rotation_offset << "}";
+                  << brick.color_id_name << ", " << brick.rotation_offset
+                  << "}";
     }
 
     static int compute_next_rotation(int rotation, int d_q)
@@ -62,7 +63,8 @@ struct Brick final
     bool operator==(const Brick& other) const
     {
         return cube_positions == other.cube_positions
-            and rotation_offset == other.rotation_offset;
+            and rotation_offset == other.rotation_offset
+            and color_id_name == other.color_id_name;
     }
 
     bool empty() const
