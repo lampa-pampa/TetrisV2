@@ -98,44 +98,9 @@ public:
             it->second();
     }
 
-    IvColorMatrix create_layer(const Vector2& size) const
-    {
-        return IvColorMatrix(size.y, std::vector<IvColor>(size.x));
-    }
-
     void flush_matrix() override
     {
         matrix_display_.refresh(main_layer_);
-    }
-
-    void draw_sprites(const Sprites& sprites)
-    {
-        for (const auto& sprite : sprites)
-            draw_sprite(sprite, main_layer_);
-    }
-
-    void draw_sprites(const Sprites& sprites, IvColorMatrix& layer)
-    {
-        for (const auto& sprite : sprites)
-            draw_sprite(sprite, layer);
-    }
-
-    void draw_sprite(const Sprite& sprite)
-    {
-        draw_sprite(sprite, main_layer_);
-    }
-
-    void draw_sprite(const Sprite& sprite, IvColorMatrix& layer)
-    {
-        for (const auto& pixel : sprite.pixels)
-            draw_pixel(sprite.position + pixel, sprite.color, layer);
-    }
-
-    void draw_pixel(
-        const Vector2& position, const IvColor& color, IvColorMatrix& layer)
-    {
-        if (position >= 0 and position < matrix_display_.get_size())
-            layer[position.y][position.x] = color;
     }
 
     void connect_move_left_pressed(
@@ -199,6 +164,41 @@ private:
     Signal locking_hard_drop_pressed_;
     Signal no_locking_hard_drop_pressed_;
     Signal hold_pressed_;
+
+    IvColorMatrix create_layer(const Vector2& size) const
+    {
+        return IvColorMatrix(size.y, std::vector<IvColor>(size.x));
+    }
+
+    void draw_sprites(const Sprites& sprites)
+    {
+        for (const auto& sprite : sprites)
+            draw_sprite(sprite, main_layer_);
+    }
+
+    void draw_sprites(const Sprites& sprites, IvColorMatrix& layer)
+    {
+        for (const auto& sprite : sprites)
+            draw_sprite(sprite, layer);
+    }
+
+    void draw_sprite(const Sprite& sprite)
+    {
+        draw_sprite(sprite, main_layer_);
+    }
+
+    void draw_sprite(const Sprite& sprite, IvColorMatrix& layer)
+    {
+        for (const auto& pixel : sprite.pixels)
+            draw_pixel(sprite.position + pixel, sprite.color, layer);
+    }
+
+    void draw_pixel(
+        const Vector2& position, const IvColor& color, IvColorMatrix& layer)
+    {
+        if (position >= 0 and position < matrix_display_.get_size())
+            layer[position.y][position.x] = color;
+    }
 };
 
 } // namespace Tetris::Ui
