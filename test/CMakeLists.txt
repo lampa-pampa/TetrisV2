@@ -1,7 +1,7 @@
 add_executable(all_tests
     bag/test_bag.cpp
     board/test_board_impl.cpp
-    brick/test_brick_generator_impl.cpp
+    brick/test_bag.cpp
     brick/test_brick.cpp
     cube/test_cube.cpp
     game/test_game_impl.cpp

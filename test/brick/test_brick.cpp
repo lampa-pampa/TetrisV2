@@ -9,6 +9,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "cube/cube.h"
 #include "ui/color/color_id_name.h"
 #include "vector_2/vector_2.h"
 
@@ -18,6 +19,7 @@ using std::tuple;
 using std::vector;
 using testing::Eq;
 using Tetris::Brick;
+using Tetris::Cube;
 using Tetris::Vector2;
 using Tetris::Ui::ColorIdName;
 
@@ -42,39 +44,34 @@ TEST(Brick, compute_next_rotation)
     }
 }
 
-TEST(Brick, get_colored)
+TEST(Brick, get_cubes)
 {
-    const Brick initial_brick{{{2, 8}, {1, 2}}};
-    const vector<pair<ColorIdName, Brick>> color_id_to_expected{
+    const vector<pair<Brick, vector<Cube>>> brick_to_expected{
         {
-            ColorIdName::white,
-            {{
-                {2, 8, ColorIdName::white},
-                {1, 2, ColorIdName::white},
-            }},
+            {{{2, 8}}, ColorIdName::duke_blue},
+            {
+                {2, 8, ColorIdName::duke_blue},
+            },
         },
         {
-            ColorIdName::dark_gray,
-            {{
-                {2, 8, ColorIdName::dark_gray},
-                {1, 2, ColorIdName::dark_gray},
-            }},
+            {{{3, 12}, {6, 4}}, ColorIdName::white},
+            {
+                {3, 12, ColorIdName::white},
+                {6, 4, ColorIdName::white},
+            },
         },
         {
-            ColorIdName::dodie_yellow,
-            {{
-                {2, 8, ColorIdName::dodie_yellow},
-                {1, 2, ColorIdName::dodie_yellow},
-            }},
+            {{{2, 2}, {2, 1}, {1, 2}}, ColorIdName::electric_blue},
+            {
+                {2, 2, ColorIdName::electric_blue},
+                {2, 1, ColorIdName::electric_blue},
+                {1, 2, ColorIdName::electric_blue},
+            },
         },
     };
 
-    for (const auto& pair : color_id_to_expected)
-    {
-        const Brick actual{Brick::get_colored(initial_brick, pair.first)};
-
-        ASSERT_THAT(actual, Eq(pair.second));
-    }
+    for (const auto& pair : brick_to_expected)
+        ASSERT_THAT(pair.first.get_cubes(), Eq(pair.second));
 }
 
 TEST(Brick, get_translated)
@@ -98,20 +95,24 @@ TEST(Brick, get_translated)
 TEST(Brick, get_rotated)
 {
     const vector<pair<Brick, vector<Brick>>> brick_to_expected{
-        {{{{8, 3}, {4, 5}}},
+        {
+            {{{8, 3}, {4, 5}}},
             {
                 {{{8, 3}, {4, 5}}},
                 {{{-3, 8}, {-5, 4}}},
                 {{{-8, -3}, {-4, -5}}},
                 {{{3, -8}, {5, -4}}},
-            }},
-        {{{{1, 2}, {6, 3}}, {2, 4}},
+            },
+        },
+        {
+            {{{1, 2}, {6, 3}}, ColorIdName::white, {2, 4}},
             {
-                {{{1, 2}, {6, 3}}, {2, 4}},
-                {{{0, 5}, {-1, 10}}, {2, 4}},
-                {{{-3, 4}, {-8, 3}}, {2, 4}},
-                {{{-2, 1}, {-1, -4}}, {2, 4}},
-            }},
+                {{{1, 2}, {6, 3}}, ColorIdName::white, {2, 4}},
+                {{{0, 5}, {-1, 10}}, ColorIdName::white, {2, 4}},
+                {{{-3, 4}, {-8, 3}}, ColorIdName::white, {2, 4}},
+                {{{-2, 1}, {-1, -4}}, ColorIdName::white, {2, 4}},
+            },
+        },
     };
 
     for (const auto& pair : brick_to_expected)

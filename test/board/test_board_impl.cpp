@@ -230,57 +230,27 @@ TEST(BoardImpl, brick_is_valid)
     };
     const vector<pair<Brick, bool>> brick_to_expected{
         {
-            {
-                {
-                    {0, 0, ColorIdName::white},
-                    {0, 1, ColorIdName::white},
-                },
-            },
+            {{{0, 0}, {0, 1}}, ColorIdName::white},
             true,
         },
         {
-            {
-                {
-                    {0, 1, ColorIdName::white},
-                    {1, 1, ColorIdName::white},
-                },
-            },
+            {{{0, 1}, {1, 1}}, ColorIdName::white},
             false,
         },
         {
-            {
-                {
-                    {0, 1, ColorIdName::white},
-                    {0, 2, ColorIdName::white},
-                },
-            },
+            {{{0, 1}, {0, 2}}, ColorIdName::white},
             false,
         },
         {
-            {
-                {
-                    {-1, 0, ColorIdName::white},
-                    {0, 0, ColorIdName::white},
-                },
-            },
+            {{{-1, 0}, {0, 0}}, ColorIdName::white},
             false,
         },
         {
-            {
-                {
-                    {0, 1, ColorIdName::white},
-                    {0, 2, ColorIdName::white},
-                },
-            },
+            {{{0, 1}, {0, 2}}, ColorIdName::white},
             false,
         },
         {
-            {
-                {
-                    {0, -1, ColorIdName::white},
-                    {0, 0, ColorIdName::white},
-                },
-            },
+            {{{0, -1}, {0, 0}}, ColorIdName::white},
             false,
         },
     };
