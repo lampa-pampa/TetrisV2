@@ -1,5 +1,3 @@
-one container for render_brick_preview second for aligning
-
 preload hsv colors
 
 config as one argument
