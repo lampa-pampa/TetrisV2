@@ -11,6 +11,9 @@ namespace Tetris
 
 struct Cube final
 {
+    constexpr static Ui::ColorIdName empty_color_id_name{
+        Ui::ColorIdName::black};
+
     Vector2 position;
     Ui::ColorIdName color_id_name;
 
@@ -20,7 +23,7 @@ struct Cube final
                   << cube.color_id_name << "}";
     }
 
-    Cube(int x, int y, Ui::ColorIdName color_id_name = Ui::ColorIdName::black)
+    Cube(int x, int y, Ui::ColorIdName color_id_name = empty_color_id_name)
       : position{x, y},
         color_id_name{color_id_name}
     {}
@@ -33,12 +36,12 @@ struct Cube final
 
     void clear()
     {
-        color_id_name = Ui::ColorIdName::black;
+        color_id_name = empty_color_id_name;
     }
 
     bool empty() const
     {
-        return color_id_name == Ui::ColorIdName::black;
+        return color_id_name == empty_color_id_name;
     }
 };
 

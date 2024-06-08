@@ -45,7 +45,7 @@ struct Brick final
     }
 
     Brick(std::vector<Vector2> cube_positions = {},
-        Ui::ColorIdName color_id_name = Ui::ColorIdName::black,
+        Ui::ColorIdName color_id_name = Cube::empty_color_id_name,
         Vector2 rotation_offset = {})
       : cube_positions{cube_positions},
         color_id_name{color_id_name},
