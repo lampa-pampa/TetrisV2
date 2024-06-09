@@ -26,9 +26,13 @@ const Config config{
             {
                 // MAIN
                 Ui::ColorIdName::black, // background color
+                Ui::ColorIdName::white, // border color
+                {
+                    {{17, 63}, {30, 1}},
+                },
                 {
                     // game state
-                    {{17, 1}, {30, 63}},
+                    {{17, 0}, {30, 63}},
                     {
                         // container
                         Ui::ColorIdName::black,
@@ -44,12 +48,14 @@ const Config config{
             },
             {
                 // HOLD
-                {{1, 0}, {15, 10}},
+                {{1, 1}, {15, 10}},
                 {
                     // container
                     Ui::ColorIdName::black,
+                    {0},
+                    Ui::ColorIdName::white,
                 },
-                {14, 10},
+                {16, 10},
                 true,
             },
             {
@@ -59,7 +65,7 @@ const Config config{
                         // label
                         "LEVEL",
                         {
-                            {{2, 11}, {13, 41}},
+                            {{2, 12}, {13, 41}},
                             {
                                 // container
                                 Ui::ColorIdName::black,
@@ -77,7 +83,7 @@ const Config config{
                         // value
                         9,
                         {
-                            {{3, 55}, {11, 5}},
+                            {{3, 56}, {11, 5}},
                             {
                                 // container
                                 Ui::ColorIdName::black,
@@ -91,11 +97,11 @@ const Config config{
                 },
                 {
                     // progress bar
-                    {{3, 12}, {11, 39}},
+                    {{2, 13}, {13, 39}},
                     {
                         // container
                         Ui::ColorIdName::black,
-                        {2, 1},
+                        {1},
                         Ui::ColorIdName::white,
                     },
                     Ui::ColorIdName::islamic_green,
@@ -111,10 +117,12 @@ const Config config{
             },
             {
                 // NEXT
-                {{48, 0}, {15, 30}},
+                {{48, 1}, {15, 30}},
                 {
                     // container
                     Ui::ColorIdName::black,
+                    {0},
+                    Ui::ColorIdName::white,
                 },
                 {14, 10},
             },
@@ -124,7 +132,7 @@ const Config config{
                     // label
                     "SCO",
                     {
-                        {{50, 32}, {11, 7}},
+                        {{50, 33}, {11, 7}},
                         {
                             // container
                             Ui::ColorIdName::black,
@@ -140,7 +148,7 @@ const Config config{
                     // value
                     9,
                     {
-                        {{50, 43}, {11, 17}},
+                        {{50, 44}, {11, 17}},
                         {
                             // container
                             Ui::ColorIdName::black,

@@ -26,6 +26,8 @@ void MatrixDisplayGameUiImpl::refresh_background()
 {
     draw_sprite({{0, matrix_display_.get_size()},
         config_.graphic_engine.main.bg_color});
+    for (const auto& rectangle : config_.graphic_engine.main.border)
+        draw_sprite({rectangle, config_.graphic_engine.main.border_color});
     draw_sprites(config_.graphic_engine.score.label.display.render(
         config_.graphic_engine.score.label.text));
 }
