@@ -19,7 +19,9 @@ MatrixDisplayGameUiImpl::MatrixDisplayGameUiImpl(
             rotate_counter_clockwise_pressed_},
         {config.controls.hold, hold_pressed_},
     },
-    main_layer_{create_layer(matrix_display.get_size())}
+    screen_{create_layer(matrix_display.get_size())},
+    effects_layer_{},
+    game_state_layer_{}
 {}
 
 void MatrixDisplayGameUiImpl::refresh_background()

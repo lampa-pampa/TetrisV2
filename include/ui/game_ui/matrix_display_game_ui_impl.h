@@ -41,14 +41,19 @@ public:
 
     void pause() override
     {
-        draw_sprites(config_.graphic_engine.main.display.render(
-            config_.state_messages.paused));
+        game_state_layer_ = config_.graphic_engine.main.display.render(
+            config_.state_messages.paused);
     }
 
     void game_over() override
     {
-        draw_sprites(config_.graphic_engine.main.display.render(
-            config_.state_messages.game_over));
+        game_state_layer_ = config_.graphic_engine.main.display.render(
+            config_.state_messages.game_over);
+    }
+
+    void resume() override
+    {
+        game_state_layer_.clear();
     }
 
     void refresh_score(unsigned long long score) override
@@ -99,7 +104,7 @@ public:
 
     void flush_matrix() override
     {
-        matrix_display_.refresh(main_layer_);
+        matrix_display_.refresh(get_merged_layers());
     }
 
     void connect_move_left_pressed(
@@ -153,7 +158,9 @@ private:
     MatrixDisplay& matrix_display_;
     const GameUiConfig& config_;
     const std::map<int, Signal&> key_code_to_signal_;
-    IvColorMatrix main_layer_;
+    IvColorMatrix screen_;
+    Sprites effects_layer_;
+    Sprites game_state_layer_;
 
     Signal move_left_pressed_;
     Signal move_right_pressed_;
@@ -169,10 +176,18 @@ private:
         return IvColorMatrix(size.y, std::vector<IvColor>(size.x));
     }
 
+    IvColorMatrix get_merged_layers()
+    {
+        IvColorMatrix main_layer{screen_};
+        draw_sprites(game_state_layer_, main_layer);
+        draw_sprites(effects_layer_, main_layer);
+        return main_layer;
+    }
+
     void draw_sprites(const Sprites& sprites)
     {
         for (const auto& sprite : sprites)
-            draw_sprite(sprite, main_layer_);
+            draw_sprite(sprite, screen_);
     }
 
     void draw_sprites(const Sprites& sprites, IvColorMatrix& layer)
@@ -183,7 +198,7 @@ private:
 
     void draw_sprite(const Sprite& sprite)
     {
-        draw_sprite(sprite, main_layer_);
+        draw_sprite(sprite, screen_);
     }
 
     void draw_sprite(const Sprite& sprite, IvColorMatrix& layer)

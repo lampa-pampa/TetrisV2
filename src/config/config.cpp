@@ -32,11 +32,12 @@ const Config config{
                 },
                 {
                     // game state
-                    {{17, 0}, {30, 63}},
+                    {{0, 0}, {63, 63}},
                     {
                         // container
                         Ui::ColorIdName::black,
                         {2},
+                        Ui::ColorIdName::white,
                     },
                     Ui::fixed_width_font,
                     Ui::ColorIdName::sunset_orange,
@@ -163,8 +164,8 @@ const Config config{
         },
         {
             // STATE MESSAGES
-            "PAUSED",
-            "GAME\nOVER",
+            " PAUSED ",
+            "GAME OVER",
         },
     },
     GameConfig{

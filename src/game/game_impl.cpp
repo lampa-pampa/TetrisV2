@@ -51,20 +51,6 @@ GameImpl::GameImpl(Ui::GameUi& ui,
     draw_all();
 }
 
-Brick GameImpl::get_transformed_cur_brick() const
-{
-    return Brick::get_transformed(
-        cur_brick_, cur_brick_rotation_, cur_brick_position_);
-}
-
-void GameImpl::resume()
-{
-    ui_.refresh_board(board_.get_cubes());
-    draw_bricks();
-    ui_.flush_matrix();
-    state_ = GameState::in_progress;
-}
-
 //-----------------------------------------------------------------
 
 void GameImpl::generate_hold_brick()

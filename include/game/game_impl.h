@@ -34,8 +34,18 @@ public:
     GameImpl(const GameImpl&) = delete;
     GameImpl(const GameImpl&&) = delete;
 
-    Brick get_transformed_cur_brick() const;
-    void resume() override;
+    Brick get_transformed_cur_brick() const
+    {
+        return Brick::get_transformed(
+            cur_brick_, cur_brick_rotation_, cur_brick_position_);
+    }
+
+    void resume() override
+    {
+        ui_.resume();
+        ui_.flush_matrix();
+        state_ = GameState::in_progress;
+    }
 
     void pause() override
     {

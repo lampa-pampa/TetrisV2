@@ -26,6 +26,7 @@ public:
     void flush_matrix() override {}
     void game_over() override {}
     void pause() override {}
+    void resume() override {}
     void handle_key_press(int key_code) override {}
     void connect_move_left_pressed(
         const std::function<void()>& handler) override
