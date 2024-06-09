@@ -8,8 +8,8 @@
 #include <ncurses.h>
 
 #include "config/matrix_display/console/config.h"
+#include "ui/color/console/ncurses_colors.h"
 #include "ui/color/iv_color.h"
-#include "ui/matrix_display/console/ncurses_colors.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris::Ui

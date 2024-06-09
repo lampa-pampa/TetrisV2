@@ -1,7 +1,7 @@
 #include "config/matrix_display/console/filled_config.h"
 
 #include "config/matrix_display/console/config.h"
-#include "ui/matrix_display/console/ncurses_colors.h"
+#include "ui/color/console/ncurses_colors.h"
 
 namespace Tetris
 {

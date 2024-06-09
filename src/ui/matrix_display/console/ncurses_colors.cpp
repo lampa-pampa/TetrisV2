@@ -1,4 +1,4 @@
-#include "ui/matrix_display/console/ncurses_colors.h"
+#include "ui/color/console/ncurses_colors.h"
 
 #include <cstdint>
 

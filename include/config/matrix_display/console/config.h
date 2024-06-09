@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "ui/matrix_display/console/ncurses_colors.h"
+#include "ui/color/console/ncurses_colors.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
