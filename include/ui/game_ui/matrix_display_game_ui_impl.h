@@ -5,7 +5,6 @@
 #include "ui/color/iv_color.h"
 #include "ui/game_ui/game_ui.h"
 
-#include <cassert>
 #include <deque>
 #include <functional>
 #include <map>

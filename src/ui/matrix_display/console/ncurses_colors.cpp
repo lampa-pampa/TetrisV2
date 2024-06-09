@@ -1,6 +1,5 @@
 #include "ui/matrix_display/console/ncurses_colors.h"
 
-#include <cassert>
 #include <cstdint>
 
 #include <ncurses.h>

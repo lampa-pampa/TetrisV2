@@ -3,7 +3,6 @@
 
 #include "ui/keyboard/keyboard.h"
 
-#include <cassert>
 #include <deque>
 #include <vector>
 
