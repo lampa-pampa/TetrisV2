@@ -16,7 +16,7 @@ namespace Tetris::Ui
 
 LedMatrixDisplayImpl::LedMatrixDisplayImpl(const MatrixDisplayConfig& config)
   : size_{config.size},
-    color_id_to_hs_color_{config.color_id_to_hs_color},
+    rgb_colors_{config.color_id_to_hs_color, config.max_color_value},
     matrix_{{
         static_cast<uint16_t>(config.size.x),
         static_cast<uint16_t>(config.size.y),
@@ -41,8 +41,7 @@ void LedMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 
 void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
-    const RgbColor rgb_color{
-        RgbColor::from_hsv(color_id_to_hs_color_.at(color.id), color.value)};
+    const RgbColor rgb_color{rgb_colors_.get(color)};
     const uint_fast16_t color565{
         matrix_.color565(rgb_color.red, rgb_color.green, rgb_color.blue)};
     matrix_.drawPixel(position.x, position.y, color565);

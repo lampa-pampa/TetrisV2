@@ -45,6 +45,7 @@ const MatrixDisplayConfig matrix_display_config{
         {14, {0xee, 0x88}},
         {15, {0x00, 0x00}},
     },
+    0xff,
 };
 
 }

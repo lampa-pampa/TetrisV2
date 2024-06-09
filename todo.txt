@@ -1,4 +1,5 @@
-preload hsv colors
+shape names
+color_id -> enum
 
 config as one argument
 

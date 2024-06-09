@@ -18,7 +18,8 @@ struct MatrixDisplayConfig final
     uint_fast8_t brightness;
     int chain_length;
     HUB75_I2S_CFG::i2s_pins pins;
-    const std::map<uint_fast8_t, Ui::HsColor>& color_id_to_hs_color;
+    std::map<uint_fast8_t, Ui::HsColor> color_id_to_hs_color;
+    int max_color_value;
 };
 
 } // namespace Tetris
