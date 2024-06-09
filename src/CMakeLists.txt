@@ -17,9 +17,9 @@ target_sources(TETRIS_V2
         run_tetris/main_loop.cpp
         run_tetris/run_tetris.cpp
         timer/timer_impl.cpp
+        ui/color/console/ncurses_colors.cpp
         ui/game_ui/matrix_display_game_ui_impl.cpp
         ui/matrix_display/console/console_matrix_display_impl.cpp
-        ui/matrix_display/console/ncurses_colors.cpp
         ui/render/brick_preview/brick_preview.cpp
         ui/render/container/container.cpp
         ui/render/cubes/cubes.cpp
