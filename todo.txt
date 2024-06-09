@@ -1,5 +1,8 @@
-shape names
-color_id -> enum
+preload ncurses colors
+
+color_name -> enum
+
+shape_names in Game -> color_name in Ui
 
 config as one argument
 
