@@ -32,9 +32,7 @@ public:
 
     Char get_char(char c) const
     {
-        const auto it = chars_.find(c);
-        assert(it != chars_.end());
-        return it->second;
+        return chars_.at(c);
     }
 
 private:

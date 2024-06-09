@@ -42,9 +42,7 @@ void LedMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 
 void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
 {
-    const auto it{color_id_to_hs_color_.find(color.id)};
-    assert(it != color_id_to_hs_color_.end());
-    const RgbColor rgb_color{RgbColor::from_hsv(it->second, color.value)};
+    const RgbColor rgb_color{RgbColor::from_hsv(color_id_to_hs_color_.at(color.id), color.value)};
     const uint_fast16_t color565{
         matrix_.color565(rgb_color.red, rgb_color.green, rgb_color.blue)};
     matrix_.drawPixel(position.x, position.y, color565);

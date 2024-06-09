@@ -32,7 +32,11 @@ public:
     {
         update_key_states();
         if (not pressed_keys_.empty())
-            return get_first_pressed_key_code();
+        {
+            const int pressed_key{pressed_keys_.front()};
+            pressed_keys_.pop_front();
+            return pressed_key;
+        }
         return no_key_code_;
     }
 
@@ -46,14 +50,6 @@ private:
     int create_key_code(int x, int y) const
     {
         return column_pins_.size() * y + x;
-    }
-
-    int get_first_pressed_key_code()
-    {
-        assert(not pressed_keys_.empty());
-        const int pressed_key{pressed_keys_.front()};
-        pressed_keys_.pop_front();
-        return pressed_key;
     }
 
     void setup_pin_modes()
