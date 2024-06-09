@@ -19,6 +19,9 @@ struct RgbColor final
         if (hs_color.saturation == 0)
             return {value, value, value};
 
+        if (value == 0)
+            return {0, 0, 0};
+
         const uint_fast8_t region(hs_color.hue / 43);
         const uint_fast8_t remainder((hs_color.hue - region * 43) * 6);
 
@@ -45,12 +48,6 @@ struct RgbColor final
                 return {value, p, q};
         }
     }
-
-    constexpr RgbColor(uint_fast8_t red, uint_fast8_t green, uint_fast8_t blue)
-      : red{red},
-        green{green},
-        blue{blue}
-    {}
 };
 
 } // namespace Tetris::Ui
