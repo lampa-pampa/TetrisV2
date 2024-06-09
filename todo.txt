@@ -1,3 +1,5 @@
+separate layer for main display
+
 preload hsv colors
 
 config as one argument
