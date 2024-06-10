@@ -8,7 +8,7 @@ namespace Tetris::Ui
 
 const MatrixDisplayConfig matrix_display_config{
     {64, 64}, // size
-    0x88, // brightness
+    128, // brightness
     1, // chain length
     {
         // PINS
