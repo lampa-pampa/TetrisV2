@@ -1,7 +1,5 @@
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
-#include <cstdint>
-
 #include <boost/range/irange.hpp>
 
 #include "config/matrix_display/led/config.h"
@@ -42,9 +40,8 @@ void LedMatrixDisplayImpl::refresh(const NvColorMatrix& colors)
 void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, NvColor color)
 {
     const RgbColor rgb_color{rgb_colors_.get(color)};
-    const uint_fast16_t color565{
-        matrix_.color565(rgb_color.red, rgb_color.green, rgb_color.blue)};
-    matrix_.drawPixel(position.x, position.y, color565);
+    matrix_.drawPixelRGB888(
+        position.x, position.y, rgb_color.red, rgb_color.green, rgb_color.blue);
 }
 
 } // namespace Tetris::Ui
