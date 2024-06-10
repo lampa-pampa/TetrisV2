@@ -1,7 +1,5 @@
 shape_names in Game -> color_name in Ui
 
-set led colors
-
 config as one argument
 
 ui tests
