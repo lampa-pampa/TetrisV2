@@ -106,7 +106,7 @@ const Config config{
                         Ui::ColorName::white,
                     },
                     Ui::ColorName::islamic_green,
-                    Ui::ColorName::davy_s_grey,
+                    {Ui::ColorName::davy_s_grey, 0x44},
                 },
             },
             {
