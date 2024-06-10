@@ -26,7 +26,7 @@ public:
     GameImpl(Ui::GameUi& ui,
         Board& board,
         ScoreCounter& score_counter,
-        GameBricks& bricks,
+        const GameBricks& bricks,
         const Settings& settings);
 
     GameImpl(const GameImpl&) = delete;

@@ -24,7 +24,7 @@ namespace Tetris
 GameImpl::GameImpl(Ui::GameUi& ui,
     Board& board,
     ScoreCounter& score_counter,
-    GameBricks& bricks,
+    const GameBricks& bricks,
     const Settings& settings)
   : ui_{ui},
     board_{board},
