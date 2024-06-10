@@ -31,10 +31,7 @@ GameImpl::GameImpl(Ui::GameUi& ui,
     score_counter_{score_counter},
     bricks_{bricks},
     settings_{settings},
-    score_{},
-    tetrises_{},
-    level_{settings.start_level},
-    lines_count_{},
+    stats_{settings.start_level},
     state_{GameState::in_progress},
     can_hold_{true}
 {
@@ -173,11 +170,11 @@ void GameImpl::draw_all()
 {
     ui_.refresh_background();
     ui_.refresh_hold_brick(bricks_.hold);
-    ui_.refresh_level_progress_bar(lines_count_);
-    ui_.refresh_level(level_);
+    ui_.refresh_level_progress_bar(stats_.lines_count);
+    ui_.refresh_level(stats_.level);
     ui_.refresh_board(board_.get_cubes());
     ui_.refresh_next_bricks(bricks_.next);
-    ui_.refresh_score(score_);
+    ui_.refresh_score(stats_.score);
     draw_bricks();
     ui_.flush_matrix();
 }
@@ -227,8 +224,8 @@ void GameImpl::add_score(unsigned long long amount)
 {
     if (amount > 0)
     {
-        score_ += amount;
-        ui_.refresh_score(score_);
+        stats_.score += amount;
+        ui_.refresh_score(stats_.score);
     }
 }
 
@@ -236,8 +233,8 @@ void GameImpl::add_lines(int amount)
 {
     if (amount > 0)
     {
-        lines_count_ += amount;
-        ui_.refresh_level_progress_bar(lines_count_);
+        stats_.lines_count += amount;
+        ui_.refresh_level_progress_bar(stats_.lines_count);
         add_score_for_lines(amount);
         update_level();
     }
@@ -245,13 +242,13 @@ void GameImpl::add_lines(int amount)
 
 void GameImpl::update_level()
 {
-    if (lines_count_ >= next_level_lines_count_)
+    if (stats_.lines_count >= next_level_lines_count_)
     {
-        ++level_;
-        lines_count_ -= next_level_lines_count_;
-        ui_.refresh_level(level_);
-        ui_.refresh_level_progress_bar(lines_count_);
-        set_timeout_delay_(level_);
+        ++stats_.level;
+        stats_.lines_count -= next_level_lines_count_;
+        ui_.refresh_level(stats_.level);
+        ui_.refresh_level_progress_bar(stats_.lines_count);
+        set_timeout_delay_(stats_.level);
     }
 }
 

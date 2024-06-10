@@ -20,6 +20,21 @@
 namespace Tetris
 {
 
+struct Stats final
+{
+    unsigned long long score;
+    unsigned long long tetrises;
+    int lines_count;
+    int level;
+
+    constexpr Stats(int start_level)
+      : score{},
+        tetrises{},
+        lines_count{},
+        level{start_level}
+    {}
+};
+
 class GameImpl final: public Game
 {
 public:
@@ -121,12 +136,12 @@ public:
 
     unsigned long long get_score() const
     {
-        return score_;
+        return stats_.score;
     }
 
     unsigned long long get_tetrises() const
     {
-        return tetrises_;
+        return stats_.tetrises;
     }
 
     Brick get_cur_brick() const
@@ -166,12 +181,12 @@ public:
 
     int get_lines_count() const
     {
-        return lines_count_;
+        return stats_.lines_count;
     }
 
     int get_level() const
     {
-        return level_;
+        return stats_.level;
     }
 
 private:
@@ -187,11 +202,7 @@ private:
     ScoreCounter& score_counter_;
     GameBricks bricks_;
     const Settings settings_;
-
-    unsigned long long score_;
-    unsigned long long tetrises_;
-    int lines_count_;
-    int level_;
+    Stats stats_;
     GameState state_;
     bool can_hold_;
 
@@ -229,7 +240,7 @@ private:
     void add_score_for_lines(int amount)
     {
         add_score(score_counter_.count_score_for_lines(amount));
-        tetrises_ += amount / tetris_lines_count_;
+        stats_.tetrises += amount / tetris_lines_count_;
     }
 
     bool can_move(const Brick& brick, Vector2 vector) const
