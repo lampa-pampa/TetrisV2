@@ -3,7 +3,7 @@
 
 #include <ostream>
 
-#include "ui/color/color_name.h"
+#include "brick/brick_name.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
@@ -11,36 +11,33 @@ namespace Tetris
 
 struct Cube final
 {
-    constexpr static Ui::ColorName empty_color_id_name{Ui::ColorName::black};
-
     Vector2 position;
-    Ui::ColorName color_id_name;
+    BrickName brick_name;
 
     friend std::ostream& operator<<(std::ostream& os, const Cube& cube)
     {
         return os << "{" << cube.position.x << ", " << cube.position.y << ", "
-                  << cube.color_id_name << "}";
+                  << cube.brick_name << "}";
     }
 
-    Cube(int x, int y, Ui::ColorName color_id_name = empty_color_id_name)
+    Cube(int x, int y, BrickName brick_name = BrickName::empty)
       : position{x, y},
-        color_id_name{color_id_name}
+        brick_name{brick_name}
     {}
 
     bool operator==(const Cube& other) const
     {
-        return position == other.position
-            and color_id_name == other.color_id_name;
+        return position == other.position and brick_name == other.brick_name;
     }
 
     void clear()
     {
-        color_id_name = empty_color_id_name;
+        brick_name = BrickName::empty;
     }
 
     bool empty() const
     {
-        return color_id_name == empty_color_id_name;
+        return brick_name == BrickName::empty;
     }
 };
 

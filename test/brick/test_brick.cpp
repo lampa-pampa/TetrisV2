@@ -9,8 +9,8 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "brick/brick_name.h"
 #include "cube/cube.h"
-#include "ui/color/color_name.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -19,9 +19,9 @@ using std::tuple;
 using std::vector;
 using testing::Eq;
 using Tetris::Brick;
+using Tetris::BrickName;
 using Tetris::Cube;
 using Tetris::Vector2;
-using Tetris::Ui::ColorName;
 
 TEST(Brick, compute_next_rotation)
 {
@@ -48,24 +48,24 @@ TEST(Brick, get_cubes)
 {
     const vector<pair<Brick, vector<Cube>>> brick_to_expected{
         {
-            {{{2, 8}}, ColorName::duke_blue},
+            {{{2, 8}}, BrickName::i},
             {
-                {2, 8, ColorName::duke_blue},
+                {2, 8, BrickName::i},
             },
         },
         {
-            {{{3, 12}, {6, 4}}, ColorName::white},
+            {{{3, 12}, {6, 4}}, BrickName::i},
             {
-                {3, 12, ColorName::white},
-                {6, 4, ColorName::white},
+                {3, 12, BrickName::i},
+                {6, 4, BrickName::i},
             },
         },
         {
-            {{{2, 2}, {2, 1}, {1, 2}}, ColorName::electric_blue},
+            {{{2, 2}, {2, 1}, {1, 2}}, BrickName::i},
             {
-                {2, 2, ColorName::electric_blue},
-                {2, 1, ColorName::electric_blue},
-                {1, 2, ColorName::electric_blue},
+                {2, 2, BrickName::i},
+                {2, 1, BrickName::i},
+                {1, 2, BrickName::i},
             },
         },
     };
@@ -105,12 +105,12 @@ TEST(Brick, get_rotated)
             },
         },
         {
-            {{{1, 2}, {6, 3}}, ColorName::white, {2, 4}},
+            {{{1, 2}, {6, 3}}, BrickName::i, {2, 4}},
             {
-                {{{1, 2}, {6, 3}}, ColorName::white, {2, 4}},
-                {{{0, 5}, {-1, 10}}, ColorName::white, {2, 4}},
-                {{{-3, 4}, {-8, 3}}, ColorName::white, {2, 4}},
-                {{{-2, 1}, {-1, -4}}, ColorName::white, {2, 4}},
+                {{{1, 2}, {6, 3}}, BrickName::i, {2, 4}},
+                {{{0, 5}, {-1, 10}}, BrickName::i, {2, 4}},
+                {{{-3, 4}, {-8, 3}}, BrickName::i, {2, 4}},
+                {{{-2, 1}, {-1, -4}}, BrickName::i, {2, 4}},
             },
         },
     };

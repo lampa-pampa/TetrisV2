@@ -2,10 +2,12 @@
 #define UI_RENDER_BRICK_PREVIEW_H
 
 #include <deque>
+#include <map>
 
 #include "brick/brick.h"
+#include "brick/brick_name.h"
+#include "ui/color/color_name.h"
 #include "ui/render/container/container.h"
-#include "ui/render/cubes/cubes.h"
 #include "ui/render/rectangle.h"
 #include "vector_2/vector_2.h"
 
@@ -27,8 +29,10 @@ public:
         cube_size_{cube_size}
     {}
 
-    Sprites render(const std::deque<Brick>& bricks) const;
-    Sprites render(const Brick& brick) const;
+    Sprites render(const std::deque<Brick>& bricks,
+        const std::map<BrickName, ColorName>& brick_name_to_color_name) const;
+    Sprites render(const Brick& brick,
+        const std::map<BrickName, ColorName>& brick_name_to_color_name) const;
 
 private:
     const Rectangle container_;
@@ -40,13 +44,9 @@ private:
     Vector2 compute_brick_centered_position(
         const Brick& brick, const Vector2& container_position) const;
 
-    Sprites render(const Brick& brick, const Vector2& container_position) const
-    {
-        RenderCubes render_cubes{
-            compute_brick_centered_position(brick, container_position),
-            cube_size_};
-        return render_cubes.render(brick.get_cubes());
-    }
+    Sprites render(const Brick& brick,
+        const std::map<BrickName, ColorName>& brick_name_to_color_name,
+        const Vector2& container_position) const;
 };
 
 } // namespace Tetris::Ui

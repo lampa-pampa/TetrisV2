@@ -4,8 +4,8 @@
 #include <ostream>
 #include <vector>
 
+#include "brick/brick_name.h"
 #include "cube/cube.h"
-#include "ui/color/color_name.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
@@ -19,7 +19,7 @@ struct Brick final
     static constexpr int rotation_count{4};
 
     std::vector<Vector2> cube_positions;
-    Ui::ColorName color_id_name;
+    BrickName name;
     Vector2 rotation_offset;
 
     static Brick get_translated(const Brick& brick, Vector2 position);
@@ -29,9 +29,8 @@ struct Brick final
 
     friend inline std::ostream& operator<<(std::ostream& os, const Brick& brick)
     {
-        return os << "{{ " << brick.cube_positions << " }, "
-                  << brick.color_id_name << ", " << brick.rotation_offset
-                  << "}";
+        return os << "{{ " << brick.cube_positions << " }, " << brick.name
+                  << ", " << brick.rotation_offset << "}";
     }
 
     static int compute_next_rotation(int rotation, int d_q)
@@ -46,10 +45,10 @@ struct Brick final
     }
 
     Brick(std::vector<Vector2> cube_positions = {},
-        Ui::ColorName color_id_name = Cube::empty_color_id_name,
+        BrickName name = BrickName::empty,
         Vector2 rotation_offset = {})
       : cube_positions{cube_positions},
-        color_id_name{color_id_name},
+        name{name},
         rotation_offset{rotation_offset}
     {}
 
@@ -62,9 +61,8 @@ struct Brick final
 
     bool operator==(const Brick& other) const
     {
-        return cube_positions == other.cube_positions
-            and rotation_offset == other.rotation_offset
-            and color_id_name == other.color_id_name;
+        return cube_positions == other.cube_positions and name == other.name
+            and rotation_offset == other.rotation_offset;
     }
 
     bool empty() const

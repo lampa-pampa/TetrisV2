@@ -1,5 +1,6 @@
 #include "config/filled_config.h"
 
+#include "brick/brick_name.h"
 #include "config/config.h"
 #include "ui/color/color_name.h"
 #include "ui/game_ui/config.h"
@@ -163,6 +164,17 @@ const Config config{
             },
         },
         {
+            // BRICK NAME TO COLOR NAME
+            {BrickName::empty, Ui::ColorName::black},
+            {BrickName::i, Ui::ColorName::electric_blue},
+            {BrickName::o, Ui::ColorName::dodie_yellow},
+            {BrickName::z, Ui::ColorName::dark_candy_apple_red},
+            {BrickName::s, Ui::ColorName::screamin_green},
+            {BrickName::t, Ui::ColorName::heliotrope_magenta},
+            {BrickName::j, Ui::ColorName::duke_blue},
+            {BrickName::l, Ui::ColorName::windsor_tan},
+        },
+        {
             // STATE MESSAGES
             " PAUSED ",
             "GAME OVER",
@@ -183,33 +195,33 @@ const Config config{
             // BRICKS
             {
                 {{-1, 0}, {0, 0}, {1, 0}, {2, 0}},
-                Ui::ColorName::electric_blue,
+                BrickName::i,
                 {1, 0},
             },
             {
                 {{0, -1}, {1, -1}, {0, 0}, {1, 0}},
-                Ui::ColorName::dodie_yellow,
+                BrickName::o,
                 {0, -1},
             },
             {
                 {{-1, -1}, {0, -1}, {0, 0}, {1, 0}},
-                Ui::ColorName::dark_candy_apple_red,
+                BrickName::z,
             },
             {
                 {{0, -1}, {1, -1}, {-1, 0}, {0, 0}},
-                Ui::ColorName::screamin_green,
+                BrickName::s,
             },
             {
                 {{0, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                Ui::ColorName::heliotrope_magenta,
+                BrickName::t,
             },
             {
                 {{-1, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                Ui::ColorName::duke_blue,
+                BrickName::j,
             },
             {
                 {{1, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                Ui::ColorName::windsor_tan,
+                BrickName::l,
             },
         },
         {

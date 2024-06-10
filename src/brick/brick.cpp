@@ -54,7 +54,7 @@ vector<Cube> Brick::get_cubes() const
 {
     vector<Cube> cubes{};
     for (const auto& cube_position : cube_positions)
-        cubes.emplace_back(cube_position.x, cube_position.y, color_id_name);
+        cubes.emplace_back(cube_position.x, cube_position.y, name);
     return cubes;
 }
 

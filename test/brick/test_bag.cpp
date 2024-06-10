@@ -8,8 +8,8 @@
 
 #include "brick/bag.h"
 #include "brick/brick.h"
+#include "brick/brick_name.h"
 #include "rng/rng_mock.h"
-#include "ui/color/color_name.h"
 
 using boost::irange;
 using std::pair;
@@ -17,8 +17,8 @@ using std::vector;
 using testing::Eq;
 using Tetris::Bag;
 using Tetris::Brick;
+using Tetris::BrickName;
 using Tetris::RngMock;
-using Tetris::Ui::ColorName;
 
 TEST(BrickGeneratorImpl, bag)
 {
@@ -28,14 +28,14 @@ TEST(BrickGeneratorImpl, bag)
             {
                 {
                     {
-                        {{{1, 0}, {0, 1}}, ColorName::white},
-                        {{{2, 0}, {0, 2}}, ColorName::windsor_tan},
+                        {{{1, 0}, {0, 1}}, BrickName::i},
+                        {{{2, 0}, {0, 2}}, BrickName::o},
                     },
                     initial_rng,
                 },
                 {
-                    {{{1, 0}, {0, 1}}, ColorName::white},
-                    {{{2, 0}, {0, 2}}, ColorName::windsor_tan},
+                    {{{1, 0}, {0, 1}}, BrickName::i},
+                    {{{2, 0}, {0, 2}}, BrickName::o},
                 },
             },
         },

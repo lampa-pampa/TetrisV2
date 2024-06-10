@@ -1,9 +1,12 @@
 #ifndef INCLUDE_UI_GAME_UI_CONFIG_H
 #define INCLUDE_UI_GAME_UI_CONFIG_H
 
+#include <map>
 #include <string>
 #include <vector>
 
+#include "brick/brick_name.h"
+#include "ui/color/color_name.h"
 #include "ui/color/nv_color.h"
 #include "ui/render/brick_preview/brick_preview.h"
 #include "ui/render/cubes/cubes.h"
@@ -84,6 +87,7 @@ struct GameUiConfig final
 {
     Controls controls;
     GraphicEngine graphic_engine;
+    std::map<BrickName, ColorName> brick_name_to_color_name;
     StateMessages state_messages;
 };
 

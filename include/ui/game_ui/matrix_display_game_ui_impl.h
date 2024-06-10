@@ -64,12 +64,14 @@ public:
 
     void refresh_next_bricks(const std::deque<Brick>& bricks) override
     {
-        draw_sprites(config_.graphic_engine.next.render(bricks));
+        draw_sprites(config_.graphic_engine.next.render(
+            bricks, config_.brick_name_to_color_name));
     }
 
     void refresh_hold_brick(const Brick& brick) override
     {
-        draw_sprites(config_.graphic_engine.hold.render(brick));
+        draw_sprites(config_.graphic_engine.hold.render(
+            brick, config_.brick_name_to_color_name));
     }
 
     void refresh_level(int level) override
@@ -80,19 +82,21 @@ public:
 
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
     {
-        draw_sprites(config_.graphic_engine.board.display.render(cubes));
+        draw_sprites(config_.graphic_engine.board.display.render(
+            cubes, config_.brick_name_to_color_name));
     }
 
     void refresh_ghost_brick(const std::vector<Cube>& cubes) override
     {
-        draw_sprites(config_.graphic_engine.board.display.render(
-            cubes, config_.graphic_engine.board.ghost_color_value));
+        draw_sprites(config_.graphic_engine.board.display.render(cubes,
+            config_.brick_name_to_color_name,
+            config_.graphic_engine.board.ghost_color_value));
     }
 
     void refresh_board(const CubeMatrix& cubes) override
     {
-        for (const auto& row : cubes)
-            draw_sprites(config_.graphic_engine.board.display.render(row));
+        draw_sprites(config_.graphic_engine.board.display.render(
+            cubes, config_.brick_name_to_color_name));
     }
 
     void handle_key_press(int key_code) override

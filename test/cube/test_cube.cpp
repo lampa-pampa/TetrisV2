@@ -7,19 +7,21 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
+#include "brick/brick_name.h"
+
 using std::pair;
 using std::vector;
 using testing::Eq;
+using Tetris::BrickName;
 using Tetris::Cube;
-using Tetris::Ui::ColorName;
 
 TEST(Cube, empty)
 {
     const vector<pair<Cube, bool>> cube_to_expected{
         {{1, 2}, true},
-        {{4, 3, ColorName::black}, true},
-        {{6, 7, ColorName::white}, false},
-        {{8, 0, ColorName::dodie_yellow}, false},
+        {{4, 3, BrickName::empty}, true},
+        {{6, 7, BrickName::i}, false},
+        {{8, 0, BrickName::o}, false},
     };
 
     for (const auto& pair : cube_to_expected)
@@ -30,9 +32,9 @@ TEST(Cube, clear)
 {
     const vector<pair<Cube, Cube>> cube_to_expected{
         {{1, 2}, {1, 2}},
-        {{4, 3, ColorName::black}, {4, 3, ColorName::black}},
-        {{6, 7, ColorName::davy_s_grey}, {6, 7}},
-        {{8, 0, ColorName::screamin_green}, {8, 0}},
+        {{4, 3, BrickName::empty}, {4, 3, BrickName::empty}},
+        {{6, 7, BrickName::i}, {6, 7, BrickName::empty}},
+        {{8, 0, BrickName::o}, {8, 0, BrickName::empty}},
     };
 
     for (const auto& pair : cube_to_expected)
