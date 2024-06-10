@@ -6,10 +6,11 @@
 
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 
+#include "ui/color/color_name.h"
 #include "ui/color/led/hs_color.h"
 #include "vector_2/vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 struct MatrixDisplayConfig final
@@ -18,10 +19,10 @@ struct MatrixDisplayConfig final
     uint_fast8_t brightness;
     int chain_length;
     HUB75_I2S_CFG::i2s_pins pins;
-    std::map<uint_fast8_t, Ui::HsColor> color_id_to_hs_color;
+    std::map<ColorName, HsColor> color_name_to_hs_color;
     int max_color_value;
 };
 
-} // namespace Tetris
+} // namespace Tetris::Ui
 
 #endif

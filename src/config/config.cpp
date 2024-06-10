@@ -1,7 +1,7 @@
 #include "config/filled_config.h"
 
 #include "config/config.h"
-#include "ui/color/color_id_name.h"
+#include "ui/color/color_name.h"
 #include "ui/game_ui/config.h"
 #include "ui/render/text/align.h"
 #include "ui/render/text/font/fixed_width.h"
@@ -25,8 +25,8 @@ const Config config{
             // GRAPHIC ENGINE
             {
                 // MAIN
-                Ui::ColorIdName::black, // background color
-                Ui::ColorIdName::white, // border color
+                Ui::ColorName::black, // background color
+                Ui::ColorName::white, // border color
                 {
                     {{17, 63}, {30, 1}},
                 },
@@ -35,12 +35,12 @@ const Config config{
                     {{0, 0}, {63, 63}},
                     {
                         // container
-                        Ui::ColorIdName::black,
+                        Ui::ColorName::black,
                         {2},
-                        Ui::ColorIdName::white,
+                        Ui::ColorName::white,
                     },
                     Ui::fixed_width_font,
-                    Ui::ColorIdName::sunset_orange,
+                    Ui::ColorName::sunset_orange,
                     Ui::Align::center,
                     0,
                     {1, 2},
@@ -52,9 +52,9 @@ const Config config{
                 {{1, 1}, {15, 10}},
                 {
                     // container
-                    Ui::ColorIdName::black,
+                    Ui::ColorName::black,
                     {0},
-                    Ui::ColorIdName::white,
+                    Ui::ColorName::white,
                 },
                 {16, 10},
                 true,
@@ -69,11 +69,11 @@ const Config config{
                             {{2, 12}, {13, 41}},
                             {
                                 // container
-                                Ui::ColorIdName::black,
+                                Ui::ColorName::black,
                                 {2},
                             },
                             Ui::fixed_width_font,
-                            Ui::ColorIdName::sunset_orange,
+                            Ui::ColorName::sunset_orange,
                             Ui::Align::center,
                             1,
                             {1, 2},
@@ -87,12 +87,12 @@ const Config config{
                             {{3, 56}, {11, 5}},
                             {
                                 // container
-                                Ui::ColorIdName::black,
+                                Ui::ColorName::black,
                                 {2},
-                                Ui::ColorIdName::white,
+                                Ui::ColorName::white,
                             },
                             Ui::fixed_width_font,
-                            Ui::ColorIdName::sunset_orange,
+                            Ui::ColorName::sunset_orange,
                         },
                     },
                 },
@@ -101,12 +101,12 @@ const Config config{
                     {{2, 13}, {13, 39}},
                     {
                         // container
-                        Ui::ColorIdName::black,
+                        Ui::ColorName::black,
                         {1},
-                        Ui::ColorIdName::white,
+                        Ui::ColorName::white,
                     },
-                    Ui::ColorIdName::islamic_green,
-                    Ui::ColorIdName::davy_s_grey,
+                    Ui::ColorName::islamic_green,
+                    Ui::ColorName::davy_s_grey,
                 },
             },
             {
@@ -121,9 +121,9 @@ const Config config{
                 {{48, 1}, {15, 30}},
                 {
                     // container
-                    Ui::ColorIdName::black,
+                    Ui::ColorName::black,
                     {0},
-                    Ui::ColorIdName::white,
+                    Ui::ColorName::white,
                 },
                 {14, 10},
             },
@@ -136,12 +136,12 @@ const Config config{
                         {{50, 33}, {11, 7}},
                         {
                             // container
-                            Ui::ColorIdName::black,
+                            Ui::ColorName::black,
                             {2, 1},
-                            Ui::ColorIdName::white,
+                            Ui::ColorName::white,
                         },
                         Ui::fixed_width_font,
-                        Ui::ColorIdName::sunset_orange,
+                        Ui::ColorName::sunset_orange,
                         Ui::Align::center,
                     },
                 },
@@ -152,12 +152,12 @@ const Config config{
                         {{50, 44}, {11, 17}},
                         {
                             // container
-                            Ui::ColorIdName::black,
+                            Ui::ColorName::black,
                             {2},
-                            Ui::ColorIdName::white,
+                            Ui::ColorName::white,
                         },
                         Ui::fixed_width_font,
-                        Ui::ColorIdName::sunset_orange,
+                        Ui::ColorName::sunset_orange,
                     },
                 },
             },
@@ -183,33 +183,33 @@ const Config config{
             // BRICKS
             {
                 {{-1, 0}, {0, 0}, {1, 0}, {2, 0}},
-                Ui::ColorIdName::electric_blue,
+                Ui::ColorName::electric_blue,
                 {1, 0},
             },
             {
                 {{0, -1}, {1, -1}, {0, 0}, {1, 0}},
-                Ui::ColorIdName::dodie_yellow,
+                Ui::ColorName::dodie_yellow,
                 {0, -1},
             },
             {
                 {{-1, -1}, {0, -1}, {0, 0}, {1, 0}},
-                Ui::ColorIdName::dark_candy_apple_red,
+                Ui::ColorName::dark_candy_apple_red,
             },
             {
                 {{0, -1}, {1, -1}, {-1, 0}, {0, 0}},
-                Ui::ColorIdName::screamin_green,
+                Ui::ColorName::screamin_green,
             },
             {
                 {{0, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                Ui::ColorIdName::heliotrope_magenta,
+                Ui::ColorName::heliotrope_magenta,
             },
             {
                 {{-1, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                Ui::ColorIdName::duke_blue,
+                Ui::ColorName::duke_blue,
             },
             {
                 {{1, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                Ui::ColorIdName::windsor_tan,
+                Ui::ColorName::windsor_tan,
             },
         },
         {

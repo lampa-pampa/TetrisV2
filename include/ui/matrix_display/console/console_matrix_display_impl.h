@@ -9,7 +9,7 @@
 
 #include "config/matrix_display/console/config.h"
 #include "ui/color/console/ncurses_colors.h"
-#include "ui/color/iv_color.h"
+#include "ui/color/nv_color.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris::Ui
@@ -25,7 +25,7 @@ public:
         ::endwin();
     }
 
-    void refresh(const IvColorMatrix& colors) override;
+    void refresh(const NvColorMatrix& colors) override;
 
     Vector2 get_size() const override
     {
@@ -52,7 +52,7 @@ private:
     void setup_ncurses_window();
     void setup_ncurses_keyboard();
     void print_colored(Vector2 position, int color, wchar_t pixel_char);
-    void refresh_pixel(Vector2 position, IvColor color);
+    void refresh_pixel(Vector2 position, NvColor color);
     wchar_t get_pixel_char(int color_value);
 
     Vector2 compute_window_size() const

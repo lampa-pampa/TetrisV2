@@ -10,7 +10,7 @@
 
 #include "brick/brick.h"
 #include "cube/cube.h"
-#include "ui/color/color_id_name.h"
+#include "ui/color/color_name.h"
 
 using std::pair;
 using std::tuple;
@@ -19,7 +19,7 @@ using testing::Eq;
 using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::Cube;
-using Tetris::Ui::ColorIdName;
+using Tetris::Ui::ColorName;
 using CubeMatrix = vector<vector<Cube>>;
 
 TEST(BoardImpl, put_cubes)
@@ -28,20 +28,20 @@ TEST(BoardImpl, put_cubes)
     const vector<pair<vector<Cube>, CubeMatrix>> cubes_to_expected{
         {
             {
-                {0, 0, ColorIdName::white},
-                {0, 1, ColorIdName::white},
+                {0, 0, ColorName::white},
+                {0, 1, ColorName::white},
             },
             {
                 {
-                    {{0, 0, ColorIdName::white}, {1, 0}},
-                    {{0, 1, ColorIdName::white}, {1, 1}},
+                    {{0, 0, ColorName::white}, {1, 0}},
+                    {{0, 1, ColorName::white}, {1, 1}},
                 },
             },
         },
         {
             {
-                {0, 1, ColorIdName::white},
-                {1, 1, ColorIdName::white},
+                {0, 1, ColorName::white},
+                {1, 1, ColorName::white},
             },
             {
                 {
@@ -49,24 +49,24 @@ TEST(BoardImpl, put_cubes)
                     {1, 0},
                 },
                 {
-                    {0, 1, ColorIdName::white},
-                    {1, 1, ColorIdName::white},
+                    {0, 1, ColorName::white},
+                    {1, 1, ColorName::white},
                 },
             },
         },
         {
             {
-                {0, 0, ColorIdName::white},
-                {1, 1, ColorIdName::white},
+                {0, 0, ColorName::white},
+                {1, 1, ColorName::white},
             },
             {
                 {
-                    {0, 0, ColorIdName::white},
+                    {0, 0, ColorName::white},
                     {1, 0},
                 },
                 {
                     {0, 1},
-                    {1, 1, ColorIdName::white},
+                    {1, 1, ColorName::white},
                 },
             },
         },
@@ -90,9 +90,9 @@ TEST(BoardImpl, remove_lines_and_compress)
             {
                 {
                     {
-                        {0, 1, ColorIdName::white},
-                        {0, 2, ColorIdName::white},
-                        {1, 2, ColorIdName::white},
+                        {0, 1, ColorName::white},
+                        {0, 2, ColorName::white},
+                        {1, 2, ColorName::white},
                     },
                     0,
                     2,
@@ -108,7 +108,7 @@ TEST(BoardImpl, remove_lines_and_compress)
                             {1, 1},
                         },
                         {
-                            {0, 2, ColorIdName::white},
+                            {0, 2, ColorName::white},
                             {1, 2},
                         },
                     },
@@ -118,9 +118,9 @@ TEST(BoardImpl, remove_lines_and_compress)
             {
                 {
                     {
-                        {0, 1, ColorIdName::white},
-                        {1, 1, ColorIdName::white},
-                        {0, 2, ColorIdName::white},
+                        {0, 1, ColorName::white},
+                        {1, 1, ColorName::white},
+                        {0, 2, ColorName::white},
                     },
                     2,
                     2,
@@ -132,11 +132,11 @@ TEST(BoardImpl, remove_lines_and_compress)
                             {1, 0},
                         },
                         {
-                            {0, 1, ColorIdName::white},
-                            {1, 1, ColorIdName::white},
+                            {0, 1, ColorName::white},
+                            {1, 1, ColorName::white},
                         },
                         {
-                            {0, 2, ColorIdName::white},
+                            {0, 2, ColorName::white},
                             {1, 2},
                         },
                     },
@@ -146,10 +146,10 @@ TEST(BoardImpl, remove_lines_and_compress)
             {
                 {
                     {
-                        {0, 1, ColorIdName::white},
-                        {1, 1, ColorIdName::white},
-                        {0, 2, ColorIdName::white},
-                        {1, 2, ColorIdName::white},
+                        {0, 1, ColorName::white},
+                        {1, 1, ColorName::white},
+                        {0, 2, ColorName::white},
+                        {1, 2, ColorName::white},
                     },
                     1,
                     2,
@@ -190,31 +190,31 @@ TEST(BoardImpl, remove_lines_and_compress)
 TEST(BoardImpl, brick_is_valid)
 {
     const vector<Cube> initial_cubes{
-        {1, 1, ColorIdName::white},
+        {1, 1, ColorName::white},
     };
     const vector<pair<Brick, bool>> brick_to_expected{
         {
-            {{{0, 0}, {0, 1}}, ColorIdName::white},
+            {{{0, 0}, {0, 1}}, ColorName::white},
             true,
         },
         {
-            {{{0, 1}, {1, 1}}, ColorIdName::white},
+            {{{0, 1}, {1, 1}}, ColorName::white},
             false,
         },
         {
-            {{{0, 1}, {0, 2}}, ColorIdName::white},
+            {{{0, 1}, {0, 2}}, ColorName::white},
             false,
         },
         {
-            {{{-1, 0}, {0, 0}}, ColorIdName::white},
+            {{{-1, 0}, {0, 0}}, ColorName::white},
             false,
         },
         {
-            {{{0, 1}, {0, 2}}, ColorIdName::white},
+            {{{0, 1}, {0, 2}}, ColorName::white},
             false,
         },
         {
-            {{{0, -1}, {0, 0}}, ColorIdName::white},
+            {{{0, -1}, {0, 0}}, ColorName::white},
             false,
         },
     };

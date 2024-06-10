@@ -21,7 +21,7 @@ namespace Tetris::Ui
 RenderText::RenderText(const Rectangle& container,
     RenderContainer render_container,
     const Font& font,
-    IvColor font_color,
+    NvColor font_color,
     Align align,
     int wrap_after,
     Vector2 separator,

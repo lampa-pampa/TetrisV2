@@ -2,7 +2,7 @@
 
 #include "config/keyboard/console/config.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 const KeyboardConfig keyboard_config{

@@ -10,7 +10,7 @@
 #include <gtest/gtest.h>
 
 #include "cube/cube.h"
-#include "ui/color/color_id_name.h"
+#include "ui/color/color_name.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -21,7 +21,7 @@ using testing::Eq;
 using Tetris::Brick;
 using Tetris::Cube;
 using Tetris::Vector2;
-using Tetris::Ui::ColorIdName;
+using Tetris::Ui::ColorName;
 
 TEST(Brick, compute_next_rotation)
 {
@@ -48,24 +48,24 @@ TEST(Brick, get_cubes)
 {
     const vector<pair<Brick, vector<Cube>>> brick_to_expected{
         {
-            {{{2, 8}}, ColorIdName::duke_blue},
+            {{{2, 8}}, ColorName::duke_blue},
             {
-                {2, 8, ColorIdName::duke_blue},
+                {2, 8, ColorName::duke_blue},
             },
         },
         {
-            {{{3, 12}, {6, 4}}, ColorIdName::white},
+            {{{3, 12}, {6, 4}}, ColorName::white},
             {
-                {3, 12, ColorIdName::white},
-                {6, 4, ColorIdName::white},
+                {3, 12, ColorName::white},
+                {6, 4, ColorName::white},
             },
         },
         {
-            {{{2, 2}, {2, 1}, {1, 2}}, ColorIdName::electric_blue},
+            {{{2, 2}, {2, 1}, {1, 2}}, ColorName::electric_blue},
             {
-                {2, 2, ColorIdName::electric_blue},
-                {2, 1, ColorIdName::electric_blue},
-                {1, 2, ColorIdName::electric_blue},
+                {2, 2, ColorName::electric_blue},
+                {2, 1, ColorName::electric_blue},
+                {1, 2, ColorName::electric_blue},
             },
         },
     };
@@ -105,12 +105,12 @@ TEST(Brick, get_rotated)
             },
         },
         {
-            {{{1, 2}, {6, 3}}, ColorIdName::white, {2, 4}},
+            {{{1, 2}, {6, 3}}, ColorName::white, {2, 4}},
             {
-                {{{1, 2}, {6, 3}}, ColorIdName::white, {2, 4}},
-                {{{0, 5}, {-1, 10}}, ColorIdName::white, {2, 4}},
-                {{{-3, 4}, {-8, 3}}, ColorIdName::white, {2, 4}},
-                {{{-2, 1}, {-1, -4}}, ColorIdName::white, {2, 4}},
+                {{{1, 2}, {6, 3}}, ColorName::white, {2, 4}},
+                {{{0, 5}, {-1, 10}}, ColorName::white, {2, 4}},
+                {{{-3, 4}, {-8, 3}}, ColorName::white, {2, 4}},
+                {{{-2, 1}, {-1, -4}}, ColorName::white, {2, 4}},
             },
         },
     };

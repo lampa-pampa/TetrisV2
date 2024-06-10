@@ -3,7 +3,7 @@
 
 #include "config/matrix_display/led/config.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 extern const MatrixDisplayConfig matrix_display_config;

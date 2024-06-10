@@ -5,8 +5,8 @@
 #include <boost/range/irange.hpp>
 
 #include "config/matrix_display/led/config.h"
-#include "ui/color/iv_color.h"
 #include "ui/color/led/rgb_color.h"
+#include "ui/color/nv_color.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -16,7 +16,7 @@ namespace Tetris::Ui
 
 LedMatrixDisplayImpl::LedMatrixDisplayImpl(const MatrixDisplayConfig& config)
   : size_{config.size},
-    rgb_colors_{config.color_id_to_hs_color, config.max_color_value},
+    rgb_colors_{config.color_name_to_hs_color, config.max_color_value},
     matrix_{{
         static_cast<uint16_t>(config.size.x),
         static_cast<uint16_t>(config.size.y),
@@ -28,7 +28,7 @@ LedMatrixDisplayImpl::LedMatrixDisplayImpl(const MatrixDisplayConfig& config)
     matrix_.setBrightness8(config.brightness);
 }
 
-void LedMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
+void LedMatrixDisplayImpl::refresh(const NvColorMatrix& colors)
 {
     for (const auto& y : irange(size_.y))
     {
@@ -39,7 +39,7 @@ void LedMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
 
 //-----------------------------------------------------------------------
 
-void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
+void LedMatrixDisplayImpl::refresh_pixel(Vector2 position, NvColor color)
 {
     const RgbColor rgb_color{rgb_colors_.get(color)};
     const uint_fast16_t color565{

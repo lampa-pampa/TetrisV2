@@ -2,7 +2,7 @@
 #define INCLUDE_UI_MATRIX_DISPLAY_GAME_UI_IMPL_H
 
 #include "brick/brick.h"
-#include "ui/color/iv_color.h"
+#include "ui/color/nv_color.h"
 #include "ui/game_ui/game_ui.h"
 
 #include <deque>
@@ -25,7 +25,7 @@ namespace Tetris::Ui
 class MatrixDisplayGameUiImpl final: public GameUi
 {
 public:
-    using IvColorMatrix = std::vector<std::vector<IvColor>>;
+    using NvColorMatrix = std::vector<std::vector<NvColor>>;
     using Signal = boost::signals2::signal<void()>;
 
     MatrixDisplayGameUiImpl(MatrixDisplay& matrix, const GameUiConfig& config);
@@ -158,7 +158,7 @@ private:
     MatrixDisplay& matrix_display_;
     const GameUiConfig& config_;
     const std::map<int, Signal&> key_code_to_signal_;
-    IvColorMatrix screen_;
+    NvColorMatrix screen_;
     Sprites effects_layer_;
     Sprites game_state_layer_;
 
@@ -171,14 +171,14 @@ private:
     Signal no_locking_hard_drop_pressed_;
     Signal hold_pressed_;
 
-    IvColorMatrix create_layer(const Vector2& size) const
+    NvColorMatrix create_layer(const Vector2& size) const
     {
-        return IvColorMatrix(size.y, std::vector<IvColor>(size.x));
+        return NvColorMatrix(size.y, std::vector<NvColor>(size.x));
     }
 
-    IvColorMatrix get_merged_layers()
+    NvColorMatrix get_merged_layers()
     {
-        IvColorMatrix main_layer{screen_};
+        NvColorMatrix main_layer{screen_};
         draw_sprites(game_state_layer_, main_layer);
         draw_sprites(effects_layer_, main_layer);
         return main_layer;
@@ -190,7 +190,7 @@ private:
             draw_sprite(sprite, screen_);
     }
 
-    void draw_sprites(const Sprites& sprites, IvColorMatrix& layer)
+    void draw_sprites(const Sprites& sprites, NvColorMatrix& layer)
     {
         for (const auto& sprite : sprites)
             draw_sprite(sprite, layer);
@@ -201,14 +201,14 @@ private:
         draw_sprite(sprite, screen_);
     }
 
-    void draw_sprite(const Sprite& sprite, IvColorMatrix& layer)
+    void draw_sprite(const Sprite& sprite, NvColorMatrix& layer)
     {
         for (const auto& pixel : sprite.pixels)
             draw_pixel(sprite.position + pixel, sprite.color, layer);
     }
 
     void draw_pixel(
-        const Vector2& position, const IvColor& color, IvColorMatrix& layer)
+        const Vector2& position, const NvColor& color, NvColorMatrix& layer)
     {
         if (position >= 0 and position < matrix_display_.get_size())
             layer[position.y][position.x] = color;

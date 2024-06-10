@@ -6,11 +6,11 @@
 #include "ui/matrix_display/led/led_matrix_display_impl.h"
 
 using Tetris::config;
-using Tetris::keyboard_config;
-using Tetris::matrix_display_config;
 using Tetris::run_tetris;
+using Tetris::Ui::keyboard_config;
 using Tetris::Ui::LedKeyboardImpl;
 using Tetris::Ui::LedMatrixDisplayImpl;
+using Tetris::Ui::matrix_display_config;
 
 void setup()
 {

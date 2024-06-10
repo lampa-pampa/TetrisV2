@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "cube/cube.h"
-#include "ui/color/iv_color.h"
+#include "ui/color/nv_color.h"
 #include "ui/render/rectangle.h"
 #include "ui/render/sprite.h"
 #include "vector_2/vector_2.h"
@@ -20,7 +20,7 @@ Sprites RenderCubes::render(
     for (const auto& cube : cubes)
         sprites.emplace_back(
             Rectangle{position_ + cube.position.scale(cube_size_), cube_size_},
-            IvColor{cube.color_id_name, color_value});
+            NvColor{cube.color_id_name, color_value});
     return sprites;
 }
 

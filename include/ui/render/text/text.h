@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 
-#include "ui/color/iv_color.h"
+#include "ui/color/nv_color.h"
 #include "ui/render/container/container.h"
 #include "ui/render/rectangle.h"
 #include "ui/render/sprite.h"
@@ -31,7 +31,7 @@ public:
     RenderText(const Rectangle& container,
         RenderContainer render_container,
         const Font& font,
-        IvColor font_color,
+        NvColor font_color,
         Align align = Align::end,
         int wrap_after = 3,
         Vector2 separator = {1},
@@ -63,7 +63,7 @@ private:
     const Rectangle container_;
     const RenderContainer render_container_;
     const Font& font_;
-    const IvColor font_color_;
+    const NvColor font_color_;
     const Align align_;
     const int wrap_after_;
     const Vector2 separator_;

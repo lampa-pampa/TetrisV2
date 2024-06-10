@@ -7,7 +7,7 @@
 
 #include "config/matrix_display/console/config.h"
 #include "ui/color/console/ncurses_colors.h"
-#include "ui/color/iv_color.h"
+#include "ui/color/nv_color.h"
 #include "vector_2/vector_2.h"
 
 using boost::irange;
@@ -26,7 +26,7 @@ ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
     setup_ncurses_window();
 }
 
-void ConsoleMatrixDisplayImpl::refresh(const IvColorMatrix& colors)
+void ConsoleMatrixDisplayImpl::refresh(const NvColorMatrix& colors)
 {
     for (const auto& y : irange(size_.y))
     {
@@ -79,9 +79,9 @@ void ConsoleMatrixDisplayImpl::print_colored(
     ::wattroff(window_, COLOR_PAIR(color));
 }
 
-void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, IvColor color)
+void ConsoleMatrixDisplayImpl::refresh_pixel(Vector2 position, NvColor color)
 {
-    const int pixel_color{ncurses_colors_.get(color.id)};
+    const int pixel_color{ncurses_colors_.get(color.name)};
     const wchar_t pixel_char{get_pixel_char(color.value)};
     print_colored(position.scale(pixel_size_), pixel_color, pixel_char);
 }

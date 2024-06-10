@@ -6,8 +6,8 @@
 #include <ESP32-HUB75-MatrixPanel-I2S-DMA.h>
 
 #include "config/matrix_display/led/config.h"
-#include "ui/color/iv_color.h"
 #include "ui/color/led/rgb_colors.h"
+#include "ui/color/nv_color.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris::Ui
@@ -23,7 +23,7 @@ public:
         matrix_.clearScreen();
     }
 
-    void refresh(const IvColorMatrix& colors) override;
+    void refresh(const NvColorMatrix& colors) override;
 
     Vector2 get_size() const override
     {
@@ -35,7 +35,7 @@ private:
     const RgbColors rgb_colors_;
     MatrixPanel_I2S_DMA matrix_;
 
-    void refresh_pixel(Vector2 position, IvColor color);
+    void refresh_pixel(Vector2 position, NvColor color);
 };
 
 } // namespace Tetris::Ui

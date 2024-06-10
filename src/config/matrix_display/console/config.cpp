@@ -1,9 +1,10 @@
 #include "config/matrix_display/console/filled_config.h"
 
 #include "config/matrix_display/console/config.h"
+#include "ui/color/color_name.h"
 #include "ui/color/console/ncurses_colors.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 const MatrixDisplayConfig matrix_display_config{
@@ -21,24 +22,24 @@ const MatrixDisplayConfig matrix_display_config{
         L'◉',
         L'●',
     },
-    Ui::NCursesColors{{
+    NCursesColors{{
         // COLOR TO NCURSES-ID
-        {0, 0},
-        {1, 1},
-        {2, 2},
-        {3, 3},
-        {4, 4},
-        {5, 5},
-        {6, 6},
-        {7, 7},
-        {8, 8},
-        {9, 9},
-        {10, 10},
-        {11, 11},
-        {12, 12},
-        {13, 13},
-        {14, 14},
-        {15, 15},
+        {ColorName::black, 0},
+        {ColorName::dark_candy_apple_red, 1},
+        {ColorName::islamic_green, 2},
+        {ColorName::windsor_tan, 3},
+        {ColorName::duke_blue, 4},
+        {ColorName::heliotrope_magenta, 5},
+        {ColorName::tiffany_blue, 6},
+        {ColorName::dark_gray, 7},
+        {ColorName::davy_s_grey, 8},
+        {ColorName::sunset_orange, 9},
+        {ColorName::screamin_green, 10},
+        {ColorName::dodie_yellow, 11},
+        {ColorName::very_light_blue, 12},
+        {ColorName::shocking_pink, 13},
+        {ColorName::electric_blue, 14},
+        {ColorName::white, 15},
     }},
 };
 

@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "cube/cube.h"
-#include "ui/color/color_id_name.h"
+#include "ui/color/color_name.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
@@ -19,7 +19,7 @@ struct Brick final
     static constexpr int rotation_count{4};
 
     std::vector<Vector2> cube_positions;
-    Ui::ColorIdName color_id_name;
+    Ui::ColorName color_id_name;
     Vector2 rotation_offset;
 
     static Brick get_translated(const Brick& brick, Vector2 position);
@@ -46,7 +46,7 @@ struct Brick final
     }
 
     Brick(std::vector<Vector2> cube_positions = {},
-        Ui::ColorIdName color_id_name = Cube::empty_color_id_name,
+        Ui::ColorName color_id_name = Cube::empty_color_id_name,
         Vector2 rotation_offset = {})
       : cube_positions{cube_positions},
         color_id_name{color_id_name},

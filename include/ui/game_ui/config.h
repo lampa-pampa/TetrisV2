@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-#include "ui/color/iv_color.h"
+#include "ui/color/nv_color.h"
 #include "ui/render/brick_preview/brick_preview.h"
 #include "ui/render/cubes/cubes.h"
 #include "ui/render/progress_bar/progress_bar.h"
@@ -28,8 +28,8 @@ struct Controls final
 
 struct MainDisplay final
 {
-    IvColor bg_color;
-    IvColor border_color;
+    NvColor bg_color;
+    NvColor border_color;
     std::vector<Rectangle> border;
     RenderText display;
 };

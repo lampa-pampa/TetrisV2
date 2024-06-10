@@ -6,7 +6,7 @@
 #include "ui/color/console/ncurses_colors.h"
 #include "vector_2/vector_2.h"
 
-namespace Tetris
+namespace Tetris::Ui
 {
 
 struct MatrixDisplayConfig final
@@ -15,9 +15,9 @@ struct MatrixDisplayConfig final
     Vector2 pixel_size;
     int max_color_value;
     const std::vector<wchar_t>& pixel_chars;
-    Ui::NCursesColors ncurses_colors;
+    NCursesColors ncurses_colors;
 };
 
-} // namespace Tetris
+} // namespace Tetris::Ui
 
 #endif

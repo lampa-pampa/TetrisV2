@@ -6,11 +6,11 @@
 #include "ui/matrix_display/console/console_matrix_display_impl.h"
 
 using Tetris::config;
-using Tetris::keyboard_config;
-using Tetris::matrix_display_config;
 using Tetris::run_tetris;
 using Tetris::Ui::ConsoleKeyboardImpl;
 using Tetris::Ui::ConsoleMatrixDisplayImpl;
+using Tetris::Ui::keyboard_config;
+using Tetris::Ui::matrix_display_config;
 
 int main()
 {

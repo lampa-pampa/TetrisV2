@@ -7,6 +7,8 @@
 
 #include <ncurses.h>
 
+#include "ui/color/color_name.h"
+
 namespace Tetris::Ui
 {
 
@@ -14,7 +16,7 @@ class NCursesColors final
 {
 public:
     NCursesColors(
-        const std::map<uint_fast8_t, uint_fast8_t>& color_id_to_ncurses_color)
+        const std::map<ColorName, uint_fast8_t>& color_id_to_ncurses_color)
       : color_id_to_ncurses_color_{color_id_to_ncurses_color}
     {}
 
@@ -24,13 +26,13 @@ public:
         create_color_pairs();
     }
 
-    int get(uint_fast8_t color_id) const
+    int get(ColorName color_name) const
     {
-        return color_id_to_ncurses_color_.at(color_id);
+        return color_id_to_ncurses_color_.at(color_name);
     }
 
 private:
-    const std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_color_;
+    const std::map<ColorName, uint_fast8_t> color_id_to_ncurses_color_;
 
     void create_color_pairs()
     {
