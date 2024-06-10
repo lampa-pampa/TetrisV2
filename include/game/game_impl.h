@@ -13,27 +13,13 @@
 #include "brick/brick.h"
 #include "game/bricks.h"
 #include "game/settings.h"
+#include "game/stats.h"
 #include "score_counter/score_counter.h"
 #include "ui/game_ui/game_ui.h"
 #include "vector_2/vector_2.h"
 
 namespace Tetris
 {
-
-struct Stats final
-{
-    unsigned long long score;
-    unsigned long long tetrises;
-    int lines_count;
-    int level;
-
-    constexpr Stats(int start_level)
-      : score{},
-        tetrises{},
-        lines_count{},
-        level{start_level}
-    {}
-};
 
 class GameImpl final: public Game
 {
@@ -202,9 +188,9 @@ private:
     ScoreCounter& score_counter_;
     GameBricks bricks_;
     const Settings settings_;
-    Stats stats_;
-    GameState state_;
+    GameStats stats_;
     bool can_hold_;
+    GameState state_;
 
     Signal reset_timeout_;
     SignalInt set_timeout_delay_;
