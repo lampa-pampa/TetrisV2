@@ -3,7 +3,7 @@
 
 #include <functional>
 
-#include "game/game_state.h"
+#include "game/state.h"
 
 namespace Tetris
 {

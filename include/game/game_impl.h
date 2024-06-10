@@ -11,7 +11,7 @@
 
 #include "board/board.h"
 #include "brick/brick.h"
-#include "game/game_bricks.h"
+#include "game/bricks.h"
 #include "game/settings.h"
 #include "score_counter/score_counter.h"
 #include "ui/game_ui/game_ui.h"

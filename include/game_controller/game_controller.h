@@ -6,7 +6,7 @@
 #include <boost/signals2.hpp>
 
 #include "game/game.h"
-#include "game/game_state.h"
+#include "game/state.h"
 #include "game_controller/game_controller_key_codes.h"
 #include "timer/timer.h"
 #include "ui/keyboard/keyboard.h"

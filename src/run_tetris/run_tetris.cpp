@@ -2,7 +2,7 @@
 
 #include "board/board_impl.h"
 #include "config/config.h"
-#include "game/game_bricks.h"
+#include "game/bricks.h"
 #include "game/game_impl.h"
 #include "game_controller/game_controller.h"
 #include "rng/rng_impl.h"
