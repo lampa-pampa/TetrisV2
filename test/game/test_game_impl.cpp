@@ -1,4 +1,3 @@
-#include "brick/bag.h"
 #include "game/game_impl.h"
 
 #include <deque>
@@ -15,6 +14,7 @@
 #include "brick/brick.h"
 #include "brick/brick_name.h"
 #include "config/config.h"
+#include "game/game_bricks.h"
 #include "game/game_state.h"
 #include "rng/rng_mock.h"
 #include "score_counter/score_counter_impl.h"
@@ -27,10 +27,10 @@ using std::pair;
 using std::tuple;
 using std::vector;
 using testing::Eq;
-using Tetris::Bag;
 using Tetris::BoardImpl;
 using Tetris::Brick;
 using Tetris::BrickName;
+using Tetris::GameBricks;
 using Tetris::GameConfig;
 using Tetris::GameImpl;
 using Tetris::GameState;
@@ -50,9 +50,12 @@ struct GameImplTest
             config.board.size,
         },
         rng{},
-        bricks_bag{
-            config.bricks,
-            rng,
+        bricks{
+            {
+                config.bricks,
+                rng,
+            },
+            config.brick_spawn_position,
         },
         score_counter{
             config.score_counter.score_for,
@@ -60,17 +63,15 @@ struct GameImplTest
         game{
             ui,
             board,
-            bricks_bag,
             score_counter,
+            bricks,
             config.default_settings,
-            config.brick_spawn_position,
-            config.next_level_lines_count,
         }
     {}
     GameUiMock ui;
     BoardImpl board;
     RngMock rng;
-    Bag<Brick> bricks_bag;
+    GameBricks bricks;
     ScoreCounterImpl score_counter;
     GameImpl game;
 };
@@ -97,7 +98,6 @@ TEST(GameImpl, GameImpl)
                     {{{{0, 0}, {0, 1}}, BrickName::i}},
                     {0, false},
                     {2, 5},
-                    10,
                 },
                 {
                     GameState::in_progress,
@@ -126,7 +126,6 @@ TEST(GameImpl, GameImpl)
                     },
                     {0, false},
                     {1, 2},
-                    10,
                 },
                 {
                     GameState::in_progress,
@@ -155,7 +154,6 @@ TEST(GameImpl, GameImpl)
                     },
                     {0, false},
                     {4, 3},
-                    10,
                 },
                 {
                     GameState::in_progress,
@@ -723,7 +721,6 @@ TEST(GameImpl, update_level)
         {{{{-1, 0}, {0, 0}, {1, 0}}, BrickName::i}},
         {1, false},
         {1, 2},
-        10,
     };
     const vector<pair<int, int>> timeouts_to_expected{
         {1, 1},

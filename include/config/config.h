@@ -30,7 +30,6 @@ struct GameConfig final
     std::vector<Brick> bricks;
     Settings default_settings;
     Vector2 brick_spawn_position;
-    int next_level_lines_count;
 };
 
 struct GameControllerConfig final

@@ -1,7 +1,6 @@
 #ifndef INCLUDE_GAME_IMPL_H
 #define INCLUDE_GAME_IMPL_H
 
-#include "brick/bag.h"
 #include "game/game.h"
 
 #include <deque>
@@ -12,6 +11,7 @@
 
 #include "board/board.h"
 #include "brick/brick.h"
+#include "game/game_bricks.h"
 #include "game/settings.h"
 #include "score_counter/score_counter.h"
 #include "ui/game_ui/game_ui.h"
@@ -25,11 +25,9 @@ class GameImpl final: public Game
 public:
     GameImpl(Ui::GameUi& ui,
         Board& board,
-        Bag<Brick>& bricks_bag,
         ScoreCounter& score_counter,
-        const Settings& settings,
-        Vector2 brick_start_position,
-        int next_level_lines_count);
+        GameBricks& bricks,
+        const Settings& settings);
 
     GameImpl(const GameImpl&) = delete;
     GameImpl(const GameImpl&&) = delete;
@@ -37,7 +35,7 @@ public:
     Brick get_transformed_cur_brick() const
     {
         return Brick::get_transformed(
-            cur_brick_, cur_brick_rotation_, cur_brick_position_);
+            bricks_.cur.brick, bricks_.cur.rotation, bricks_.cur.position);
     }
 
     void resume() override
@@ -133,27 +131,27 @@ public:
 
     Brick get_cur_brick() const
     {
-        return cur_brick_;
+        return bricks_.cur.brick;
     }
 
     Vector2 get_cur_brick_position() const
     {
-        return cur_brick_position_;
+        return bricks_.cur.position;
     }
 
     int get_cur_brick_rotation() const
     {
-        return cur_brick_rotation_;
+        return bricks_.cur.rotation;
     }
 
     std::deque<Brick> get_next_bricks() const
     {
-        return next_bricks_;
+        return bricks_.next;
     }
 
     Brick get_hold_brick() const
     {
-        return hold_brick_;
+        return bricks_.hold;
     }
 
     bool get_can_hold() const
@@ -182,29 +180,23 @@ private:
     using SignalInt = boost::signals2::signal<void(int)>;
 
     static constexpr int tetris_lines_count_{4};
-    static constexpr int next_bricks_count{3};
-
-    const Settings settings_;
-    const Vector2 brick_start_position_;
-    const int next_level_lines_count_;
+    static constexpr int next_level_lines_count_{10};
 
     Ui::GameUi& ui_;
     Board& board_;
-    Bag<Brick>& bricks_bag_;
     ScoreCounter& score_counter_;
-    GameState state_;
+    GameBricks bricks_;
+    const Settings settings_;
+
     unsigned long long score_;
     unsigned long long tetrises_;
-    Brick cur_brick_;
-    Vector2 cur_brick_position_;
-    int cur_brick_rotation_;
-    std::deque<Brick> next_bricks_;
-    Brick hold_brick_;
-    bool can_hold_;
-    Signal reset_timeout_;
-    SignalInt set_timeout_delay_;
     int lines_count_;
     int level_;
+    GameState state_;
+    bool can_hold_;
+
+    Signal reset_timeout_;
+    SignalInt set_timeout_delay_;
 
     void generate_hold_brick();
     void hold();
@@ -254,13 +246,13 @@ private:
     void move_left()
     {
         if (can_move(get_transformed_cur_brick(), {-1, 0}))
-            --cur_brick_position_.x;
+            --bricks_.cur.position.x;
     }
 
     void move_right()
     {
         if (can_move(get_transformed_cur_brick(), {1, 0}))
-            ++cur_brick_position_.x;
+            ++bricks_.cur.position.x;
     }
 
     void draw_bricks(bool use_colors = true)
@@ -271,12 +263,12 @@ private:
 
     void set_start_position()
     {
-        cur_brick_position_ = compute_spawn_position(cur_brick_);
+        bricks_.cur.position = compute_spawn_position(bricks_.cur.brick);
     }
 
     void set_start_rotation()
     {
-        cur_brick_rotation_ = 0;
+        bricks_.cur.rotation = 0;
     }
 
     void check_if_game_ended()

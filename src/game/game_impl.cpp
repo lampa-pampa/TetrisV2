@@ -6,7 +6,6 @@
 #include <boost/range/irange.hpp>
 
 #include "board/board.h"
-#include "brick/bag.h"
 #include "brick/brick.h"
 #include "brick/brick_name.h"
 #include "game/game_state.h"
@@ -24,28 +23,21 @@ namespace Tetris
 
 GameImpl::GameImpl(Ui::GameUi& ui,
     Board& board,
-    Bag<Brick>& bricks_bag,
     ScoreCounter& score_counter,
-    const Settings& settings,
-    Vector2 brick_start_position,
-    int next_level_lines_count)
+    GameBricks& bricks,
+    const Settings& settings)
   : ui_{ui},
     board_{board},
-    bricks_bag_{bricks_bag},
     score_counter_{score_counter},
+    bricks_{bricks},
     settings_{settings},
-    brick_start_position_{brick_start_position},
-    next_level_lines_count_{next_level_lines_count},
-    state_{GameState::in_progress},
     score_{},
     tetrises_{},
     level_{settings.start_level},
     lines_count_{},
-    hold_brick_{},
+    state_{GameState::in_progress},
     can_hold_{true}
 {
-    for (const auto& i : boost::irange(next_bricks_count))
-        next_bricks_.emplace_back(bricks_bag_.get_next());
     generate_new_brick();
     set_start_position_and_rotation();
     draw_all();
@@ -55,9 +47,9 @@ GameImpl::GameImpl(Ui::GameUi& ui,
 
 void GameImpl::generate_hold_brick()
 {
-    swap(hold_brick_, cur_brick_);
-    ui_.refresh_hold_brick(hold_brick_);
-    if (cur_brick_.empty())
+    swap(bricks_.hold, bricks_.cur.brick);
+    ui_.refresh_hold_brick(bricks_.hold);
+    if (bricks_.cur.brick.empty())
         generate_new_brick();
 }
 
@@ -94,7 +86,7 @@ bool GameImpl::brick_should_be_moved_up(const Brick& brick) const
 
 Vector2 GameImpl::compute_spawn_position(const Brick& brick) const
 {
-    Vector2 position{brick_start_position_};
+    Vector2 position{bricks_.start_position};
     while (brick_should_be_moved_up(Brick::get_translated(brick, position)))
         --position.y;
     return position;
@@ -119,29 +111,31 @@ bool GameImpl::can_rotate(
 void GameImpl::tick()
 {
     if (can_move(get_transformed_cur_brick(), {0, 1}))
-        ++cur_brick_position_.y;
+        ++bricks_.cur.position.y;
     else
         place_and_generate_new_brick();
 }
 
 void GameImpl::rotate_clockwise()
 {
-    if (can_rotate(cur_brick_, cur_brick_position_, cur_brick_rotation_, 1))
-        cur_brick_rotation_ =
-            Brick::compute_next_rotation(cur_brick_rotation_, 1);
+    if (can_rotate(
+            bricks_.cur.brick, bricks_.cur.position, bricks_.cur.rotation, 1))
+        bricks_.cur.rotation =
+            Brick::compute_next_rotation(bricks_.cur.rotation, 1);
 }
 
 void GameImpl::rotate_counter_clockwise()
 {
-    if (can_rotate(cur_brick_, cur_brick_position_, cur_brick_rotation_, -1))
-        cur_brick_rotation_ =
-            Brick::compute_next_rotation(cur_brick_rotation_, -1);
+    if (can_rotate(
+            bricks_.cur.brick, bricks_.cur.position, bricks_.cur.rotation, -1))
+        bricks_.cur.rotation =
+            Brick::compute_next_rotation(bricks_.cur.rotation, -1);
 }
 
 int GameImpl::hard_drop()
 {
     const int distance{compute_lowest_position(get_transformed_cur_brick())};
-    cur_brick_position_.y += distance;
+    bricks_.cur.position.y += distance;
     add_score(score_counter_.count_score_for_hard_drop(distance));
     reset_timeout_();
     return distance;
@@ -163,25 +157,26 @@ void GameImpl::no_locking_hard_drop()
 
 Vector2 GameImpl::compute_ghost_brick_position() const
 {
-    return {cur_brick_position_.x,
-        cur_brick_position_.y
+    return {bricks_.cur.position.x,
+        bricks_.cur.position.y
             + compute_lowest_position(get_transformed_cur_brick())};
 }
 
 Brick GameImpl::create_ghost_brick() const
 {
-    return Brick::get_transformed(
-        cur_brick_, cur_brick_rotation_, compute_ghost_brick_position());
+    return Brick::get_transformed(bricks_.cur.brick,
+        bricks_.cur.rotation,
+        compute_ghost_brick_position());
 }
 
 void GameImpl::draw_all()
 {
     ui_.refresh_background();
-    ui_.refresh_hold_brick(hold_brick_);
+    ui_.refresh_hold_brick(bricks_.hold);
     ui_.refresh_level_progress_bar(lines_count_);
     ui_.refresh_level(level_);
     ui_.refresh_board(board_.get_cubes());
-    ui_.refresh_next_bricks(next_bricks_);
+    ui_.refresh_next_bricks(bricks_.next);
     ui_.refresh_score(score_);
     draw_bricks();
     ui_.flush_matrix();
@@ -215,10 +210,10 @@ void GameImpl::remove_lines(int from_y, int to_y)
 
 void GameImpl::generate_new_brick()
 {
-    cur_brick_ = next_bricks_.front();
-    next_bricks_.pop_front();
-    next_bricks_.emplace_back(bricks_bag_.get_next());
-    ui_.refresh_next_bricks(next_bricks_);
+    bricks_.cur.brick = bricks_.next.front();
+    bricks_.next.pop_front();
+    bricks_.next.emplace_back(bricks_.bag.get_next());
+    ui_.refresh_next_bricks(bricks_.next);
 }
 
 void GameImpl::set_start_position_and_rotation()

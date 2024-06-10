@@ -1,5 +1,3 @@
-config as one argument
-
 ui tests
 
 https://tetris.fandom.com/wiki/SRS

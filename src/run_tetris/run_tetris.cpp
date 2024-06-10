@@ -2,6 +2,7 @@
 
 #include "board/board_impl.h"
 #include "config/config.h"
+#include "game/game_bricks.h"
 #include "game/game_impl.h"
 #include "game_controller/game_controller.h"
 #include "rng/rng_impl.h"
@@ -30,23 +31,24 @@ void run_tetris(const Config& config,
 
     RngImpl rng{};
 
-    Bag<Brick> bricks_bag{
-        config.game.bricks,
-        rng,
-    };
-
     ScoreCounterImpl score_counter{
         config.game.score_counter.score_for,
+    };
+
+    GameBricks bricks{
+        {
+            config.game.bricks,
+            rng,
+        },
+        config.game.brick_spawn_position,
     };
 
     GameImpl game{
         ui,
         board,
-        bricks_bag,
         score_counter,
+        bricks,
         config.game.default_settings,
-        config.game.brick_spawn_position,
-        config.game.next_level_lines_count,
     };
 
     TimerImpl timer{
