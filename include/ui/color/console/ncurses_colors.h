@@ -1,8 +1,11 @@
 #ifndef INCLUDE_UI_NCURSES_COLORS_H
 #define INCLUDE_UI_NCURSES_COLORS_H
 
+#include <cassert>
 #include <cstdint>
 #include <map>
+
+#include <ncurses.h>
 
 namespace Tetris::Ui
 {
@@ -11,21 +14,32 @@ class NCursesColors final
 {
 public:
     NCursesColors(
-        const std::map<uint_fast8_t, uint_fast8_t>& color_id_to_ncurses_id)
-      : color_id_to_ncurses_id_{color_id_to_ncurses_id}
+        const std::map<uint_fast8_t, uint_fast8_t>& color_id_to_ncurses_color)
+      : color_id_to_ncurses_color_{color_id_to_ncurses_color}
     {}
 
-    int get(uint_fast8_t color_id);
+    void init()
+    {
+        ::start_color();
+        create_color_pairs();
+    }
+
+    int get(uint_fast8_t color_id) const
+    {
+        return color_id_to_ncurses_color_.at(color_id);
+    }
 
 private:
-    using ColorPair =
-        std::_Rb_tree_iterator<std::pair<const uint_fast8_t, uint_fast8_t>>;
+    const std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_color_;
 
-    const std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_id_;
-
-    std::map<uint_fast8_t, uint_fast8_t> color_id_to_ncurses_color_;
-
-    ColorPair create_color_pair(uint_fast8_t color_id);
+    void create_color_pairs()
+    {
+        for (const auto& pair : color_id_to_ncurses_color_)
+        {
+            const int ncurses_color{pair.second};
+            ::init_pair(ncurses_color, ncurses_color, COLOR_BLACK);
+        }
+    }
 };
 
 } // namespace Tetris::Ui

@@ -65,7 +65,7 @@ void ConsoleMatrixDisplayImpl::setup_ncurses_window()
 {
     ::setlocale(LC_ALL, "");
     ::initscr();
-    ::start_color();
+    ncurses_colors_.init();
     create_window();
     ::nodelay(window_, true);
     ::noecho();
