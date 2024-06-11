@@ -33,7 +33,7 @@ GameImpl::GameImpl(Ui::GameUi& ui,
     settings_{settings},
     stats_{settings.start_level},
     can_hold_{true},
-    state_{GameState::in_progress}
+    state_{GameState::active}
 {
     generate_new_brick();
     set_start_position_and_rotation();

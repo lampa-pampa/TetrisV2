@@ -100,7 +100,7 @@ TEST(GameImpl, GameImpl)
                     {2, 5},
                 },
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     0,
                     0,
                     {{{0, 0}, {0, 1}}, BrickName::i},
@@ -128,7 +128,7 @@ TEST(GameImpl, GameImpl)
                     {1, 2},
                 },
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     0,
                     0,
                     {{{0, 0}, {0, 1}}, BrickName::o},
@@ -156,7 +156,7 @@ TEST(GameImpl, GameImpl)
                     {4, 3},
                 },
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     0,
                     0,
                     {{{3, 5}, {2, 2}}, BrickName::s},
@@ -220,7 +220,7 @@ TEST(GameImpl, handle_soft_drop)
             {
                 1,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     2,
                     {{{0, 0}}, BrickName::o},
                     {1, 1},
@@ -234,7 +234,7 @@ TEST(GameImpl, handle_soft_drop)
             {
                 4,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     8,
                     {{{0, 0}}, BrickName::s},
                     {1, 1},
@@ -296,7 +296,7 @@ TEST(GameImpl, handle_timeout)
             {
                 1,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     2,
                     {{{0, 0}}, BrickName::o},
                     {1, 1},
@@ -310,7 +310,7 @@ TEST(GameImpl, handle_timeout)
             {
                 4,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     8,
                     {{{0, 0}}, BrickName::s},
                     {1, 1},
@@ -491,7 +491,7 @@ TEST(GameImpl, handle_locking_hard_drop)
             {
                 1,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     6,
                     {{{0, 0}}, BrickName::j},
                     {1, 0},
@@ -505,7 +505,7 @@ TEST(GameImpl, handle_locking_hard_drop)
             {
                 2,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     9,
                     {{{0, 0}}, BrickName::l},
                     {1, 0},
@@ -568,7 +568,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
             {
                 1,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     6,
                     {{{0, 0}}, BrickName::i},
                     {1, 2},
@@ -582,7 +582,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
             {
                 2,
                 {
-                    GameState::in_progress,
+                    GameState::active,
                     6,
                     {{{0, 0}}, BrickName::j},
                     {1, 0},

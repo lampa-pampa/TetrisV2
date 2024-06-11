@@ -10,13 +10,13 @@ namespace Tetris
 
 enum class GameState
 {
-    in_progress,
+    active,
     paused,
     ended,
 };
 
 const std::map<GameState, std::string> game_state_to_text{
-    {GameState::in_progress, "in_progress"},
+    {GameState::active, "active"},
     {GameState::paused, "paused"},
     {GameState::ended, "ended"},
 };

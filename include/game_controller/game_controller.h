@@ -43,12 +43,13 @@ private:
 
     void handle_key_press(int key_code, GameState state)
     {
-        if (key_code == key_codes_.no_key)
-            return;
-        if (key_code == key_codes_.pause)
-            handle_pause_pressed(state);
-        else if (state == GameState::in_progress)
-            key_press_(key_code);
+        if (key_code != key_codes_.no_key)
+        {
+            if (key_code == key_codes_.pause)
+                handle_pause_pressed(state);
+            else if (state == GameState::active)
+                key_press_(key_code);
+        }
     }
 
     void end_game()

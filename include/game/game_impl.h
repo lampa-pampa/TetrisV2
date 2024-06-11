@@ -43,7 +43,7 @@ public:
     {
         ui_.resume();
         ui_.flush_matrix();
-        state_ = GameState::in_progress;
+        state_ = GameState::active;
     }
 
     void pause() override

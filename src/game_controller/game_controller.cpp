@@ -39,7 +39,7 @@ bool GameController::update(unsigned long delta_time)
 
 void GameController::handle_pause_pressed(GameState state)
 {
-    if (state == GameState::in_progress)
+    if (state == GameState::active)
         pause_game();
     else if (state == GameState::paused)
         start_game();
