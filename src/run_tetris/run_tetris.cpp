@@ -5,7 +5,7 @@
 #include "game/bricks.h"
 #include "game/game_impl.h"
 #include "game_controller/game_controller.h"
-#include "rng/rng_impl.h"
+#include "rng/rng.h"
 #include "run_tetris/main_loop.h"
 #include "score_counter/score_counter_impl.h"
 #include "timer/timer_impl.h"
@@ -18,7 +18,8 @@ namespace Tetris
 
 void run_tetris(const Config& config,
     Ui::Keyboard& keyboard,
-    Ui::MatrixDisplay& matrix_display)
+    Ui::MatrixDisplay& matrix_display,
+    Rng& rng)
 {
     Ui::MatrixDisplayGameUiImpl ui{
         matrix_display,
@@ -28,8 +29,6 @@ void run_tetris(const Config& config,
     BoardImpl board{
         config.game.board.size,
     };
-
-    RngImpl rng{};
 
     ScoreCounterImpl score_counter{
         config.game.score_counter.score_for,
