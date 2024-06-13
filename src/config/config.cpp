@@ -13,14 +13,14 @@ namespace Tetris
 const Config config{
     Ui::GameUiConfig{
         {
-            13, // move left
-            15, // move right
-            10, // rotate clockwise
-            14, // soft drop
-            12, // locking hard drop
-            8, // no-locking hard drop
-            11, // rotate counter-clockwise
-            9, // hold
+            5, // move left
+            7, // move right
+            2, // rotate clockwise
+            6, // soft drop
+            10, // locking hard drop
+            9, // no-locking hard drop
+            1, // rotate counter-clockwise
+            11, // hold
         },
         {
             // GRAPHIC ENGINE
@@ -235,8 +235,8 @@ const Config config{
         // GAME CONTROLLER
         {
             // KEY CODES
-            0, // pause
-            3, // quit
+            3, // pause
+            4, // quit
             -1, // no key
         },
     },

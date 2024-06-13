@@ -9,16 +9,16 @@ const KeyboardConfig keyboard_config{
     {
         // ROW PINS
         2,
+        9,
+        10,
         15,
-        23,
-        32,
     },
     {
         // COLUMN PINS
         21,
-        9,
-        10,
         22,
+        23,
+        32,
     },
     -1, // no key code
 };
