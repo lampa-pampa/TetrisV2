@@ -6,7 +6,6 @@
 #include <ostream>
 
 #include "ui/color/color_name.h"
-#include "utils/uint_fast8_t_ostream.h"
 
 namespace Tetris::Ui
 {
