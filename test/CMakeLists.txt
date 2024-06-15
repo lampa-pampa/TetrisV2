@@ -7,6 +7,7 @@ add_executable(all_tests
     game/test_game_impl.cpp
     score_counter/test_score_counter_impl.cpp
     ui/render/container/test_container.cpp
+    ui/render/progress_bar/test_progress_bar.cpp
     vector2/test_vector2.cpp
 )
 
