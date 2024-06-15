@@ -11,9 +11,6 @@
 namespace Tetris
 {
 
-std::ostream& operator<<(
-    std::ostream& os, const std::vector<Vector2>& cube_positions);
-
 struct Brick final
 {
     static constexpr int rotation_count{4};
@@ -29,8 +26,8 @@ struct Brick final
 
     friend inline std::ostream& operator<<(std::ostream& os, const Brick& brick)
     {
-        return os << "{{ " << brick.cube_positions << " }, " << brick.name
-                  << ", " << brick.rotation_offset << "}";
+        return os << "{" << brick.cube_positions << ", " << brick.name << ", "
+                  << brick.rotation_offset << "}";
     }
 
     static int compute_next_rotation(int rotation, int d_q)

@@ -1,8 +1,9 @@
-#ifndef INCLUDE_vector2_H
-#define INCLUDE_vector2_H
+#ifndef INCLUDE_VECTOR2_H
+#define INCLUDE_VECTOR2_H
 
 #include <cstdlib>
 #include <ostream>
+#include <vector>
 
 namespace Tetris
 {
@@ -83,6 +84,19 @@ struct Vector2 final
         return *this = *this - other;
     }
 };
+
+inline std::ostream& operator<<(
+    std::ostream& os, const std::vector<Vector2>& vectors)
+{
+    os << "{";
+    for (const auto& vector2 : vectors)
+    {
+        os << vector2;
+        if (&vector2 != &vectors.back())
+            os << ", ";
+    }
+    return os << "}";
+}
 
 } // namespace Tetris
 

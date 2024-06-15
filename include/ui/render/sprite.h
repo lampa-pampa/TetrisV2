@@ -45,14 +45,8 @@ struct Sprite final
 
     friend std::ostream& operator<<(std::ostream& os, const Sprite& sprite)
     {
-        os << "{" << sprite.position << ", {";
-        for (const auto& pixel : sprite.pixels)
-        {
-            os << pixel;
-            if (&pixel != &sprite.pixels.back())
-                os << ", ";
-        }
-        return os << "}, " << sprite.color << "}";
+        return os << "{" << sprite.position << ", " << sprite.pixels << ", "
+                  << sprite.color << "}";
     }
 };
 

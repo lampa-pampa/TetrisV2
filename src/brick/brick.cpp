@@ -105,15 +105,4 @@ Vector2 Brick::get_size() const
     return {get_max_x() - get_min_x() + 1, get_max_y() - get_min_y() + 1};
 }
 
-ostream& operator<<(ostream& os, const vector<Vector2>& cube_positions)
-{
-    for (const auto& cube_position : cube_positions)
-    {
-        os << cube_position;
-        if (&cube_position != &cube_positions.back())
-            os << ", ";
-    }
-    return os;
-}
-
 } // namespace Tetris
