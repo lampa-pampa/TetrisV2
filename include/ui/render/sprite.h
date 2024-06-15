@@ -35,6 +35,12 @@ struct Sprite final
             for (const auto& x : boost::irange(container.size.x))
                 pixels.emplace_back(x, y);
     }
+
+    bool operator==(const Sprite& other) const
+    {
+        return position == other.position and pixels == other.pixels
+            and color == other.color;
+    }
 };
 
 using Sprites = std::vector<Sprite>;
