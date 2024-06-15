@@ -25,7 +25,7 @@ using CubeMatrix = vector<vector<Cube>>;
 TEST(BoardImpl, put_cubes)
 {
     BoardImpl initial_board{2};
-    const vector<pair<vector<Cube>, CubeMatrix>> cubes_to_expected{
+    const vector<pair<vector<Cube>, CubeMatrix>> test_cases{
         {
             {
                 {0, 0, BrickName::I},
@@ -72,7 +72,7 @@ TEST(BoardImpl, put_cubes)
         },
     };
 
-    for (const auto& pair : cubes_to_expected)
+    for (const auto& pair : test_cases)
     {
         BoardImpl board{initial_board};
         board.put_cubes(pair.first);
@@ -86,7 +86,7 @@ TEST(BoardImpl, remove_lines_and_compress)
     const BoardImpl initial_board{{2, 3}};
     const vector<
         pair<tuple<vector<Cube>, int, int>, tuple<CubeMatrix, vector<int>>>>
-        cubes_and_range_to_expected{
+        test_cases{
             {
                 {
                     {
@@ -174,7 +174,7 @@ TEST(BoardImpl, remove_lines_and_compress)
             },
         };
 
-    for (const auto& pair : cubes_and_range_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [initial_cubes, from_y, to_y]{pair.first};
         const auto& [expected_cubes, expected_row_indexes]{pair.second};
@@ -192,7 +192,7 @@ TEST(BoardImpl, brick_is_valid)
     const vector<Cube> initial_cubes{
         {1, 1, BrickName::I},
     };
-    const vector<pair<Brick, bool>> brick_to_expected{
+    const vector<pair<Brick, bool>> test_cases{
         {
             {{{0, 0}, {0, 1}}, BrickName::I},
             true,
@@ -222,13 +222,13 @@ TEST(BoardImpl, brick_is_valid)
     BoardImpl board{{2}};
     board.put_cubes(initial_cubes);
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
         ASSERT_THAT(board.brick_is_valid(pair.first), Eq(pair.second));
 }
 
 TEST(BoardImpl, get_cubes)
 {
-    const vector<pair<BoardImpl, CubeMatrix>> board_to_expected{
+    const vector<pair<BoardImpl, CubeMatrix>> test_cases{
         {
             {{2}},
             {
@@ -281,7 +281,7 @@ TEST(BoardImpl, get_cubes)
         },
     };
 
-    for (const auto& pair : board_to_expected)
+    for (const auto& pair : test_cases)
     {
         const CubeMatrix& actual{pair.first.get_cubes()};
 

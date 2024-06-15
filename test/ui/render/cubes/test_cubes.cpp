@@ -35,7 +35,7 @@ TEST(RenderCubes, render)
     };
     const vector<
         pair<tuple<RenderCubes, vector<Cube>, uint_fast8_t, bool>, Sprites>>
-        render_cubes_to_expected{
+        test_cases{
             {
                 {
                     {
@@ -425,7 +425,7 @@ TEST(RenderCubes, render)
             },
         };
 
-    for (const auto& pair : render_cubes_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [render_cubes, cubes, color_value, fill]{pair.first};
         const Sprites actual{render_cubes.render(

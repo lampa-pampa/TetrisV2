@@ -23,7 +23,7 @@ using Tetris::RngMock;
 TEST(BrickGeneratorImpl, bag)
 {
     RngMock initial_rng{};
-    const vector<pair<Bag<Brick>, vector<Brick>>> bag_to_expected{
+    const vector<pair<Bag<Brick>, vector<Brick>>> test_cases{
         {
             {
                 {
@@ -41,7 +41,7 @@ TEST(BrickGeneratorImpl, bag)
         },
     };
 
-    for (const auto& pair : bag_to_expected)
+    for (const auto& pair : test_cases)
     {
         Bag<Brick> bricks_bag{pair.first};
         for (const auto& i : irange(2))

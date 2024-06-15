@@ -90,7 +90,7 @@ TEST(GameImpl, GameImpl)
             Brick,
             bool,
             Settings>>>
-        config_to_expected{
+        test_cases{
             {
                 {
                     {{5, 10}},
@@ -174,7 +174,7 @@ TEST(GameImpl, GameImpl)
             },
         };
 
-    for (const auto& pair : config_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [state,
             score,
@@ -216,7 +216,7 @@ TEST(GameImpl, handle_soft_drop)
         {1, 0},
     };
     const vector<pair<int, tuple<GameState, int, Brick, Vector2, deque<Brick>>>>
-        soft_drops_to_expected{
+        test_cases{
             {
                 1,
                 {
@@ -261,7 +261,7 @@ TEST(GameImpl, handle_soft_drop)
             },
         };
 
-    for (const auto& pair : soft_drops_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [state, score, cur_brick, cur_brick_position, next_bricks]{
             pair.second};
@@ -292,7 +292,7 @@ TEST(GameImpl, handle_timeout)
         {1, 0},
     };
     const vector<pair<int, tuple<GameState, int, Brick, Vector2, deque<Brick>>>>
-        soft_drops_to_expected{
+        test_cases{
             {
                 1,
                 {
@@ -337,7 +337,7 @@ TEST(GameImpl, handle_timeout)
             },
         };
 
-    for (const auto& pair : soft_drops_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [state, score, cur_brick, cur_brick_position, next_bricks]{
             pair.second};
@@ -364,13 +364,13 @@ TEST(GameImpl, handle_move_left)
         {0, false},
         {2, 0},
     };
-    const vector<pair<int, Vector2>> moves_left_to_expected{
+    const vector<pair<int, Vector2>> test_cases{
         {1, {1, 0}},
         {2, {0, 0}},
         {3, {0, 0}},
     };
 
-    for (const auto& pair : moves_left_to_expected)
+    for (const auto& pair : test_cases)
     {
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
@@ -390,13 +390,13 @@ TEST(GameImpl, handle_move_right)
         {0, false},
         {2, 0},
     };
-    const vector<pair<int, Vector2>> moves_right_to_expected{
+    const vector<pair<int, Vector2>> test_cases{
         {1, {3, 0}},
         {2, {4, 0}},
         {3, {4, 0}},
     };
 
-    for (const auto& pair : moves_right_to_expected)
+    for (const auto& pair : test_cases)
     {
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
@@ -416,14 +416,13 @@ TEST(GameImpl, handle_rotate_clockwise)
         {0, false},
         {1, 0},
     };
-    const vector<pair<tuple<int, int, int>, int>>
-        timeouts_moves_left_and_rotations_to_expected{
-            {{1, 0, 3}, 3},
-            {{0, 1, 2}, 1},
-            {{2, 0, 3}, 0},
-        };
+    const vector<pair<tuple<int, int, int>, int>> test_cases{
+        {{1, 0, 3}, 3},
+        {{0, 1, 2}, 1},
+        {{2, 0, 3}, 0},
+    };
 
-    for (const auto& pair : timeouts_moves_left_and_rotations_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [timeouts, moves_left, rotations]{pair.first};
 
@@ -449,14 +448,13 @@ TEST(GameImpl, handle_rotate_counter_clockwise)
         {0, false},
         {1, 0},
     };
-    const vector<pair<tuple<int, int, int>, int>>
-        timeouts_moves_right_and_rotations_to_expected{
-            {{1, 0, 3}, 1},
-            {{0, 1, 2}, 3},
-            {{2, 0, 3}, 0},
-        };
+    const vector<pair<tuple<int, int, int>, int>> test_cases{
+        {{1, 0, 3}, 1},
+        {{0, 1, 2}, 3},
+        {{2, 0, 3}, 0},
+    };
 
-    for (const auto& pair : timeouts_moves_right_and_rotations_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [timeouts, moves_right, rotations]{pair.first};
 
@@ -487,7 +485,7 @@ TEST(GameImpl, handle_locking_hard_drop)
         {1, 0},
     };
     const vector<pair<int, tuple<GameState, int, Brick, Vector2, deque<Brick>>>>
-        hard_drops_to_expected{
+        test_cases{
             {
                 1,
                 {
@@ -532,7 +530,7 @@ TEST(GameImpl, handle_locking_hard_drop)
             },
         };
 
-    for (const auto& pair : hard_drops_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [state, score, cur_brick, cur_brick_position, next_bricks]{
             pair.second};
@@ -564,7 +562,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
         {1, 0},
     };
     const vector<pair<int, tuple<GameState, int, Brick, Vector2, deque<Brick>>>>
-        hard_drops_to_expected{
+        test_cases{
             {
                 1,
                 {
@@ -609,7 +607,7 @@ TEST(GameImpl, handle_no_locking_hard_drop)
             },
         };
 
-    for (const auto& pair : hard_drops_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [state, score, cur_brick, cur_brick_position, next_bricks]{
             pair.second};
@@ -642,7 +640,7 @@ TEST(GameImpl, handle_hold)
     };
     const vector<
         pair<tuple<int, int>, tuple<Brick, Vector2, deque<Brick>, Brick, bool>>>
-        timeouts_before_and_after_to_expected{
+        test_cases{
             {
                 {0, 0},
                 {
@@ -687,7 +685,7 @@ TEST(GameImpl, handle_hold)
             },
         };
 
-    for (const auto& pair : timeouts_before_and_after_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [timeouts_before, timeouts_after]{pair.first};
         const auto& [cur_brick,
@@ -722,13 +720,13 @@ TEST(GameImpl, update_level)
         {1, false},
         {1, 2},
     };
-    const vector<pair<int, int>> timeouts_to_expected{
+    const vector<pair<int, int>> test_cases{
         {1, 1},
         {10, 2},
         {25, 3},
     };
 
-    for (const auto& pair : timeouts_to_expected)
+    for (const auto& pair : test_cases)
     {
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};
@@ -748,13 +746,13 @@ TEST(GameImpl, set_start_position)
         {1, false},
         {0, 3},
     };
-    const vector<pair<int, Vector2>> hard_drops_to_expected{
+    const vector<pair<int, Vector2>> test_cases{
         {0, {0, 3}},
         {1, {0, 1}},
         {2, {0, 0}},
     };
 
-    for (const auto& pair : hard_drops_to_expected)
+    for (const auto& pair : test_cases)
     {
         GameImplTest game_test{initial_config};
         GameImpl& game{game_test.game};

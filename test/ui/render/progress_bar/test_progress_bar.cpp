@@ -21,182 +21,181 @@ using Tetris::Ui::Sprites;
 
 TEST(RenderProgressBar, render)
 {
-    vector<pair<tuple<RenderProgressBar, int>, Sprites>>
-        render_progress_bar_and_count_to_expected{
+    vector<pair<tuple<RenderProgressBar, int>, Sprites>> test_cases{
+        {
             {
                 {
+                    {{0, 0}, {2}},
                     {
-                        {{0, 0}, {2}},
-                        {
-                            ColorName::black,
-                        },
-                        ColorName::sunset_orange,
                         ColorName::black,
-                        {2, 1},
-                        2,
-                        0,
                     },
+                    ColorName::sunset_orange,
+                    ColorName::black,
+                    {2, 1},
+                    2,
                     0,
                 },
+                0,
+            },
+            {
                 {
+                    {0, 0},
                     {
                         {0, 0},
-                        {
-                            {0, 0},
-                            {1, 0},
-                            {0, 1},
-                            {1, 1},
-                        },
-                        ColorName::black,
-                    },
-                    {
-                        {0, 0},
-                        {
-                            {0, 0},
-                            {1, 0},
-                        },
-                        ColorName::black,
-                    },
-                    {
+                        {1, 0},
                         {0, 1},
-                        {
-                            {0, 0},
-                            {1, 0},
-                        },
-                        ColorName::black,
-                    },
-                },
-            },
-            {
-                {
-                    {
-                        {{1, 2}, {2, 5}},
-                        {
-                            ColorName::white,
-                        },
-                        ColorName::sunset_orange,
-                        ColorName::black,
-                        {2, 1},
-                        3,
-                        1,
-                    },
-                    2,
-                },
-                {
-                    {
-                        {1, 2},
-                        {
-                            {0, 0},
-                            {1, 0},
-                            {0, 1},
-                            {1, 1},
-                            {0, 2},
-                            {1, 2},
-                            {0, 3},
-                            {1, 3},
-                            {0, 4},
-                            {1, 4},
-                        },
-                        ColorName::white,
-                    },
-                    {
-                        {1, 2},
-                        {
-                            {0, 0},
-                            {1, 0},
-                        },
-                        ColorName::black,
-                    },
-                    {
-                        {1, 4},
-                        {
-                            {0, 0},
-                            {1, 0},
-                        },
-                        ColorName::sunset_orange,
-                    },
-                    {
-                        {1, 6},
-                        {
-                            {0, 0},
-                            {1, 0},
-                        },
-                        ColorName::sunset_orange,
-                    },
-                },
-            },
-            {
-                {
-                    {
-                        {{4, 7}, {2, 5}},
-                        {
-                            ColorName::white,
-                        },
-                        ColorName::sunset_orange,
-                        ColorName::black,
                         {1, 1},
-                        5,
-                        0,
                     },
-                    3,
+                    ColorName::black,
                 },
                 {
+                    {0, 0},
                     {
-                        {4, 7},
-                        {
-                            {0, 0},
-                            {1, 0},
-                            {0, 1},
-                            {1, 1},
-                            {0, 2},
-                            {1, 2},
-                            {0, 3},
-                            {1, 3},
-                            {0, 4},
-                            {1, 4},
-                        },
-                        ColorName::white,
+                        {0, 0},
+                        {1, 0},
                     },
+                    ColorName::black,
+                },
+                {
+                    {0, 1},
                     {
-                        {4, 7},
-                        {
-                            {0, 0},
-                        },
-                        ColorName::black,
+                        {0, 0},
+                        {1, 0},
                     },
-                    {
-                        {4, 8},
-                        {
-                            {0, 0},
-                        },
-                        ColorName::black,
-                    },
-                    {
-                        {4, 9},
-                        {
-                            {0, 0},
-                        },
-                        ColorName::sunset_orange,
-                    },
-                    {
-                        {4, 10},
-                        {
-                            {0, 0},
-                        },
-                        ColorName::sunset_orange,
-                    },
-                    {
-                        {4, 11},
-                        {
-                            {0, 0},
-                        },
-                        ColorName::sunset_orange,
-                    },
+                    ColorName::black,
                 },
             },
-        };
+        },
+        {
+            {
+                {
+                    {{1, 2}, {2, 5}},
+                    {
+                        ColorName::white,
+                    },
+                    ColorName::sunset_orange,
+                    ColorName::black,
+                    {2, 1},
+                    3,
+                    1,
+                },
+                2,
+            },
+            {
+                {
+                    {1, 2},
+                    {
+                        {0, 0},
+                        {1, 0},
+                        {0, 1},
+                        {1, 1},
+                        {0, 2},
+                        {1, 2},
+                        {0, 3},
+                        {1, 3},
+                        {0, 4},
+                        {1, 4},
+                    },
+                    ColorName::white,
+                },
+                {
+                    {1, 2},
+                    {
+                        {0, 0},
+                        {1, 0},
+                    },
+                    ColorName::black,
+                },
+                {
+                    {1, 4},
+                    {
+                        {0, 0},
+                        {1, 0},
+                    },
+                    ColorName::sunset_orange,
+                },
+                {
+                    {1, 6},
+                    {
+                        {0, 0},
+                        {1, 0},
+                    },
+                    ColorName::sunset_orange,
+                },
+            },
+        },
+        {
+            {
+                {
+                    {{4, 7}, {2, 5}},
+                    {
+                        ColorName::white,
+                    },
+                    ColorName::sunset_orange,
+                    ColorName::black,
+                    {1, 1},
+                    5,
+                    0,
+                },
+                3,
+            },
+            {
+                {
+                    {4, 7},
+                    {
+                        {0, 0},
+                        {1, 0},
+                        {0, 1},
+                        {1, 1},
+                        {0, 2},
+                        {1, 2},
+                        {0, 3},
+                        {1, 3},
+                        {0, 4},
+                        {1, 4},
+                    },
+                    ColorName::white,
+                },
+                {
+                    {4, 7},
+                    {
+                        {0, 0},
+                    },
+                    ColorName::black,
+                },
+                {
+                    {4, 8},
+                    {
+                        {0, 0},
+                    },
+                    ColorName::black,
+                },
+                {
+                    {4, 9},
+                    {
+                        {0, 0},
+                    },
+                    ColorName::sunset_orange,
+                },
+                {
+                    {4, 10},
+                    {
+                        {0, 0},
+                    },
+                    ColorName::sunset_orange,
+                },
+                {
+                    {4, 11},
+                    {
+                        {0, 0},
+                    },
+                    ColorName::sunset_orange,
+                },
+            },
+        },
+    };
 
-    for (const auto& pair : render_progress_bar_and_count_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [render_progress_bar, count]{pair.first};
         ASSERT_THAT(render_progress_bar.render(count), Eq(pair.second));

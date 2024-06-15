@@ -26,7 +26,7 @@ using Tetris::Vector2;
 TEST(Brick, compute_next_rotation)
 {
     const int initial_rotation{};
-    const vector<pair<int, int>> delta_quarters_to_expected{
+    const vector<pair<int, int>> test_cases{
         {0, 0},
         {3, 3},
         {-1, 3},
@@ -35,7 +35,7 @@ TEST(Brick, compute_next_rotation)
         {-4, 0},
     };
 
-    for (const auto& pair : delta_quarters_to_expected)
+    for (const auto& pair : test_cases)
     {
         const int actual{
             Brick::compute_next_rotation(initial_rotation, pair.first)};
@@ -46,7 +46,7 @@ TEST(Brick, compute_next_rotation)
 
 TEST(Brick, get_cubes)
 {
-    const vector<pair<Brick, vector<Cube>>> brick_to_expected{
+    const vector<pair<Brick, vector<Cube>>> test_cases{
         {
             {{{2, 8}}, BrickName::I},
             {
@@ -70,21 +70,21 @@ TEST(Brick, get_cubes)
         },
     };
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
         ASSERT_THAT(pair.first.get_cubes(), Eq(pair.second));
 }
 
 TEST(Brick, get_translated)
 {
     const Brick initial_brick{{{6, 3}, {2, 4}}};
-    const vector<pair<Vector2, Brick>> position_to_expected{
+    const vector<pair<Vector2, Brick>> test_cases{
         {{4, 9}, {{{10, 12}, {6, 13}}}},
         {{2, -7}, {{{8, -4}, {4, -3}}}},
         {{-3, 5}, {{{3, 8}, {-1, 9}}}},
         {{-4, -8}, {{{2, -5}, {-2, -4}}}},
     };
 
-    for (const auto& pair : position_to_expected)
+    for (const auto& pair : test_cases)
     {
         const Brick actual{Brick::get_translated(initial_brick, pair.first)};
 
@@ -94,7 +94,7 @@ TEST(Brick, get_translated)
 
 TEST(Brick, get_rotated)
 {
-    const vector<pair<Brick, vector<Brick>>> brick_to_expected{
+    const vector<pair<Brick, vector<Brick>>> test_cases{
         {
             {{{8, 3}, {4, 5}}},
             {
@@ -115,7 +115,7 @@ TEST(Brick, get_rotated)
         },
     };
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
     {
         for (const auto& i : irange(Brick::rotation_count))
         {
@@ -129,13 +129,13 @@ TEST(Brick, get_rotated)
 TEST(Brick, get_transformed)
 {
     const Brick initial_brick{{{3, 2}, {4, 1}}};
-    const vector<pair<tuple<int, Vector2>, Brick>> args_to_expected{
+    const vector<pair<tuple<int, Vector2>, Brick>> test_cases{
         {{1, {2, 3}}, {{{0, 6}, {1, 7}}}},
         {{2, {6, 9}}, {{{3, 7}, {2, 8}}}},
         {{3, {5, 8}}, {{{7, 5}, {6, 4}}}},
     };
 
-    for (const auto& pair : args_to_expected)
+    for (const auto& pair : test_cases)
     {
         const auto& [rotation, position]{pair.first};
         const Brick actual{
@@ -147,65 +147,65 @@ TEST(Brick, get_transformed)
 
 TEST(Brick, get_min_x)
 {
-    const vector<pair<Brick, int>> brick_to_expected{
+    const vector<pair<Brick, int>> test_cases{
         {{{{3, 4}, {9, 8}}}, 3},
         {{{{0, -6}, {-2, 5}}}, -2},
         {{{{1, -9}, {1, -4}}}, 1},
         {{{}}, 0},
     };
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
         ASSERT_THAT(pair.first.get_min_x(), Eq(pair.second));
 }
 
 TEST(Brick, get_max_x)
 {
-    const vector<pair<Brick, int>> brick_to_expected{
+    const vector<pair<Brick, int>> test_cases{
         {{{{6, -2}, {-7, 3}}}, 6},
         {{{{10, 1}, {5, -4}}}, 10},
         {{{{3, -9}, {3, 8}}}, 3},
         {{{}}, 0},
     };
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
         ASSERT_THAT(pair.first.get_max_x(), Eq(pair.second));
 }
 
 TEST(Brick, get_min_y)
 {
-    const vector<pair<Brick, int>> brick_to_expected{
+    const vector<pair<Brick, int>> test_cases{
         {{{{3, 5}, {9, -2}}}, -2},
         {{{{1, -7}, {3, 4}}}, -7},
         {{{{-9, -2}, {-8, -2}}}, -2},
         {{{}}, 0},
     };
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
         ASSERT_THAT(pair.first.get_min_y(), Eq(pair.second));
 }
 
 TEST(Brick, get_max_y)
 {
-    const vector<pair<Brick, int>> brick_to_expected{
+    const vector<pair<Brick, int>> test_cases{
         {{{{2, 9}, {-6, 1}}}, 9},
         {{{{-5, 0}, {7, 4}}}, 4},
         {{{{6, -3}, {-1, -3}}}, -3},
         {{{}}, 0},
     };
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
         ASSERT_THAT(pair.first.get_max_y(), Eq(pair.second));
 }
 
 TEST(Brick, get_size)
 {
-    const vector<pair<Brick, Vector2>> brick_to_expected{
+    const vector<pair<Brick, Vector2>> test_cases{
         {{{{-4, 2}, {1, 5}}}, {6, 4}},
         {{{{3, 8}, {-7, 3}}}, {11, 6}},
         {{{{2, -6}, {2, 0}}}, {1, 7}},
         {{{}}, {0, 0}},
     };
 
-    for (const auto& pair : brick_to_expected)
+    for (const auto& pair : test_cases)
         ASSERT_THAT(pair.first.get_size(), Eq(pair.second));
 }
