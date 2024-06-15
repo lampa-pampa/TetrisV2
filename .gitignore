@@ -4,3 +4,4 @@
 build
 boost
 ncurses
+esp32_io_pins.txt
