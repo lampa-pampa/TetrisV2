@@ -1,7 +1,5 @@
 #include "ui/render/progress_bar/progress_bar.h"
 
-#include <vector>
-
 #include <boost/range/irange.hpp>
 
 #include "ui/render/rectangle.h"
@@ -9,7 +7,6 @@
 #include "vector_2/vector_2.h"
 
 using boost::irange;
-using std::vector;
 
 namespace Tetris::Ui
 {
