@@ -1,5 +1,6 @@
 #include "board/board_impl.h"
 
+#include <algorithm>
 #include <cassert>
 #include <vector>
 
@@ -10,6 +11,7 @@
 #include "vector_2/vector_2.h"
 
 using boost::irange;
+using std::all_of;
 using std::vector;
 
 namespace Tetris
@@ -41,12 +43,10 @@ vector<int> BoardImpl::remove_lines_and_compress(int from_y, int to_y)
 
 bool BoardImpl::brick_is_valid(const Brick& brick) const
 {
-    for (const auto& cube_position : brick.cube_positions)
-    {
-        if (not position_is_valid(cube_position))
-            return false;
-    }
-    return true;
+    return all_of(brick.cube_positions.begin(),
+        brick.cube_positions.end(),
+        [this](const Vector2& cube_position)
+        { return position_is_valid(cube_position); });
 }
 
 vector<Cube> BoardImpl::get_visible_brick_cubes(const vector<Cube>& cubes) const
@@ -88,12 +88,9 @@ vector<int> BoardImpl::find_rows_with_line(int from_y, int to_y) const
 
 bool BoardImpl::is_row_with_line(int y) const
 {
-    for (const auto& cube : cubes_[y])
-    {
-        if (cube.empty())
-            return false;
-    }
-    return true;
+    return all_of(cubes_[y].begin(),
+        cubes_[y].end(),
+        [this](const Cube& cube) { return not cube.empty(); });
 }
 
 Brick BoardImpl::try_to_create_line(int y) const
