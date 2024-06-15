@@ -199,7 +199,6 @@ TEST(RenderProgressBar, render)
     for (const auto& pair : render_progress_bar_and_count_to_expected)
     {
         const auto& [render_progress_bar, count]{pair.first};
-
         ASSERT_THAT(render_progress_bar.render(count), Eq(pair.second));
     }
 }
