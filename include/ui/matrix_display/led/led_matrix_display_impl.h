@@ -23,7 +23,7 @@ public:
         matrix_.clearScreen();
     }
 
-    void refresh(const NvColorMatrix& colors) override;
+    void refresh(const NvColorMatrix& buffer) override;
 
     Vector2 get_size() const override
     {

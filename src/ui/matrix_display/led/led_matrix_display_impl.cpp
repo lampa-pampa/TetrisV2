@@ -26,12 +26,12 @@ LedMatrixDisplayImpl::LedMatrixDisplayImpl(const MatrixDisplayConfig& config)
     matrix_.setBrightness8(config.brightness);
 }
 
-void LedMatrixDisplayImpl::refresh(const NvColorMatrix& colors)
+void LedMatrixDisplayImpl::refresh(const NvColorMatrix& buffer)
 {
     for (const auto& y : irange(size_.y))
     {
         for (const auto& x : irange(size_.x))
-            refresh_pixel({x, y}, colors[y][x]);
+            refresh_pixel({x, y}, buffer[y][x]);
     }
 }
 

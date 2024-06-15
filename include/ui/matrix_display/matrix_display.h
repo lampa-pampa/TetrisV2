@@ -14,7 +14,7 @@ class MatrixDisplay
 public:
     using NvColorMatrix = std::vector<std::vector<NvColor>>;
 
-    virtual void refresh(const NvColorMatrix& colors) = 0;
+    virtual void refresh(const NvColorMatrix& buffer) = 0;
     virtual Vector2 get_size() const = 0;
     virtual ~MatrixDisplay() = default;
 };

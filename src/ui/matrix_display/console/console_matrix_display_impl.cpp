@@ -26,12 +26,12 @@ ConsoleMatrixDisplayImpl::ConsoleMatrixDisplayImpl(
     setup_ncurses_window();
 }
 
-void ConsoleMatrixDisplayImpl::refresh(const NvColorMatrix& colors)
+void ConsoleMatrixDisplayImpl::refresh(const NvColorMatrix& buffer)
 {
     for (const auto& y : irange(size_.y))
     {
         for (const auto& x : irange(size_.x))
-            refresh_pixel({x, y}, colors[y][x]);
+            refresh_pixel({x, y}, buffer[y][x]);
     }
     ::wrefresh(window_);
 }
