@@ -17,7 +17,7 @@
 #include "ui/game_ui/config.h"
 #include "ui/matrix_display/matrix_display.h"
 #include "ui/render/sprite.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 namespace Tetris::Ui
 {

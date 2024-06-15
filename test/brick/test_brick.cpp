@@ -11,7 +11,7 @@
 
 #include "brick/brick_name.h"
 #include "cube/cube.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 using boost::irange;
 using std::pair;

@@ -8,7 +8,7 @@
 
 #include "ui/color/nv_color.h"
 #include "ui/render/rectangle.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 namespace Tetris::Ui
 {

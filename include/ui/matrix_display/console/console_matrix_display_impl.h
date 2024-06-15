@@ -10,7 +10,7 @@
 #include "config/matrix_display/console/config.h"
 #include "ui/color/console/ncurses_colors.h"
 #include "ui/color/nv_color.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 namespace Tetris::Ui
 {

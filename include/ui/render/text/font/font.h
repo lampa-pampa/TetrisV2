@@ -2,7 +2,7 @@
 #define UI_FONT
 
 #include "ui/render/text/char.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 #include <initializer_list>
 #include <map>

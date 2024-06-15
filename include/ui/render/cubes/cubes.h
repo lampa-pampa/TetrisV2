@@ -10,7 +10,7 @@
 #include "ui/color/color_name.h"
 #include "ui/render/rectangle.h"
 #include "ui/render/sprite.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 namespace Tetris::Ui
 {

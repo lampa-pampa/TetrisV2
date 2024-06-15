@@ -8,7 +8,7 @@
 #include "game_controller/game_controller_key_codes.h"
 #include "score_counter/score_counter_score_for.h"
 #include "ui/game_ui/config.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 namespace Tetris
 {

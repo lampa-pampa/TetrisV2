@@ -7,7 +7,7 @@
 #include <boost/range/irange.hpp>
 
 #include "cube/cube.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 using boost::irange;
 using std::max_element;

@@ -3,7 +3,7 @@
 
 #include <vector>
 
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 namespace Tetris::Ui
 {

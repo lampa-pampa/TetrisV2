@@ -11,7 +11,7 @@
 #include "ui/render/sprite.h"
 #include "ui/render/text/align.h"
 #include "ui/render/text/font/font.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 namespace Tetris::Ui
 {

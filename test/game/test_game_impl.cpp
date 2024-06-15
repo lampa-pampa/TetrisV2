@@ -19,7 +19,7 @@
 #include "rng/rng_mock.h"
 #include "score_counter/score_counter_impl.h"
 #include "ui/game_ui/game_ui_mock.h"
-#include "vector_2/vector_2.h"
+#include "vector2/vector2.h"
 
 using boost::irange;
 using std::deque;
