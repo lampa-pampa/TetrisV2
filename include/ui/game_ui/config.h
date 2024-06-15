@@ -61,10 +61,16 @@ struct ProgressBarDisplay final
     RenderProgressBar progress_bar;
 };
 
+struct Ghost final
+{
+    uint_fast8_t color_value;
+    bool fill;
+};
+
 struct BoardDisplay final
 {
     RenderCubes display;
-    uint_fast8_t ghost_color_value;
+    Ghost ghost;
 };
 
 struct GraphicEngine final
