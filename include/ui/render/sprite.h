@@ -1,6 +1,7 @@
 #ifndef INCLUDE_UI_SPRITE_H
 #define INCLUDE_UI_SPRITE_H
 
+#include <ostream>
 #include <vector>
 
 #include <boost/range/irange.hpp>
@@ -40,6 +41,18 @@ struct Sprite final
     {
         return position == other.position and pixels == other.pixels
             and color == other.color;
+    }
+
+    friend std::ostream& operator<<(std::ostream& os, const Sprite& sprite)
+    {
+        os << "{" << sprite.position << ", {";
+        for (const auto& pixel : sprite.pixels)
+        {
+            os << pixel;
+            if (&pixel != &sprite.pixels.back())
+                os << ", ";
+        }
+        return os << "}, " << sprite.color << "}";
     }
 };
 
