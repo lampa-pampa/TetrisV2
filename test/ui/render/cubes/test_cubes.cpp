@@ -433,5 +433,3 @@ TEST(RenderCubes, render)
         ASSERT_THAT(actual, Eq(pair.second));
     }
 }
-
-TEST(RenderCubes, render_with_outline) {}
