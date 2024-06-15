@@ -15,6 +15,13 @@ struct NvColor final
     ColorName name;
     uint_fast8_t value;
 
+    friend std::ostream& operator<<(std::ostream& os, const NvColor& color)
+    {
+        return os << "{" << color.name << ", 0x" << std::hex << std::setw(2)
+                  << std::setfill('0') << color.value << std::dec
+                  << std::setfill(' ') << std::setw(0) << "}";
+    }
+
     constexpr NvColor(
         ColorName name = ColorName::black, uint_fast8_t value = 0xff)
       : name{name},
@@ -24,13 +31,6 @@ struct NvColor final
     bool operator==(const NvColor& other) const
     {
         return name == other.name and value == other.value;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const NvColor& color)
-    {
-        return os << "{" << color.name << ", 0x" << std::hex << std::setw(2)
-                  << std::setfill('0') << color.value << std::dec
-                  << std::setfill(' ') << std::setw(0) << "}";
     }
 };
 

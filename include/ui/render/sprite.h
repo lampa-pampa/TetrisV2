@@ -19,6 +19,12 @@ struct Sprite final
     std::vector<Vector2> pixels;
     NvColor color;
 
+    friend std::ostream& operator<<(std::ostream& os, const Sprite& sprite)
+    {
+        return os << "{" << sprite.position << ", " << sprite.pixels << ", "
+                  << sprite.color << "}";
+    }
+
     Sprite(const Vector2& position,
         const std::vector<Vector2>& pixels,
         const NvColor& color)
@@ -41,12 +47,6 @@ struct Sprite final
     {
         return position == other.position and pixels == other.pixels
             and color == other.color;
-    }
-
-    friend std::ostream& operator<<(std::ostream& os, const Sprite& sprite)
-    {
-        return os << "{" << sprite.position << ", " << sprite.pixels << ", "
-                  << sprite.color << "}";
     }
 };
 

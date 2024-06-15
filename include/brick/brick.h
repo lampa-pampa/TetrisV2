@@ -19,16 +19,16 @@ struct Brick final
     BrickName name;
     Vector2 rotation_offset;
 
-    static Brick get_translated(const Brick& brick, Vector2 position);
-    static Vector2 get_rotated_position(
-        Vector2 position, Vector2 rotation_offset, int quarters_rotation);
-    static Brick get_rotated(const Brick& brick, int quarters_rotation);
-
-    friend inline std::ostream& operator<<(std::ostream& os, const Brick& brick)
+    friend std::ostream& operator<<(std::ostream& os, const Brick& brick)
     {
         return os << "{" << brick.cube_positions << ", " << brick.name << ", "
                   << brick.rotation_offset << "}";
     }
+
+    static Brick get_translated(const Brick& brick, Vector2 position);
+    static Vector2 get_rotated_position(
+        Vector2 position, Vector2 rotation_offset, int quarters_rotation);
+    static Brick get_rotated(const Brick& brick, int quarters_rotation);
 
     static int compute_next_rotation(int rotation, int d_q)
     {

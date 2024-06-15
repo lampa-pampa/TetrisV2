@@ -13,16 +13,14 @@ struct Vector2 final
     int x;
     int y;
 
-    constexpr Vector2(int x, int y): x{x}, y{y} {}
-
-    constexpr Vector2(int a): Vector2{a, a} {}
-
-    Vector2() = default;
-
     friend std::ostream& operator<<(std::ostream& os, const Vector2& vector2)
     {
         return os << "{" << vector2.x << ", " << vector2.y << "}";
     }
+
+    constexpr Vector2(int x, int y): x{x}, y{y} {}
+    constexpr Vector2(int a): Vector2{a, a} {}
+    Vector2() = default;
 
     Vector2 abs() const
     {
