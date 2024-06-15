@@ -63,52 +63,47 @@ const Config config{
             {
                 // LEVEL
                 {
+                    // label
+                    "LVL",
                     {
-                        // label
-                        "LEVEL",
+                        {{3, 46}, {11, 5}},
                         {
-                            {{2, 12}, {13, 41}},
-                            {
-                                // container
-                                Ui::ColorName::black,
-                                {2},
-                            },
-                            Ui::fixed_width_font,
-                            Ui::ColorName::sunset_orange,
-                            Ui::Align::center,
-                            1,
-                            {1, 2},
-                            false,
+                            // container
+                            Ui::ColorName::black,
+                            {2},
+                            Ui::ColorName::white,
                         },
-                    },
-                    {
-                        // value
-                        9,
-                        {
-                            {{3, 56}, {11, 5}},
-                            {
-                                // container
-                                Ui::ColorName::black,
-                                {2},
-                                Ui::ColorName::white,
-                            },
-                            Ui::fixed_width_font,
-                            Ui::ColorName::sunset_orange,
-                        },
+                        Ui::fixed_width_font,
+                        Ui::ColorName::sunset_orange,
                     },
                 },
                 {
-                    // progress bar
-                    {{2, 13}, {13, 39}},
+                    // value
+                    9,
                     {
-                        // container
-                        Ui::ColorName::black,
-                        {1},
-                        Ui::ColorName::white,
+                        {{3, 56}, {11, 5}},
+                        {
+                            // container
+                            Ui::ColorName::black,
+                            {2},
+                            Ui::ColorName::white,
+                        },
+                        Ui::fixed_width_font,
+                        Ui::ColorName::sunset_orange,
                     },
-                    Ui::ColorName::islamic_green,
-                    {Ui::ColorName::davy_s_grey, 0x44},
                 },
+            },
+            {
+                // PROGRESS BAR
+                {{3, 13}, {11, 29}},
+                {
+                    // container
+                    {Ui::ColorName::davy_s_grey, 0x44},
+                    {2, 1},
+                    Ui::ColorName::white,
+                },
+                Ui::ColorName::sunset_orange,
+                Ui::ColorName::black,
             },
             {
                 // BOARD

@@ -55,12 +55,6 @@ struct LabeledDisplay final
     Value value;
 };
 
-struct ProgressBarDisplay final
-{
-    LabeledDisplay display;
-    RenderProgressBar progress_bar;
-};
-
 struct Ghost final
 {
     uint_fast8_t color_value;
@@ -77,7 +71,8 @@ struct GraphicEngine final
 {
     MainDisplay main;
     RenderBrickPreview hold;
-    ProgressBarDisplay level;
+    LabeledDisplay level;
+    RenderProgressBar progress_bar;
     BoardDisplay board;
     RenderBrickPreview next;
     LabeledDisplay score;

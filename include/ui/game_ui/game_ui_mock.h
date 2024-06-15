@@ -21,7 +21,7 @@ public:
     void refresh_next_bricks(const std::deque<Brick>& bricks) override {}
     void refresh_hold_brick(const Brick& brick) override {}
     void refresh_score(unsigned long long score) override {}
-    void refresh_level_progress_bar(int count) override {}
+    void refresh_progress_bar(int count) override {}
     void refresh_level(int level) override {}
     void flush_matrix() override {}
     void game_over() override {}

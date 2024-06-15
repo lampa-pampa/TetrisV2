@@ -170,7 +170,7 @@ void GameImpl::draw_all()
 {
     ui_.refresh_background();
     ui_.refresh_hold_brick(bricks_.hold);
-    ui_.refresh_level_progress_bar(stats_.lines_count);
+    ui_.refresh_progress_bar(stats_.lines_count);
     ui_.refresh_level(stats_.level);
     ui_.refresh_board(board_.get_cubes());
     ui_.refresh_next_bricks(bricks_.next);
@@ -234,7 +234,7 @@ void GameImpl::add_lines(int amount)
     if (amount > 0)
     {
         stats_.lines_count += amount;
-        ui_.refresh_level_progress_bar(stats_.lines_count);
+        ui_.refresh_progress_bar(stats_.lines_count);
         add_score_for_lines(amount);
         update_level();
     }
@@ -247,7 +247,7 @@ void GameImpl::update_level()
         ++stats_.level;
         stats_.lines_count -= next_level_lines_count_;
         ui_.refresh_level(stats_.level);
-        ui_.refresh_level_progress_bar(stats_.lines_count);
+        ui_.refresh_progress_bar(stats_.lines_count);
         set_timeout_delay_(stats_.level);
     }
 }

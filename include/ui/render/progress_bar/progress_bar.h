@@ -17,7 +17,7 @@ public:
         RenderContainer render_container,
         NvColor on_color,
         NvColor off_color,
-        Vector2 segment_size = {13, 3},
+        Vector2 segment_size = {11, 2},
         int height = 10,
         int separator = 1)
       : container_{container},

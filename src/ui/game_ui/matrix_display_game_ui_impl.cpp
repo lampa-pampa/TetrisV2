@@ -30,6 +30,8 @@ void MatrixDisplayGameUiImpl::refresh_background()
         config_.graphic_engine.main.bg_color});
     for (const auto& rectangle : config_.graphic_engine.main.border)
         draw_sprite({rectangle, config_.graphic_engine.main.border_color});
+    draw_sprites(config_.graphic_engine.level.label.display.render(
+        config_.graphic_engine.level.label.text));
     draw_sprites(config_.graphic_engine.score.label.display.render(
         config_.graphic_engine.score.label.text));
 }

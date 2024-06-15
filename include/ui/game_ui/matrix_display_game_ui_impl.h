@@ -32,11 +32,9 @@ public:
 
     void refresh_background() override;
 
-    void refresh_level_progress_bar(int count) override
+    void refresh_progress_bar(int count) override
     {
-        draw_sprites(config_.graphic_engine.level.progress_bar.render(count));
-        draw_sprites(config_.graphic_engine.level.display.label.display.render(
-            config_.graphic_engine.level.display.label.text));
+        draw_sprites(config_.graphic_engine.progress_bar.render(count));
     }
 
     void pause() override
@@ -76,8 +74,8 @@ public:
 
     void refresh_level(int level) override
     {
-        draw_sprites(config_.graphic_engine.level.display.value.display.render(
-            level, config_.graphic_engine.level.display.value.max_length));
+        draw_sprites(config_.graphic_engine.level.value.display.render(
+            level, config_.graphic_engine.level.value.max_length));
     }
 
     void refresh_cur_brick(const std::vector<Cube>& cubes) override
