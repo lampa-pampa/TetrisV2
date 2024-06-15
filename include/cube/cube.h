@@ -20,8 +20,13 @@ struct Cube final
                   << cube.brick_name << "}";
     }
 
-    Cube(int x, int y, BrickName brick_name = BrickName::empty)
+    constexpr Cube(int x, int y, BrickName brick_name = BrickName::empty)
       : position{x, y},
+        brick_name{brick_name}
+    {}
+
+    constexpr Cube(Vector2 position, BrickName brick_name = BrickName::empty)
+      : position{position},
         brick_name{brick_name}
     {}
 
