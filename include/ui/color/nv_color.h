@@ -18,6 +18,11 @@ struct NvColor final
       : name{name},
         value((name == ColorName::black) ? 0 : value)
     {}
+
+    bool operator==(const NvColor& other) const
+    {
+        return name == other.name and value == other.value;
+    }
 };
 
 } // namespace Tetris::Ui
