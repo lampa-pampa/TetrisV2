@@ -90,13 +90,17 @@ public:
     {
         draw_sprites(config_.graphic_engine.board.display.render(cubes,
             config_.brick_name_to_color_name,
-            config_.graphic_engine.board.ghost_color_value));
+            config_.graphic_engine.board.ghost.color_value,
+            config_.graphic_engine.board.ghost.fill));
     }
 
     void refresh_board(const CubeMatrix& cubes) override
     {
-        draw_sprites(config_.graphic_engine.board.display.render(
-            cubes, config_.brick_name_to_color_name));
+        for (const auto& row : cubes)
+        {
+            draw_sprites(config_.graphic_engine.board.display.render(
+                row, config_.brick_name_to_color_name));
+        }
     }
 
     void handle_key_press(int key_code) override
