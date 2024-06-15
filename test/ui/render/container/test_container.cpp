@@ -167,6 +167,7 @@ TEST(RenderContainer, render)
     for (const auto& pair : render_container_and_rectangle_to_expected)
     {
         const auto& [render_container, rectangle]{pair.first};
+
         ASSERT_THAT(render_container.render(rectangle), Eq(pair.second));
     }
 }
