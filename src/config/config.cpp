@@ -161,13 +161,13 @@ const Config config{
         {
             // BRICK NAME TO COLOR NAME
             {BrickName::empty, Ui::ColorName::black},
-            {BrickName::i, Ui::ColorName::electric_blue},
-            {BrickName::o, Ui::ColorName::dodie_yellow},
-            {BrickName::z, Ui::ColorName::dark_candy_apple_red},
-            {BrickName::s, Ui::ColorName::screamin_green},
-            {BrickName::t, Ui::ColorName::heliotrope_magenta},
-            {BrickName::j, Ui::ColorName::duke_blue},
-            {BrickName::l, Ui::ColorName::windsor_tan},
+            {BrickName::I, Ui::ColorName::electric_blue},
+            {BrickName::O, Ui::ColorName::dodie_yellow},
+            {BrickName::Z, Ui::ColorName::dark_candy_apple_red},
+            {BrickName::S, Ui::ColorName::screamin_green},
+            {BrickName::T, Ui::ColorName::heliotrope_magenta},
+            {BrickName::J, Ui::ColorName::duke_blue},
+            {BrickName::L, Ui::ColorName::windsor_tan},
         },
         {
             // STATE MESSAGES
@@ -190,33 +190,33 @@ const Config config{
             // BRICKS
             {
                 {{-1, 0}, {0, 0}, {1, 0}, {2, 0}},
-                BrickName::i,
+                BrickName::I,
                 {1, 0},
             },
             {
                 {{0, -1}, {1, -1}, {0, 0}, {1, 0}},
-                BrickName::o,
+                BrickName::O,
                 {0, -1},
             },
             {
                 {{-1, -1}, {0, -1}, {0, 0}, {1, 0}},
-                BrickName::z,
+                BrickName::Z,
             },
             {
                 {{0, -1}, {1, -1}, {-1, 0}, {0, 0}},
-                BrickName::s,
+                BrickName::S,
             },
             {
                 {{0, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                BrickName::t,
+                BrickName::T,
             },
             {
                 {{-1, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                BrickName::j,
+                BrickName::J,
             },
             {
                 {{1, -1}, {-1, 0}, {0, 0}, {1, 0}},
-                BrickName::l,
+                BrickName::L,
             },
         },
         {

@@ -28,14 +28,14 @@ TEST(BrickGeneratorImpl, bag)
             {
                 {
                     {
-                        {{{1, 0}, {0, 1}}, BrickName::i},
-                        {{{2, 0}, {0, 2}}, BrickName::o},
+                        {{{1, 0}, {0, 1}}, BrickName::I},
+                        {{{2, 0}, {0, 2}}, BrickName::O},
                     },
                     initial_rng,
                 },
                 {
-                    {{{1, 0}, {0, 1}}, BrickName::i},
-                    {{{2, 0}, {0, 2}}, BrickName::o},
+                    {{{1, 0}, {0, 1}}, BrickName::I},
+                    {{{2, 0}, {0, 2}}, BrickName::O},
                 },
             },
         },

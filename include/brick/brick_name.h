@@ -12,24 +12,24 @@ enum class BrickName
 {
     empty,
     custom,
-    o,
-    i,
-    z,
-    s,
-    t,
-    l,
-    j,
+    O,
+    I,
+    Z,
+    S,
+    T,
+    L,
+    J,
 };
 
 const std::map<BrickName, std::string> brick_name_to_text{
     {BrickName::empty, "empty"},
-    {BrickName::o, "o"},
-    {BrickName::i, "i"},
-    {BrickName::z, "z"},
-    {BrickName::s, "s"},
-    {BrickName::t, "t"},
-    {BrickName::l, "j"},
-    {BrickName::j, "l"},
+    {BrickName::O, "O"},
+    {BrickName::I, "I"},
+    {BrickName::Z, "Z"},
+    {BrickName::S, "S"},
+    {BrickName::T, "T"},
+    {BrickName::L, "J"},
+    {BrickName::J, "L"},
 };
 
 inline std::ostream& operator<<(std::ostream& os, BrickName name)

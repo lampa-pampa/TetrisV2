@@ -48,24 +48,24 @@ TEST(Brick, get_cubes)
 {
     const vector<pair<Brick, vector<Cube>>> brick_to_expected{
         {
-            {{{2, 8}}, BrickName::i},
+            {{{2, 8}}, BrickName::I},
             {
-                {2, 8, BrickName::i},
+                {2, 8, BrickName::I},
             },
         },
         {
-            {{{3, 12}, {6, 4}}, BrickName::i},
+            {{{3, 12}, {6, 4}}, BrickName::I},
             {
-                {3, 12, BrickName::i},
-                {6, 4, BrickName::i},
+                {3, 12, BrickName::I},
+                {6, 4, BrickName::I},
             },
         },
         {
-            {{{2, 2}, {2, 1}, {1, 2}}, BrickName::i},
+            {{{2, 2}, {2, 1}, {1, 2}}, BrickName::I},
             {
-                {2, 2, BrickName::i},
-                {2, 1, BrickName::i},
-                {1, 2, BrickName::i},
+                {2, 2, BrickName::I},
+                {2, 1, BrickName::I},
+                {1, 2, BrickName::I},
             },
         },
     };
@@ -105,12 +105,12 @@ TEST(Brick, get_rotated)
             },
         },
         {
-            {{{1, 2}, {6, 3}}, BrickName::i, {2, 4}},
+            {{{1, 2}, {6, 3}}, BrickName::I, {2, 4}},
             {
-                {{{1, 2}, {6, 3}}, BrickName::i, {2, 4}},
-                {{{0, 5}, {-1, 10}}, BrickName::i, {2, 4}},
-                {{{-3, 4}, {-8, 3}}, BrickName::i, {2, 4}},
-                {{{-2, 1}, {-1, -4}}, BrickName::i, {2, 4}},
+                {{{1, 2}, {6, 3}}, BrickName::I, {2, 4}},
+                {{{0, 5}, {-1, 10}}, BrickName::I, {2, 4}},
+                {{{-3, 4}, {-8, 3}}, BrickName::I, {2, 4}},
+                {{{-2, 1}, {-1, -4}}, BrickName::I, {2, 4}},
             },
         },
     };

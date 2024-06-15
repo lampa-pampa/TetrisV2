@@ -28,20 +28,20 @@ TEST(BoardImpl, put_cubes)
     const vector<pair<vector<Cube>, CubeMatrix>> cubes_to_expected{
         {
             {
-                {0, 0, BrickName::i},
-                {0, 1, BrickName::i},
+                {0, 0, BrickName::I},
+                {0, 1, BrickName::I},
             },
             {
                 {
-                    {{0, 0, BrickName::i}, {1, 0}},
-                    {{0, 1, BrickName::i}, {1, 1}},
+                    {{0, 0, BrickName::I}, {1, 0}},
+                    {{0, 1, BrickName::I}, {1, 1}},
                 },
             },
         },
         {
             {
-                {0, 1, BrickName::i},
-                {1, 1, BrickName::i},
+                {0, 1, BrickName::I},
+                {1, 1, BrickName::I},
             },
             {
                 {
@@ -49,24 +49,24 @@ TEST(BoardImpl, put_cubes)
                     {1, 0},
                 },
                 {
-                    {0, 1, BrickName::i},
-                    {1, 1, BrickName::i},
+                    {0, 1, BrickName::I},
+                    {1, 1, BrickName::I},
                 },
             },
         },
         {
             {
-                {0, 0, BrickName::i},
-                {1, 1, BrickName::i},
+                {0, 0, BrickName::I},
+                {1, 1, BrickName::I},
             },
             {
                 {
-                    {0, 0, BrickName::i},
+                    {0, 0, BrickName::I},
                     {1, 0},
                 },
                 {
                     {0, 1},
-                    {1, 1, BrickName::i},
+                    {1, 1, BrickName::I},
                 },
             },
         },
@@ -90,9 +90,9 @@ TEST(BoardImpl, remove_lines_and_compress)
             {
                 {
                     {
-                        {0, 1, BrickName::i},
-                        {0, 2, BrickName::i},
-                        {1, 2, BrickName::i},
+                        {0, 1, BrickName::I},
+                        {0, 2, BrickName::I},
+                        {1, 2, BrickName::I},
                     },
                     0,
                     2,
@@ -108,7 +108,7 @@ TEST(BoardImpl, remove_lines_and_compress)
                             {1, 1},
                         },
                         {
-                            {0, 2, BrickName::i},
+                            {0, 2, BrickName::I},
                             {1, 2},
                         },
                     },
@@ -118,9 +118,9 @@ TEST(BoardImpl, remove_lines_and_compress)
             {
                 {
                     {
-                        {0, 1, BrickName::i},
-                        {1, 1, BrickName::i},
-                        {0, 2, BrickName::i},
+                        {0, 1, BrickName::I},
+                        {1, 1, BrickName::I},
+                        {0, 2, BrickName::I},
                     },
                     2,
                     2,
@@ -132,11 +132,11 @@ TEST(BoardImpl, remove_lines_and_compress)
                             {1, 0},
                         },
                         {
-                            {0, 1, BrickName::i},
-                            {1, 1, BrickName::i},
+                            {0, 1, BrickName::I},
+                            {1, 1, BrickName::I},
                         },
                         {
-                            {0, 2, BrickName::i},
+                            {0, 2, BrickName::I},
                             {1, 2},
                         },
                     },
@@ -146,10 +146,10 @@ TEST(BoardImpl, remove_lines_and_compress)
             {
                 {
                     {
-                        {0, 1, BrickName::i},
-                        {1, 1, BrickName::i},
-                        {0, 2, BrickName::i},
-                        {1, 2, BrickName::i},
+                        {0, 1, BrickName::I},
+                        {1, 1, BrickName::I},
+                        {0, 2, BrickName::I},
+                        {1, 2, BrickName::I},
                     },
                     1,
                     2,
@@ -190,31 +190,31 @@ TEST(BoardImpl, remove_lines_and_compress)
 TEST(BoardImpl, brick_is_valid)
 {
     const vector<Cube> initial_cubes{
-        {1, 1, BrickName::i},
+        {1, 1, BrickName::I},
     };
     const vector<pair<Brick, bool>> brick_to_expected{
         {
-            {{{0, 0}, {0, 1}}, BrickName::i},
+            {{{0, 0}, {0, 1}}, BrickName::I},
             true,
         },
         {
-            {{{0, 1}, {1, 1}}, BrickName::i},
+            {{{0, 1}, {1, 1}}, BrickName::I},
             false,
         },
         {
-            {{{0, 1}, {0, 2}}, BrickName::i},
+            {{{0, 1}, {0, 2}}, BrickName::I},
             false,
         },
         {
-            {{{-1, 0}, {0, 0}}, BrickName::i},
+            {{{-1, 0}, {0, 0}}, BrickName::I},
             false,
         },
         {
-            {{{0, 1}, {0, 2}}, BrickName::i},
+            {{{0, 1}, {0, 2}}, BrickName::I},
             false,
         },
         {
-            {{{0, -1}, {0, 0}}, BrickName::i},
+            {{{0, -1}, {0, 0}}, BrickName::I},
             false,
         },
     };
