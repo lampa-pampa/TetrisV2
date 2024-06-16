@@ -66,7 +66,7 @@ const Config config{
                     // label
                     "LVL",
                     {
-                        {{3, 46}, {11, 5}},
+                        {{3, 14}, {11, 5}},
                         {
                             // container
                             Ui::ColorName::black,
@@ -95,22 +95,22 @@ const Config config{
             },
             {
                 // PROGRESS BAR
-                {{3, 13}, {11, 29}},
+                {{3, 23}, {11, 29}},
                 {
                     // container
-                    {Ui::ColorName::davy_s_grey, 0x44},
+                    Ui::ColorName::black,
                     {2, 1},
                     Ui::ColorName::white,
                 },
-                Ui::ColorName::sunset_orange,
-                Ui::ColorName::black,
+                Ui::ColorName::islamic_green,
+                {Ui::ColorName::davy_s_grey, 0x44},
             },
             {
                 // BOARD
                 {
                     {17, 0},
                 },
-                64,
+                128,
             },
             {
                 // NEXT
