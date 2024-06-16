@@ -1,5 +1,4 @@
 #include "config/filled_config.h"
-#include "config/keyboard/console/filled_config.h"
 #include "config/matrix_display/console/filled_config.h"
 #include "rng/console/console_rng_impl.h"
 #include "run_tetris/run_tetris.h"
@@ -11,7 +10,6 @@ using Tetris::ConsoleRngImpl;
 using Tetris::run_tetris;
 using Tetris::Ui::ConsoleKeyboardImpl;
 using Tetris::Ui::ConsoleMatrixDisplayImpl;
-using Tetris::Ui::keyboard_config;
 using Tetris::Ui::matrix_display_config;
 
 int main()
@@ -19,8 +17,7 @@ int main()
     while (true)
     {
         ConsoleMatrixDisplayImpl matrix_display{matrix_display_config};
-        ConsoleKeyboardImpl keyboard{
-            matrix_display.get_window(), keyboard_config};
+        ConsoleKeyboardImpl keyboard{matrix_display.get_window()};
         ConsoleRngImpl rng{};
         run_tetris(config, keyboard, matrix_display, rng);
     }

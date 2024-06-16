@@ -3,6 +3,7 @@
 
 #include "ui/keyboard/keyboard.h"
 
+#include <cstddef>
 #include <deque>
 #include <vector>
 
@@ -18,9 +19,7 @@ class LedKeyboardImpl final: public Keyboard
 {
 public:
     LedKeyboardImpl(const KeyboardConfig& config)
-      : column_pins_{config.column_pins},
-        row_pins_{config.row_pins},
-        no_key_code_{config.no_key_code},
+      : config_{config},
         key_states_{config.row_pins.size(),
             std::vector<bool>(config.column_pins.size())}
     {
@@ -36,44 +35,43 @@ public:
             pressed_keys_.pop_front();
             return pressed_key;
         }
-        return no_key_code_;
+        return config_.no_key_code;
     }
 
 private:
-    const std::vector<int> column_pins_;
-    const std::vector<int> row_pins_;
-    const int no_key_code_;
+    const KeyboardConfig& config_;
     std::vector<std::vector<bool>> key_states_;
     std::deque<int> pressed_keys_;
 
     int create_key_code(int x, int y) const
     {
-        return column_pins_.size() * y + x;
+        const size_t key_index{config_.column_pins.size() * y + x};
+        return config_.key_index_to_key_code.at(key_index);
     }
 
     void setup_pin_modes()
     {
-        for (const auto& pin : row_pins_)
+        for (const auto& pin : config_.row_pins)
             ::pinMode(pin, OUTPUT);
-        for (const auto& pin : column_pins_)
+        for (const auto& pin : config_.column_pins)
             ::pinMode(pin, INPUT_PULLDOWN);
     }
 
     void update_key_states()
     {
-        for (const auto& y : boost::irange(row_pins_.size()))
+        for (const auto& y : boost::irange(config_.row_pins.size()))
         {
-            ::digitalWrite(row_pins_[y], HIGH);
+            ::digitalWrite(config_.row_pins[y], HIGH);
             update_keys_row_state(y);
-            ::digitalWrite(row_pins_[y], LOW);
+            ::digitalWrite(config_.row_pins[y], LOW);
         }
     }
 
     void update_keys_row_state(int y)
     {
-        for (const auto x : boost::irange(column_pins_.size()))
+        for (const auto x : boost::irange(config_.column_pins.size()))
         {
-            const bool new_state{::digitalRead(column_pins_[x]) == HIGH};
+            const bool new_state{::digitalRead(config_.column_pins[x]) == HIGH};
             update_key_state(x, y, new_state);
         }
     }

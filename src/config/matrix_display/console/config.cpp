@@ -22,25 +22,27 @@ const MatrixDisplayConfig matrix_display_config{
         L'◉',
         L'●',
     },
-    NCursesColors{{
-        // COLOR TO NCURSES-ID
-        {ColorName::black, 0},
-        {ColorName::dark_candy_apple_red, 1},
-        {ColorName::islamic_green, 2},
-        {ColorName::windsor_tan, 3},
-        {ColorName::duke_blue, 4},
-        {ColorName::heliotrope_magenta, 5},
-        {ColorName::tiffany_blue, 6},
-        {ColorName::dark_gray, 7},
-        {ColorName::davy_s_grey, 8},
-        {ColorName::sunset_orange, 9},
-        {ColorName::screamin_green, 10},
-        {ColorName::dodie_yellow, 11},
-        {ColorName::very_light_blue, 12},
-        {ColorName::shocking_pink, 13},
-        {ColorName::electric_blue, 14},
-        {ColorName::white, 15},
-    }},
+    NCursesColors{
+        {
+            // COLOR TO NCURSES-ID
+            {ColorName::black, 0},
+            {ColorName::dark_candy_apple_red, 1},
+            {ColorName::islamic_green, 2},
+            {ColorName::windsor_tan, 3},
+            {ColorName::duke_blue, 4},
+            {ColorName::heliotrope_magenta, 5},
+            {ColorName::tiffany_blue, 6},
+            {ColorName::dark_gray, 7},
+            {ColorName::davy_s_grey, 8},
+            {ColorName::sunset_orange, 9},
+            {ColorName::screamin_green, 10},
+            {ColorName::dodie_yellow, 11},
+            {ColorName::very_light_blue, 12},
+            {ColorName::shocking_pink, 13},
+            {ColorName::electric_blue, 14},
+            {ColorName::white, 15},
+        },
+    },
 };
 
 }
