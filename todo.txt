@@ -1,4 +1,4 @@
-ui tests
+ui tests -> sprite constructor with rectangle
 
 https://tetris.fandom.com/wiki/SRS
 https://tetris.fandom.com/wiki/Back-to-Back
